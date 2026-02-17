@@ -12,13 +12,13 @@ const rateLimit = require('express-rate-limit');
 dotenv.config();
 
 // Import routes
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const affiliateRoutes = require('./routes/affiliates');
-const adminRoutes = require('./routes/admin');
-const paymentRoutes = require('./routes/payments');
-const analyticsRoutes = require('./routes/analytics');
-
+// Import routes - with correct paths
+const authRoutes = require('./backend/routes/auth');
+const userRoutes = require('./backend/routes/users');
+const affiliateRoutes = require('./backend/routes/affiliates');
+const adminRoutes = require('./backend/routes/admin');
+const paymentRoutes = require('./backend/routes/payments');
+const analyticsRoutes = require('./backend/routes/analytics');
 const app = express();
 
 // Security middleware
@@ -82,3 +82,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
