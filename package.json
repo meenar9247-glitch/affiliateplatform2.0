@@ -1,5 +1,5 @@
 {
-  "name": "affiliate-platform-backend",
+  "name": "affiliate-platform-basic",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -14,9 +14,9 @@
     "dotenv": "^16.3.1",
     "express-rate-limit": "^7.1.5",
     "helmet": "^7.0.0",
-    "express-mongo-sanitize": "^2.2.0",
+    "express-mongo-sanitize": "^2.8.5",
     "xss-clean": "^0.1.1",
-    "cookie-parser": "^1.4.6"
-  "express-validator": "^7.0.1"
-}
+    "cookie-parser": "^1.4.6",
+    "express-validator": "^7.0.1"
+  }
 }
