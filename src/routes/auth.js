@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
+
 const authController = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 
@@ -8,7 +9,7 @@ const { protect } = require('../middleware/auth');
 const registerValidation = [
   body('name').notEmpty().withMessage('Name is required'),
   body('email').isEmail().withMessage('Please provide a valid email'),
-  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
   body('referralCode').optional()
 ];
 
@@ -32,7 +33,4 @@ router.put('/update-password', protect, authController.updatePassword);
 // Social auth routes
 router.post('/google', authController.googleAuth);
 
-
 module.exports = router;
-
-            
