@@ -13,10 +13,12 @@ dotenv.config();
 
 // Import routes
 const authRoutes = require('./routes/auth');
-const adminRoutes = require('./routes/admin');
+const userRoutes = require('./routes/users');
 const affiliateRoutes = require('./routes/affiliates');
+const adminRoutes = require('./routes/admin');
 const paymentRoutes = require('./routes/payments');
-const analyticsRoutes = require('./backend/routes/analytics');
+const analyticsRoutes = require('./routes/analytics');
+
 const app = express();
 
 // Security middleware
@@ -78,7 +80,4 @@ app.use('*', (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-
 });
-
-
