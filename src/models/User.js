@@ -1,4 +1,4 @@
-  profilePictconst mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
@@ -23,8 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   referralCode: {
     type: String,
-    unique: true,
-    required: true
+    unique: true
   },
   referredBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -43,7 +42,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-ure: String,
+  profilePicture: String,
   phone: String,
   address: {
     street: String,
@@ -127,5 +126,3 @@ userSchema.pre('save', async function(next) {
 });
 
 module.exports = mongoose.model('User', userSchema);
-
-    
