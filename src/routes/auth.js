@@ -5,9 +5,9 @@ const { body } = require('express-validator');
 const authController = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 
-// ==========================
+// =========================================
 // Validation Rules
-// ==========================
+// =========================================
 
 const registerValidation = [
   body('name').notEmpty().withMessage('Name is required'),
@@ -23,9 +23,9 @@ const loginValidation = [
   body('password').notEmpty().withMessage('Password is required')
 ];
 
-// ==========================
+// =========================================
 // Auth Routes
-// ==========================
+// =========================================
 
 router.post('/register', registerValidation, authController.register);
 router.post('/login', loginValidation, authController.login);
@@ -42,4 +42,4 @@ router.put('/update-password', protect, authController.updatePassword);
 // Social Auth
 router.post('/google', authController.googleAuth);
 
-module.exports = router; yeh Sai hai kya 
+module.exports = router;
