@@ -32,4 +32,5 @@ router.put('/update-password', protect, authController.updatePassword);
 // Social auth routes
 router.post('/google', authController.googleAuth);
 
+
 module.exports = router;
