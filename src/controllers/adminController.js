@@ -13,8 +13,7 @@ exports.getDashboardStats = async (req, res, next) => {
       success: true,
       data: {
         totalUsers,
-        totalAffiliates,
-        message: 'Admin dashboard stats'
+        totalAffiliates
       }
     });
   } catch (error) {
@@ -56,15 +55,15 @@ exports.getUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
+      req.params.id,
+      req.body,
       { new: true, runValidators: true }
     ).select('-password');
-    
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    
+
     res.status(200).json({
       success: true,
       data: user
@@ -105,6 +104,21 @@ exports.getAllAffiliateLinks = async (req, res, next) => {
   }
 };
 
+exports.getAffiliateLink = async (req, res, next) => {
+  try {
+    const link = await AffiliateLink.findById(req.params.id);
+    if (!link) {
+      return res.status(404).json({ message: 'Affiliate link not found' });
+    }
+    res.status(200).json({
+      success: true,
+      data: link
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.createAffiliateLink = async (req, res, next) => {
   try {
     const link = await AffiliateLink.create({
@@ -127,11 +141,9 @@ exports.updateAffiliateLink = async (req, res, next) => {
       req.body,
       { new: true, runValidators: true }
     );
-    
     if (!link) {
       return res.status(404).json({ message: 'Affiliate link not found' });
     }
-    
     res.status(200).json({
       success: true,
       data: link
