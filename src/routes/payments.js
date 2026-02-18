@@ -1,33 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const paymentController = require('../controllers/paymentController');
-const { protect } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // All routes require authentication
 router.use(protect);
 
-// Withdrawal routes
-router.get('/withdrawals', paymentController.getWithdrawals);
-router.post('/withdrawals/request', paymentController.requestWithdrawal);
-router.get('/withdrawals/:id', paymentController.getWithdrawal);
-router.delete('/withdrawals/:id/cancel', paymentController.cancelWithdrawal);
+// User payment routes - यही functions हैं तुम्हारे पास
+router.get('/my-payments', paymentController.getUserPayments);
+router.post('/withdraw', paymentController.createPayment);
+router.delete('/:id/cancel', paymentController.deletePayment);
 
-// Wallet routes
-router.get('/wallet', paymentController.getWalletInfo);
-router.get('/transactions', paymentController.getTransactionHistory);
-router.get('/balance', paymentController.getBalance);
-
-// Payment method routes
-router.post('/payment-methods', paymentController.addPaymentMethod);
-router.get('/payment-methods', paymentController.getPaymentMethods);
-router.delete('/payment-methods/:id', paymentController.removePaymentMethod);
-
-// Stripe integration
-router.post('/create-stripe-account', paymentController.createStripeAccount);
-router.get('/stripe-dashboard', paymentController.getStripeDashboard);
-
-// PayPal integration
-router.post('/create-paypal-payout', paymentController.createPaypalPayout);
+// Admin routes - यही functions हैं तुम्हारे पास
+router.get('/admin/all', authorize('admin'), paymentController.getAllPayments);
+router.get('/admin/pending', authorize('admin'), paymentController.getPendingWithdrawals);
+router.get('/admin/stats', authorize('admin'), paymentController.getPaymentStats);
+router.get('/admin/:id', authorize('admin'), paymentController.getPayment);
+router.put('/admin/:id/process', authorize('admin'), paymentController.processWithdrawal);
+router.put('/admin/:id/complete', authorize('admin'), paymentController.completeWithdrawal);
+router.put('/admin/:id/reject', authorize('admin'), paymentController.rejectWithdrawal);
+router.put('/admin/:id', authorize('admin'), paymentController.updatePayment);
 
 module.exports = router;
 
