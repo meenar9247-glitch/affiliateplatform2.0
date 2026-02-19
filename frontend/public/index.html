@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Complete Affiliate Marketing Platform - Earn commissions by promoting products"
+    />
+    <meta name="keywords" content="affiliate, marketing, earn money, commissions, referrals" />
+    <meta name="author" content="AffiliatePro" />
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Affiliate Marketing Platform" />
+    <meta property="og:description" content="Join the leading affiliate platform and start earning commissions" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="%PUBLIC_URL%" />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Affiliate Marketing Platform" />
+    <meta name="twitter:description" content="Join the leading affiliate platform and start earning commissions" />
+    <meta name="twitter:image" content="%PUBLIC_URL%/twitter-image.jpg" />
+    
+    <!-- PWA / Manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    
+    <!-- Fonts (Optional - you can use Google Fonts or system fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <title>Affiliate Platform | Earn Money Online</title>
+  </head>
+  <body>
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: sans-serif;">
+        <h1>JavaScript Required</h1>
+        <p>You need to enable JavaScript to run this app. Please enable JavaScript in your browser settings.</p>
+        <p>Here are the <a href="https://www.enablejavascript.io/" target="_blank" rel="noopener noreferrer">instructions how to enable JavaScript in your web browser</a>.</p>
+      </div>
+    </noscript>
+    
+    <!-- React Root Element -->
+    <div id="root"></div>
+    
+    <!-- Loading Spinner (Optional - shows until React loads) -->
+    <div id="loading-spinner" style="
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      display: none;
+    ">
+      <div style="
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      "></div>
+      <p style="color: #667eea; font-weight: 500;">Loading...</p>
+    </div>
+
+    <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Show spinner while React loads */
+      #root:empty + #loading-spinner {
+        display: block !important;
+      }
+    </style>
+    
+    <!-- Performance Monitoring (Optional) -->
+    <script>
+      // Report Web Vitals
+      if ('performance' in window && 'getEntriesByType' in performance) {
+        window.addEventListener('load', () => {
+          setTimeout(() => {
+            const navigation = performance.getEntriesByType('navigation')[0];
+            if (navigation) {
+              console.log('Page load time:', navigation.loadEventEnd - navigation.startTime, 'ms');
+            }
+          }, 0);
+        });
+      }
+    </script>
+  </body>
+      </html>
