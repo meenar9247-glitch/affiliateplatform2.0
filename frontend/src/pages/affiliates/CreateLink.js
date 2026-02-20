@@ -1,0 +1,1075 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import {
+  FiLink,
+  FiSave,
+  FiX,
+  FiRefreshCw,
+  FiImage,
+  FiDollarSign,
+  FiTag,
+  FiFileText,
+  FiGlobe,
+  FiCheckCircle,
+  FiAlertCircle,
+  FiInfo,
+  FiHelpCircle,
+  FiEye,
+  FiCopy,
+  FiShare2
+} from 'react-icons/fi';
+
+const CreateLink = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [preview, setPreview] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    originalUrl: '',
+    category: '',
+    commissionRate: '',
+    commissionType: 'percentage', // percentage, fixed
+    fixedCommission: '',
+    imageUrl: '',
+    bannerUrl: '',
+    tags: '',
+    terms: '',
+    featured: false,
+    isActive: true,
+    expiresAt: ''
+  });
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/affiliates/categories`
+      );
+      
+      if (response.data.success) {
+        setCategories(response.data.categories);
+      }
+    } catch (error) {
+      toast.error('Failed to fetch categories');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+
+    // Clear error for this field
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.title.trim()) {
+      newErrors.title = 'Title is required';
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required';
+    }
+
+    if (!formData.originalUrl.trim()) {
+      newErrors.originalUrl = 'Original URL is required';
+    } else {
+      try {
+        new URL(formData.originalUrl);
+      } catch {
+        newErrors.originalUrl = 'Please enter a valid URL';
+      }
+    }
+
+    if (!formData.category) {
+      newErrors.category = 'Category is required';
+    }
+
+    if (!formData.commissionRate) {
+      newErrors.commissionRate = 'Commission rate is required';
+    } else if (formData.commissionRate < 0 || formData.commissionRate > 100) {
+      newErrors.commissionRate = 'Commission rate must be between 0 and 100';
+    }
+
+    if (formData.commissionType === 'fixed' && !formData.fixedCommission) {
+      newErrors.fixedCommission = 'Fixed commission amount is required';
+    }
+
+    if (formData.imageUrl) {
+      try {
+        new URL(formData.imageUrl);
+      } catch {
+        newErrors.imageUrl = 'Please enter a valid image URL';
+      }
+    }
+
+    if (formData.expiresAt && new Date(formData.expiresAt) < new Date()) {
+      newErrors.expiresAt = 'Expiry date must be in the future';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error('Please fix the errors below');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Parse tags
+      const tagsArray = formData.tags
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag);
+
+      const linkData = {
+        ...formData,
+        tags: tagsArray,
+        commissionRate: parseFloat(formData.commissionRate),
+        fixedCommission: formData.fixedCommission ? parseFloat(formData.fixedCommission) : undefined
+      };
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/affiliates/links`,
+        linkData
+      );
+
+      if (response.data.success) {
+        toast.success('Affiliate link created successfully!');
+        navigate('/affiliates');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to create affiliate link');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (window.confirm('Are you sure you want to cancel? All changes will be lost.')) {
+      navigate('/affiliates');
+    }
+  };
+
+  const handleGeneratePreview = () => {
+    if (formData.originalUrl) {
+      setPreview(formData.originalUrl);
+    }
+  };
+
+  const handleTestLink = () => {
+    if (formData.originalUrl) {
+      window.open(formData.originalUrl, '_blank');
+    }
+  };
+
+  const handleCopyExample = () => {
+    navigator.clipboard.writeText('https://example.com/product?ref=affiliate');
+    toast.success('Example URL copied to clipboard');
+  };
+
+  const getCommissionDisplay = () => {
+    if (formData.commissionType === 'percentage') {
+      return `${formData.commissionRate || 0}%`;
+    } else {
+      return `$${formData.fixedCommission || 0}`;
+    }
+  };
+
+  // Styles
+  const styles = `
+    .create-link-page {
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .header-left h1 {
+      margin: 0 0 4px;
+      font-size: 24px;
+      color: var(--text-primary);
+    }
+
+    .header-left p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Form */
+    .form-container {
+      background: var(--bg-primary);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 20px;
+      font-size: 18px;
+      color: var(--text-primary);
+    }
+
+    .section-icon {
+      color: var(--primary);
+      font-size: 20px;
+    }
+
+    /* Grid */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: var(--font-medium);
+      color: var(--text-primary);
+    }
+
+    .required {
+      color: var(--danger);
+      font-size: 12px;
+    }
+
+    .help-icon {
+      color: var(--text-disabled);
+      cursor: help;
+    }
+
+    .form-control {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 14px;
+      transition: all var(--transition-fast) var(--transition-ease);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-100);
+    }
+
+    .form-control.error {
+      border-color: var(--danger);
+    }
+
+    .form-control.error:focus {
+      box-shadow: 0 0 0 3px var(--danger-100);
+    }
+
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+
+    /* Input Group */
+    .input-group {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .input-group .form-control {
+      border: none;
+      border-radius: 0;
+      flex: 1;
+    }
+
+    .input-group .input-group-text {
+      padding: 10px 12px;
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-size: 14px;
+      border-left: 1px solid var(--border);
+    }
+
+    .input-group .input-group-text:first-child {
+      border-left: none;
+      border-right: 1px solid var(--border);
+    }
+
+    /* Checkbox */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    /* Tags Input */
+    .tags-hint {
+      font-size: 12px;
+      color: var(--text-disabled);
+      margin-top: 4px;
+    }
+
+    /* Commission Row */
+    .commission-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .commission-type {
+      min-width: 120px;
+    }
+
+    .commission-value {
+      flex: 1;
+    }
+
+    .commission-preview {
+      background: var(--bg-secondary);
+      padding: 10px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .commission-amount {
+      font-weight: var(--font-bold);
+      color: var(--success);
+    }
+
+    /* Preview Button */
+    .preview-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .preview-btn:hover {
+      color: var(--primary);
+    }
+
+    /* Error Message */
+    .error-message {
+      font-size: 12px;
+      color: var(--danger);
+      margin-top: 4px;
+    }
+
+    /* Helper Text */
+    .helper-text {
+      font-size: 12px;
+      color: var(--text-disabled);
+      margin-top: 4px;
+    }
+
+    /* Actions */
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: var(--font-medium);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--transition-fast) var(--transition-ease);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--bg-tertiary);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .btn-icon {
+      padding: 8px;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Preview Modal */
+    .preview-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: var(--z-modal);
+    }
+
+    .preview-content {
+      background: var(--bg-primary);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .preview-header h3 {
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    .preview-close {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .preview-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .preview-image {
+      height: 200px;
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .preview-details {
+      padding: 20px;
+    }
+
+    .preview-title {
+      font-size: 20px;
+      font-weight: var(--font-bold);
+      color: var(--text-primary);
+      margin: 0 0 8px;
+    }
+
+    .preview-category {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--primary-50);
+      color: var(--primary);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .preview-description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .preview-commission {
+      background: var(--bg-secondary);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .preview-commission-label {
+      color: var(--text-secondary);
+    }
+
+    .preview-commission-value {
+      font-weight: var(--font-bold);
+      color: var(--success);
+    }
+
+    .preview-footer {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    /* Dark Mode */
+    @media (prefers-color-scheme: dark) {
+      .form-container {
+        background: var(--dark-bg-secondary);
+      }
+
+      .section-title {
+        color: var(--dark-text-primary);
+      }
+
+      .form-control {
+        background: var(--dark-bg-tertiary);
+        border-color: var(--dark-border);
+        color: var(--dark-text-primary);
+      }
+
+      .input-group-text {
+        background: var(--dark-bg-secondary);
+        border-color: var(--dark-border);
+        color: var(--dark-text-muted);
+      }
+
+      .commission-preview {
+        background: var(--dark-bg-tertiary);
+      }
+
+      .btn-secondary {
+        background: var(--dark-bg-tertiary);
+        border-color: var(--dark-border);
+        color: var(--dark-text-secondary);
+      }
+
+      .preview-modal {
+        background: rgba(0, 0, 0, 0.8);
+      }
+
+      .preview-content {
+        background: var(--dark-bg-secondary);
+      }
+
+      .preview-image {
+        background: var(--dark-bg-tertiary);
+      }
+
+      .preview-category {
+        background: var(--dark-primary-50);
+      }
+
+      .preview-commission {
+        background: var(--dark-bg-tertiary);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+
+      .commission-row {
+        flex-direction: column;
+      }
+
+      .commission-type {
+        width: 100%;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  `;
+
+  return (
+    <>
+      <style>{styles}</style>
+      <div className="create-link-page">
+        {/* Header */}
+        <div className="page-header">
+          <div className="header-left">
+            <h1>Create Affiliate Link</h1>
+            <p>Add a new affiliate link to your portfolio</p>
+          </div>
+          <div className="header-right">
+            <button className="btn btn-outline" onClick={handleTestLink}>
+              <FiEye /> Test URL
+            </button>
+            <button className="btn btn-outline" onClick={handleCopyExample}>
+              <FiCopy /> Example
+            </button>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
+          <div className="form-container">
+            {/* Basic Information */}
+            <div className="form-section">
+              <h3 className="section-title">
+                <FiFileText className="section-icon" />
+                Basic Information
+              </h3>
+
+              <div className="form-grid">
+                <div className="form-group full-width">
+                  <label>
+                    Title <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    className={`form-control ${errors.title ? 'error' : ''}`}
+                    placeholder="e.g., Amazon Best Seller"
+                  />
+                  {errors.title && <span className="error-message">{errors.title}</span>}
+                </div>
+
+                <div className="form-group full-width">
+                  <label>
+                    Description <span className="required">*</span>
+                  </label>
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    className={`form-control ${errors.description ? 'error' : ''}`}
+                    placeholder="Describe the product or service..."
+                    rows="4"
+                  />
+                  {errors.description && <span className="error-message">{errors.description}</span>}
+                </div>
+
+                <div className="form-group full-width">
+                  <label>
+                    Original URL <span className="required">*</span>
+                  </label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type="url"
+                      name="originalUrl"
+                      value={formData.originalUrl}
+                      onChange={handleChange}
+                      className={`form-control ${errors.originalUrl ? 'error' : ''}`}
+                      placeholder="https://example.com/product"
+                    />
+                    <button
+                      type="button"
+                      className="preview-btn"
+                      onClick={handleGeneratePreview}
+                      title="Generate preview"
+                    >
+                      <FiEye />
+                    </button>
+                  </div>
+                  {errors.originalUrl && <span className="error-message">{errors.originalUrl}</span>}
+                  <div className="helper-text">
+                    Make sure to include the full URL with https://
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Commission & Category */}
+            <div className="form-section">
+              <h3 className="section-title">
+                <FiDollarSign className="section-icon" />
+                Commission & Category
+              </h3>
+
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>
+                    Category <span className="required">*</span>
+                  </label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className={`form-control ${errors.category ? 'error' : ''}`}
+                  >
+                    <option value="">Select category</option>
+                    {categories.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                  {errors.category && <span className="error-message">{errors.category}</span>}
+                </div>
+
+                <div className="form-group">
+                  <label>Tags</label>
+                  <input
+                    type="text"
+             name="tags"
+                    value={formData.tags}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="electronics, gadgets, tech"
+                  />
+                  <div className="tags-hint">Separate tags with commas</div>
+                </div>
+
+                <div className="form-group full-width">
+                  <label>Commission Type</label>
+                  <div className="commission-row">
+                    <select
+                      name="commissionType"
+                      value={formData.commissionType}
+                      onChange={handleChange}
+                      className="form-control commission-type"
+                    >
+                      <option value="percentage">Percentage (%)</option>
+                      <option value="fixed">Fixed Amount ($)</option>
+                    </select>
+
+                    <div className="commission-value">
+                      {formData.commissionType === 'percentage' ? (
+                        <input
+                          type="number"
+                          name="commissionRate"
+                          value={formData.commissionRate}
+                          onChange={handleChange}
+                          className={`form-control ${errors.commissionRate ? 'error' : ''}`}
+                          placeholder="10"
+                          min="0"
+                          max="100"
+                          step="0.1"
+                        />
+                      ) : (
+                        <input
+                          type="number"
+                          name="fixedCommission"
+                          value={formData.fixedCommission}
+                          onChange={handleChange}
+                          className={`form-control ${errors.fixedCommission ? 'error' : ''}`}
+                          placeholder="5.00"
+                          min="0"
+                          step="0.01"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  {errors.commissionRate && <span className="error-message">{errors.commissionRate}</span>}
+                  {errors.fixedCommission && <span className="error-message">{errors.fixedCommission}</span>}
+                  
+                  {formData.commissionRate && (
+                    <div className="commission-preview">
+                      <FiInfo />
+                      <span>Commission preview:</span>
+                      <span className="commission-amount">{getCommissionDisplay()}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Media & Images */}
+            <div className="form-section">
+              <h3 className="section-title">
+                <FiImage className="section-icon" />
+                Media & Images
+              </h3>
+
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Image URL</label>
+                  <input
+                    type="url"
+                    name="imageUrl"
+                    value={formData.imageUrl}
+                    onChange={handleChange}
+                    className={`form-control ${errors.imageUrl ? 'error' : ''}`}
+                    placeholder="https://example.com/image.jpg"
+                  />
+                  {errors.imageUrl && <span className="error-message">{errors.imageUrl}</span>}
+                </div>
+
+                <div className="form-group">
+                  <label>Banner URL</label>
+                  <input
+                    type="url"
+                    name="bannerUrl"
+                    value={formData.bannerUrl}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="https://example.com/banner.jpg"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Advanced Options */}
+            <div className="form-section">
+              <h3 className="section-title">
+                <FiGlobe className="section-icon" />
+                Advanced Options
+              </h3>
+
+              <div className="form-grid">
+                <div className="form-group full-width">
+                  <label>Terms & Conditions</label>
+                  <textarea
+                    name="terms"
+                    value={formData.terms}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Any special terms or conditions for this affiliate link..."
+                    rows="3"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Expiry Date</label>
+                  <input
+                    type="date"
+                    name="expiresAt"
+                    value={formData.expiresAt}
+                    onChange={handleChange}
+                    className={`form-control ${errors.expiresAt ? 'error' : ''}`}
+                  />
+                  {errors.expiresAt && <span className="error-message">{errors.expiresAt}</span>}
+                </div>
+
+                <div className="form-group">
+                  <div className="checkbox-group">
+                    <input
+                      type="checkbox"
+                      name="featured"
+                      id="featured"
+                      checked={formData.featured}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor="featured">Feature this link</label>
+                  </div>
+                  <div className="helper-text">Featured links appear at the top</div>
+                </div>
+
+                <div className="form-group">
+                  <div className="checkbox-group">
+                    <input
+                      type="checkbox"
+                      name="isActive"
+                      id="isActive"
+                      checked={formData.isActive}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor="isActive">Active immediately</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Form Actions */}
+            <div className="form-actions">
+              <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+                <FiX /> Cancel
+              </button>
+              <button type="submit" className="btn btn-primary" disabled={loading}>
+                {loading ? (
+                  <>
+                    <span className="spinner" /> Creating...
+                  </>
+                ) : (
+                  <>
+                    <FiSave /> Create Link
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </form>
+
+        {/* Preview Modal */}
+        {preview && (
+          <div className="preview-modal" onClick={() => setPreview(null)}>
+            <div className="preview-content" onClick={(e) => e.stopPropagation()}>
+              <div className="preview-header">
+                <h3>Link Preview</h3>
+                <button className="preview-close" onClick={() => setPreview(null)}>
+                  <FiX />
+                </button>
+              </div>
+              
+              <div className="preview-card">
+                {formData.imageUrl && (
+                  <div className="preview-image">
+                    <img src={formData.imageUrl} alt={formData.title} />
+                  </div>
+                )}
+                <div className="preview-details">
+                  <h4 className="preview-title">{formData.title || 'Untitled'}</h4>
+                  {formData.category && (
+                    <span className="preview-category">{formData.category}</span>
+                  )}
+                  <p className="preview-description">
+                    {formData.description || 'No description provided'}
+                  </p>
+                  <div className="preview-commission">
+                    <span className="preview-commission-label">Commission:</span>
+                    <span className="preview-commission-value">
+                      {getCommissionDisplay()}
+                    </span>
+                  </div>
+                  <div className="preview-footer">
+                    <a
+                      href={formData.originalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary"
+                      style={{ flex: 1 }}
+                    >
+                      <FiLink /> Visit Link
+                    </a>
+                    <button className="btn btn-outline">
+                      <FiShare2 /> Share
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default CreateLink;
