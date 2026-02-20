@@ -1,0 +1,203 @@
+# robots.txt for Affiliate Platform
+# This file controls how search engines crawl and index your website
+# Last Updated: 2026-02-20
+
+# ============================================
+# User Agents
+# ============================================
+
+# Allow all web crawlers (Google, Bing, Yahoo, etc.)
+User-agent: *
+Disallow:
+
+# ============================================
+# Specific Crawlers with Custom Rules
+# ============================================
+
+# Googlebot (Google's main crawler)
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /settings/
+Disallow: /wallet/
+Disallow: /api/
+Disallow: /auth/logout
+Disallow: /auth/me
+Disallow: /auth/update-*
+
+# Googlebot-Image (Google's image crawler)
+User-agent: Googlebot-Image
+Allow: /assets/images/
+Disallow: /admin/
+Disallow: /dashboard/
+
+# Googlebot-News (Google's news crawler)
+User-agent: Googlebot-News
+Disallow: /
+
+# Bingbot (Microsoft Bing)
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /settings/
+Disallow: /wallet/
+Disallow: /api/
+
+# Slurp (Yahoo)
+User-agent: Slurp
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# DuckDuckBot (DuckDuckGo)
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Baiduspider (Baidu - Chinese search engine)
+User-agent: Baiduspider
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Yandex (Russian search engine)
+User-agent: Yandex
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Facebook External Hit
+User-agent: facebookexternalhit
+Allow: /
+
+# Twitterbot
+User-agent: Twitterbot
+Allow: /
+
+# LinkedInBot
+User-agent: LinkedInBot
+Allow: /
+
+# Pinterest
+User-agent: Pinterest
+Allow: /assets/images/
+
+# ============================================
+# Block Bad Bots (Scrapers, Spam, etc.)
+# ============================================
+
+# Block known scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: rogerbot
+Disallow: /
+
+User-agent: exabot
+Disallow: /
+
+User-agent: ia_archiver
+Disallow: /
+
+User-agent: spbot
+Disallow: /
+
+# Block common spam bots
+User-agent: PetalBot
+Disallow: /
+
+User-agent: AspiegelBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: SeznamBot
+Disallow: /
+
+User-agent: Yeti
+Disallow: /
+
+# ============================================
+# Sitemaps
+# ============================================
+
+Sitemap: https://affiliateplatform.com/sitemap.xml
+Sitemap: https://affiliateplatform.com/sitemap-pages.xml
+Sitemap: https://affiliateplatform.com/sitemap-products.xml
+
+# ============================================
+# Crawl Delay (Respectful crawling)
+# ============================================
+
+# General crawl delay (increase for better server performance)
+Crawl-delay: 5
+
+# Specific crawl delays for aggressive bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+# ============================================
+# Host Directive (Optional)
+# ============================================
+
+Host: https://affiliateplatform.com
+
+# ============================================
+# Clean Param (For URL parameters that don't change content)
+# ============================================
+
+Clean-param: utm_source
+Clean-param: utm_medium
+Clean-param: utm_campaign
+Clean-param: utm_term
+Clean-param: utm_content
+Clean-param: ref
+Clean-param: source
+Clean-param: campaign
+
+# ============================================
+# Comments and Notes
+# ============================================
+
+# ==================== SEO NOTES ====================
+# Allow: / - Main pages are crawlable
+# Disallow: /admin/ - Admin area should not be indexed
+# Disallow: /dashboard/ - User dashboards should be private
+# Disallow: /api/ - API endpoints should not be crawled
+# 
+# ==================== SOCIAL MEDIA ====================
+# Facebook, Twitter, LinkedIn bots are allowed for better sharing
+# 
+# ==================== SITEMAPS ====================
+# Make sure to generate and update sitemaps regularly
+# 
+# ==================== SECURITY ====================
+# Block known bad bots to prevent content scraping
+# 
+# ==================== PERFORMANCE ====================
+# Crawl delay helps reduce server load during peak times
+
+# ============================================
+# END OF robots.txt
+# ============================================
