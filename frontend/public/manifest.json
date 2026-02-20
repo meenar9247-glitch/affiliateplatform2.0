@@ -1,0 +1,181 @@
+{
+  "short_name": "AffiliatePro",
+  "name": "Affiliate Marketing Platform - Earn Commissions by Promoting Products",
+  "description": "Complete affiliate marketing platform with real-time tracking, analytics, and instant payouts. Join thousands of successful affiliates.",
+  "keywords": "affiliate marketing, earn money, commissions, referrals, online business, affiliate program",
+  "author": "AffiliatePro Team",
+  "version": "1.0.0",
+  
+  "icons": [
+    {
+      "src": "/assets/icons/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/assets/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-384.png",
+      "type": "image/png",
+      "sizes": "384x384",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-192-maskable.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "scope": "/",
+  
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your earnings and stats",
+      "url": "/dashboard",
+      "icons": [{ "src": "/assets/icons/dashboard.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Affiliate Links",
+      "short_name": "Links",
+      "description": "Manage your affiliate links",
+      "url": "/affiliates",
+      "icons": [{ "src": "/assets/icons/links.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Earnings",
+      "short_name": "Earnings",
+      "description": "Track your commissions",
+      "url": "/earnings",
+      "icons": [{ "src": "/assets/icons/earnings.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Wallet",
+      "short_name": "Wallet",
+      "description": "Withdraw your earnings",
+      "url": "/wallet",
+      "icons": [{ "src": "/assets/icons/wallet.png", "sizes": "192x192" }]
+    }
+  ],
+
+  "categories": ["business", "finance", "shopping", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr",
+  
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/dashboard.jpg",
+      "type": "image/jpeg",
+      "sizes": "1280x720",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/assets/screenshots/mobile.jpg",
+      "type": "image/jpeg",
+      "sizes": "720x1280",
+      "form_factor": "narrow"
+    }
+  ],
+
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://affiliateplatform.com/manifest.json"
+    }
+  ],
+
+  "prefer_related_applications": false,
+  
+  "display_override": [
+    "standalone",
+    "fullscreen",
+    "minimal-ui"
+  ],
+
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
+
+  "protocol_handlers": [
+    {
+      "protocol": "web+affiliate",
+      "url": "/handle-link?url=%s"
+    }
+  ],
+
+  "url_handlers": [
+    {
+      "origin": "https://affiliateplatform.com"
+    }
+  ],
+
+  "share_target": {
+    "action": "/share-link",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+
+  "note_taking": {
+    "new_note_url": "/quick-note"
+  },
+
+  "file_handlers": [
+    {
+      "action": "/import",
+      "accept": {
+        "text/csv": [".csv"],
+        "application/json": [".json"]
+      }
+    }
+  ],
+
+  "permissions": {
+    "clipboard": {
+      "description": "Copy affiliate links to clipboard"
+    },
+    "notifications": {
+      "description": "Get notified about earnings and withdrawals"
+    }
+  },
+
+  "features": [
+    "Cross Platform",
+    "Offline Support",
+    "Push Notifications",
+    "Installable"
+  ]
+}
