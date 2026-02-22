@@ -25,7 +25,6 @@ import Withdrawals from './pages/withdrawals/Withdrawals';
 import Analytics from './pages/analytics/Analytics';
 import Leaderboard from './pages/leaderboard/Leaderboard';
 import Settings from './pages/settings/Settings';
-import Support from './pages/support/Support';
 import Privacy from './pages/legal/Privacy';
 import Terms from './pages/legal/Terms';
 
@@ -86,7 +85,7 @@ function App() {
                         <Route path="/withdrawals" element={<Withdrawals />} />
                         <Route path="/analytics" element={<Analytics />} />
                         <Route path="/settings" element={<Settings />} />
-                        <Route path="/support" element={<Support />} />
+                        
                       </Route>
                       
                       {/* Protected Admin Routes */}
@@ -121,4 +120,5 @@ function App() {
 }
 
 export default App;
+
 
