@@ -32,7 +32,6 @@ const MyReferrals = lazy(() => import('./pages/referrals/MyReferrals'));
 const Earnings = lazy(() => import('./pages/earnings/Earnings'));
 const Wallet = lazy(() => import('./pages/wallet/Wallet'));
 const Withdrawals = lazy(() => import('./pages/withdrawals/Withdrawals'));
-const Analytics = lazy(() => import('./pages/analytics/Analytics'));
 const Leaderboard = lazy(() => import('./pages/leaderboard/Leaderboard'));
 const Settings = lazy(() => import('./pages/settings/Settings'));
 const Privacy = lazy(() => import('./pages/legal/Privacy'));
@@ -662,3 +661,4 @@ styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
 export default App;
+
