@@ -11,7 +11,7 @@ import {
   FiCalendar,
   FiFilter,
   FiSearch,
-  FiTrophy,
+  FaTrophy,
   FiMedal,
   FiUser,
   FiClock,
@@ -154,7 +154,7 @@ const Leaderboard = () => {
   };
 
   const getRankIcon = (rank) => {
-    if (rank === 1) return <FiTrophy className="rank-icon gold" />;
+    if (rank === 1) return <FaTrophy className="rank-icon gold" />;
     if (rank === 2) return <FiMedal className="rank-icon silver" />;
     if (rank === 3) return <FiMedal className="rank-icon bronze" />;
     return <span className="rank-number">{rank}</span>;
