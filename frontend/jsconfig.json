@@ -47,16 +47,12 @@
       "@types/*": ["src/types/*"],
       "@context/*": ["src/context/*"],
       "@middleware/*": ["src/middleware/*"],
-      "@tests/*": ["tests/*"],
-      "@fixtures/*": ["tests/fixtures/*"],
-      "@mocks/*": ["tests/mocks/*"]
+      "@tests/*": ["tests/*"]
     },
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"
     ],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "downlevelIteration": true,
     "importHelpers": true,
     "removeComments": true,
@@ -66,31 +62,18 @@
     "declaration": false,
     "declarationMap": false,
     "outDir": "./dist",
-    "rootDir": "./src",
-    "rootDirs": ["./src", "./tests"],
-    "composite": false,
-    "incremental": false,
-    "tsBuildInfoFile": ".tsbuildinfo",
-    "maxNodeModuleJsDepth": 2,
-    "disableReferencedProjectLoad": false,
-    "disableSolutionSearch": false,
-    "disableSourceOfProjectReferenceRedirect": false,
-    "noErrorTruncation": true,
-    "preserveWatchOutput": true,
-    "pretty": true
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*",
-    "tests/**/*",
-    "cypress/**/*",
-    "*.config.js",
-    ".eslintrc.js",
     "src/**/*.js",
     "src/**/*.jsx",
     "src/**/*.json",
     "tests/**/*.js",
     "tests/**/*.jsx",
-    "tests/**/*.json"
+    "tests/**/*.json",
+    "*.config.js",
+    ".eslintrc.js"
   ],
   "exclude": [
     "node_modules",
@@ -98,29 +81,13 @@
     "dist",
     "coverage",
     "public",
-    "*.min.js",
-    "**/*.spec.js",
-    "**/*.test.js",
-    "**/__tests__/**",
-    "**/__mocks__/**",
-    "cypress/videos",
-    "cypress/screenshots",
-    "cypress/downloads"
+    "*.min.js"
   ],
   "typeAcquisition": {
     "enable": true,
     "include": ["jest", "node", "react", "react-dom", "redux", "axios"],
     "exclude": []
   },
-  "angularCompilerOptions": {
-    "strictTemplates": true,
-    "strictInjectionParameters": true
-  },
-  "references": [
-    {
-      "path": "./tests"
-    }
-  ],
   "watchOptions": {
     "watchFile": "useFsEvents",
     "watchDirectory": "useFsEvents",
@@ -128,35 +95,5 @@
     "synchronousWatchDirectory": true,
     "excludeDirectories": ["**/node_modules", "build", "dist"],
     "excludeFiles": ["*.min.js"]
-  },
-  "platform": "browser",
-  "reactNamespace": "React",
-  "json": {
-    "pretty": true,
-    "indent": 2
-  },
-  "validate": {
-    "enable": true,
-    "rules": {
-      "no-unused-vars": "warn",
-      "no-undef": "error",
-      "no-constant-condition": "warn"
-    }
-  },
-  "display": {
-    "diagnostics": true,
-    "extendedDiagnostics": false,
-    "traceResolution": false,
-    "listEmittedFiles": false,
-    "listFiles": false
-  },
-  "performance": {
-    "maxProjectFileSize": 52428800,
-    "maxTypeAcquisitionSize": 10485760
-  },
-  "languageService": {
-    "disableAutomaticTypingAcquisition": false,
-    "includePackageJsonAutoImports": "auto",
-    "allowTextChangesInNewFiles": true
   }
 }
