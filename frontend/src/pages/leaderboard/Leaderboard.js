@@ -11,7 +11,6 @@ import {
   FiCalendar,
   FiFilter,
   FiSearch,
-  FiTrophy,
   FiMedal,
   FiUser,
   FiClock,
