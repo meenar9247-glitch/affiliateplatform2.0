@@ -82,7 +82,7 @@ import {
   FaMoon,
   FaSun,
   FaStar
-} from 'react-icons/fa';
+} from 'react-icons/fi';
 import { GiCircuitry, GiProcessor, GiCpu, GiBrain, GiArtificialIntelligence } from 'react-icons/gi';
 
 const ServerError = () => {
