@@ -63,7 +63,7 @@ import {
   FiSliders,
   FiToggleLeft,
   FiToggleRight
-} from 'react-icons/fa';
+} from 'react-icons/fi';
 import {
   FaSkull,
   FaSkullCrossbones,
