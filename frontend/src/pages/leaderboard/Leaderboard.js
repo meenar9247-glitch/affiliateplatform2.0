@@ -12,7 +12,7 @@ import {
   FiFilter,
   FiSearch,
   FiMedal,
-  FaMedal,
+  FiMedal,
   FiUser,
   FiClock,
   FiGlobe,
