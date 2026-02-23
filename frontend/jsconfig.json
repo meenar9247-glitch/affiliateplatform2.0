@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    // ==================== Basic Options ====================
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "node",
@@ -15,8 +14,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    
-    // ==================== Strict Type Checking ====================
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -26,8 +23,6 @@
     "noImplicitThis": true,
     "useUnknownInCatchVariables": true,
     "alwaysStrict": true,
-    
-    // ==================== Additional Checks ====================
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -37,8 +32,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
-    
-    // ==================== Module Resolution ====================
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -58,18 +51,12 @@
       "@fixtures/*": ["tests/fixtures/*"],
       "@mocks/*": ["tests/mocks/*"]
     },
-    
-    // ==================== Type Declaration Files ====================
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"
     ],
-    
-    // ==================== Experimental Options ====================
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    
-    // ==================== Advanced Options ====================
     "downlevelIteration": true,
     "importHelpers": true,
     "removeComments": true,
@@ -84,22 +71,14 @@
     "composite": false,
     "incremental": false,
     "tsBuildInfoFile": ".tsbuildinfo",
-    
-    // ==================== JavaScript Support ====================
     "maxNodeModuleJsDepth": 2,
-    
-    // ==================== Project References ====================
     "disableReferencedProjectLoad": false,
     "disableSolutionSearch": false,
     "disableSourceOfProjectReferenceRedirect": false,
-    
-    // ==================== Output Formatting ====================
     "noErrorTruncation": true,
     "preserveWatchOutput": true,
     "pretty": true
   },
-  
-  // ==================== Include Patterns ====================
   "include": [
     "src/**/*",
     "tests/**/*",
@@ -113,8 +92,6 @@
     "tests/**/*.jsx",
     "tests/**/*.json"
   ],
-  
-  // ==================== Exclude Patterns ====================
   "exclude": [
     "node_modules",
     "build",
@@ -130,35 +107,20 @@
     "cypress/screenshots",
     "cypress/downloads"
   ],
-  
-  // ==================== Type Acquisition ====================
   "typeAcquisition": {
     "enable": true,
-    "include": [
-      "jest",
-      "node",
-      "react",
-      "react-dom",
-      "redux",
-      "axios"
-    ],
+    "include": ["jest", "node", "react", "react-dom", "redux", "axios"],
     "exclude": []
   },
-  
-  // ==================== Compiler Options for Different Environments ====================
   "angularCompilerOptions": {
     "strictTemplates": true,
     "strictInjectionParameters": true
   },
-  
-  // ==================== References to Other Projects ====================
   "references": [
     {
       "path": "./tests"
     }
   ],
-  
-  // ==================== Watch Options ====================
   "watchOptions": {
     "watchFile": "useFsEvents",
     "watchDirectory": "useFsEvents",
@@ -167,20 +129,12 @@
     "excludeDirectories": ["**/node_modules", "build", "dist"],
     "excludeFiles": ["*.min.js"]
   },
-  
-  // ==================== Compiler Options for Different Platforms ====================
   "platform": "browser",
-  
-  // ==================== React Specific Options ====================
   "reactNamespace": "React",
-  
-  // ==================== JSON Options ====================
   "json": {
     "pretty": true,
     "indent": 2
   },
-  
-  // ==================== Validation Options ====================
   "validate": {
     "enable": true,
     "rules": {
@@ -189,8 +143,6 @@
       "no-constant-condition": "warn"
     }
   },
-  
-  // ==================== Display Options ====================
   "display": {
     "diagnostics": true,
     "extendedDiagnostics": false,
@@ -198,14 +150,10 @@
     "listEmittedFiles": false,
     "listFiles": false
   },
-  
-  // ==================== Performance Options ====================
   "performance": {
-    "maxProjectFileSize": 52428800, // 50 MB
-    "maxTypeAcquisitionSize": 10485760 // 10 MB
+    "maxProjectFileSize": 52428800,
+    "maxTypeAcquisitionSize": 10485760
   },
-  
-  // ==================== Language Service Options ====================
   "languageService": {
     "disableAutomaticTypingAcquisition": false,
     "includePackageJsonAutoImports": "auto",
