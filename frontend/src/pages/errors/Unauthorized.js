@@ -88,7 +88,7 @@ import {
   FaUserAlien,
   FaUserRobot
 } from 'react-icons/fa';
-import { GiPadlock, GiLockedChest, GiPrisoner,GiGuards , GiSecurityGate, GiSentryGun } from 'react-icons/fi';
+import { GiPadlock, GiLockedChest, GiPrisoner,GiGuards , GiSecurityGate, GiSentryGun } from 'react-icons/gi';
 
 const Unauthorized = () => {
   const navigate = useNavigate();
