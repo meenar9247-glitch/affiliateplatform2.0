@@ -27,7 +27,6 @@ import {
   FiCreditCard,
   FiSmartphone,
   FiGlobe,
-  FiBank,
   FiSend,
   FiPrinter
 } from 'react-icons/fi';
@@ -419,7 +418,7 @@ const AdminWithdrawals = () => {
       case 'paypal':
         return <FiGlobe />;
       case 'bank':
-        return <FiBank />;
+        return <FaUniversity />;
       case 'upi':
         return <FiSmartphone />;
       default:
