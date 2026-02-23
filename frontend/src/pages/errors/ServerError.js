@@ -83,7 +83,7 @@ import {
   FaSun,
   FaStar
 } from 'react-icons/fa';
-import { GiCircuitry, GiProcessor, GiCpu, GiBrain, GiArtificialIntelligence } from 'react-icons/gi';
+import { GiCircuitry, GiProcessor, GiCpu, GiBrain, GiArtificialIntelligence } from 'react-icons/fi';
 
 const ServerError = () => {
   const navigate = useNavigate();
