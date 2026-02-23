@@ -269,7 +269,7 @@ Your Permissions: ${permissions.join(', ')}`;
       <FaShieldVirus />,
       <FaShieldAlt />,
       <FaCrown />,
-      <Fastar />,
+      <FaStar />,
       <FaUserSecret />,
       <FaUserNinja />
     ];
