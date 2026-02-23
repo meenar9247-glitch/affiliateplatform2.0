@@ -81,7 +81,7 @@ import {
   FaShieldVirus,
   FaShieldAlt,
   FaCrown,
-  Fastar,
+  FaStar,
   FaUserSecret,
   FaUserNinja,
   FaUserAstronaut,
