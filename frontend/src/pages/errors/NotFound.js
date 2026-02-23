@@ -80,7 +80,7 @@ import {
   FaGem,
   FaDiamond,
   FaTrophy
-} from 'react-icons/fi';
+} from 'react-icons/fa';
 import { GiSpaceship, GiAlienSkull, GiGalaxy, GiPlanetConquest, GiBlackHoleBolas } from 'react-icons/gi';
 
 const NotFound = () => {
