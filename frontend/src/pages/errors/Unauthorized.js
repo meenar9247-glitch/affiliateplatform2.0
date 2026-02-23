@@ -81,7 +81,7 @@ import {
   FaShieldVirus,
   FaShieldAlt,
   FaCrown,
-  FaKing,
+  Fastar,
   FaUserSecret,
   FaUserNinja,
   FaUserAstronaut,
@@ -269,7 +269,7 @@ Your Permissions: ${permissions.join(', ')}`;
       <FaShieldVirus />,
       <FaShieldAlt />,
       <FaCrown />,
-      <FaKing />,
+      <Fastar />,
       <FaUserSecret />,
       <FaUserNinja />
     ];
