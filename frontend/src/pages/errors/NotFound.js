@@ -81,7 +81,7 @@ import {
   FaDiamond,
   FaTrophy
 } from 'react-icons/fa';
-import { GiSpaceship, GiAlienSkull, GiGalaxy, GiPlanetConquest, GiBlackHoleBolas } from 'react-icons/fi';
+import { GiSpaceship, GiAlienSkull, GiGalaxy, GiPlanetConquest, GiBlackHoleBolas } from 'react-icons/gi';
 
 const NotFound = () => {
   const navigate = useNavigate();
