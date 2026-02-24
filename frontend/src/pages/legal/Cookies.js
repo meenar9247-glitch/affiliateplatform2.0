@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  FiCookie,
   FiSettings,
   FiCheckCircle,
   FiAlertCircle,
