@@ -927,7 +927,6 @@ const Privacy = () => {
           </div>
         )}
       </div>
-    </>
   );
 };
 
