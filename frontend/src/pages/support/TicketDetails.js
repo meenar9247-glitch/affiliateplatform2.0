@@ -24,10 +24,16 @@ import {
   FiInfo,
   FiHelpCircle,
   FiCheck,
-  FiX
+  FiX,
+  FiMoreVertical,
+  FiPrinter,
+  FiShare2,
+  FiCopy,
+  FiExternalLink
 } from 'react-icons/fi';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { format } from 'date-fns';
 
 const TicketDetails = () => {
   const { id } = useParams();
@@ -39,25 +45,45 @@ const TicketDetails = () => {
   const [replyAttachments, setReplyAttachments] = useState([]);
   const [rating, setRating] = useState(null);
   const [feedback, setFeedback] = useState('');
+  const [showResolveModal, setShowResolveModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [ticketHistory, setTicketHistory] = useState([]);
+  const [similarTickets, setSimilarTickets] = useState([]);
+  const [selectedAttachment, setSelectedAttachment] = useState(null);
+  const [showAttachmentPreview, setShowAttachmentPreview] = useState(false);
+  const [isUrgent, setIsUrgent] = useState(false);
 
   const categories = [
-    { value: 'technical', label: 'Technical Issue', icon: '🔧' },
-    { value: 'billing', label: 'Billing & Payments', icon: '💰' },
-    { value: 'account', label: 'Account Issues', icon: '👤' },
-    { value: 'referral', label: 'Referral Problems', icon: '🤝' },
-    { value: 'feature', label: 'Feature Request', icon: '✨' },
-    { value: 'other', label: 'Other', icon: '📌' }
+    { value: 'technical', label: 'Technical Issue', icon: '🔧', color: '#f44336' },
+    { value: 'billing', label: 'Billing & Payments', icon: '💰', color: '#4caf50' },
+    { value: 'account', label: 'Account Issues', icon: '👤', color: '#2196f3' },
+    { value: 'referral', label: 'Referral Problems', icon: '🤝', color: '#ff9800' },
+    { value: 'feature', label: 'Feature Request', icon: '✨', color: '#9c27b0' },
+    { value: 'security', label: 'Security Concern', icon: '🔒', color: '#f44336' },
+    { value: 'other', label: 'Other', icon: '📌', color: '#607d8b' }
   ];
 
   const priorities = [
-    { value: 'low', label: 'Low', color: '#28a745', bg: '#e8f5e9' },
+    { value: 'low', label: 'Low', color: '#4caf50', bg: '#e8f5e9' },
     { value: 'medium', label: 'Medium', color: '#ff9800', bg: '#fff3e0' },
     { value: 'high', label: 'High', color: '#f44336', bg: '#ffebee' },
-    { value: 'urgent', label: 'Urgent', color: '#dc3545', bg: '#fde9e9' }
+    { value: 'urgent', label: 'Urgent', color: '#d32f2f', bg: '#fde9e9' }
+  ];
+
+  const statuses = [
+    { value: 'open', label: 'Open', color: '#2196f3', bg: '#e3f2fd' },
+    { value: 'in-progress', label: 'In Progress', color: '#ff9800', bg: '#fff3e0' },
+    { value: 'pending', label: 'Pending', color: '#9c27b0', bg: '#f3e5f5' },
+    { value: 'resolved', label: 'Resolved', color: '#4caf50', bg: '#e8f5e9' },
+    { value: 'closed', label: 'Closed', color: '#757575', bg: '#f5f5f5' }
   ];
 
   useEffect(() => {
     fetchTicketDetails();
+    fetchTicketHistory();
+    fetchSimilarTickets();
   }, [id]);
 
   const fetchTicketDetails = async () => {
@@ -65,19 +91,50 @@ const TicketDetails = () => {
       const token = localStorage.getItem('token');
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       
       if (response.data.success) {
         setTicket(response.data.ticket);
+        setIsUrgent(response.data.ticket.priority === 'urgent' || response.data.ticket.priority === 'high');
       }
     } catch (error) {
       toast.error('Failed to fetch ticket details');
       navigate('/support');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchTicketHistory = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}/history`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      if (response.data.success) {
+        setTicketHistory(response.data.history);
+      }
+    } catch (error) {
+      console.error('Failed to fetch ticket history');
+    }
+  };
+
+  const fetchSimilarTickets = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}/similar`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      if (response.data.success) {
+        setSimilarTickets(response.data.tickets);
+      }
+    } catch (error) {
+      console.error('Failed to fetch similar tickets');
     }
   };
 
@@ -106,11 +163,20 @@ const TicketDetails = () => {
     setSending(true);
     try {
       const token = localStorage.getItem('token');
+      const formData = new FormData();
+      formData.append('message', replyMessage);
+      replyAttachments.forEach(file => {
+        formData.append('attachments', file);
+      });
+
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}/reply`,
-        { message: replyMessage },
+        formData,
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
         }
       );
       
@@ -119,6 +185,7 @@ const TicketDetails = () => {
         setReplyMessage('');
         setReplyAttachments([]);
         fetchTicketDetails();
+        fetchTicketHistory();
       }
     } catch (error) {
       toast.error('Failed to send reply');
@@ -127,25 +194,22 @@ const TicketDetails = () => {
     }
   };
 
-  const handleCloseTicket = async () => {
-    if (!window.confirm('Are you sure you want to close this ticket?')) return;
-
+  const handleResolveTicket = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}/close`,
+        `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}/resolve`,
         {},
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       
       if (response.data.success) {
-        toast.success('Ticket closed');
+        toast.success('Ticket resolved');
+        setShowResolveModal(false);
         fetchTicketDetails();
       }
     } catch (error) {
-      toast.error('Failed to close ticket');
+      toast.error('Failed to resolve ticket');
     }
   };
 
@@ -155,9 +219,7 @@ const TicketDetails = () => {
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}/reopen`,
         {},
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       
       if (response.data.success) {
@@ -169,44 +231,69 @@ const TicketDetails = () => {
     }
   };
 
-  const handleSubmitRating = async () => {
-    if (!rating) {
-      toast.error('Please select a rating');
-      return;
-    }
-
+  const handleDeleteTicket = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}/rating`,
-        { rating, feedback },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       
       if (response.data.success) {
-        toast.success('Thank you for your feedback!');
-        setTicket({ ...ticket, rating: { rating, feedback } });
+        toast.success('Ticket deleted');
+        navigate('/support/tickets');
       }
     } catch (error) {
-      toast.error('Failed to submit rating');
+      toast.error('Failed to delete ticket');
+    }
+  };
+
+  const handleMarkUrgent = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/support/tickets/${id}/urgent`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      if (response.data.success) {
+        setIsUrgent(true);
+        toast.success('Ticket marked as urgent');
+        fetchTicketDetails();
+      }
+    } catch (error) {
+      toast.error('Failed to mark as urgent');
+    }
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.success('Link copied to clipboard');
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Ticket #${ticket?.ticketNumber}`,
+          text: ticket?.subject,
+          url: window.location.href
+        });
+      } catch (error) {
+        console.error('Share failed:', error);
+      }
+    } else {
+      handleCopyLink();
     }
   };
 
   const getStatusColor = (status) => {
-    switch(status) {
-      case 'open':
-        return { bg: '#e3f2fd', color: '#1976d2', text: 'Open' };
-      case 'in-progress':
-        return { bg: '#fff3e0', color: '#f57c00', text: 'In Progress' };
-      case 'resolved':
-        return { bg: '#e8f5e9', color: '#388e3c', text: 'Resolved' };
-      case 'closed':
-        return { bg: '#f5f5f5', color: '#757575', text: 'Closed' };
-      default:
-        return { bg: '#f5f5f5', color: '#757575', text: status };
-    }
+    return statuses.find(s => s.value === status) || statuses[0];
   };
 
   const getPriorityStyle = (priority) => {
@@ -215,144 +302,149 @@ const TicketDetails = () => {
 
   const formatDate = (date) => {
     if (!date) return 'N/A';
-    const d = new Date(date);
-    const now = new Date();
-    const diffMs = now - d;
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins} min ago`;
-    if (diffHours < 24) return `${diffHours} hour ago`;
-    if (diffDays < 7) return `${diffDays} day ago`;
-    return d.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return format(new Date(date), 'MMM d, yyyy • h:mm a');
   };
 
-  if (loading) {
-    return (
-      <div style={styles.loadingContainer}>
-        <div style={styles.spinner}></div>
-        <p>Loading ticket details...</p>
-      </div>
-    );
-  }
-
-  if (!ticket) {
-    return (
-      <div style={styles.errorContainer}>
-        <FiAlertCircle style={styles.errorIcon} />
-        <h2>Ticket not found</h2>
-        <p>The ticket you're looking for doesn't exist</p>
-        <button
-          style={styles.backBtn}
-          onClick={() => navigate('/support')}
-        >
-          <FiArrowLeft />
-          Back to Support
-        </button>
-      </div>
-    );
-  }
-
-  const status = getStatusColor(ticket.status);
-  const priority = getPriorityStyle(ticket.priority);
-  const category = categories.find(c => c.value === ticket.category);
-
+  const formatFileSize = (bytes) => {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  };
+if (loading) {
   return (
-    <div style={styles.container}>
-      {/* Header */}
-      <div style={styles.header}>
+    <div style={styles.loadingContainer}>
+      <div style={styles.spinner}></div>
+      <p>Loading ticket details...</p>
+    </div>
+  );
+}
+
+if (!ticket) {
+  return (
+    <div style={styles.errorContainer}>
+      <FiAlertCircle style={styles.errorIcon} />
+      <h2>Ticket not found</h2>
+      <p>The ticket you're looking for doesn't exist</p>
+      <button
+        style={styles.backBtn}
+        onClick={() => navigate('/support')}
+      >
+        <FiArrowLeft />
+        Back to Support
+      </button>
+    </div>
+  );
+}
+
+const status = getStatusColor(ticket.status);
+const priority = getPriorityStyle(ticket.priority);
+const category = categories.find(c => c.value === ticket.category);
+
+return (
+  <div style={styles.container}>
+    {/* Header */}
+    <div style={styles.header}>
+      <div style={styles.headerLeft}>
         <button
           style={styles.backBtn}
-          onClick={() => navigate('/support')}
+          onClick={() => navigate('/support/tickets')}
         >
           <FiArrowLeft />
-          Back to Tickets
+          Back
         </button>
-        <div style={styles.headerActions}>
-          {ticket.status !== 'closed' && ticket.status !== 'resolved' ? (
-            <button
-              style={styles.closeBtn}
-              onClick={handleCloseTicket}
-            >
-              <FiXCircle />
-              Close Ticket
-            </button>
-          ) : (
-            <button
-              style={styles.reopenBtn}
-              onClick={handleReopenTicket}
-            >
-              <FiRefreshCw />
-              Reopen Ticket
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Ticket Info */}
-      <div style={styles.ticketHeader}>
         <div>
-          <div style={styles.ticketId}>Ticket #{ticket.ticketNumber}</div>
+          <div style={styles.ticketId}>
+            Ticket #{ticket.ticketNumber}
+            {isUrgent && (
+              <span style={styles.urgentBadge}>URGENT</span>
+            )}
+          </div>
           <h1 style={styles.ticketTitle}>{ticket.subject}</h1>
         </div>
-        <div style={styles.ticketBadges}>
-          <span style={{
-            ...styles.priorityBadge,
-            background: priority.bg,
-            color: priority.color
-          }}>
-            {priority.label} Priority
-          </span>
-          <span style={{
-            ...styles.statusBadge,
-            background: status.bg,
-            color: status.color
-          }}>
-            {status.text}
-          </span>
-        </div>
       </div>
-
-      {/* Meta Info */}
-      <div style={styles.metaGrid}>
-        <div style={styles.metaItem}>
-          <FiTag style={styles.metaIcon} />
-          <div>
-            <div style={styles.metaLabel}>Category</div>
-            <div style={styles.metaValue}>{category?.icon} {category?.label}</div>
-          </div>
-        </div>
-        <div style={styles.metaItem}>
-          <FiUser style={styles.metaIcon} />
-          <div>
-            <div style={styles.metaLabel}>Created By</div>
-            <div style={styles.metaValue}>{ticket.user?.name || 'You'}</div>
-          </div>
-        </div>
-        <div style={styles.metaItem}>
-          <FiCalendar style={styles.metaIcon} />
-          <div>
-            <div style={styles.metaLabel}>Created At</div>
-            <div style={styles.metaValue}>{formatDate(ticket.createdAt)}</div>
-          </div>
-        </div>
-        <div style={styles.metaItem}>
-          <FiClock style={styles.metaIcon} />
-          <div>
-            <div style={styles.metaLabel}>Last Updated</div>
-            <div style={styles.metaValue}>{formatDate(ticket.updatedAt)}</div>
+      
+      <div style={styles.headerActions}>
+        <button style={styles.actionBtn} onClick={handleCopyLink} title="Copy link">
+          <FiCopy />
+        </button>
+        <button style={styles.actionBtn} onClick={handlePrint} title="Print">
+          <FiPrinter />
+        </button>
+        <button style={styles.actionBtn} onClick={handleShare} title="Share">
+          <FiShare2 />
+        </button>
+        <div style={styles.moreMenu}>
+          <button style={styles.actionBtn}>
+            <FiMoreVertical />
+          </button>
+          <div style={styles.menuItems}>
+            <button onClick={() => setShowHistory(true)}>
+              <FiClock /> View History
+            </button>
+            <button onClick={() => setShowShareModal(true)}>
+              <FiShare2 /> Share
+            </button>
+            <button onClick={handlePrint}>
+              <FiPrinter /> Print
+            </button>
+            <button onClick={() => setShowDeleteModal(true)}>
+              <FiTrash2 /> Delete
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
+    {/* Ticket Info Bar */}
+    <div style={styles.infoBar}>
+      <div style={styles.infoItem}>
+        <span style={styles.infoLabel}>Status</span>
+        <span style={{
+          ...styles.statusBadge,
+          background: status.bg,
+          color: status.color
+        }}>
+          {status.label}
+        </span>
+      </div>
+      
+      <div style={styles.infoItem}>
+        <span style={styles.infoLabel}>Priority</span>
+        <span style={{
+          ...styles.priorityBadge,
+          background: priority.bg,
+          color: priority.color
+        }}>
+          {priority.label}
+        </span>
+      </div>
+      
+      <div style={styles.infoItem}>
+        <span style={styles.infoLabel}>Category</span>
+        <span style={styles.categoryValue}>
+          {category?.icon} {category?.label}
+        </span>
+      </div>
+      
+      <div style={styles.infoItem}>
+        <span style={styles.infoLabel}>Created</span>
+        <span style={styles.dateValue}>
+          <FiCalendar />
+          {formatDate(ticket.createdAt)}
+        </span>
+      </div>
+      
+      <div style={styles.infoItem}>
+        <span style={styles.infoLabel}>Last Updated</span>
+        <span style={styles.dateValue}>
+          <FiClock />
+          {formatDate(ticket.updatedAt)}
+        </span>
+      </div>
+    </div>
+
+    {/* Main Content */}
+    <div style={styles.mainContent}>
       {/* Message Thread */}
       <div style={styles.messageThread}>
         {/* Original Message */}
@@ -371,9 +463,11 @@ const TicketDetails = () => {
             </div>
             <span style={styles.messageBadge}>Original</span>
           </div>
+          
           <div style={styles.messageContent}>
             {ticket.message}
           </div>
+          
           {ticket.attachments?.length > 0 && (
             <div style={styles.messageAttachments}>
               {ticket.attachments.map((att, index) => (
@@ -386,7 +480,7 @@ const TicketDetails = () => {
                 >
                   <FiFile />
                   {att.filename}
-                  <FiDownload />
+                  <FiDownload style={styles.downloadIcon} />
                 </a>
               ))}
             </div>
@@ -395,12 +489,18 @@ const TicketDetails = () => {
 
         {/* Replies */}
         {ticket.replies?.map((reply, index) => (
-          <div key={index} style={styles.messageItem}>
+          <div
+            key={index}
+            style={{
+              ...styles.messageItem,
+              ...(reply.isStaff ? styles.staffMessage : {})
+            }}
+          >
             <div style={styles.messageHeader}>
               <div style={styles.messageAuthor}>
                 <div style={{
                   ...styles.authorAvatar,
-                  background: reply.isStaff ? '#667eea' : '#6c757d'
+                  ...(reply.isStaff ? styles.staffAvatar : {})
                 }}>
                   {reply.isStaff ? '👨‍💻' : <FiUser />}
                 </div>
@@ -414,14 +514,14 @@ const TicketDetails = () => {
                 </div>
               </div>
               {reply.isStaff && (
-                <span style={{...styles.messageBadge, ...styles.staffBadge}}>
-                  Staff
-                </span>
+                <span style={styles.staffBadge}>Staff</span>
               )}
             </div>
+            
             <div style={styles.messageContent}>
               {reply.message}
             </div>
+            
             {reply.attachments?.length > 0 && (
               <div style={styles.messageAttachments}>
                 {reply.attachments.map((att, idx) => (
@@ -434,7 +534,7 @@ const TicketDetails = () => {
                   >
                     <FiFile />
                     {att.filename}
-                    <FiDownload />
+                    <FiDownload style={styles.downloadIcon} />
                   </a>
                 ))}
               </div>
@@ -443,8 +543,97 @@ const TicketDetails = () => {
         ))}
       </div>
 
+      {/* Sidebar */}
+      <div style={styles.sidebar}>
+        {/* Customer Info */}
+        <div style={styles.sidebarCard}>
+          <h3 style={styles.sidebarTitle}>Customer Information</h3>
+          <div style={styles.customerInfo}>
+            <div style={styles.customerAvatar}>
+              {ticket.customer?.name?.charAt(0) || 'U'}
+            </div>
+            <div style={styles.customerDetails}>
+              <span style={styles.customerName}>
+                {ticket.customer?.name || 'You'}
+              </span>
+              <span style={styles.customerEmail}>
+                {ticket.customer?.email || ticket.userEmail}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div style={styles.sidebarCard}>
+          <h3 style={styles.sidebarTitle}>Quick Actions</h3>
+          <div style={styles.quickActions}>
+            {ticket.status !== 'resolved' && ticket.status !== 'closed' ? (
+              <>
+                <button
+                  style={styles.resolveBtn}
+                  onClick={() => setShowResolveModal(true)}
+                >
+                  <FiCheckCircle />
+                  Mark as Resolved
+                </button>
+                {!isUrgent && (
+                  <button
+                    style={styles.urgentBtn}
+                    onClick={handleMarkUrgent}
+                  >
+                    <FiAlertCircle />
+                    Mark as Urgent
+                  </button>
+                )}
+              </>
+            ) : (
+              <button
+                style={styles.reopenBtn}
+                onClick={handleReopenTicket}
+              >
+                <FiRefreshCw />
+                Reopen Ticket
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Similar Tickets */}
+        {similarTickets.length > 0 && (
+          <div style={styles.sidebarCard}>
+            <h3 style={styles.sidebarTitle}>Similar Tickets</h3>
+            <div style={styles.similarTickets}>
+              {similarTickets.map(similar => (
+                <button
+                  key={similar.id}
+                  style={styles.similarTicket}
+                  onClick={() => navigate(`/support/tickets/${similar.id}`)}
+                >
+                  <span style={styles.similarTicketId}>#{similar.ticketNumber}</span>
+                  <span style={styles.similarTicketSubject}>{similar.subject}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Tags */}
+        {ticket.tags?.length > 0 && (
+          <div style={styles.sidebarCard}>
+            <h3 style={styles.sidebarTitle}>Tags</h3>
+            <div style={styles.tags}>
+              {ticket.tags.map((tag, index) => (
+                <span key={index} style={styles.tag}>
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
       {/* Reply Form */}
-      {ticket.status !== 'closed' && ticket.status !== 'resolved' && (
+      {ticket.status !== 'resolved' && ticket.status !== 'closed' && (
         <div style={styles.replyForm}>
           <h3 style={styles.replyFormTitle}>Add Reply</h3>
           
@@ -461,16 +650,15 @@ const TicketDetails = () => {
               {replyAttachments.map((file, index) => (
                 <div key={index} style={styles.attachmentItem}>
                   <FiFile />
-                  <span style={styles.fileName}>{file.name}</span>
-                  <span style={styles.fileSize}>
-                    {(file.size / 1024).toFixed(1)} KB
+                  <span style={styles.attachmentName}>{file.name}</span>
+                  <span style={styles.attachmentSize}>
+                    {formatFileSize(file.size)}
                   </span>
                   <button
-                    type="button"
                     style={styles.removeAttachment}
                     onClick={() => removeReplyAttachment(index)}
                   >
-                    <FiTrash2 />
+                    <FiX />
                   </button>
                 </div>
               ))}
@@ -478,19 +666,20 @@ const TicketDetails = () => {
           )}
 
           <div style={styles.replyActions}>
-            <div style={styles.replyFileUpload}>
+            <div style={styles.fileUpload}>
               <input
                 type="file"
-                id="reply-file-upload"
+                id="file-upload"
                 multiple
                 onChange={handleReplyFileUpload}
                 style={{ display: 'none' }}
               />
-              <label htmlFor="reply-file-upload" style={styles.replyFileLabel}>
+              <label htmlFor="file-upload" style={styles.fileUploadLabel}>
                 <FiPaperclip />
                 Attach Files
               </label>
             </div>
+            
             <button
               style={styles.sendReplyBtn}
               onClick={handleReply}
@@ -503,67 +692,117 @@ const TicketDetails = () => {
         </div>
       )}
 
-      {/* Rating Section (shown when ticket is resolved/closed) */}
-      {(ticket.status === 'resolved' || ticket.status === 'closed') && !ticket.rating && (
-        <div style={styles.ratingSection}>
-          <h3 style={styles.ratingTitle}>How was your experience?</h3>
-          <p style={styles.ratingSubtitle}>
-            Your feedback helps us improve our support
-          </p>
+      {/* Resolve Modal */}
+      {showResolveModal && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.modal}>
+            <h3 style={styles.modalTitle}>Resolve Ticket</h3>
+            <p style={styles.modalText}>
+              Are you sure you want to mark this ticket as resolved?
+            </p>
+            
+            <textarea
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="Add resolution notes (optional)"
+              rows="3"
+              style={styles.modalTextarea}
+            />
 
-          <div style={styles.ratingButtons}>
-            {[1, 2, 3, 4, 5].map((star) => (
+            <div style={styles.modalRating}>
+              <span>Rate your experience:</span>
+              <div style={styles.ratingStars}>
+                {[1, 2, 3, 4, 5].map(star => (
+                  <button
+                    key={star}
+                    style={{
+                      ...styles.starBtn,
+                      ...(rating >= star ? styles.starActive : {})
+                    }}
+                    onClick={() => setRating(star)}
+                  >
+                    <FiStar />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={styles.modalActions}>
               <button
-                key={star}
-                style={{
-                  ...styles.ratingBtn,
-                  ...(rating >= star ? styles.ratingBtnActive : {})
-                }}
-                onClick={() => setRating(star)}
+                style={styles.modalCancelBtn}
+                onClick={() => setShowResolveModal(false)}
               >
-                <FiStar style={rating >= star ? styles.starActive : {}} />
+                Cancel
               </button>
-            ))}
+              <button
+                style={styles.modalConfirmBtn}
+                onClick={handleResolveTicket}
+              >
+                Mark as Resolved
+              </button>
+            </div>
           </div>
-
-          <textarea
-            value={feedback}
-            onChange={(e) => setFeedback(e.target.value)}
-            placeholder="Tell us more about your experience (optional)"
-            rows="3"
-            style={styles.feedbackTextarea}
-          />
-
-          <button
-            style={styles.submitRatingBtn}
-            onClick={handleSubmitRating}
-            disabled={!rating}
-          >
-            Submit Feedback
-          </button>
         </div>
       )}
 
-      {/* Show existing rating */}
-      {ticket.rating && (
-        <div style={styles.existingRating}>
-          <div style={styles.ratingDisplay}>
-            <span style={styles.ratingLabel}>Your Rating:</span>
-            <div style={styles.stars}>
-              {[1, 2, 3, 4, 5].map((star) => (
-                <FiStar
-                  key={star}
-                  style={{
-                    ...styles.starIcon,
-                    ...(star <= ticket.rating.rating ? styles.starFilled : {})
-                  }}
-                />
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.modal}>
+            <h3 style={styles.modalTitle}>Delete Ticket</h3>
+            <p style={styles.modalText}>
+              Are you sure you want to delete this ticket? This action cannot be undone.
+            </p>
+            <div style={styles.modalActions}>
+              <button
+                style={styles.modalCancelBtn}
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                style={styles.modalDeleteBtn}
+                onClick={handleDeleteTicket}
+              >
+                Delete Ticket
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* History Modal */}
+      {showHistory && (
+        <div style={styles.modalOverlay}>
+          <div style={{...styles.modal, width: '600px'}}>
+            <div style={styles.modalHeader}>
+              <h3 style={styles.modalTitle}>Ticket History</h3>
+              <button
+                style={styles.modalCloseBtn}
+                onClick={() => setShowHistory(false)}
+              >
+                <FiX />
+              </button>
+            </div>
+            
+            <div style={styles.historyList}>
+              {ticketHistory.map((event, index) => (
+                <div key={index} style={styles.historyItem}>
+                  <div style={styles.historyIcon}>
+                    {event.type === 'created' && <FiCheckCircle style={{color: '#4caf50'}} />}
+                    {event.type === 'replied' && <FiMessageCircle style={{color: '#2196f3'}} />}
+                    {event.type === 'resolved' && <FiCheck style={{color: '#4caf50'}} />}
+                    {event.type === 'reopened' && <FiRefreshCw style={{color: '#ff9800'}} />}
+                    {event.type === 'priority_changed' && <FiAlertCircle style={{color: '#f44336'}} />}
+                  </div>
+                  <div style={styles.historyContent}>
+                    <div style={styles.historyText}>{event.description}</div>
+                    <div style={styles.historyTime}>{formatDate(event.timestamp)}</div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
-          {ticket.rating.feedback && (
-            <p style={styles.ratingFeedback}>"{ticket.rating.feedback}"</p>
-          )}
         </div>
       )}
 
@@ -572,6 +811,9 @@ const TicketDetails = () => {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
+        .spin {
+          animation: spin 1s linear infinite;
+        }
       `}</style>
     </div>
   );
@@ -579,7 +821,7 @@ const TicketDetails = () => {
 
 const styles = {
   container: {
-    maxWidth: '900px',
+    maxWidth: '1400px',
     margin: '0 auto',
     padding: '30px 20px',
     fontFamily: 'Arial, sans-serif'
@@ -588,7 +830,14 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '25px'
+    marginBottom: '20px',
+    flexWrap: 'wrap',
+    gap: '15px'
+  },
+  headerLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '20px'
   },
   backBtn: {
     display: 'flex',
@@ -599,104 +848,124 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '5px',
     color: '#666',
-    cursor: 'pointer'
-  },
-  headerActions: {
-    display: 'flex',
-    gap: '10px'
-  },
-  closeBtn: {
-    padding: '8px 16px',
-    background: '#dc3545',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
     cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '5px'
-  },
-  reopenBtn: {
-    padding: '8px 16px',
-    background: '#28a745',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '5px'
-  },
-  ticketHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: '20px',
-    flexWrap: 'wrap',
-    gap: '15px'
+    fontSize: '14px'
   },
   ticketId: {
     fontSize: '14px',
-    color: '#999',
-    marginBottom: '5px'
+    color: '#666',
+    marginBottom: '5px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
+  },
+  urgentBadge: {
+    padding: '2px 8px',
+    background: '#f44336',
+    color: 'white',
+    borderRadius: '12px',
+    fontSize: '11px',
+    fontWeight: 'bold'
   },
   ticketTitle: {
     margin: 0,
     fontSize: '28px',
     color: '#333'
   },
-  ticketBadges: {
+  headerActions: {
     display: 'flex',
-    gap: '10px'
+    gap: '10px',
+    alignItems: 'center'
   },
-  priorityBadge: {
-    padding: '5px 12px',
-    borderRadius: '20px',
-    fontSize: '13px',
-    fontWeight: 500
+  actionBtn: {
+    padding: '8px',
+    background: 'white',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    color: '#666',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  statusBadge: {
-    padding: '5px 12px',
-    borderRadius: '20px',
-    fontSize: '13px',
-    fontWeight: 500
+  moreMenu: {
+    position: 'relative'
   },
-  metaGrid: {
+  menuItems: {
+    position: 'absolute',
+    right: 0,
+    top: '100%',
+    background: 'white',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+    display: 'none',
+    zIndex: 10,
+    minWidth: '150px'
+  },
+  infoBar: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
     gap: '15px',
     background: '#f8f9fa',
     borderRadius: '10px',
     padding: '20px',
     marginBottom: '30px'
   },
-  metaItem: {
+  infoItem: {
     display: 'flex',
-    alignItems: 'center',
-    gap: '10px'
+    flexDirection: 'column',
+    gap: '5px'
   },
-  metaIcon: {
-    fontSize: '20px',
-    color: '#667eea'
-  },
-  metaLabel: {
+  infoLabel: {
     fontSize: '11px',
     color: '#999',
-    marginBottom: '3px'
+    textTransform: 'uppercase'
   },
-  metaValue: {
+  statusBadge: {
+    padding: '4px 8px',
+    borderRadius: '20px',
+    fontSize: '12px',
+    display: 'inline-block',
+    width: 'fit-content'
+  },
+  priorityBadge: {
+    padding: '4px 8px',
+    borderRadius: '20px',
+    fontSize: '12px',
+    display: 'inline-block',
+    width: 'fit-content'
+  },
+  categoryValue: {
     fontSize: '14px',
-    color: '#333',
-    fontWeight: 500
+    color: '#333'
+  },
+  dateValue: {
+    fontSize: '13px',
+    color: '#666',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '5px'
+  },
+  mainContent: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 300px',
+    gap: '30px',
+    marginBottom: '30px'
   },
   messageThread: {
-    marginBottom: '30px'
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px'
   },
   messageItem: {
     background: '#f8f9fa',
     borderRadius: '10px',
-    padding: '20px',
-    marginBottom: '15px'
+    padding: '20px'
+  },
+  staffMessage: {
+    background: '#e3f2fd',
+    borderLeft: '4px solid #2196f3'
   },
   messageHeader: {
     display: 'flex',
@@ -713,12 +982,14 @@ const styles = {
     width: '36px',
     height: '36px',
     borderRadius: '50%',
-    background: '#6c757d',
+    background: '#667eea',
     color: 'white',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '16px'
+    justifyContent: 'center'
+  },
+  staffAvatar: {
+    background: '#2196f3'
   },
   authorName: {
     fontWeight: 500,
@@ -730,42 +1001,169 @@ const styles = {
     color: '#999'
   },
   messageBadge: {
-    padding: '3px 10px',
+    padding: '2px 8px',
     background: '#e9ecef',
-    borderRadius: '15px',
+    borderRadius: '12px',
     fontSize: '11px'
   },
   staffBadge: {
-    background: '#667eea',
-    color: 'white'
+    padding: '2px 8px',
+    background: '#2196f3',
+    color: 'white',
+    borderRadius: '12px',
+    fontSize: '11px'
   },
   messageContent: {
     color: '#666',
-    lineHeight: '1.6'
+    lineHeight: '1.6',
+    marginBottom: '15px'
   },
   messageAttachments: {
     display: 'flex',
     flexWrap: 'wrap',
-    gap: '10px',
-    marginTop: '15px'
+    gap: '10px'
   },
   attachmentLink: {
-    display: 'inline-flex',
+    display: 'flex',
     alignItems: 'center',
-    gap: '5px',
-    padding: '5px 10px',
+    gap: '8px',
+    padding: '8px 12px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
     textDecoration: 'none',
     color: '#666',
+    fontSize: '13px'
+  },
+  downloadIcon: {
+    marginLeft: 'auto'
+  },
+  sidebar: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px'
+  },
+  sidebarCard: {
+    background: 'white',
+    borderRadius: '10px',
+    padding: '20px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+  },
+  sidebarTitle: {
+    margin: '0 0 15px',
+    fontSize: '16px',
+    color: '#333'
+  },
+  customerInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '15px'
+  },
+  customerAvatar: {
+    width: '50px',
+    height: '50px',
+    borderRadius: '50%',
+    background: '#667eea',
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '20px'
+  },
+  customerDetails: {
+    flex: 1
+  },
+  customerName: {
+    display: 'block',
+    fontWeight: 500,
+    color: '#333',
+    marginBottom: '3px'
+  },
+  customerEmail: {
+    fontSize: '13px',
+    color: '#666'
+  },
+  quickActions: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px'
+  },
+  resolveBtn: {
+    padding: '10px',
+    background: '#4caf50',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    justifyContent: 'center'
+  },
+  urgentBtn: {
+    padding: '10px',
+    background: '#f44336',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    justifyContent: 'center'
+  },
+  reopenBtn: {
+    padding: '10px',
+    background: '#ff9800',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    justifyContent: 'center'
+  },
+  similarTickets: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px'
+  },
+  similarTicket: {
+    padding: '10px',
+    background: '#f8f9fa',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    textAlign: 'left'
+  },
+  similarTicketId: {
+    display: 'block',
+    fontSize: '11px',
+    color: '#999',
+    marginBottom: '3px'
+  },
+  similarTicketSubject: {
+    fontSize: '13px',
+    color: '#333'
+  },
+  tags: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '8px'
+  },
+  tag: {
+    padding: '4px 8px',
+    background: '#f0f4ff',
+    color: '#667eea',
+    borderRadius: '15px',
     fontSize: '12px'
   },
   replyForm: {
-    background: '#f8f9fa',
+    background: 'white',
     borderRadius: '10px',
     padding: '25px',
-    marginTop: '20px'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
   },
   replyFormTitle: {
     margin: '0 0 15px',
@@ -789,24 +1187,24 @@ const styles = {
     alignItems: 'center',
     gap: '10px',
     padding: '8px 12px',
-    background: 'white',
+    background: '#f8f9fa',
     border: '1px solid #ddd',
     borderRadius: '5px',
     marginBottom: '5px'
   },
-  fileName: {
+  attachmentName: {
     flex: 1,
     fontSize: '13px',
     color: '#333'
   },
-  fileSize: {
+  attachmentSize: {
     fontSize: '11px',
     color: '#999'
   },
   removeAttachment: {
     background: 'none',
     border: 'none',
-    color: '#dc3545',
+    color: '#f44336',
     cursor: 'pointer'
   },
   replyActions: {
@@ -814,13 +1212,13 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  replyFileUpload: {
+  fileUpload: {
     display: 'flex',
     alignItems: 'center'
   },
-  replyFileLabel: {
+  fileUploadLabel: {
     padding: '8px 16px',
-    background: 'white',
+    background: '#f8f9fa',
     border: '1px solid #ddd',
     borderRadius: '5px',
     cursor: 'pointer',
@@ -839,109 +1237,132 @@ const styles = {
     alignItems: 'center',
     gap: '5px'
   },
-  ratingSection: {
-    background: '#f8f9fa',
-    borderRadius: '10px',
-    padding: '25px',
-    marginTop: '20px',
-    textAlign: 'center'
-  },
-  ratingTitle: {
-    margin: '0 0 5px',
-    fontSize: '18px',
-    color: '#333'
-  },
-  ratingSubtitle: {
-    margin: '0 0 20px',
-    color: '#666'
-  },
-  ratingButtons: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '10px',
-    marginBottom: '20px'
-  },
-  ratingBtn: {
-    width: '50px',
-    height: '50px',
-    borderRadius: '50%',
-    border: '2px solid #ddd',
-    background: 'white',
-    cursor: 'pointer',
+  modalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,0.5)',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    zIndex: 1000
   },
-  ratingBtnActive: {
-    borderColor: '#ffc107',
-    background: '#fff3e0'
+  modal: {
+    background: 'white',
+    borderRadius: '10px',
+    padding: '30px',
+    width: '90%',
+    maxWidth: '400px'
   },
-  starActive: {
-    color: '#ffc107',
-    fill: '#ffc107'
+  modalHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '20px'
   },
-  feedbackTextarea: {
+  modalTitle: {
+    margin: '0 0 15px',
+    fontSize: '20px',
+    color: '#333'
+  },
+  modalCloseBtn: {
+    background: 'none',
+    border: 'none',
+    fontSize: '20px',
+    cursor: 'pointer',
+    color: '#666'
+  },
+  modalText: {
+    margin: '0 0 20px',
+    color: '#666',
+    lineHeight: '1.6'
+  },
+  modalTextarea: {
     width: '100%',
-    padding: '12px',
+    padding: '10px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px',
-    resize: 'vertical',
-    marginBottom: '15px'
+    marginBottom: '15px',
+    resize: 'vertical'
   },
-  submitRatingBtn: {
-    padding: '10px 30px',
-    background: '#667eea',
+  modalRating: {
+    marginBottom: '20px'
+  },
+  ratingStars: {
+    display: 'flex',
+    gap: '5px',
+    marginTop: '5px'
+  },
+  starBtn: {
+    padding: '5px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#ddd'
+  },
+  starActive: {
+    color: '#ffc107'
+  },
+  modalActions: {
+    display: 'flex',
+    gap: '10px',
+    justifyContent: 'flex-end'
+  },
+  modalCancelBtn: {
+    padding: '8px 16px',
+    background: 'white',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+    cursor: 'pointer'
+  },
+  modalConfirmBtn: {
+    padding: '8px 16px',
+    background: '#4caf50',
     color: 'white',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer'
   },
-  existingRating: {
-    background: '#f8f9fa',
-    borderRadius: '10px',
-    padding: '20px',
-    marginTop: '20px'
+  modalDeleteBtn: {
+    padding: '8px 16px',
+    background: '#f44336',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer'
   },
-  ratingDisplay: {
+  historyList: {
+    maxHeight: '400px',
+    overflow: 'auto'
+  },
+  historyItem: {
     display: 'flex',
-    alignItems: 'center',
     gap: '15px',
-    marginBottom: '10px'
+    padding: '15px 0',
+    borderBottom: '1px solid #e9ecef'
   },
-  ratingLabel: {
-    fontSize: '14px',
-    color: '#666'
-  },
-  stars: {
+  historyIcon: {
+    width: '30px',
     display: 'flex',
-    gap: '5px'
+    justifyContent: 'center'
   },
-  starIcon: {
-    color: '#ddd',
-    fontSize: '20px'
+  historyContent: {
+    flex: 1
   },
-  starFilled: {
-    color: '#ffc107',
-    fill: '#ffc107'
+  historyText: {
+    fontSize: '14px',
+    color: '#333',
+    marginBottom: '3px'
   },
-  ratingFeedback: {
-    margin: 0,
-    color: '#666',
-    fontStyle: 'italic'
+  historyTime: {
+    fontSize: '11px',
+    color: '#999'
   },
   loadingContainer: {
     textAlign: 'center',
     padding: '60px 20px'
-  },
-  errorContainer: {
-    textAlign: 'center',
-    padding: '60px 20px'
-  },
-  errorIcon: {
-    fontSize: '48px',
-    color: '#dc3545',
-    marginBottom: '15px'
   },
   spinner: {
     border: '3px solid #f3f3f3',
@@ -952,78 +1373,15 @@ const styles = {
     animation: 'spin 1s linear infinite',
     margin: '0 auto 15px'
   },
-  spin: {
-    animation: 'spin 1s linear infinite'
+  errorContainer: {
+    textAlign: 'center',
+    padding: '60px 20px'
+  },
+  errorIcon: {
+    fontSize: '48px',
+    color: '#f44336',
+    marginBottom: '15px'
   }
 };
 
 export default TicketDetails;
-    margin: 0,
-    fontSize: '28px',
-    color: '#333'
-  },
-  ticketBadges: {
-    display: 'flex',
-    gap: '10px'
-  },
-  priorityBadge: {
-    padding: '5px 12px',
-    borderRadius: '20px',
-    fontSize: '13px',
-    fontWeight: 500
-  },
-  statusBadge: {
-    padding: '5px 12px',
-    borderRadius: '20px',
-    fontSize: '13px',
-    fontWeight: 500
-  },
-  metaGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '15px',
-    background: '#f8f9fa',
-    borderRadius: '10px',
-    padding: '20px',
-    marginBottom: '30px'
-  },
-  metaItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px'
-  },
-  metaIcon: {
-    fontSize: '20px',
-    color: '#667eea'
-  },
-  metaLabel: {
-    fontSize: '11px',
-    color: '#999',
-    marginBottom: '3px'
-  },
-  metaValue: {
-    fontSize: '14px',
-    color: '#333',
-    fontWeight: 500
-  },
-  messageThread: {
-    marginBottom: '30px'
-  },
-  messageItem: {
-    background: '#f8f9fa',
-    borderRadius: '10px',
-    padding: '20px',
-    marginBottom: '15px'
-  },
-  messageHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '15px'
-  },
-  messageAuthor: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px'
-  },
-  author
