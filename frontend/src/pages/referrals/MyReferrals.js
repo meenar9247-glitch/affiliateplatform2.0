@@ -23,7 +23,6 @@ import {
   FiTwitter,
   FiFacebook,
   FiLinkedin,
-  FiWhatsApp,
   FiRefreshCw,
   FiBarChart2
 } from 'react-icons/fi';
@@ -952,10 +951,7 @@ const MyReferrals = () => {
               <FiFacebook /> Facebook
             </button>
             <button className="share-btn linkedin" onClick={handleShare}>
-              <FiLinkedin /> LinkedIn
-            </button>
-            <button className="share-btn whatsapp" onClick={handleShare}>
-              <FiWhatsApp /> WhatsApp
+              <FiLinkedin /> LinkedIn  
             </button>
           </div>
         </div>
