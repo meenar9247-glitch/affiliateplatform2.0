@@ -27,7 +27,6 @@ import {
   FiTwitter,
   FiFacebook,
   FiLinkedin,
-  FiWhatsApp
 } from 'react-icons/fi';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -951,10 +950,7 @@ const LinkDetails = () => {
             <FiFacebook /> Facebook
           </button>
           <button className="share-btn linkedin">
-            <FiLinkedin /> LinkedIn
-          </button>
-          <button className="share-btn whatsapp">
-            <FiWhatsApp /> WhatsApp
+            <FiLinkedin /> LinkedIn  
           </button>
           <button className="share-btn email">
             <FiMail /> Email
