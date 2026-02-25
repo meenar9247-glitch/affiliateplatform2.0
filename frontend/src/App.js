@@ -1,5 +1,5 @@
  import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { HelmetProvider } from 'react-helmet-async';
@@ -202,7 +202,7 @@ function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <PayPalScriptProvider options={paypalOptions}>
-          <HashRouter>
+          <BrowserRouter>
             <AuthProvider>
               <ThemeProvider>
                 <NotificationProvider>
@@ -659,6 +659,7 @@ styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
 export default App;
+
 
 
 
