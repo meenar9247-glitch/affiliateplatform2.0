@@ -202,7 +202,7 @@ function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <PayPalScriptProvider options={paypalOptions}>
-          <BrowserRouter>
+          <HashRouter>
             <AuthProvider>
               <ThemeProvider>
                 <NotificationProvider>
@@ -659,6 +659,7 @@ styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
 export default App;
+
 
 
 
