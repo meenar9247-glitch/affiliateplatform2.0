@@ -28,8 +28,8 @@ app.use(xss());
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100
 });
 app.use('/api', limiter);
 
@@ -53,6 +53,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/affiliate
 }).catch(err => {
   console.error('MongoDB connection error:', err);
   process.exit(1);
+});
+
+// ✅ YEH SIRF ADD KIYA HAI (ROOT ROUTE)
+app.get("/", (req, res) => {
+  res.send("Backend Running Successfully");
 });
 
 // Routes
@@ -80,5 +85,4 @@ app.use('*', (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-
 });
