@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import {
   CurrencyDollarIcon,
   UsersIcon,
   ChartBarIcon,
   GiftIcon,
   ArrowTrendingUpIcon,
-  ArrowPathIcon
+  ArrowPathIcon,
 } from '@heroicons/react/24/outline';
-import { useAuth } from '../../context/AuthContext';
-import { useQuery } from 'react-query';
 import axios from 'axios';
-import { Line, Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,10 +16,17 @@ import {
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
 } from 'chart.js';
 import { format } from 'date-fns';
+import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { Line, Doughnut } from 'react-chartjs-2';
 import toast from 'react-hot-toast';
+import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
+
+import { useAuth } from '../../context/AuthContext';
 
 ChartJS.register(
   CategoryScale,
@@ -35,7 +36,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
 );
 
 const Dashboard = () => {
@@ -47,7 +48,7 @@ const Dashboard = () => {
     balance: 0,
     clicks: 0,
     conversions: 0,
-    conversionRate: 0
+    conversionRate: 0,
   });
 
   // Fetch dashboard data
@@ -63,8 +64,8 @@ const Dashboard = () => {
       },
       onError: (error) => {
         toast.error('Failed to load dashboard data');
-      }
-    }
+      },
+    },
   );
 
   // Chart data for earnings over time
@@ -76,9 +77,9 @@ const Dashboard = () => {
         data: dashboardData?.earningsHistory?.map(item => item.amount) || [],
         borderColor: 'rgb(147, 51, 234)',
         backgroundColor: 'rgba(147, 51, 234, 0.5)',
-        tension: 0.4
-      }
-    ]
+        tension: 0.4,
+      },
+    ],
   };
 
   const chartOptions = {
@@ -88,17 +89,17 @@ const Dashboard = () => {
         position: 'top',
       },
       title: {
-        display: false
-      }
+        display: false,
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
         grid: {
-          color: 'rgba(0, 0, 0, 0.1)'
-        }
-      }
-    }
+          color: 'rgba(0, 0, 0, 0.1)',
+        },
+      },
+    },
   };
 
   // Traffic sources data
@@ -112,11 +113,11 @@ const Dashboard = () => {
           'rgba(59, 130, 246, 0.8)',
           'rgba(16, 185, 129, 0.8)',
           'rgba(245, 158, 11, 0.8)',
-          'rgba(107, 114, 128, 0.8)'
+          'rgba(107, 114, 128, 0.8)',
         ],
-        borderWidth: 0
-      }
-    ]
+        borderWidth: 0,
+      },
+    ],
   };
 
   // Recent conversions
@@ -245,9 +246,9 @@ const Dashboard = () => {
                 maintainAspectRatio: false,
                 plugins: {
                   legend: {
-                    position: 'bottom'
-                  }
-                }
+                    position: 'bottom',
+                  },
+                },
               }}
             />
           </div>
@@ -286,8 +287,8 @@ const Dashboard = () => {
                   </p>
                   <p className={`text-sm ${
                     conversion.status === 'approved' ? 'text-green-500' :
-                    conversion.status === 'pending' ? 'text-yellow-500' :
-                    'text-gray-500'
+                      conversion.status === 'pending' ? 'text-yellow-500' :
+                        'text-gray-500'
                   }`}>
                     {conversion.status}
                   </p>

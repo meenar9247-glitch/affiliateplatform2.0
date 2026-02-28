@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiSettings,
@@ -31,7 +31,7 @@ import {
   FiTrash2,
   FiPlus,
   FiEdit,
-  FiCopy
+  FiCopy,
 } from 'react-icons/fi';
 
 const AdminSettings = () => {
@@ -49,7 +49,7 @@ const AdminSettings = () => {
       timeFormat: '12h',
       language: 'en',
       maintenanceMode: false,
-      debugMode: false
+      debugMode: false,
     },
     commission: {
       defaultRate: 10,
@@ -59,12 +59,12 @@ const AdminSettings = () => {
         { level: 'Bronze', minEarnings: 0, rate: 5 },
         { level: 'Silver', minEarnings: 1000, rate: 10 },
         { level: 'Gold', minEarnings: 5000, rate: 15 },
-        { level: 'Platinum', minEarnings: 10000, rate: 20 }
+        { level: 'Platinum', minEarnings: 10000, rate: 20 },
       ],
       cookieDuration: 30,
       referralCommission: 5,
       bonusEnabled: true,
-      bonusAmount: 100
+      bonusAmount: 100,
     },
     payments: {
       currency: 'USD',
@@ -76,7 +76,7 @@ const AdminSettings = () => {
       payoutDay: 'monday',
       autoApprove: false,
       requireVerification: true,
-      paymentMethods: ['paypal', 'bank', 'upi']
+      paymentMethods: ['paypal', 'bank', 'upi'],
     },
     users: {
       requireEmailVerification: true,
@@ -88,7 +88,7 @@ const AdminSettings = () => {
       lockoutDuration: 15, // minutes
       passwordMinLength: 8,
       requireStrongPassword: true,
-      twoFactorAuth: false
+      twoFactorAuth: false,
     },
     security: {
       rateLimiting: true,
@@ -101,7 +101,7 @@ const AdminSettings = () => {
       allowedIPs: [],
       blockedIPs: [],
       sessionEncryption: true,
-      dataEncryption: true
+      dataEncryption: true,
     },
     email: {
       smtpHost: 'smtp.gmail.com',
@@ -115,8 +115,8 @@ const AdminSettings = () => {
         welcome: 'welcome.html',
         verification: 'verification.html',
         passwordReset: 'password-reset.html',
-        payout: 'payout.html'
-      }
+        payout: 'payout.html',
+      },
     },
     affiliate: {
       allowMultiLevel: true,
@@ -128,7 +128,7 @@ const AdminSettings = () => {
       blockedDomains: [],
       enableQrCodes: true,
       enableSocialSharing: true,
-      defaultLinkType: 'direct'
+      defaultLinkType: 'direct',
     },
     appearance: {
       theme: 'light',
@@ -137,7 +137,7 @@ const AdminSettings = () => {
       logo: '',
       favicon: '',
       customCSS: '',
-      customJS: ''
+      customJS: '',
     },
     backup: {
       autoBackup: true,
@@ -145,7 +145,7 @@ const AdminSettings = () => {
       backupTime: '02:00',
       backupRetention: 30, // days
       lastBackup: null,
-      backupLocation: 's3'
+      backupLocation: 's3',
     },
     api: {
       enableApi: true,
@@ -154,8 +154,8 @@ const AdminSettings = () => {
       allowedOrigins: [],
       apiVersion: 'v1',
       documentation: true,
-      sandboxMode: false
-    }
+      sandboxMode: false,
+    },
   });
 
   useEffect(() => {
@@ -166,7 +166,7 @@ const AdminSettings = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/settings`
+        `${process.env.REACT_APP_API_URL}/admin/settings`,
       );
       
       if (response.data.success) {
@@ -184,7 +184,7 @@ const AdminSettings = () => {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/admin/settings`,
-        settings
+        settings,
       );
       
       if (response.data.success) {
@@ -201,7 +201,7 @@ const AdminSettings = () => {
     if (window.confirm('Are you sure you want to reset all settings to defaults?')) {
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/admin/settings/reset`
+          `${process.env.REACT_APP_API_URL}/admin/settings/reset`,
         );
         
         if (response.data.success) {
@@ -219,8 +219,8 @@ const AdminSettings = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/admin/settings/export`,
         {
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -249,8 +249,8 @@ const AdminSettings = () => {
         `${process.env.REACT_APP_API_URL}/admin/settings/import`,
         formData,
         {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        }
+          headers: { 'Content-Type': 'multipart/form-data' },
+        },
       );
       
       if (response.data.success) {
@@ -267,8 +267,8 @@ const AdminSettings = () => {
       ...settings,
       [section]: {
         ...settings[section],
-        [field]: value
-      }
+        [field]: value,
+      },
     });
   };
 
@@ -279,8 +279,8 @@ const AdminSettings = () => {
       ...settings,
       [section]: {
         ...settings[section],
-        [field]: newArray
-      }
+        [field]: newArray,
+      },
     });
   };
 
@@ -289,8 +289,8 @@ const AdminSettings = () => {
       ...settings,
       [section]: {
         ...settings[section],
-        [field]: [...settings[section][field], defaultItem]
-      }
+        [field]: [...settings[section][field], defaultItem],
+      },
     });
   };
 
@@ -300,8 +300,8 @@ const AdminSettings = () => {
       ...settings,
       [section]: {
         ...settings[section],
-        [field]: newArray
-      }
+        [field]: newArray,
+      },
     });
   };
 
@@ -310,8 +310,8 @@ const AdminSettings = () => {
       ...settings,
       [section]: {
         ...settings[section],
-        [field]: !settings[section][field]
-      }
+        [field]: !settings[section][field],
+      },
     });
   };
 
@@ -326,7 +326,7 @@ const AdminSettings = () => {
     { id: 'affiliate', label: 'Affiliate', icon: FiLink },
     { id: 'appearance', label: 'Appearance', icon: FiEye },
     { id: 'backup', label: 'Backup', icon: FiDatabase },
-    { id: 'api', label: 'API', icon: FiGlobe }
+    { id: 'api', label: 'API', icon: FiGlobe },
   ];
 
   // Styles

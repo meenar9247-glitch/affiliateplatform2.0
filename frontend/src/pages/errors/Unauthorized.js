@@ -1,5 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  FaSkull,
+  FaSkullCrossbones,
+  FaDragon,
+  FaPhoenixFramework,
+  FaHatWizard,
+  FaMagic,
+  FaGhost,
+  FaRobot,
+  FaBug,
+  FaVirus,
+  FaBiohazard,
+  FaRadiation,
+  FaBomb,
+  FaShieldVirus,
+  FaShieldAlt,
+  FaCrown,
+  FaStar,
+  FaUserSecret,
+  FaUserNinja,
+  FaUserAstronaut,
+  FaUserAlien,
+  FaUserRobot,
+} from 'react-icons/fa';
 import {
   FiLock,
   FiUnlock,
@@ -62,33 +85,10 @@ import {
   FiFilter,
   FiSliders,
   FiToggleLeft,
-  FiToggleRight
+  FiToggleRight,
 } from 'react-icons/fi';
-import {
-  FaSkull,
-  FaSkullCrossbones,
-  FaDragon,
-  FaPhoenixFramework,
-  FaHatWizard,
-  FaMagic,
-  FaGhost,
-  FaRobot,
-  FaBug,
-  FaVirus,
-  FaBiohazard,
-  FaRadiation,
-  FaBomb,
-  FaShieldVirus,
-  FaShieldAlt,
-  FaCrown,
-  FaStar,
-  FaUserSecret,
-  FaUserNinja,
-  FaUserAstronaut,
-  FaUserAlien,
-  FaUserRobot
-} from 'react-icons/fa';
 import { GiPadlock, GiLockedChest, GiPrisoner,GiGuards , GiSecurityGate, GiSentryGun } from 'react-icons/gi';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Unauthorized = () => {
   const navigate = useNavigate();
@@ -119,7 +119,7 @@ const Unauthorized = () => {
     { value: 'low', label: 'Low Security', color: '#28a745', icon: <FiUnlock /> },
     { value: 'medium', label: 'Medium Security', color: '#ffc107', icon: <FiLock /> },
     { value: 'high', label: 'High Security', color: '#dc3545', icon: <FiShield /> },
-    { value: 'maximum', label: 'Maximum Security', color: '#6f42c1', icon: <FaShieldAlt /> }
+    { value: 'maximum', label: 'Maximum Security', color: '#6f42c1', icon: <FaShieldAlt /> },
   ];
 
   // User roles
@@ -128,7 +128,7 @@ const Unauthorized = () => {
     { value: 'affiliate', label: 'Affiliate', permissions: ['view_products', 'create_links', 'view_earnings', 'withdraw'] },
     { value: 'moderator', label: 'Moderator', permissions: ['view_all', 'manage_users', 'manage_content'] },
     { value: 'admin', label: 'Administrator', permissions: ['view_all', 'manage_all', 'configure_system'] },
-    { value: 'super_admin', label: 'Super Administrator', permissions: ['*'] }
+    { value: 'super_admin', label: 'Super Administrator', permissions: ['*'] },
   ];
 
   // Required permissions for different actions
@@ -140,7 +140,7 @@ const Unauthorized = () => {
     { action: 'View Reports', required: ['view_reports'], icon: <FiEye /> },
     { action: 'Export Data', required: ['export_data'], icon: <FiDownload /> },
     { action: 'Configure System', required: ['configure_system'], icon: <FiTool /> },
-    { action: 'Manage Payments', required: ['manage_payments'], icon: <FiLock /> }
+    { action: 'Manage Payments', required: ['manage_payments'], icon: <FiLock /> },
   ];
 
   // Suggested actions for users
@@ -152,7 +152,7 @@ const Unauthorized = () => {
     { action: 'Contact support for assistance', icon: <FiMessageCircle />, probability: 70 },
     { action: 'Check your account status', icon: <FiUserCheck />, probability: 45 },
     { action: 'Upgrade your account plan', icon: <FiUserPlus />, probability: 20 },
-    { action: 'Wait for admin approval', icon: <FiClock />, probability: 50 }
+    { action: 'Wait for admin approval', icon: <FiClock />, probability: 50 },
   ];
 
   useEffect(() => {
@@ -192,7 +192,7 @@ const Unauthorized = () => {
         size: Math.random() * 4 + 2,
         speed: Math.random() * 2 + 1,
         opacity: Math.random() * 0.6 + 0.2,
-        color: i % 4 === 0 ? '#dc3545' : i % 4 === 1 ? '#ffc107' : i % 4 === 2 ? '#28a745' : '#667eea'
+        color: i % 4 === 0 ? '#dc3545' : i % 4 === 1 ? '#ffc107' : i % 4 === 2 ? '#28a745' : '#667eea',
       });
     }
     setParticles(newParticles);
@@ -201,7 +201,7 @@ const Unauthorized = () => {
     const handleMouseMove = (e) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100
+        y: (e.clientY / window.innerHeight) * 100,
       });
     };
     window.addEventListener('mousemove', handleMouseMove);
@@ -227,8 +227,8 @@ const Unauthorized = () => {
         attemptedAction,
         requiredRole,
         userRole,
-        url: location.pathname
-      }
+        url: location.pathname,
+      },
     });
   };
 
@@ -271,7 +271,7 @@ Your Permissions: ${permissions.join(', ')}`;
       <FaCrown />,
       <FaStar />,
       <FaUserSecret />,
-      <FaUserNinja />
+      <FaUserNinja />,
     ];
     return icons[Math.floor(Math.random() * icons.length)];
   };
@@ -287,7 +287,7 @@ Your Permissions: ${permissions.join(', ')}`;
       background: theme === 'dark'
         ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
         : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-      fontFamily: 'Arial, sans-serif'
+      fontFamily: 'Arial, sans-serif',
     },
     particlesContainer: {
       position: 'absolute',
@@ -296,14 +296,14 @@ Your Permissions: ${permissions.join(', ')}`;
       right: 0,
       bottom: 0,
       pointerEvents: 'none',
-      overflow: 'hidden'
+      overflow: 'hidden',
     },
     particle: {
       position: 'absolute',
       borderRadius: '50%',
       filter: 'blur(1px)',
       transition: 'transform 0.1s ease',
-      animation: 'float 4s ease-in-out infinite'
+      animation: 'float 4s ease-in-out infinite',
     },
     content: {
       position: 'relative',
@@ -316,8 +316,8 @@ Your Permissions: ${permissions.join(', ')}`;
       backdropFilter: 'blur(10px)',
       borderRadius: '20px',
       boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-      border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-    }
+      border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+    },
   };
 
   return (
@@ -336,327 +336,327 @@ Your Permissions: ${permissions.join(', ')}`;
               opacity: particle.opacity,
               background: particle.color,
               transform: `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)`,
-              animationDelay: `${particle.id * 0.1}s`
+              animationDelay: `${particle.id * 0.1}s`,
             }}
           />
         ))}
       </div>
-{/* Main Content */}
-<div style={styles.content}>
-  {/* Error Header */}
-  <div style={{ marginBottom: '30px', position: 'relative' }}>
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '20px',
-      marginBottom: '20px'
-    }}>
-      <div style={{
-        fontSize: '80px',
-        color: getSecurityLevelColor(securityLevel),
-        animation: 'pulse 2s ease-in-out infinite'
-      }}>
-        <FiShieldOff />
-      </div>
-      <div style={{
-        fontSize: '120px',
-        fontWeight: 'bold',
-        background: 'linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        textShadow: '0 10px 30px rgba(220,53,69,0.3)',
-        lineHeight: 1
-      }}>
-        {errorCode}
-      </div>
-      <div style={{
-        fontSize: '80px',
-        color: getSecurityLevelColor(securityLevel),
-        animation: 'pulse 2s ease-in-out infinite',
-        animationDelay: '1s'
-      }}>
-        {getRandomIcon()}
-      </div>
-    </div>
+      {/* Main Content */}
+      <div style={styles.content}>
+        {/* Error Header */}
+        <div style={{ marginBottom: '30px', position: 'relative' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '20px',
+            marginBottom: '20px',
+          }}>
+            <div style={{
+              fontSize: '80px',
+              color: getSecurityLevelColor(securityLevel),
+              animation: 'pulse 2s ease-in-out infinite',
+            }}>
+              <FiShieldOff />
+            </div>
+            <div style={{
+              fontSize: '120px',
+              fontWeight: 'bold',
+              background: 'linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 10px 30px rgba(220,53,69,0.3)',
+              lineHeight: 1,
+            }}>
+              {errorCode}
+            </div>
+            <div style={{
+              fontSize: '80px',
+              color: getSecurityLevelColor(securityLevel),
+              animation: 'pulse 2s ease-in-out infinite',
+              animationDelay: '1s',
+            }}>
+              {getRandomIcon()}
+            </div>
+          </div>
     
-    <div style={{
-      fontSize: '32px',
-      color: theme === 'dark' ? '#fff' : '#333',
-      fontWeight: 500,
-      marginBottom: '10px'
-    }}>
-      {errorMessage}
-    </div>
+          <div style={{
+            fontSize: '32px',
+            color: theme === 'dark' ? '#fff' : '#333',
+            fontWeight: 500,
+            marginBottom: '10px',
+          }}>
+            {errorMessage}
+          </div>
     
-    <div style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '10px',
-      padding: '8px 20px',
-      background: getSecurityLevelColor(securityLevel),
-      color: 'white',
-      borderRadius: '30px',
-      fontSize: '14px',
-      fontWeight: 500
-    }}>
-      {getSecurityLevelIcon(securityLevel)}
-      {securityLevel.toUpperCase()} SECURITY ZONE
-    </div>
-  </div>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '10px',
+            padding: '8px 20px',
+            background: getSecurityLevelColor(securityLevel),
+            color: 'white',
+            borderRadius: '30px',
+            fontSize: '14px',
+            fontWeight: 500,
+          }}>
+            {getSecurityLevelIcon(securityLevel)}
+            {securityLevel.toUpperCase()} SECURITY ZONE
+          </div>
+        </div>
 
-  {/* Access Denied Message */}
-  <div style={{
-    background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
-    padding: '20px',
-    borderRadius: '10px',
-    marginBottom: '20px'
-  }}>
-    <p style={{
-      fontSize: '16px',
-      color: theme === 'dark' ? '#e2e8f0' : '#4a5568',
-      lineHeight: '1.6',
-      margin: '0 0 15px'
-    }}>
+        {/* Access Denied Message */}
+        <div style={{
+          background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
+          padding: '20px',
+          borderRadius: '10px',
+          marginBottom: '20px',
+        }}>
+          <p style={{
+            fontSize: '16px',
+            color: theme === 'dark' ? '#e2e8f0' : '#4a5568',
+            lineHeight: '1.6',
+            margin: '0 0 15px',
+          }}>
       You don't have permission to access this resource. This incident has been logged.
-    </p>
+          </p>
     
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '20px',
-      flexWrap: 'wrap'
-    }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '13px', color: '#999', marginBottom: '3px' }}>Attempted Action</div>
-        <div style={{ fontWeight: 'bold', color: '#667eea' }}>{attemptedAction}</div>
-      </div>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '20px',
+            flexWrap: 'wrap',
+          }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '13px', color: '#999', marginBottom: '3px' }}>Attempted Action</div>
+              <div style={{ fontWeight: 'bold', color: '#667eea' }}>{attemptedAction}</div>
+            </div>
       
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '13px', color: '#999', marginBottom: '3px' }}>Required Role</div>
-        <div style={{ fontWeight: 'bold', color: '#dc3545' }}>{requiredRole}</div>
-      </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '13px', color: '#999', marginBottom: '3px' }}>Required Role</div>
+              <div style={{ fontWeight: 'bold', color: '#dc3545' }}>{requiredRole}</div>
+            </div>
       
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '13px', color: '#999', marginBottom: '3px' }}>Your Role</div>
-        <div style={{ fontWeight: 'bold', color: '#ffc107' }}>{userRole}</div>
-      </div>
-    </div>
-  </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '13px', color: '#999', marginBottom: '3px' }}>Your Role</div>
+              <div style={{ fontWeight: 'bold', color: '#ffc107' }}>{userRole}</div>
+            </div>
+          </div>
+        </div>
 
-  {/* Security Warning */}
-  {failedAttempts > 0 && (
-    <div style={{
-      background: 'rgba(220,53,69,0.1)',
-      border: '1px solid #dc3545',
-      borderRadius: '10px',
-      padding: '15px',
-      marginBottom: '20px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '15px'
-    }}>
-      <FiAlertTriangle style={{ color: '#dc3545', fontSize: '24px' }} />
-      <div style={{ textAlign: 'left', flex: 1 }}>
-        <div style={{ fontWeight: 'bold', color: '#dc3545', marginBottom: '5px' }}>
+        {/* Security Warning */}
+        {failedAttempts > 0 && (
+          <div style={{
+            background: 'rgba(220,53,69,0.1)',
+            border: '1px solid #dc3545',
+            borderRadius: '10px',
+            padding: '15px',
+            marginBottom: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '15px',
+          }}>
+            <FiAlertTriangle style={{ color: '#dc3545', fontSize: '24px' }} />
+            <div style={{ textAlign: 'left', flex: 1 }}>
+              <div style={{ fontWeight: 'bold', color: '#dc3545', marginBottom: '5px' }}>
           Security Alert
-        </div>
-        <div style={{ fontSize: '14px', color: theme === 'dark' ? '#e2e8f0' : '#4a5568' }}>
-          {failedAttempts} failed access {failedAttempts === 1 ? 'attempt' : 'attempts'} detected.
-          {lockoutTime && ` Account locked until ${lockoutTime}.`}
-        </div>
-      </div>
-    </div>
-  )}
+              </div>
+              <div style={{ fontSize: '14px', color: theme === 'dark' ? '#e2e8f0' : '#4a5568' }}>
+                {failedAttempts} failed access {failedAttempts === 1 ? 'attempt' : 'attempts'} detected.
+                {lockoutTime && ` Account locked until ${lockoutTime}.`}
+              </div>
+            </div>
+          </div>
+        )}
 
-  {/* Permission Comparison */}
-  <div style={{
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '15px',
-    marginBottom: '20px'
-  }}>
-    <div style={{
-      background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
-      padding: '15px',
-      borderRadius: '10px',
-      textAlign: 'left'
-    }}>
-      <h4 style={{
-        margin: '0 0 10px',
-        fontSize: '14px',
-        color: '#dc3545',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '5px'
-      }}>
-        <FiLock />
+        {/* Permission Comparison */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '15px',
+          marginBottom: '20px',
+        }}>
+          <div style={{
+            background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
+            padding: '15px',
+            borderRadius: '10px',
+            textAlign: 'left',
+          }}>
+            <h4 style={{
+              margin: '0 0 10px',
+              fontSize: '14px',
+              color: '#dc3545',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+            }}>
+              <FiLock />
         Required Permissions
-      </h4>
-      <ul style={{ margin: 0, paddingLeft: '20px', color: theme === 'dark' ? '#e2e8f0' : '#4a5568' }}>
-        {requiredPermissions.map((perm, index) => (
-          <li key={index} style={{ fontSize: '13px', marginBottom: '5px' }}>{perm}</li>
-        ))}
-      </ul>
-    </div>
+            </h4>
+            <ul style={{ margin: 0, paddingLeft: '20px', color: theme === 'dark' ? '#e2e8f0' : '#4a5568' }}>
+              {requiredPermissions.map((perm, index) => (
+                <li key={index} style={{ fontSize: '13px', marginBottom: '5px' }}>{perm}</li>
+              ))}
+            </ul>
+          </div>
 
-    <div style={{
-      background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
-      padding: '15px',
-      borderRadius: '10px',
-      textAlign: 'left'
-    }}>
-      <h4 style={{
-        margin: '0 0 10px',
-        fontSize: '14px',
-        color: '#28a745',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '5px'
-      }}>
-        <FiUnlock />
+          <div style={{
+            background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
+            padding: '15px',
+            borderRadius: '10px',
+            textAlign: 'left',
+          }}>
+            <h4 style={{
+              margin: '0 0 10px',
+              fontSize: '14px',
+              color: '#28a745',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+            }}>
+              <FiUnlock />
         Your Permissions
-      </h4>
-      <ul style={{ margin: 0, paddingLeft: '20px', color: theme === 'dark' ? '#e2e8f0' : '#4a5568' }}>
-        {permissions.map((perm, index) => (
-          <li key={index} style={{ fontSize: '13px', marginBottom: '5px' }}>{perm}</li>
-        ))}
-      </ul>
-    </div>
-  </div>
+            </h4>
+            <ul style={{ margin: 0, paddingLeft: '20px', color: theme === 'dark' ? '#e2e8f0' : '#4a5568' }}>
+              {permissions.map((perm, index) => (
+                <li key={index} style={{ fontSize: '13px', marginBottom: '5px' }}>{perm}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-  {/* Access Details */}
-  <div style={{
-    background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
-    padding: '15px',
-    borderRadius: '10px',
-    marginBottom: '20px',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '10px'
-  }}>
-    <div>
-      <div style={{ fontSize: '11px', color: '#999', marginBottom: '3px' }}>IP Address</div>
-      <code style={{ fontSize: '12px', color: '#667eea' }}>{ipAddress}</code>
-    </div>
-    <div>
-      <div style={{ fontSize: '11px', color: '#999', marginBottom: '3px' }}>Location</div>
-      <div style={{ fontSize: '12px', color: theme === 'dark' ? '#fff' : '#333' }}>{location_geo}</div>
-    </div>
-    <div>
-      <div style={{ fontSize: '11px', color: '#999', marginBottom: '3px' }}>Attempt Time</div>
-      <div style={{ fontSize: '12px', color: theme === 'dark' ? '#fff' : '#333' }}>{attemptTime}</div>
-    </div>
-    <div>
-      <div style={{ fontSize: '11px', color: '#999', marginBottom: '3px' }}>User Agent</div>
-      <div style={{ fontSize: '12px', color: theme === 'dark' ? '#fff' : '#333' }}>{userAgent.substring(0, 30)}...</div>
-    </div>
-  </div>
+        {/* Access Details */}
+        <div style={{
+          background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
+          padding: '15px',
+          borderRadius: '10px',
+          marginBottom: '20px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '10px',
+        }}>
+          <div>
+            <div style={{ fontSize: '11px', color: '#999', marginBottom: '3px' }}>IP Address</div>
+            <code style={{ fontSize: '12px', color: '#667eea' }}>{ipAddress}</code>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#999', marginBottom: '3px' }}>Location</div>
+            <div style={{ fontSize: '12px', color: theme === 'dark' ? '#fff' : '#333' }}>{location_geo}</div>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#999', marginBottom: '3px' }}>Attempt Time</div>
+            <div style={{ fontSize: '12px', color: theme === 'dark' ? '#fff' : '#333' }}>{attemptTime}</div>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#999', marginBottom: '3px' }}>User Agent</div>
+            <div style={{ fontSize: '12px', color: theme === 'dark' ? '#fff' : '#333' }}>{userAgent.substring(0, 30)}...</div>
+          </div>
+        </div>
 
-  {/* Countdown */}
-  <div style={{
-    marginBottom: '30px',
-    fontSize: '16px',
-    color: theme === 'dark' ? '#a0aec0' : '#718096',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '10px'
-  }}>
-    <FiClock />
+        {/* Countdown */}
+        <div style={{
+          marginBottom: '30px',
+          fontSize: '16px',
+          color: theme === 'dark' ? '#a0aec0' : '#718096',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+        }}>
+          <FiClock />
     Redirecting to home in <span style={{
-      fontSize: '24px',
-      fontWeight: 'bold',
-      color: '#667eea'
-    }}>{countdown}</span> seconds...
-  </div>
+            fontSize: '24px',
+            fontWeight: 'bold',
+            color: '#667eea',
+          }}>{countdown}</span> seconds...
+        </div>
 
-  {/* Action Buttons */}
-  <div style={{
-    display: 'flex',
-    gap: '15px',
-    justifyContent: 'center',
-    marginBottom: '30px',
-    flexWrap: 'wrap'
-  }}>
-    <button
-      onClick={handleLogin}
-      style={{
-        padding: '12px 30px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        border: 'none',
-        borderRadius: '30px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        transition: 'transform 0.3s ease'
-      }}
-    >
-      <FiLogIn />
+        {/* Action Buttons */}
+        <div style={{
+          display: 'flex',
+          gap: '15px',
+          justifyContent: 'center',
+          marginBottom: '30px',
+          flexWrap: 'wrap',
+        }}>
+          <button
+            onClick={handleLogin}
+            style={{
+              padding: '12px 30px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '30px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'transform 0.3s ease',
+            }}
+          >
+            <FiLogIn />
       Login with Different Account
-    </button>
+          </button>
     
-    <button
-      onClick={handleRegister}
-      style={{
-        padding: '12px 30px',
-        background: 'transparent',
-        border: `2px solid #667eea`,
-        color: '#667eea',
-        borderRadius: '30px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}
-    >
-      <FiUserPlus />
+          <button
+            onClick={handleRegister}
+            style={{
+              padding: '12px 30px',
+              background: 'transparent',
+              border: '2px solid #667eea',
+              color: '#667eea',
+              borderRadius: '30px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <FiUserPlus />
       Create New Account
-    </button>
+          </button>
     
-    <button
-      onClick={handleContactSupport}
-      style={{
-        padding: '12px 30px',
-        background: 'transparent',
-        border: `2px solid ${theme === 'dark' ? '#fff' : '#333'}`,
-        color: theme === 'dark' ? '#fff' : '#333',
-        borderRadius: '30px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}
-    >
-      <FiMessageCircle />
+          <button
+            onClick={handleContactSupport}
+            style={{
+              padding: '12px 30px',
+              background: 'transparent',
+              border: `2px solid ${theme === 'dark' ? '#fff' : '#333'}`,
+              color: theme === 'dark' ? '#fff' : '#333',
+              borderRadius: '30px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <FiMessageCircle />
       Contact Support
-    </button>
-  </div>
+          </button>
+        </div>
 
-  {/* Toggle Details */}
-  <button
-    onClick={() => setShowDetails(!showDetails)}
-    style={{
-      background: 'none',
-      border: 'none',
-      color: '#667eea',
-      fontSize: '14px',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '5px',
-      margin: '0 auto 20px'
-    }}
-  >
-    {showDetails ? <FiEyeOff /> : <FiEye />}
-    {showDetails ? 'Hide Security Details' : 'Show Security Details'}
-  </button>
+        {/* Toggle Details */}
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#667eea',
+            fontSize: '14px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+            margin: '0 auto 20px',
+          }}
+        >
+          {showDetails ? <FiEyeOff /> : <FiEye />}
+          {showDetails ? 'Hide Security Details' : 'Show Security Details'}
+        </button>
         {/* Security Details */}
         {showDetails && (
           <div style={{
@@ -664,7 +664,7 @@ Your Permissions: ${permissions.join(', ')}`;
             padding: '20px',
             borderRadius: '10px',
             marginBottom: '30px',
-            textAlign: 'left'
+            textAlign: 'left',
           }}>
             <h3 style={{
               margin: '0 0 15px',
@@ -672,7 +672,7 @@ Your Permissions: ${permissions.join(', ')}`;
               color: '#667eea',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              gap: '5px',
             }}>
               <FiShield />
               Security Audit Log
@@ -681,14 +681,14 @@ Your Permissions: ${permissions.join(', ')}`;
             <div style={{
               display: 'grid',
               gap: '15px',
-              marginBottom: '20px'
+              marginBottom: '20px',
             }}>
               <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 padding: '10px',
                 background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)',
-                borderRadius: '5px'
+                borderRadius: '5px',
               }}>
                 <span style={{ color: '#666' }}>Security Level</span>
                 <span style={{ color: getSecurityLevelColor(securityLevel), fontWeight: 'bold' }}>
@@ -701,7 +701,7 @@ Your Permissions: ${permissions.join(', ')}`;
                 justifyContent: 'space-between',
                 padding: '10px',
                 background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)',
-                borderRadius: '5px'
+                borderRadius: '5px',
               }}>
                 <span style={{ color: '#666' }}>Access Control</span>
                 <span>Role-Based Access Control (RBAC)</span>
@@ -712,7 +712,7 @@ Your Permissions: ${permissions.join(', ')}`;
                 justifyContent: 'space-between',
                 padding: '10px',
                 background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)',
-                borderRadius: '5px'
+                borderRadius: '5px',
               }}>
                 <span style={{ color: '#666' }}>Authentication Method</span>
                 <span>JWT + Session Cookie</span>
@@ -723,7 +723,7 @@ Your Permissions: ${permissions.join(', ')}`;
                 justifyContent: 'space-between',
                 padding: '10px',
                 background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)',
-                borderRadius: '5px'
+                borderRadius: '5px',
               }}>
                 <span style={{ color: '#666' }}>Session Timeout</span>
                 <span>30 minutes</span>
@@ -734,7 +734,7 @@ Your Permissions: ${permissions.join(', ')}`;
                 justifyContent: 'space-between',
                 padding: '10px',
                 background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)',
-                borderRadius: '5px'
+                borderRadius: '5px',
               }}>
                 <span style={{ color: '#666' }}>2FA Required</span>
                 <span style={{ color: requiredRole === 'admin' ? '#28a745' : '#ffc107' }}>
@@ -749,7 +749,7 @@ Your Permissions: ${permissions.join(', ')}`;
               color: '#667eea',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              gap: '5px',
             }}>
               <FiTool />
               Suggested Actions
@@ -758,7 +758,7 @@ Your Permissions: ${permissions.join(', ')}`;
             <div style={{
               display: 'grid',
               gap: '10px',
-              marginBottom: '20px'
+              marginBottom: '20px',
             }}>
               {suggestedActions.map((suggestion, index) => (
                 <div
@@ -769,7 +769,7 @@ Your Permissions: ${permissions.join(', ')}`;
                     justifyContent: 'space-between',
                     padding: '10px',
                     background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)',
-                    borderRadius: '5px'
+                    borderRadius: '5px',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -781,7 +781,7 @@ Your Permissions: ${permissions.join(', ')}`;
                     background: '#667eea',
                     color: 'white',
                     borderRadius: '12px',
-                    fontSize: '11px'
+                    fontSize: '11px',
                   }}>
                     {suggestion.probability}% effective
                   </span>
@@ -795,7 +795,7 @@ Your Permissions: ${permissions.join(', ')}`;
               color: '#667eea',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              gap: '5px',
             }}>
               <FiUsers />
               Role Hierarchy
@@ -804,7 +804,7 @@ Your Permissions: ${permissions.join(', ')}`;
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '5px'
+              gap: '5px',
             }}>
               {userRoles.map((role, index) => (
                 <div
@@ -815,14 +815,14 @@ Your Permissions: ${permissions.join(', ')}`;
                     justifyContent: 'space-between',
                     padding: '8px',
                     background: role.value === userRole ? 'rgba(40,167,69,0.1)' : 
-                               role.value === requiredRole ? 'rgba(220,53,69,0.1)' : 'transparent',
-                    borderRadius: '5px'
+                      role.value === requiredRole ? 'rgba(220,53,69,0.1)' : 'transparent',
+                    borderRadius: '5px',
                   }}
                 >
                   <span style={{
                     fontWeight: role.value === userRole || role.value === requiredRole ? 'bold' : 'normal',
                     color: role.value === userRole ? '#28a745' : 
-                           role.value === requiredRole ? '#dc3545' : 'inherit'
+                      role.value === requiredRole ? '#dc3545' : 'inherit',
                   }}>
                     {role.label}
                   </span>
@@ -839,7 +839,7 @@ Your Permissions: ${permissions.join(', ')}`;
               background: '#f8f9fa',
               borderRadius: '5px',
               fontSize: '13px',
-              fontFamily: 'monospace'
+              fontFamily: 'monospace',
             }}>
               <div style={{ marginBottom: '5px', color: '#666' }}>Access Log Entry:</div>
               <code style={{ color: '#333', whiteSpace: 'pre-wrap' }}>
@@ -862,7 +862,7 @@ Your Permissions: ${permissions.join(', ')}`;
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '5px'
+                  gap: '5px',
                 }}
               >
                 <FiCopy />
@@ -877,13 +877,13 @@ Your Permissions: ${permissions.join(', ')}`;
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '15px',
-          marginBottom: '20px'
+          marginBottom: '20px',
         }}>
           <div style={{
             background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
             padding: '15px',
             borderRadius: '10px',
-            textAlign: 'left'
+            textAlign: 'left',
           }}>
             <FiShield style={{ color: '#667eea', marginBottom: '10px' }} />
             <h4 style={{ margin: '0 0 5px', fontSize: '14px', color: '#667eea' }}>Stay Safe</h4>
@@ -896,7 +896,7 @@ Your Permissions: ${permissions.join(', ')}`;
             background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
             padding: '15px',
             borderRadius: '10px',
-            textAlign: 'left'
+            textAlign: 'left',
           }}>
             <FiLock style={{ color: '#667eea', marginBottom: '10px' }} />
             <h4 style={{ margin: '0 0 5px', fontSize: '14px', color: '#667eea' }}>Use 2FA</h4>
@@ -909,7 +909,7 @@ Your Permissions: ${permissions.join(', ')}`;
             background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
             padding: '15px',
             borderRadius: '10px',
-            textAlign: 'left'
+            textAlign: 'left',
           }}>
             <FiEye style={{ color: '#667eea', marginBottom: '10px' }} />
             <h4 style={{ margin: '0 0 5px', fontSize: '14px', color: '#667eea' }}>Monitor Access</h4>
@@ -927,7 +927,7 @@ Your Permissions: ${permissions.join(', ')}`;
           flexWrap: 'wrap',
           marginTop: '20px',
           padding: '20px',
-          borderTop: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+          borderTop: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
         }}>
           <a href="/privacy" style={{ color: '#667eea', textDecoration: 'none' }}>Privacy Policy</a>
           <a href="/terms" style={{ color: '#667eea', textDecoration: 'none' }}>Terms of Service</a>
@@ -940,7 +940,7 @@ Your Permissions: ${permissions.join(', ')}`;
         <div style={{
           marginTop: '20px',
           fontSize: '12px',
-          color: theme === 'dark' ? '#a0aec0' : '#718096'
+          color: theme === 'dark' ? '#a0aec0' : '#718096',
         }}>
           This incident has been logged. Repeated unauthorized access attempts may result in account suspension.
         </div>

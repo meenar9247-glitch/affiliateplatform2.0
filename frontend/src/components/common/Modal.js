@@ -10,7 +10,7 @@ const Modal = ({
   showCloseButton = true,
   closeOnOverlayClick = true,
   footer,
-  className = ''
+  className = '',
 }) => {
   // Close on ESC key press
   useEffect(() => {
@@ -50,7 +50,7 @@ const Modal = ({
     small: 'modal-small',
     medium: 'modal-medium',
     large: 'modal-large',
-    full: 'modal-full'
+    full: 'modal-full',
   };
 
   return (

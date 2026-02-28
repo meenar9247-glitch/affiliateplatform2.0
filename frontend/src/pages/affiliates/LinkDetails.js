@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { QRCodeSVG } from 'qrcode.react';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { 
   FiArrowLeft, 
@@ -28,7 +28,7 @@ import {
   FiFacebook,
   FiLinkedin,
 } from 'react-icons/fi';
-import { QRCodeSVG } from 'qrcode.react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 const LinkDetails = () => {
   const { id } = useParams();
@@ -40,7 +40,7 @@ const LinkDetails = () => {
   const [stats, setStats] = useState({
     clicks: [],
     conversions: [],
-    earnings: []
+    earnings: [],
   });
   const [recentActivity, setRecentActivity] = useState([]);
 
@@ -53,7 +53,7 @@ const LinkDetails = () => {
   const fetchLinkDetails = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/affiliates/links/${id}`
+        `${process.env.REACT_APP_API_URL}/affiliates/links/${id}`,
       );
       
       if (response.data.success) {
@@ -71,7 +71,7 @@ const LinkDetails = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/affiliates/stats/${id}`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -85,7 +85,7 @@ const LinkDetails = () => {
   const fetchRecentActivity = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/affiliates/recent-activity/${id}`
+        `${process.env.REACT_APP_API_URL}/affiliates/recent-activity/${id}`,
       );
       
       if (response.data.success) {
@@ -99,7 +99,7 @@ const LinkDetails = () => {
   const handleCopyLink = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/affiliates/generate-link/${id}`
+        `${process.env.REACT_APP_API_URL}/affiliates/generate-link/${id}`,
       );
       
       if (response.data.success) {
@@ -116,7 +116,7 @@ const LinkDetails = () => {
       navigator.share({
         title: link.title,
         text: link.description,
-        url: link.originalUrl
+        url: link.originalUrl,
       }).catch(console.error);
     } else {
       handleCopyLink();
@@ -126,7 +126,7 @@ const LinkDetails = () => {
   const handleToggleStatus = async () => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/affiliates/links/${id}/toggle-status`
+        `${process.env.REACT_APP_API_URL}/affiliates/links/${id}/toggle-status`,
       );
       
       if (response.data.success) {
@@ -142,7 +142,7 @@ const LinkDetails = () => {
     if (window.confirm('Are you sure you want to delete this link?')) {
       try {
         const response = await axios.delete(
-          `${process.env.REACT_APP_API_URL}/affiliates/links/${id}`
+          `${process.env.REACT_APP_API_URL}/affiliates/links/${id}`,
         );
         
         if (response.data.success) {
@@ -159,7 +159,7 @@ const LinkDetails = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/affiliates/export/${id}`,
-        { params: { format, timeRange } }
+        { params: { format, timeRange } },
       );
       
       // Create download link
@@ -919,8 +919,8 @@ const LinkDetails = () => {
                 <li key={index} className="activity-item">
                   <div className="activity-icon">
                     {activity.type === 'click' ? <FiTrendingUp /> :
-                     activity.type === 'conversion' ? <FiCheckCircle /> :
-                     <FiClock />}
+                      activity.type === 'conversion' ? <FiCheckCircle /> :
+                        <FiClock />}
                   </div>
                   <div className="activity-details">
                     <p className="activity-title">{activity.description}</p>

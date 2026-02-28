@@ -78,7 +78,7 @@ import {
   FiChevronRight,
   FiChevronUp,
   FiChevronDown,
-  FiMenu
+  FiMenu,
 } from 'react-icons/fi';
 
 // ==================== Menu Constants ====================
@@ -92,7 +92,7 @@ export const MENU_TYPES = {
   SIDEBAR: 'sidebar',
   MOBILE: 'mobile',
   DROPDOWN: 'dropdown',
-  CONTEXT: 'context'
+  CONTEXT: 'context',
 };
 
 export const MENU_POSITIONS = {
@@ -100,21 +100,21 @@ export const MENU_POSITIONS = {
   BOTTOM: 'bottom',
   LEFT: 'left',
   RIGHT: 'right',
-  CENTER: 'center'
+  CENTER: 'center',
 };
 
 export const MENU_SIZES = {
   SM: 'sm',
   MD: 'md',
   LG: 'lg',
-  XL: 'xl'
+  XL: 'xl',
 };
 
 export const MENU_VARIANTS = {
   HORIZONTAL: 'horizontal',
   VERTICAL: 'vertical',
   COLLAPSIBLE: 'collapsible',
-  MEGA: 'mega'
+  MEGA: 'mega',
 };
 
 export const MENU_STATES = {
@@ -123,7 +123,7 @@ export const MENU_STATES = {
   HOVER: 'hover',
   ACTIVE: 'active',
   DISABLED: 'disabled',
-  LOADING: 'loading'
+  LOADING: 'loading',
 };
 
 // ==================== Role-Based Visibility ====================
@@ -135,7 +135,7 @@ export const MENU_VISIBILITY = {
   USER: 'user',
   AFFILIATE: 'affiliate',
   ADMIN: 'admin',
-  SUPER_ADMIN: 'super_admin'
+  SUPER_ADMIN: 'super_admin',
 };
 
 // ==================== Main Navigation Menu ====================
@@ -147,7 +147,7 @@ export const MAIN_MENU = [
     path: '/',
     icon: FiHome,
     visibility: MENU_VISIBILITY.PUBLIC,
-    order: 1
+    order: 1,
   },
   {
     id: 'dashboard',
@@ -155,7 +155,7 @@ export const MAIN_MENU = [
     path: '/dashboard',
     icon: FiGrid,
     visibility: MENU_VISIBILITY.AUTHENTICATED,
-    order: 2
+    order: 2,
   },
   {
     id: 'affiliates',
@@ -169,65 +169,65 @@ export const MAIN_MENU = [
         title: 'Dashboard',
         path: '/affiliates/dashboard',
         icon: FiGrid,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'affiliate-links',
         title: 'Links',
         path: '/affiliates/links',
         icon: FiLink,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'affiliate-referrals',
         title: 'Referrals',
         path: '/affiliates/referrals',
         icon: FiUsers,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'affiliate-earnings',
         title: 'Earnings',
         path: '/affiliates/earnings',
         icon: FiDollarSign,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'affiliate-commissions',
         title: 'Commissions',
         path: '/affiliates/commissions',
         icon: FiGift,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'affiliate-payouts',
         title: 'Payouts',
         path: '/affiliates/payouts',
         icon: FiCreditCard,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'affiliate-analytics',
         title: 'Analytics',
         path: '/affiliates/analytics',
         icon: FiBarChart2,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'affiliate-products',
         title: 'Products',
         path: '/affiliates/products',
         icon: FiShoppingCart,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'affiliate-leaderboard',
         title: 'Leaderboard',
         path: '/affiliates/leaderboard',
         icon: FiAward,
-        visibility: MENU_VISIBILITY.AFFILIATE
-      }
-    ]
+        visibility: MENU_VISIBILITY.AFFILIATE,
+      },
+    ],
   },
   {
     id: 'leaderboard',
@@ -235,7 +235,7 @@ export const MAIN_MENU = [
     path: '/leaderboard',
     icon: FiAward,
     visibility: MENU_VISIBILITY.AUTHENTICATED,
-    order: 3
+    order: 3,
   },
   {
     id: 'support',
@@ -249,23 +249,23 @@ export const MAIN_MENU = [
         title: 'Tickets',
         path: '/support/tickets',
         icon: FiMessageCircle,
-        visibility: MENU_VISIBILITY.AUTHENTICATED
+        visibility: MENU_VISIBILITY.AUTHENTICATED,
       },
       {
         id: 'support-faq',
         title: 'FAQ',
         path: '/support/faq',
         icon: FiHelpCircle,
-        visibility: MENU_VISIBILITY.PUBLIC
+        visibility: MENU_VISIBILITY.PUBLIC,
       },
       {
         id: 'support-contact',
         title: 'Contact',
         path: '/contact',
         icon: FiPhone,
-        visibility: MENU_VISIBILITY.PUBLIC
-      }
-    ]
+        visibility: MENU_VISIBILITY.PUBLIC,
+      },
+    ],
   },
   {
     id: 'about',
@@ -273,7 +273,7 @@ export const MAIN_MENU = [
     path: '/about',
     icon: FiInfo,
     visibility: MENU_VISIBILITY.PUBLIC,
-    order: 4
+    order: 4,
   },
   {
     id: 'contact',
@@ -281,8 +281,8 @@ export const MAIN_MENU = [
     path: '/contact',
     icon: FiPhone,
     visibility: MENU_VISIBILITY.PUBLIC,
-    order: 5
-  }
+    order: 5,
+  },
 ];
 
 // ==================== User Menu ====================
@@ -294,7 +294,7 @@ export const USER_MENU = [
     path: '/profile',
     icon: FiUser,
     visibility: MENU_VISIBILITY.AUTHENTICATED,
-    order: 1
+    order: 1,
   },
   {
     id: 'dashboard',
@@ -302,7 +302,7 @@ export const USER_MENU = [
     path: '/dashboard',
     icon: FiGrid,
     visibility: MENU_VISIBILITY.AUTHENTICATED,
-    order: 2
+    order: 2,
   },
   {
     id: 'settings',
@@ -316,44 +316,44 @@ export const USER_MENU = [
         title: 'Profile',
         path: '/settings/profile',
         icon: FiUser,
-        visibility: MENU_VISIBILITY.AUTHENTICATED
+        visibility: MENU_VISIBILITY.AUTHENTICATED,
       },
       {
         id: 'settings-security',
         title: 'Security',
         path: '/settings/security',
         icon: FiLock,
-        visibility: MENU_VISIBILITY.AUTHENTICATED
+        visibility: MENU_VISIBILITY.AUTHENTICATED,
       },
       {
         id: 'settings-notifications',
         title: 'Notifications',
         path: '/settings/notifications',
         icon: FiBell,
-        visibility: MENU_VISIBILITY.AUTHENTICATED
+        visibility: MENU_VISIBILITY.AUTHENTICATED,
       },
       {
         id: 'settings-preferences',
         title: 'Preferences',
         path: '/settings/preferences',
         icon: FiSliders,
-        visibility: MENU_VISIBILITY.AUTHENTICATED
+        visibility: MENU_VISIBILITY.AUTHENTICATED,
       },
       {
         id: 'settings-payment',
         title: 'Payment',
         path: '/settings/payment',
         icon: FiCreditCard,
-        visibility: MENU_VISIBILITY.AFFILIATE
+        visibility: MENU_VISIBILITY.AFFILIATE,
       },
       {
         id: 'settings-api',
         title: 'API',
         path: '/settings/api',
         icon: FiTool,
-        visibility: MENU_VISIBILITY.AFFILIATE
-      }
-    ]
+        visibility: MENU_VISIBILITY.AFFILIATE,
+      },
+    ],
   },
   {
     id: 'notifications',
@@ -362,7 +362,7 @@ export const USER_MENU = [
     icon: FiBell,
     visibility: MENU_VISIBILITY.AUTHENTICATED,
     badge: 'count',
-    order: 3
+    order: 3,
   },
   {
     id: 'messages',
@@ -371,7 +371,7 @@ export const USER_MENU = [
     icon: FiMessageCircle,
     visibility: MENU_VISIBILITY.AUTHENTICATED,
     badge: 'count',
-    order: 4
+    order: 4,
   },
   {
     id: 'logout',
@@ -380,8 +380,8 @@ export const USER_MENU = [
     icon: FiLogOut,
     visibility: MENU_VISIBILITY.AUTHENTICATED,
     divider: true,
-    order: 999
-  }
+    order: 999,
+  },
 ];
 // ==================== Affiliate Menu ====================
 
@@ -392,7 +392,7 @@ export const AFFILIATE_MENU = [
     path: '/affiliates/dashboard',
     icon: FiGrid,
     visibility: MENU_VISIBILITY.AFFILIATE,
-    order: 1
+    order: 1,
   },
   {
     id: 'affiliate-links',
@@ -405,21 +405,21 @@ export const AFFILIATE_MENU = [
         id: 'affiliate-links-all',
         title: 'All Links',
         path: '/affiliates/links',
-        icon: FiLink
+        icon: FiLink,
       },
       {
         id: 'affiliate-links-create',
         title: 'Create Link',
         path: '/affiliates/links/create',
-        icon: FiPlus
+        icon: FiPlus,
       },
       {
         id: 'affiliate-links-categories',
         title: 'Categories',
         path: '/affiliates/links/categories',
-        icon: FiFilter
-      }
-    ]
+        icon: FiFilter,
+      },
+    ],
   },
   {
     id: 'affiliate-referrals',
@@ -432,21 +432,21 @@ export const AFFILIATE_MENU = [
         id: 'affiliate-referrals-all',
         title: 'All Referrals',
         path: '/affiliates/referrals',
-        icon: FiUsers
+        icon: FiUsers,
       },
       {
         id: 'affiliate-referrals-tree',
         title: 'Referral Tree',
         path: '/affiliates/referrals/tree',
-        icon: FiShare2
+        icon: FiShare2,
       },
       {
         id: 'affiliate-referrals-stats',
         title: 'Statistics',
         path: '/affiliates/referrals/stats',
-        icon: FiBarChart2
-      }
-    ]
+        icon: FiBarChart2,
+      },
+    ],
   },
   {
     id: 'affiliate-earnings',
@@ -459,21 +459,21 @@ export const AFFILIATE_MENU = [
         id: 'affiliate-earnings-overview',
         title: 'Overview',
         path: '/affiliates/earnings',
-        icon: FiEye
+        icon: FiEye,
       },
       {
         id: 'affiliate-earnings-history',
         title: 'History',
         path: '/affiliates/earnings/history',
-        icon: FiClock
+        icon: FiClock,
       },
       {
         id: 'affiliate-earnings-reports',
         title: 'Reports',
         path: '/affiliates/earnings/reports',
-        icon: FiFileText
-      }
-    ]
+        icon: FiFileText,
+      },
+    ],
   },
   {
     id: 'affiliate-commissions',
@@ -481,7 +481,7 @@ export const AFFILIATE_MENU = [
     path: '/affiliates/commissions',
     icon: FiGift,
     visibility: MENU_VISIBILITY.AFFILIATE,
-    badge: 'pending'
+    badge: 'pending',
   },
   {
     id: 'affiliate-payouts',
@@ -494,21 +494,21 @@ export const AFFILIATE_MENU = [
         id: 'affiliate-payouts-history',
         title: 'History',
         path: '/affiliates/payouts',
-        icon: FiClock
+        icon: FiClock,
       },
       {
         id: 'affiliate-payouts-methods',
         title: 'Methods',
         path: '/affiliates/payouts/methods',
-        icon: FiSettings
+        icon: FiSettings,
       },
       {
         id: 'affiliate-payouts-request',
         title: 'Request',
         path: '/affiliates/payouts/request',
-        icon: FiUpload
-      }
-    ]
+        icon: FiUpload,
+      },
+    ],
   },
   {
     id: 'affiliate-analytics',
@@ -521,27 +521,27 @@ export const AFFILIATE_MENU = [
         id: 'affiliate-analytics-overview',
         title: 'Overview',
         path: '/affiliates/analytics',
-        icon: FiEye
+        icon: FiEye,
       },
       {
         id: 'affiliate-analytics-traffic',
         title: 'Traffic',
         path: '/affiliates/analytics/traffic',
-        icon: FiTrendingUp
+        icon: FiTrendingUp,
       },
       {
         id: 'affiliate-analytics-conversions',
         title: 'Conversions',
         path: '/affiliates/analytics/conversions',
-        icon: FiRefreshCw
+        icon: FiRefreshCw,
       },
       {
         id: 'affiliate-analytics-reports',
         title: 'Reports',
         path: '/affiliates/analytics/reports',
-        icon: FiFileText
-      }
-    ]
+        icon: FiFileText,
+      },
+    ],
   },
   {
     id: 'affiliate-products',
@@ -554,28 +554,28 @@ export const AFFILIATE_MENU = [
         id: 'affiliate-products-all',
         title: 'All Products',
         path: '/affiliates/products',
-        icon: FiPackage
+        icon: FiPackage,
       },
       {
         id: 'affiliate-products-categories',
         title: 'Categories',
         path: '/affiliates/products/categories',
-        icon: FiFilter
+        icon: FiFilter,
       },
       {
         id: 'affiliate-products-search',
         title: 'Search',
         path: '/affiliates/products/search',
-        icon: FiSearch
-      }
-    ]
+        icon: FiSearch,
+      },
+    ],
   },
   {
     id: 'affiliate-leaderboard',
     title: 'Leaderboard',
     path: '/affiliates/leaderboard',
     icon: FiAward,
-    visibility: MENU_VISIBILITY.AFFILIATE
+    visibility: MENU_VISIBILITY.AFFILIATE,
   },
   {
     id: 'affiliate-settings',
@@ -589,22 +589,22 @@ export const AFFILIATE_MENU = [
         id: 'affiliate-settings-profile',
         title: 'Profile',
         path: '/affiliates/settings/profile',
-        icon: FiUser
+        icon: FiUser,
       },
       {
         id: 'affiliate-settings-payment',
         title: 'Payment',
         path: '/affiliates/settings/payment',
-        icon: FiCreditCard
+        icon: FiCreditCard,
       },
       {
         id: 'affiliate-settings-notifications',
         title: 'Notifications',
         path: '/affiliates/settings/notifications',
-        icon: FiBell
-      }
-    ]
-  }
+        icon: FiBell,
+      },
+    ],
+  },
 ];
 
 // ==================== Admin Menu ====================
@@ -616,7 +616,7 @@ export const ADMIN_MENU = [
     path: '/admin/dashboard',
     icon: FiGrid,
     visibility: MENU_VISIBILITY.ADMIN,
-    order: 1
+    order: 1,
   },
   {
     id: 'admin-users',
@@ -630,27 +630,27 @@ export const ADMIN_MENU = [
         id: 'admin-users-all',
         title: 'All Users',
         path: '/admin/users',
-        icon: FiUsers
+        icon: FiUsers,
       },
       {
         id: 'admin-users-create',
         title: 'Create User',
         path: '/admin/users/create',
-        icon: FiPlus
+        icon: FiPlus,
       },
       {
         id: 'admin-users-roles',
         title: 'Roles',
         path: '/admin/users/roles',
-        icon: FiShield
+        icon: FiShield,
       },
       {
         id: 'admin-users-permissions',
         title: 'Permissions',
         path: '/admin/users/permissions',
-        icon: FiLock
-      }
-    ]
+        icon: FiLock,
+      },
+    ],
   },
   {
     id: 'admin-affiliates',
@@ -664,27 +664,27 @@ export const ADMIN_MENU = [
         id: 'admin-affiliates-all',
         title: 'All Affiliates',
         path: '/admin/affiliates',
-        icon: FiUsers
+        icon: FiUsers,
       },
       {
         id: 'admin-affiliates-create',
         title: 'Create Affiliate',
         path: '/admin/affiliates/create',
-        icon: FiPlus
+        icon: FiPlus,
       },
       {
         id: 'admin-affiliates-levels',
         title: 'Levels',
         path: '/admin/affiliates/levels',
-        icon: FiAward
+        icon: FiAward,
       },
       {
         id: 'admin-affiliates-commissions',
         title: 'Commissions',
         path: '/admin/affiliates/commissions',
-        icon: FiGift
-      }
-    ]
+        icon: FiGift,
+      },
+    ],
   },
   {
     id: 'admin-payments',
@@ -699,27 +699,27 @@ export const ADMIN_MENU = [
         id: 'admin-payments-transactions',
         title: 'Transactions',
         path: '/admin/payments',
-        icon: FiCreditCard
+        icon: FiCreditCard,
       },
       {
         id: 'admin-payments-withdrawals',
         title: 'Withdrawals',
         path: '/admin/withdrawals',
-        icon: FiDownload
+        icon: FiDownload,
       },
       {
         id: 'admin-payments-pending',
         title: 'Pending',
         path: '/admin/payments/pending',
-        icon: FiClock
+        icon: FiClock,
       },
       {
         id: 'admin-payments-refunds',
         title: 'Refunds',
         path: '/admin/payments/refunds',
-        icon: FiRefreshCw
-      }
-    ]
+        icon: FiRefreshCw,
+      },
+    ],
   },
   {
     id: 'admin-reports',
@@ -733,33 +733,33 @@ export const ADMIN_MENU = [
         id: 'admin-reports-users',
         title: 'User Reports',
         path: '/admin/reports/users',
-        icon: FiUsers
+        icon: FiUsers,
       },
       {
         id: 'admin-reports-affiliates',
         title: 'Affiliate Reports',
         path: '/admin/reports/affiliates',
-        icon: FiTrendingUp
+        icon: FiTrendingUp,
       },
       {
         id: 'admin-reports-payments',
         title: 'Payment Reports',
         path: '/admin/reports/payments',
-        icon: FiDollarSign
+        icon: FiDollarSign,
       },
       {
         id: 'admin-reports-earnings',
         title: 'Earnings Reports',
         path: '/admin/reports/earnings',
-        icon: FiGift
+        icon: FiGift,
       },
       {
         id: 'admin-reports-custom',
         title: 'Custom Reports',
         path: '/admin/reports/custom',
-        icon: FiSliders
-      }
-    ]
+        icon: FiSliders,
+      },
+    ],
   },
   {
     id: 'admin-analytics',
@@ -773,33 +773,33 @@ export const ADMIN_MENU = [
         id: 'admin-analytics-overview',
         title: 'Overview',
         path: '/admin/analytics',
-        icon: FiEye
+        icon: FiEye,
       },
       {
         id: 'admin-analytics-users',
         title: 'User Analytics',
         path: '/admin/analytics/users',
-        icon: FiUsers
+        icon: FiUsers,
       },
       {
         id: 'admin-analytics-affiliates',
         title: 'Affiliate Analytics',
         path: '/admin/analytics/affiliates',
-        icon: FiTrendingUp
+        icon: FiTrendingUp,
       },
       {
         id: 'admin-analytics-traffic',
         title: 'Traffic',
         path: '/admin/analytics/traffic',
-        icon: FiGlobe
+        icon: FiGlobe,
       },
       {
         id: 'admin-analytics-conversions',
         title: 'Conversions',
         path: '/admin/analytics/conversions',
-        icon: FiRefreshCw
-      }
-    ]
+        icon: FiRefreshCw,
+      },
+    ],
   },
   {
     id: 'admin-settings',
@@ -813,39 +813,39 @@ export const ADMIN_MENU = [
         id: 'admin-settings-general',
         title: 'General',
         path: '/admin/settings/general',
-        icon: FiSliders
+        icon: FiSliders,
       },
       {
         id: 'admin-settings-security',
         title: 'Security',
         path: '/admin/settings/security',
-        icon: FiLock
+        icon: FiLock,
       },
       {
         id: 'admin-settings-payment',
         title: 'Payment',
         path: '/admin/settings/payment',
-        icon: FiCreditCard
+        icon: FiCreditCard,
       },
       {
         id: 'admin-settings-email',
         title: 'Email',
         path: '/admin/settings/email',
-        icon: FiMail
+        icon: FiMail,
       },
       {
         id: 'admin-settings-notifications',
         title: 'Notifications',
         path: '/admin/settings/notifications',
-        icon: FiBell
+        icon: FiBell,
       },
       {
         id: 'admin-settings-api',
         title: 'API',
         path: '/admin/settings/api',
-        icon: FiTool
-      }
-    ]
+        icon: FiTool,
+      },
+    ],
   },
   {
     id: 'admin-logs',
@@ -853,7 +853,7 @@ export const ADMIN_MENU = [
     path: '/admin/logs',
     icon: FiArchive,
     visibility: MENU_VISIBILITY.ADMIN,
-    order: 8
+    order: 8,
   },
   {
     id: 'admin-system',
@@ -867,22 +867,22 @@ export const ADMIN_MENU = [
         id: 'admin-system-health',
         title: 'Health',
         path: '/admin/system/health',
-        icon: FiHeart
+        icon: FiHeart,
       },
       {
         id: 'admin-system-backup',
         title: 'Backup',
         path: '/admin/system/backup',
-        icon: FiSave
+        icon: FiSave,
       },
       {
         id: 'admin-system-maintenance',
         title: 'Maintenance',
         path: '/admin/system/maintenance',
-        icon: FiTool
-      }
-    ]
-  }
+        icon: FiTool,
+      },
+    ],
+  },
 ];
 // ==================== Footer Menu ====================
 
@@ -895,27 +895,27 @@ export const FOOTER_MENU = [
         id: 'about',
         title: 'About Us',
         path: '/about',
-        icon: FiInfo
+        icon: FiInfo,
       },
       {
         id: 'careers',
         title: 'Careers',
         path: '/careers',
-        icon: FiBriefcase
+        icon: FiBriefcase,
       },
       {
         id: 'press',
         title: 'Press',
         path: '/press',
-        icon: FiFileText
+        icon: FiFileText,
       },
       {
         id: 'blog',
         title: 'Blog',
         path: '/blog',
-        icon: FiBookmark
-      }
-    ]
+        icon: FiBookmark,
+      },
+    ],
   },
   {
     id: 'support',
@@ -925,27 +925,27 @@ export const FOOTER_MENU = [
         id: 'help-center',
         title: 'Help Center',
         path: '/support',
-        icon: FiHelpCircle
+        icon: FiHelpCircle,
       },
       {
         id: 'faq',
         title: 'FAQ',
         path: '/support/faq',
-        icon: FiHelpCircle
+        icon: FiHelpCircle,
       },
       {
         id: 'contact',
         title: 'Contact Us',
         path: '/contact',
-        icon: FiPhone
+        icon: FiPhone,
       },
       {
         id: 'feedback',
         title: 'Feedback',
         path: '/feedback',
-        icon: FiMessageSquare
-      }
-    ]
+        icon: FiMessageSquare,
+      },
+    ],
   },
   {
     id: 'legal',
@@ -955,27 +955,27 @@ export const FOOTER_MENU = [
         id: 'privacy',
         title: 'Privacy Policy',
         path: '/privacy',
-        icon: FiShield
+        icon: FiShield,
       },
       {
         id: 'terms',
         title: 'Terms of Service',
         path: '/terms',
-        icon: FiFileText
+        icon: FiFileText,
       },
       {
         id: 'cookies',
         title: 'Cookie Policy',
         path: '/cookies',
-        icon: FiInfo
+        icon: FiInfo,
       },
       {
         id: 'gdpr',
         title: 'GDPR',
         path: '/gdpr',
-        icon: FiShield
-      }
-    ]
+        icon: FiShield,
+      },
+    ],
   },
   {
     id: 'social',
@@ -986,45 +986,45 @@ export const FOOTER_MENU = [
         title: 'Facebook',
         href: 'https://facebook.com',
         icon: FiFacebook,
-        external: true
+        external: true,
       },
       {
         id: 'twitter',
         title: 'Twitter',
         href: 'https://twitter.com',
         icon: FiTwitter,
-        external: true
+        external: true,
       },
       {
         id: 'instagram',
         title: 'Instagram',
         href: 'https://instagram.com',
         icon: FiInstagram,
-        external: true
+        external: true,
       },
       {
         id: 'linkedin',
         title: 'LinkedIn',
         href: 'https://linkedin.com',
         icon: FiLinkedin,
-        external: true
+        external: true,
       },
       {
         id: 'youtube',
         title: 'YouTube',
         href: 'https://youtube.com',
         icon: FiYoutube,
-        external: true
+        external: true,
       },
       {
         id: 'github',
         title: 'GitHub',
         href: 'https://github.com',
         icon: FiGithub,
-        external: true
-      }
-    ]
-  }
+        external: true,
+      },
+    ],
+  },
 ];
 
 // ==================== Menu Helpers ====================
@@ -1157,7 +1157,7 @@ export const menuHelpers = {
       .filter(item => item.parentId === parentId)
       .map(item => ({
         ...item,
-        children: menuHelpers.buildTree(items, item.id)
+        children: menuHelpers.buildTree(items, item.id),
       }));
   },
 
@@ -1222,7 +1222,7 @@ export const menuHelpers = {
     
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   },
 
@@ -1257,7 +1257,7 @@ export const menuHelpers = {
     
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   },
 
@@ -1270,9 +1270,9 @@ export const menuHelpers = {
       totalDepth: Math.max(...flat.map(item => menuHelpers.getDepth(item, menu))),
       totalParents: flat.filter(item => menuHelpers.hasChildren(item)).length,
       totalLeaves: flat.filter(item => !menuHelpers.hasChildren(item)).length,
-      totalPaths: menuHelpers.getAllPaths(menu).length
+      totalPaths: menuHelpers.getAllPaths(menu).length,
     };
-  }
+  },
 };
 
 // ==================== Export all ====================
@@ -1294,7 +1294,7 @@ export const menuConfig = {
   FOOTER_MENU,
   
   // Helpers
-  menuHelpers
+  menuHelpers,
 };
 
 export default menuConfig;

@@ -7,8 +7,8 @@ const api = axios.create({
   timeout: 30000, // 30 seconds timeout
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  }
+    'Accept': 'application/json',
+  },
 });
 
 // ============================================
@@ -28,7 +28,7 @@ api.interceptors.request.use(
     if (config.method === 'get') {
       config.params = {
         ...config.params,
-        _t: Date.now()
+        _t: Date.now(),
       };
     }
 
@@ -43,7 +43,7 @@ api.interceptors.request.use(
     // Handle request errors
     console.error('❌ [API] Request Error:', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // ============================================
@@ -102,7 +102,7 @@ api.interceptors.response.use(
 
           const response = await axios.post(
             `${process.env.REACT_APP_API_URL}/auth/refresh-token`,
-            { token: refreshToken }
+            { token: refreshToken },
           );
 
           if (response.data.success) {
@@ -180,7 +180,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // ============================================
@@ -285,13 +285,13 @@ export const handleApiResponse = (response) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     };
   }
   
   return {
     success: false,
-    error: response.data?.message || 'An error occurred'
+    error: response.data?.message || 'An error occurred',
   };
 };
 
@@ -302,7 +302,7 @@ export const handleApiError = (error) => {
       success: false,
       status: error.response.status,
       message: error.response.data?.message || 'Server error occurred',
-      errors: error.response.data?.errors || {}
+      errors: error.response.data?.errors || {},
     };
   } else if (error.request) {
     // Request made but no response
@@ -310,7 +310,7 @@ export const handleApiError = (error) => {
       success: false,
       status: 0,
       message: 'Network error. Please check your connection.',
-      errors: {}
+      errors: {},
     };
   } else {
     // Something else happened
@@ -318,7 +318,7 @@ export const handleApiError = (error) => {
       success: false,
       status: 500,
       message: error.message || 'An error occurred',
-      errors: {}
+      errors: {},
     };
   }
 };

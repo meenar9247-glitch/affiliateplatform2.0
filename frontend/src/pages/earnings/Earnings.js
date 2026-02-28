@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiDollarSign,
@@ -17,8 +16,9 @@ import {
   FiActivity,
   FiAward,
   FiStar,
-  FiUsers
+  FiUsers,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -34,7 +34,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts';
 
 const Earnings = () => {
@@ -44,7 +44,7 @@ const Earnings = () => {
     total: 0,
     pending: 0,
     paid: 0,
-    projected: 0
+    projected: 0,
   });
   const [transactions, setTransactions] = useState([]);
   const [chartData, setChartData] = useState([]);
@@ -53,7 +53,7 @@ const Earnings = () => {
     averageCommission: 0,
     bestDay: { date: null, amount: 0 },
     conversionRate: 0,
-    topProduct: { name: null, earnings: 0 }
+    topProduct: { name: null, earnings: 0 },
   });
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const Earnings = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/earnings/summary`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -85,7 +85,7 @@ const Earnings = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/earnings/transactions`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -100,7 +100,7 @@ const Earnings = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/earnings/chart`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -115,7 +115,7 @@ const Earnings = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/earnings/distribution`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -130,7 +130,7 @@ const Earnings = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/earnings/stats`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -147,8 +147,8 @@ const Earnings = () => {
         `${process.env.REACT_APP_API_URL}/earnings/export`,
         {
           params: { format, timeRange },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -170,7 +170,7 @@ const Earnings = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount);
   };
 
@@ -178,7 +178,7 @@ const Earnings = () => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -894,7 +894,7 @@ const Earnings = () => {
                         className="transaction-status"
                         style={{
                           background: `${getStatusColor(transaction.status)}20`,
-                          color: getStatusColor(transaction.status)
+                          color: getStatusColor(transaction.status),
                         }}
                       >
                         {transaction.status}

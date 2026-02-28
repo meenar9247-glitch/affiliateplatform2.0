@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+
 import { useLocalStorage } from './useLocalStorage';
 
 // Theme constants
@@ -8,7 +9,7 @@ export const THEMES = {
   SYSTEM: 'system',
   DIM: 'dim',
   CONTRAST: 'high-contrast',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 // Theme colors
@@ -26,7 +27,7 @@ export const THEME_COLORS = {
     textSecondary: '#666666',
     textMuted: '#999999',
     border: '#e9ecef',
-    shadow: 'rgba(0, 0, 0, 0.1)'
+    shadow: 'rgba(0, 0, 0, 0.1)',
   },
   [THEMES.DARK]: {
     primary: '#667eea',
@@ -41,7 +42,7 @@ export const THEME_COLORS = {
     textSecondary: '#e2e8f0',
     textMuted: '#a0aec0',
     border: '#2d3748',
-    shadow: 'rgba(0, 0, 0, 0.3)'
+    shadow: 'rgba(0, 0, 0, 0.3)',
   },
   [THEMES.DIM]: {
     primary: '#667eea',
@@ -56,7 +57,7 @@ export const THEME_COLORS = {
     textSecondary: '#e2e8f0',
     textMuted: '#cbd5e0',
     border: '#4a5568',
-    shadow: 'rgba(0, 0, 0, 0.4)'
+    shadow: 'rgba(0, 0, 0, 0.4)',
   },
   [THEMES.CONTRAST]: {
     primary: '#0000ff',
@@ -71,8 +72,8 @@ export const THEME_COLORS = {
     textSecondary: '#333333',
     textMuted: '#666666',
     border: '#000000',
-    shadow: 'none'
-  }
+    shadow: 'none',
+  },
 };
 
 // Font size presets
@@ -83,7 +84,7 @@ export const FONT_SIZES = {
     h2: '1.75rem',
     h3: '1.5rem',
     body: '0.875rem',
-    small: '0.75rem'
+    small: '0.75rem',
   },
   medium: {
     base: '16px',
@@ -91,7 +92,7 @@ export const FONT_SIZES = {
     h2: '2rem',
     h3: '1.75rem',
     body: '1rem',
-    small: '0.875rem'
+    small: '0.875rem',
   },
   large: {
     base: '18px',
@@ -99,8 +100,8 @@ export const FONT_SIZES = {
     h2: '2.5rem',
     h3: '2rem',
     body: '1.125rem',
-    small: '1rem'
-  }
+    small: '1rem',
+  },
 };
 
 // Spacing presets
@@ -112,7 +113,7 @@ export const SPACING = {
     md: '12px',
     lg: '16px',
     xl: '20px',
-    xxl: '24px'
+    xxl: '24px',
   },
   comfortable: {
     unit: '8px',
@@ -121,7 +122,7 @@ export const SPACING = {
     md: '16px',
     lg: '20px',
     xl: '24px',
-    xxl: '32px'
+    xxl: '32px',
   },
   cozy: {
     unit: '12px',
@@ -130,28 +131,28 @@ export const SPACING = {
     md: '20px',
     lg: '24px',
     xl: '32px',
-    xxl: '40px'
-  }
+    xxl: '40px',
+  },
 };
 
 // Animation presets
 export const ANIMATIONS = {
   none: {
     duration: '0ms',
-    timing: 'linear'
+    timing: 'linear',
   },
   fast: {
     duration: '150ms',
-    timing: 'ease'
+    timing: 'ease',
   },
   normal: {
     duration: '300ms',
-    timing: 'ease-in-out'
+    timing: 'ease-in-out',
   },
   slow: {
     duration: '500ms',
-    timing: 'ease-out'
-  }
+    timing: 'ease-out',
+  },
 };
 
 // Border radius presets
@@ -161,7 +162,7 @@ export const BORDER_RADIUS = {
   medium: '8px',
   large: '12px',
   round: '50%',
-  pill: '9999px'
+  pill: '9999px',
 };
 
 // Box shadow presets
@@ -170,7 +171,7 @@ export const BOX_SHADOWS = {
   small: '0 2px 4px rgba(0,0,0,0.1)',
   medium: '0 4px 6px rgba(0,0,0,0.1)',
   large: '0 10px 15px rgba(0,0,0,0.1)',
-  xl: '0 20px 25px rgba(0,0,0,0.1)'
+  xl: '0 20px 25px rgba(0,0,0,0.1)',
 };
 
 export const useTheme = () => {
@@ -232,7 +233,7 @@ export const useTheme = () => {
 
     observerRef.current.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ['class'],
     });
 
     return () => {
@@ -241,203 +242,203 @@ export const useTheme = () => {
     };
   }, []);
   // Calculate effective theme
-useEffect(() => {
-  let effective = theme;
+  useEffect(() => {
+    let effective = theme;
   
-  if (theme === THEMES.SYSTEM) {
-    effective = systemTheme;
-  }
+    if (theme === THEMES.SYSTEM) {
+      effective = systemTheme;
+    }
   
-  setEffectiveTheme(effective);
+    setEffectiveTheme(effective);
   
-  // Get colors for effective theme
-  if (theme === THEMES.CUSTOM) {
-    setCurrentColors({
-      ...THEME_COLORS[THEMES.LIGHT],
-      ...customTheme
+    // Get colors for effective theme
+    if (theme === THEMES.CUSTOM) {
+      setCurrentColors({
+        ...THEME_COLORS[THEMES.LIGHT],
+        ...customTheme,
+      });
+    } else {
+      setCurrentColors(THEME_COLORS[effective] || THEME_COLORS[THEMES.LIGHT]);
+    }
+  }, [theme, systemTheme, customTheme]);
+
+  // Update CSS variables
+  useEffect(() => {
+    if (!styleRef.current) return;
+
+    const variables = generateCSSVariables();
+    let cssText = ':root {\n';
+  
+    Object.entries(variables).forEach(([key, value]) => {
+      cssText += `  ${key}: ${value};\n`;
     });
-  } else {
-    setCurrentColors(THEME_COLORS[effective] || THEME_COLORS[THEMES.LIGHT]);
-  }
-}, [theme, systemTheme, customTheme]);
-
-// Update CSS variables
-useEffect(() => {
-  if (!styleRef.current) return;
-
-  const variables = generateCSSVariables();
-  let cssText = ':root {\n';
   
-  Object.entries(variables).forEach(([key, value]) => {
-    cssText += `  ${key}: ${value};\n`;
-  });
+    cssText += '}';
   
-  cssText += '}';
-  
-  styleRef.current.textContent = cssText;
-}, [currentColors, currentFontSize, currentSpacing, currentAnimations, currentBorderRadius, currentBoxShadow, reducedMotion, highContrast]);
+    styleRef.current.textContent = cssText;
+  }, [currentColors, currentFontSize, currentSpacing, currentAnimations, currentBorderRadius, currentBoxShadow, reducedMotion, highContrast]);
 
-// Generate CSS variables
-const generateCSSVariables = useCallback(() => {
-  const vars = {};
+  // Generate CSS variables
+  const generateCSSVariables = useCallback(() => {
+    const vars = {};
 
-  // Color variables
-  Object.entries(currentColors).forEach(([key, value]) => {
-    vars[`--color-${key}`] = value;
-  });
+    // Color variables
+    Object.entries(currentColors).forEach(([key, value]) => {
+      vars[`--color-${key}`] = value;
+    });
 
-  // Font size variables
-  Object.entries(currentFontSize).forEach(([key, value]) => {
-    vars[`--font-${key}`] = value;
-  });
+    // Font size variables
+    Object.entries(currentFontSize).forEach(([key, value]) => {
+      vars[`--font-${key}`] = value;
+    });
 
-  // Spacing variables
-  Object.entries(currentSpacing).forEach(([key, value]) => {
-    vars[`--spacing-${key}`] = value;
-  });
+    // Spacing variables
+    Object.entries(currentSpacing).forEach(([key, value]) => {
+      vars[`--spacing-${key}`] = value;
+    });
 
-  // Animation variables
-  Object.entries(currentAnimations).forEach(([key, value]) => {
-    vars[`--animation-${key}`] = value;
-  });
+    // Animation variables
+    Object.entries(currentAnimations).forEach(([key, value]) => {
+      vars[`--animation-${key}`] = value;
+    });
 
-  // Border radius variables
-  Object.entries(currentBorderRadius).forEach(([key, value]) => {
-    if (typeof value === 'string') {
-      vars[`--radius-${key}`] = value;
+    // Border radius variables
+    Object.entries(currentBorderRadius).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        vars[`--radius-${key}`] = value;
+      }
+    });
+
+    // Box shadow variables
+    Object.entries(currentBoxShadow).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        vars[`--shadow-${key}`] = value;
+      }
+    });
+
+    // Accessibility variables
+    vars['--reduced-motion'] = reducedMotion ? 'reduce' : 'normal';
+    vars['--high-contrast'] = highContrast ? '1' : '0';
+
+    return vars;
+  }, [currentColors, currentFontSize, currentSpacing, currentAnimations, currentBorderRadius, currentBoxShadow, reducedMotion, highContrast]);
+
+  // Theme switching functions
+  const setThemeMode = useCallback((newTheme) => {
+    setTheme(newTheme);
+  }, [setTheme]);
+
+  const toggleTheme = useCallback(() => {
+    if (theme === THEMES.LIGHT) {
+      setTheme(THEMES.DARK);
+    } else if (theme === THEMES.DARK) {
+      setTheme(THEMES.LIGHT);
+    } else {
+      setTheme(systemTheme === 'light' ? THEMES.DARK : THEMES.LIGHT);
     }
-  });
+  }, [theme, systemTheme, setTheme]);
 
-  // Box shadow variables
-  Object.entries(currentBoxShadow).forEach(([key, value]) => {
-    if (typeof value === 'string') {
-      vars[`--shadow-${key}`] = value;
+  const toggleDarkMode = useCallback(() => {
+    setDarkMode(prev => !prev);
+  }, [setDarkMode]);
+
+  const toggleReducedMotion = useCallback(() => {
+    setReducedMotion(prev => !prev);
+  }, [setReducedMotion]);
+
+  const toggleHighContrast = useCallback(() => {
+    setHighContrast(prev => !prev);
+  }, [setHighContrast]);
+
+  // Font size functions
+  const increaseFontSize = useCallback(() => {
+    const sizes = ['small', 'medium', 'large'];
+    const currentIndex = sizes.indexOf(fontSize);
+    if (currentIndex < sizes.length - 1) {
+      setFontSize(sizes[currentIndex + 1]);
     }
-  });
+  }, [fontSize, setFontSize]);
 
-  // Accessibility variables
-  vars['--reduced-motion'] = reducedMotion ? 'reduce' : 'normal';
-  vars['--high-contrast'] = highContrast ? '1' : '0';
+  const decreaseFontSize = useCallback(() => {
+    const sizes = ['small', 'medium', 'large'];
+    const currentIndex = sizes.indexOf(fontSize);
+    if (currentIndex > 0) {
+      setFontSize(sizes[currentIndex - 1]);
+    }
+  }, [fontSize, setFontSize]);
 
-  return vars;
-}, [currentColors, currentFontSize, currentSpacing, currentAnimations, currentBorderRadius, currentBoxShadow, reducedMotion, highContrast]);
+  // Spacing functions
+  const setSpacingMode = useCallback((mode) => {
+    setSpacing(mode);
+  }, [setSpacing]);
 
-// Theme switching functions
-const setThemeMode = useCallback((newTheme) => {
-  setTheme(newTheme);
-}, [setTheme]);
+  // Animation functions
+  const setAnimationSpeed = useCallback((speed) => {
+    setAnimations(speed);
+  }, [setAnimations]);
 
-const toggleTheme = useCallback(() => {
-  if (theme === THEMES.LIGHT) {
-    setTheme(THEMES.DARK);
-  } else if (theme === THEMES.DARK) {
-    setTheme(THEMES.LIGHT);
-  } else {
-    setTheme(systemTheme === 'light' ? THEMES.DARK : THEMES.LIGHT);
-  }
-}, [theme, systemTheme, setTheme]);
+  // Border radius functions
+  const setBorderRadiusMode = useCallback((mode) => {
+    setBorderRadius(mode);
+  }, [setBorderRadius]);
 
-const toggleDarkMode = useCallback(() => {
-  setDarkMode(prev => !prev);
-}, [setDarkMode]);
+  // Box shadow functions
+  const setBoxShadowMode = useCallback((mode) => {
+    setBoxShadow(mode);
+  }, [setBoxShadow]);
 
-const toggleReducedMotion = useCallback(() => {
-  setReducedMotion(prev => !prev);
-}, [setReducedMotion]);
+  // Custom theme functions
+  const updateCustomColor = useCallback((colorKey, value) => {
+    setCustomTheme(prev => ({
+      ...prev,
+      [colorKey]: value,
+    }));
+  }, [setCustomTheme]);
 
-const toggleHighContrast = useCallback(() => {
-  setHighContrast(prev => !prev);
-}, [setHighContrast]);
+  const resetCustomTheme = useCallback(() => {
+    setCustomTheme({});
+  }, [setCustomTheme]);
 
-// Font size functions
-const increaseFontSize = useCallback(() => {
-  const sizes = ['small', 'medium', 'large'];
-  const currentIndex = sizes.indexOf(fontSize);
-  if (currentIndex < sizes.length - 1) {
-    setFontSize(sizes[currentIndex + 1]);
-  }
-}, [fontSize, setFontSize]);
+  // Reset all to defaults
+  const resetToDefaults = useCallback(() => {
+    setTheme(THEMES.SYSTEM);
+    setFontSize('medium');
+    setSpacing('comfortable');
+    setAnimations('normal');
+    setBorderRadius('medium');
+    setBoxShadow('medium');
+    setReducedMotion(false);
+    setHighContrast(false);
+    setCustomTheme({});
+  }, [setTheme, setFontSize, setSpacing, setAnimations, setBorderRadius, setBoxShadow, setReducedMotion, setHighContrast, setCustomTheme]);
 
-const decreaseFontSize = useCallback(() => {
-  const sizes = ['small', 'medium', 'large'];
-  const currentIndex = sizes.indexOf(fontSize);
-  if (currentIndex > 0) {
-    setFontSize(sizes[currentIndex - 1]);
-  }
-}, [fontSize, setFontSize]);
+  // Apply reduced motion to DOM
+  useEffect(() => {
+    if (reducedMotion) {
+      document.documentElement.classList.add('reduce-motion');
+    } else {
+      document.documentElement.classList.remove('reduce-motion');
+    }
+  }, [reducedMotion]);
 
-// Spacing functions
-const setSpacingMode = useCallback((mode) => {
-  setSpacing(mode);
-}, [setSpacing]);
+  // Apply high contrast to DOM
+  useEffect(() => {
+    if (highContrast) {
+      document.documentElement.classList.add('high-contrast');
+    } else {
+      document.documentElement.classList.remove('high-contrast');
+    }
+  }, [highContrast]);
 
-// Animation functions
-const setAnimationSpeed = useCallback((speed) => {
-  setAnimations(speed);
-}, [setAnimations]);
-
-// Border radius functions
-const setBorderRadiusMode = useCallback((mode) => {
-  setBorderRadius(mode);
-}, [setBorderRadius]);
-
-// Box shadow functions
-const setBoxShadowMode = useCallback((mode) => {
-  setBoxShadow(mode);
-}, [setBoxShadow]);
-
-// Custom theme functions
-const updateCustomColor = useCallback((colorKey, value) => {
-  setCustomTheme(prev => ({
-    ...prev,
-    [colorKey]: value
-  }));
-}, [setCustomTheme]);
-
-const resetCustomTheme = useCallback(() => {
-  setCustomTheme({});
-}, [setCustomTheme]);
-
-// Reset all to defaults
-const resetToDefaults = useCallback(() => {
-  setTheme(THEMES.SYSTEM);
-  setFontSize('medium');
-  setSpacing('comfortable');
-  setAnimations('normal');
-  setBorderRadius('medium');
-  setBoxShadow('medium');
-  setReducedMotion(false);
-  setHighContrast(false);
-  setCustomTheme({});
-}, [setTheme, setFontSize, setSpacing, setAnimations, setBorderRadius, setBoxShadow, setReducedMotion, setHighContrast, setCustomTheme]);
-
-// Apply reduced motion to DOM
-useEffect(() => {
-  if (reducedMotion) {
-    document.documentElement.classList.add('reduce-motion');
-  } else {
-    document.documentElement.classList.remove('reduce-motion');
-  }
-}, [reducedMotion]);
-
-// Apply high contrast to DOM
-useEffect(() => {
-  if (highContrast) {
-    document.documentElement.classList.add('high-contrast');
-  } else {
-    document.documentElement.classList.remove('high-contrast');
-  }
-}, [highContrast]);
-
-// Apply dark mode class
-useEffect(() => {
-  if (effectiveTheme === 'dark') {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
-}, [effectiveTheme]);
-    // Utility functions
+  // Apply dark mode class
+  useEffect(() => {
+    if (effectiveTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [effectiveTheme]);
+  // Utility functions
   const getThemeColor = useCallback((colorName, opacity = 1) => {
     const color = currentColors[colorName] || currentColors.primary;
     if (opacity === 1) return color;
@@ -584,7 +585,7 @@ useEffect(() => {
     SPACING,
     ANIMATIONS,
     BORDER_RADIUS,
-    BOX_SHADOWS
+    BOX_SHADOWS,
   };
 };
 
@@ -686,7 +687,7 @@ export {
   SPACING as SPACING_PRESETS,
   ANIMATIONS as ANIMATION_PRESETS,
   BORDER_RADIUS as RADIUS_PRESETS,
-  BOX_SHADOWS as SHADOW_PRESETS
+  BOX_SHADOWS as SHADOW_PRESETS,
 };
 
 export default useTheme;

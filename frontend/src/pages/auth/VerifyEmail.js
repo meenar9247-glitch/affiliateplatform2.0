@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { 
   FiCheckCircle, 
@@ -9,8 +8,9 @@ import {
   FiMail, 
   FiArrowLeft,
   FiRefreshCw,
-  FiSend
+  FiSend,
 } from 'react-icons/fi';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const VerifyEmail = () => {
   const { token } = useParams();
@@ -54,7 +54,7 @@ const VerifyEmail = () => {
     setVerifying(true);
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/auth/verify-email/${token}`
+        `${process.env.REACT_APP_API_URL}/auth/verify-email/${token}`,
       );
 
       if (response.data.success) {
@@ -85,7 +85,7 @@ const VerifyEmail = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/resend-verification`,
-        { email }
+        { email },
       );
 
       if (response.data.success) {

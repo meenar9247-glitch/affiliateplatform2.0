@@ -83,7 +83,7 @@ const Accordion = ({
   const sizeClasses = {
     small: 'accordion-small',
     medium: 'accordion-medium',
-    large: 'accordion-large'
+    large: 'accordion-large',
   };
 
   // Variant classes
@@ -91,7 +91,7 @@ const Accordion = ({
     outlined: 'accordion-outlined',
     contained: 'accordion-contained',
     minimal: 'accordion-minimal',
-    ghost: 'accordion-ghost'
+    ghost: 'accordion-ghost',
   };
 
   // Styles
@@ -446,8 +446,8 @@ export const Collapse = ({
         {
           title,
           content: children,
-          key: 'collapse'
-        }
+          key: 'collapse',
+        },
       ]}
       activeKey={isOpen ? [0] : []}
       onChange={(keys) => handleToggle()}

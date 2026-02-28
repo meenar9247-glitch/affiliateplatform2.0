@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +15,7 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -26,7 +26,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/login`,
-        formData
+        formData,
       );
 
       if (response.data.success) {

@@ -107,7 +107,7 @@ export const WishlistProvider = ({ children }) => {
     clearWishlist,
     getItemsByCategory,
     getRecentItems,
-    moveToCart
+    moveToCart,
   };
 
   return (

@@ -109,14 +109,14 @@ const FormWrapper = ({
 
     setValues(prev => ({
       ...prev,
-      [name]: fieldValue
+      [name]: fieldValue,
     }));
 
     if (validateOnChange && touched[name]) {
       const error = validateField(name, fieldValue);
       setErrors(prev => ({
         ...prev,
-        [name]: error
+        [name]: error,
       }));
     }
 
@@ -131,14 +131,14 @@ const FormWrapper = ({
 
     setTouched(prev => ({
       ...prev,
-      [name]: true
+      [name]: true,
     }));
 
     if (validateOnBlur) {
       const error = validateField(name, values[name]);
       setErrors(prev => ({
         ...prev,
-        [name]: error
+        [name]: error,
       }));
     }
   };
@@ -210,7 +210,7 @@ const FormWrapper = ({
         onBlur: handleBlur,
         disabled: disabled || child.props.disabled,
         readOnly: readOnly || child.props.readOnly,
-        size: child.props.size || size
+        size: child.props.size || size,
       });
     }
 
@@ -221,28 +221,28 @@ const FormWrapper = ({
   const layoutClasses = {
     vertical: 'form-vertical',
     horizontal: 'form-horizontal',
-    inline: 'form-inline'
+    inline: 'form-inline',
   };
 
   // Size classes
   const sizeClasses = {
     small: 'form-small',
     medium: 'form-medium',
-    large: 'form-large'
+    large: 'form-large',
   };
 
   // Spacing classes
   const spacingClasses = {
     compact: 'form-compact',
     normal: 'form-normal',
-    relaxed: 'form-relaxed'
+    relaxed: 'form-relaxed',
   };
 
   // Submit button position
   const submitPositionClasses = {
     left: 'justify-start',
     center: 'justify-center',
-    right: 'justify-end'
+    right: 'justify-end',
   };
 
   // Styles
@@ -762,7 +762,7 @@ export const FormRow = ({ columns = 2, gap = 'normal', children, ...props }) => 
   const gapClasses = {
     compact: '8px',
     normal: '16px',
-    relaxed: '24px'
+    relaxed: '24px',
   };
 
   const styles = `

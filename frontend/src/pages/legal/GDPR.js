@@ -14,7 +14,7 @@ import {
   FiDatabase,
   FiGlobe,
   FiSettings,
-  FiEdit
+  FiEdit,
 } from 'react-icons/fi';
 
 const GDPR = () => {
@@ -25,13 +25,13 @@ const GDPR = () => {
     analytics: true,
     marketing: false,
     functional: true,
-    preferences: true
+    preferences: true,
   });
 
   const handleConsentToggle = (key) => {
     setConsentSettings(prev => ({
       ...prev,
-      [key]: !prev[key]
+      [key]: !prev[key],
     }));
   };
 
@@ -46,11 +46,11 @@ const GDPR = () => {
       maxWidth: '1200px',
       margin: '0 auto',
       padding: '40px 20px',
-      fontFamily: 'Arial, sans-serif'
+      fontFamily: 'Arial, sans-serif',
     },
     header: {
       textAlign: 'center',
-      marginBottom: '40px'
+      marginBottom: '40px',
     },
     title: {
       fontSize: '36px',
@@ -59,14 +59,14 @@ const GDPR = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: '10px'
+      gap: '10px',
     },
     subtitle: {
       fontSize: '18px',
       color: '#666',
       lineHeight: '1.6',
       maxWidth: '800px',
-      margin: '0 auto'
+      margin: '0 auto',
     },
     tabs: {
       display: 'flex',
@@ -74,7 +74,7 @@ const GDPR = () => {
       marginBottom: '30px',
       borderBottom: '2px solid #e9ecef',
       paddingBottom: '10px',
-      flexWrap: 'wrap'
+      flexWrap: 'wrap',
     },
     tab: {
       padding: '12px 24px',
@@ -87,18 +87,18 @@ const GDPR = () => {
       display: 'flex',
       alignItems: 'center',
       gap: '8px',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
     },
     activeTab: {
       background: '#667eea',
-      color: 'white'
+      color: 'white',
     },
     section: {
       background: 'white',
       borderRadius: '10px',
       padding: '30px',
       marginBottom: '30px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
     },
     sectionTitle: {
       fontSize: '24px',
@@ -106,18 +106,18 @@ const GDPR = () => {
       marginBottom: '20px',
       display: 'flex',
       alignItems: 'center',
-      gap: '10px'
+      gap: '10px',
     },
     grid: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
       gap: '20px',
-      marginBottom: '30px'
+      marginBottom: '30px',
     },
     card: {
       background: '#f8f9fa',
       borderRadius: '10px',
-      padding: '25px'
+      padding: '25px',
     },
     cardTitle: {
       fontSize: '18px',
@@ -125,16 +125,16 @@ const GDPR = () => {
       marginBottom: '15px',
       display: 'flex',
       alignItems: 'center',
-      gap: '8px'
+      gap: '8px',
     },
     cardText: {
       color: '#666',
       lineHeight: '1.6',
-      marginBottom: '15px'
+      marginBottom: '15px',
     },
     list: {
       listStyle: 'none',
-      padding: 0
+      padding: 0,
     },
     listItem: {
       padding: '10px 0',
@@ -142,48 +142,48 @@ const GDPR = () => {
       display: 'flex',
       alignItems: 'center',
       gap: '10px',
-      color: '#666'
+      color: '#666',
     },
     badge: {
       padding: '3px 10px',
       borderRadius: '15px',
       fontSize: '12px',
-      fontWeight: 500
+      fontWeight: 500,
     },
     badgeSuccess: {
       background: '#e8f5e9',
-      color: '#28a745'
+      color: '#28a745',
     },
     badgeWarning: {
       background: '#fff3e0',
-      color: '#ffc107'
+      color: '#ffc107',
     },
     form: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '20px'
+      gap: '20px',
     },
     formGroup: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '8px'
+      gap: '8px',
     },
     label: {
       fontSize: '14px',
       fontWeight: 500,
-      color: '#333'
+      color: '#333',
     },
     input: {
       padding: '12px',
       border: '1px solid #ddd',
       borderRadius: '5px',
-      fontSize: '14px'
+      fontSize: '14px',
     },
     select: {
       padding: '12px',
       border: '1px solid #ddd',
       borderRadius: '5px',
-      fontSize: '14px'
+      fontSize: '14px',
     },
     textarea: {
       padding: '12px',
@@ -191,7 +191,7 @@ const GDPR = () => {
       borderRadius: '5px',
       fontSize: '14px',
       minHeight: '100px',
-      resize: 'vertical'
+      resize: 'vertical',
     },
     button: {
       padding: '12px 24px',
@@ -205,13 +205,13 @@ const GDPR = () => {
       alignItems: 'center',
       gap: '8px',
       justifyContent: 'center',
-      transition: 'background 0.3s ease'
+      transition: 'background 0.3s ease',
     },
     buttonSecondary: {
-      background: '#6c757d'
+      background: '#6c757d',
     },
     buttonDanger: {
-      background: '#dc3545'
+      background: '#dc3545',
     },
     alert: {
       padding: '15px',
@@ -219,49 +219,49 @@ const GDPR = () => {
       marginBottom: '20px',
       display: 'flex',
       alignItems: 'center',
-      gap: '10px'
+      gap: '10px',
     },
     alertSuccess: {
       background: '#e8f5e9',
       color: '#28a745',
-      border: '1px solid #c3e6cb'
+      border: '1px solid #c3e6cb',
     },
     alertInfo: {
       background: '#e3f2fd',
       color: '#1976d2',
-      border: '1px solid #bee5eb'
+      border: '1px solid #bee5eb',
     },
     consentItem: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
       padding: '15px 0',
-      borderBottom: '1px solid #e9ecef'
+      borderBottom: '1px solid #e9ecef',
     },
     consentInfo: {
-      flex: 1
+      flex: 1,
     },
     consentTitle: {
       fontSize: '16px',
       fontWeight: 500,
       color: '#333',
-      marginBottom: '3px'
+      marginBottom: '3px',
     },
     consentDesc: {
       fontSize: '13px',
-      color: '#999'
+      color: '#999',
     },
     toggle: {
       position: 'relative',
       display: 'inline-block',
       width: '50px',
       height: '24px',
-      marginLeft: '15px'
+      marginLeft: '15px',
     },
     toggleInput: {
       opacity: 0,
       width: 0,
-      height: 0
+      height: 0,
     },
     slider: {
       position: 'absolute',
@@ -272,7 +272,7 @@ const GDPR = () => {
       bottom: 0,
       backgroundColor: '#ccc',
       transition: '0.3s',
-      borderRadius: '24px'
+      borderRadius: '24px',
     },
     sliderBefore: {
       position: 'absolute',
@@ -283,14 +283,14 @@ const GDPR = () => {
       bottom: '2px',
       backgroundColor: 'white',
       transition: '0.3s',
-      borderRadius: '50%'
+      borderRadius: '50%',
     },
     toggleChecked: {
-      backgroundColor: '#667eea'
+      backgroundColor: '#667eea',
     },
     toggleCheckedBefore: {
-      transform: 'translateX(26px)'
-    }
+      transform: 'translateX(26px)',
+    },
   };
 
   return (
@@ -504,11 +504,11 @@ const GDPR = () => {
                 />
                 <span style={{
                   ...styles.slider,
-                  ...(consentSettings.analytics ? styles.toggleChecked : {})
+                  ...(consentSettings.analytics ? styles.toggleChecked : {}),
                 }}></span>
                 <span style={{
                   ...styles.sliderBefore,
-                  ...(consentSettings.analytics ? styles.toggleCheckedBefore : {})
+                  ...(consentSettings.analytics ? styles.toggleCheckedBefore : {}),
                 }}></span>
               </label>
             </div>
@@ -529,11 +529,11 @@ const GDPR = () => {
                 />
                 <span style={{
                   ...styles.slider,
-                  ...(consentSettings.marketing ? styles.toggleChecked : {})
+                  ...(consentSettings.marketing ? styles.toggleChecked : {}),
                 }}></span>
                 <span style={{
                   ...styles.sliderBefore,
-                  ...(consentSettings.marketing ? styles.toggleCheckedBefore : {})
+                  ...(consentSettings.marketing ? styles.toggleCheckedBefore : {}),
                 }}></span>
               </label>
             </div>
@@ -554,11 +554,11 @@ const GDPR = () => {
                 />
                 <span style={{
                   ...styles.slider,
-                  ...(consentSettings.functional ? styles.toggleChecked : {})
+                  ...(consentSettings.functional ? styles.toggleChecked : {}),
                 }}></span>
                 <span style={{
                   ...styles.sliderBefore,
-                  ...(consentSettings.functional ? styles.toggleCheckedBefore : {})
+                  ...(consentSettings.functional ? styles.toggleCheckedBefore : {}),
                 }}></span>
               </label>
             </div>
@@ -579,11 +579,11 @@ const GDPR = () => {
                 />
                 <span style={{
                   ...styles.slider,
-                  ...(consentSettings.preferences ? styles.toggleChecked : {})
+                  ...(consentSettings.preferences ? styles.toggleChecked : {}),
                 }}></span>
                 <span style={{
                   ...styles.sliderBefore,
-                  ...(consentSettings.preferences ? styles.toggleCheckedBefore : {})
+                  ...(consentSettings.preferences ? styles.toggleCheckedBefore : {}),
                 }}></span>
               </label>
             </div>
@@ -640,7 +640,7 @@ const GDPR = () => {
               </div>
 
               <div style={styles.formGroup}>
-                 <label style={styles.label}>Additional Information</label>
+                <label style={styles.label}>Additional Information</label>
                 <textarea 
                   style={styles.textarea}
                   placeholder="Please provide any additional information that might help us process your request"

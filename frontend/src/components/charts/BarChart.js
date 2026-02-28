@@ -8,7 +8,7 @@ import {
   FiMinimize2,
   FiBarChart2,
   FiTrendingUp,
-  FiTrendingDown
+  FiTrendingDown,
 } from 'react-icons/fi';
 
 const BarChart = ({
@@ -63,7 +63,7 @@ const BarChart = ({
         const { width: containerWidth } = containerRef.current.getBoundingClientRect();
         setDimensions({
           width: containerWidth - margin.left - margin.right,
-          height: height - margin.top - margin.bottom
+          height: height - margin.top - margin.bottom,
         });
       }
     };
@@ -113,7 +113,7 @@ const BarChart = ({
     
     // Calculate scales
     const yValues = data.flatMap(d => 
-      series.map(s => d[s.key] || 0)
+      series.map(s => d[s.key] || 0),
     );
     const minY = Math.min(0, ...yValues);
     const maxY = Math.max(...yValues);
@@ -207,7 +207,7 @@ const BarChart = ({
             ctx.fillText(
               value.toFixed(1),
               x + barLength + 5,
-              y + barWidth / 2
+              y + barWidth / 2,
             );
           }
         } else {
@@ -241,7 +241,7 @@ const BarChart = ({
             ctx.fillText(
               value.toFixed(1),
               x + barWidth / 2,
-              y + barHeight / 2
+              y + barHeight / 2,
             );
           }
         }
@@ -254,7 +254,7 @@ const BarChart = ({
           x,
           y,
           width: barWidth,
-          height: barHeight
+          height: barHeight,
         };
         
         if (!horizontal) {
@@ -355,7 +355,7 @@ const BarChart = ({
       ctx.fillText(
         xAxisLabel,
         margin.left + dimensions.width / 2,
-        margin.top + dimensions.height + 40
+        margin.top + dimensions.height + 40,
       );
     }
     
@@ -742,7 +742,7 @@ const BarChart = ({
                 </button>
               </>
     
-)}
+            )}
             
             {showRefresh && (
               <button className="chart-btn" onClick={handleRefresh} title="Refresh">
@@ -768,7 +768,7 @@ const BarChart = ({
         <div
           className="chart-wrapper"
           style={{
-            transform: `scale(${zoomLevel}) translate(${panOffset.x}px, ${panOffset.y}px)`
+            transform: `scale(${zoomLevel}) translate(${panOffset.x}px, ${panOffset.y}px)`,
           }}
           onClick={handleBarClick}
         >

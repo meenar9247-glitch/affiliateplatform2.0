@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import {
   FiFileText,
   FiCheckCircle,
@@ -16,8 +15,9 @@ import {
   FiHelpCircle,
   FiMail,
   FiPhone,
-  FiGlobe
+  FiGlobe,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Terms = () => {
   const [lastUpdated, setLastUpdated] = useState('January 1, 2026');
@@ -44,42 +44,42 @@ const Terms = () => {
   const handleDownload = () => {
     // Create terms text file
     const content = `Terms of Service - Last Updated: ${lastUpdated}\n\n` +
-      `1. Acceptance of Terms\n` +
-      `By accessing and using the Affiliate Platform ("the Platform"), you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.\n\n` +
-      `2. Eligibility\n` +
-      `You must be at least 18 years old to use this Platform. By using our services, you represent and warrant that you meet this requirement.\n\n` +
-      `3. Account Registration\n` +
-      `3.1 You must provide accurate and complete information when creating an account.\n` +
-      `3.2 You are responsible for maintaining the security of your account credentials.\n` +
-      `3.3 You must promptly notify us of any unauthorized use of your account.\n\n` +
-      `4. Affiliate Program\n` +
-      `4.1 Commission Structure: Affiliates earn commissions based on qualified referrals as outlined in the commission schedule.\n` +
-      `4.2 Payment Terms: Commissions are paid within 30 days of the end of each month, subject to minimum payout thresholds.\n` +
-      `4.3 Cookie Duration: Referrals are tracked using cookies with a standard 30-day attribution window.\n` +
-      `4.4 Prohibited Activities: Affiliates may not engage in fraudulent activities, spamming, or misrepresentation.\n\n` +
-      `5. Intellectual Property\n` +
-      `All content, trademarks, and intellectual property on the Platform are owned by Affiliate Platform or its licensors.\n\n` +
-      `6. User Conduct\n` +
-      `You agree not to:\n` +
-      `- Violate any applicable laws or regulations\n` +
-      `- Infringe upon the rights of others\n` +
-      `- Distribute malware or harmful code\n` +
-      `- Interfere with the Platform's operation\n` +
-      `- Engage in deceptive or fraudulent activities\n\n` +
-      `7. Termination\n` +
-      `We reserve the right to suspend or terminate your account for violations of these terms or for any other reason at our discretion.\n\n` +
-      `8. Limitation of Liability\n` +
-      `To the maximum extent permitted by law, Affiliate Platform shall not be liable for any indirect, incidental, or consequential damages.\n\n` +
-      `9. Indemnification\n` +
-      `You agree to indemnify and hold Affiliate Platform harmless from any claims arising from your use of the Platform.\n\n` +
-      `10. Governing Law\n` +
-      `These terms shall be governed by the laws of the State of California, without regard to its conflict of law provisions.\n\n` +
-      `11. Changes to Terms\n` +
-      `We may modify these terms at any time. Continued use of the Platform after changes constitutes acceptance.\n\n` +
-      `12. Contact Information\n` +
-      `Email: legal@affiliateplatform.com\n` +
-      `Address: 123 Business Ave, Suite 100, San Francisco, CA 94105\n` +
-      `Phone: +1 (888) 123-4567\n\n` +
+      '1. Acceptance of Terms\n' +
+      'By accessing and using the Affiliate Platform ("the Platform"), you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.\n\n' +
+      '2. Eligibility\n' +
+      'You must be at least 18 years old to use this Platform. By using our services, you represent and warrant that you meet this requirement.\n\n' +
+      '3. Account Registration\n' +
+      '3.1 You must provide accurate and complete information when creating an account.\n' +
+      '3.2 You are responsible for maintaining the security of your account credentials.\n' +
+      '3.3 You must promptly notify us of any unauthorized use of your account.\n\n' +
+      '4. Affiliate Program\n' +
+      '4.1 Commission Structure: Affiliates earn commissions based on qualified referrals as outlined in the commission schedule.\n' +
+      '4.2 Payment Terms: Commissions are paid within 30 days of the end of each month, subject to minimum payout thresholds.\n' +
+      '4.3 Cookie Duration: Referrals are tracked using cookies with a standard 30-day attribution window.\n' +
+      '4.4 Prohibited Activities: Affiliates may not engage in fraudulent activities, spamming, or misrepresentation.\n\n' +
+      '5. Intellectual Property\n' +
+      'All content, trademarks, and intellectual property on the Platform are owned by Affiliate Platform or its licensors.\n\n' +
+      '6. User Conduct\n' +
+      'You agree not to:\n' +
+      '- Violate any applicable laws or regulations\n' +
+      '- Infringe upon the rights of others\n' +
+      '- Distribute malware or harmful code\n' +
+      '- Interfere with the Platform\'s operation\n' +
+      '- Engage in deceptive or fraudulent activities\n\n' +
+      '7. Termination\n' +
+      'We reserve the right to suspend or terminate your account for violations of these terms or for any other reason at our discretion.\n\n' +
+      '8. Limitation of Liability\n' +
+      'To the maximum extent permitted by law, Affiliate Platform shall not be liable for any indirect, incidental, or consequential damages.\n\n' +
+      '9. Indemnification\n' +
+      'You agree to indemnify and hold Affiliate Platform harmless from any claims arising from your use of the Platform.\n\n' +
+      '10. Governing Law\n' +
+      'These terms shall be governed by the laws of the State of California, without regard to its conflict of law provisions.\n\n' +
+      '11. Changes to Terms\n' +
+      'We may modify these terms at any time. Continued use of the Platform after changes constitutes acceptance.\n\n' +
+      '12. Contact Information\n' +
+      'Email: legal@affiliateplatform.com\n' +
+      'Address: 123 Business Ave, Suite 100, San Francisco, CA 94105\n' +
+      'Phone: +1 (888) 123-4567\n\n' +
       `This document was last updated on ${lastUpdated}.`;
 
     const blob = new Blob([content], { type: 'text/plain' });
@@ -835,7 +835,7 @@ const Terms = () => {
         <div id="acceptance" className="content-card">
           <div className="card-header">
             <div className="card-icon">
-      <FiCheckCircle />
+              <FiCheckCircle />
             </div>
             <h2>1. Acceptance of Terms</h2>
           </div>

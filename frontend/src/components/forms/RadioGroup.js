@@ -38,8 +38,8 @@ const RadioGroup = ({
       target: {
         name,
         value: optionValue,
-        type: 'radio'
-      }
+        type: 'radio',
+      },
     });
   };
 
@@ -47,7 +47,7 @@ const RadioGroup = ({
   const sizeClasses = {
     small: 'radio-small',
     medium: 'radio-medium',
-    large: 'radio-large'
+    large: 'radio-large',
   };
 
   // Color classes
@@ -57,14 +57,14 @@ const RadioGroup = ({
     success: 'radio-success',
     danger: 'radio-danger',
     warning: 'radio-warning',
-    info: 'radio-info'
+    info: 'radio-info',
   };
 
   // Direction classes
   const directionClasses = {
     column: 'radio-group-column',
     row: 'radio-group-row',
-    'row-wrap': 'radio-group-row-wrap'
+    'row-wrap': 'radio-group-row-wrap',
   };
 
   // Styles
@@ -620,7 +620,7 @@ export const SegmentedRadioGroup = ({
   const sizeClasses = {
     small: 'segmented-small',
     medium: 'segmented-medium',
-    large: 'segmented-large'
+    large: 'segmented-large',
   };
 
   const styles = `

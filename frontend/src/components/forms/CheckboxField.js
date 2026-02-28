@@ -48,8 +48,8 @@ const CheckboxField = ({
         name,
         value: newChecked,
         checked: newChecked,
-        type: 'checkbox'
-      }
+        type: 'checkbox',
+      },
     });
   };
 
@@ -57,7 +57,7 @@ const CheckboxField = ({
   const sizeClasses = {
     small: 'checkbox-small',
     medium: 'checkbox-medium',
-    large: 'checkbox-large'
+    large: 'checkbox-large',
   };
 
   // Color classes
@@ -67,12 +67,12 @@ const CheckboxField = ({
     success: 'checkbox-success',
     danger: 'checkbox-danger',
     warning: 'checkbox-warning',
-    info: 'checkbox-info'
+    info: 'checkbox-info',
   };
 
   // Status classes
   const statusClass = error && touched ? 'checkbox-error' : 
-                     isFocused ? 'checkbox-focused' : '';
+    isFocused ? 'checkbox-focused' : '';
 
   // Styles
   const styles = `
@@ -342,7 +342,7 @@ const CheckboxField = ({
               height: 0,
               margin: 0,
               padding: 0,
-              pointerEvents: 'none'
+              pointerEvents: 'none',
             }}
             {...props}
           />
@@ -401,8 +401,8 @@ export const CheckboxGroupField = ({
       target: {
         name,
         value: newValue,
-        type: 'checkbox-group'
-      }
+        type: 'checkbox-group',
+      },
     });
   };
 
@@ -412,16 +412,16 @@ export const CheckboxGroupField = ({
         target: {
           name,
           value: [],
-          type: 'checkbox-group'
-        }
+          type: 'checkbox-group',
+        },
       });
     } else {
       onChange?.({
         target: {
           name,
           value: options.map(opt => opt.value),
-          type: 'checkbox-group'
-        }
+          type: 'checkbox-group',
+        },
       });
     }
   };
@@ -584,7 +584,7 @@ export const ToggleField = ({
   const sizeClasses = {
     small: 'toggle-small',
     medium: 'toggle-medium',
-    large: 'toggle-large'
+    large: 'toggle-large',
   };
 
   const colorClasses = {
@@ -593,7 +593,7 @@ export const ToggleField = ({
     success: 'toggle-success',
     danger: 'toggle-danger',
     warning: 'toggle-warning',
-    info: 'toggle-info'
+    info: 'toggle-info',
   };
 
   const styles = `

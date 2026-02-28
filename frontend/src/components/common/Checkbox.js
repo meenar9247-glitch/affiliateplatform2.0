@@ -44,8 +44,8 @@ const Checkbox = ({
           name,
           value,
           checked: newChecked,
-          type: 'checkbox'
-        }
+          type: 'checkbox',
+        },
       });
     }
   };
@@ -54,7 +54,7 @@ const Checkbox = ({
   const sizeClasses = {
     small: 'checkbox-small',
     medium: 'checkbox-medium',
-    large: 'checkbox-large'
+    large: 'checkbox-large',
   };
 
   // Color classes
@@ -64,7 +64,7 @@ const Checkbox = ({
     success: 'checkbox-success',
     danger: 'checkbox-danger',
     warning: 'checkbox-warning',
-    info: 'checkbox-info'
+    info: 'checkbox-info',
   };
 
   // Styles
@@ -430,7 +430,7 @@ export const CheckboxGroup = ({
   direction = 'column',
   size = 'medium',
   color = 'primary',
-  className = ''
+  className = '',
 }) => {
   const handleChange = (optionValue, checked) => {
     const newValue = checked

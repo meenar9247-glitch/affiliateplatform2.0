@@ -1,21 +1,26 @@
- import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Navigate } from 'react-router-dom';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { HelmetProvider } from 'react-helmet-async';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { BrowserRouter as Router, Route, Navigate } from 'react-router-dom';
+
+import BackToTop from './components/common/BackToTop';
+import CookieConsent from './components/common/CookieConsent';
+import Maintenance from './components/common/Maintenance';
+import OfflineIndicator from './components/common/OfflineIndicator';
 import ErrorBoundary from './components/ErrorBoundary';
 import LoadingSpinner from './components/LoadingSpinner';
-import { AuthProvider } from './context/AuthContext';
-import { ThemeProvider } from './context/ThemeContext';
-import { NotificationProvider } from './context/NotificationContext';
-import { SocketProvider } from './context/SocketContext';
+import { AuthProvider , useAuth } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
-import { WishlistProvider } from './context/WishlistContext';
 import { CurrencyProvider } from './context/CurrencyContext';
 import { LanguageProvider } from './context/LanguageContext';
-import { useAuth } from './context/AuthContext';
+import { NotificationProvider } from './context/NotificationContext';
+import { SocketProvider } from './context/SocketContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { useTheme } from './context/ThemeContext';
+import { WishlistProvider } from './context/WishlistContext';
+
 
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/Home'));
@@ -65,10 +70,6 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Sidebar from './components/layout/Sidebar';
 import MobileMenu from './components/layout/MobileMenu';
-import CookieConsent from './components/common/CookieConsent';
-import BackToTop from './components/common/BackToTop';
-import OfflineIndicator from './components/common/OfflineIndicator';
-import Maintenance from './components/common/Maintenance';
 
 // Styles
 import './App.css';
@@ -449,7 +450,7 @@ function App() {
           padding: '4px 8px',
           borderRadius: '4px',
           fontSize: '11px',
-          zIndex: 9999
+          zIndex: 9999,
         }}>
           v{appVersion} - {process.env.NODE_ENV}
         </div>
@@ -654,7 +655,7 @@ const styles = `
 `;
 
 // Inject styles
-const styleSheet = document.createElement("style");
+const styleSheet = document.createElement('style');
 styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 

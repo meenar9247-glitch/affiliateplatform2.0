@@ -20,13 +20,13 @@ export const getAllLinks = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch affiliate links',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -42,13 +42,13 @@ export const getLinkById = async (linkId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch affiliate link',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -63,13 +63,13 @@ export const getCategories = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch categories',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -85,13 +85,13 @@ export const getFeaturedLinks = async (limit = 10) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch featured links',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -107,13 +107,13 @@ export const getMyLinks = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch your links',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -132,13 +132,13 @@ export const getMyClicks = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch clicks',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -157,13 +157,13 @@ export const getMyConversions = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch conversions',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -180,13 +180,13 @@ export const getMyStats = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch stats',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -202,13 +202,13 @@ export const generateReferralLink = async (linkId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Referral link generated'
+      message: response.message || 'Referral link generated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to generate referral link',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -229,13 +229,13 @@ export const trackClick = async (clickData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Click tracked'
+      message: response.message || 'Click tracked',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to track click',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -259,13 +259,13 @@ export const createLink = async (linkData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Affiliate link created'
+      message: response.message || 'Affiliate link created',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to create affiliate link',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -282,13 +282,13 @@ export const updateLink = async (linkId, linkData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Affiliate link updated'
+      message: response.message || 'Affiliate link updated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to update affiliate link',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -304,13 +304,13 @@ export const deleteLink = async (linkId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Affiliate link deleted'
+      message: response.message || 'Affiliate link deleted',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to delete affiliate link',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -323,18 +323,18 @@ export const deleteLink = async (linkId) => {
 export const bulkUploadLinks = async (formData) => {
   try {
     const response = await post('/affiliates/bulk-upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Links uploaded successfully'
+      message: response.message || 'Links uploaded successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to upload links',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -352,13 +352,13 @@ export const getTopLinks = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch top links',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -377,13 +377,13 @@ export const getLinkPerformance = async (linkId, params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch performance data',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -401,13 +401,13 @@ export const getLinkQRCode = async (linkId, options = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to generate QR code',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -422,13 +422,13 @@ export const getCommissionRates = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch commission rates',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -444,13 +444,13 @@ export const getPayoutHistory = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch payout history',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -466,13 +466,13 @@ export const getReferralTree = async (depth = 5) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch referral tree',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -490,13 +490,13 @@ export const getLeaderboard = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch leaderboard',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -511,13 +511,13 @@ export const getAchievements = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch achievements',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -533,13 +533,13 @@ export const claimAchievement = async (achievementId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Reward claimed successfully'
+      message: response.message || 'Reward claimed successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to claim reward',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -554,13 +554,13 @@ export const getAffiliateSettings = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch affiliate settings',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -576,13 +576,13 @@ export const updateAffiliateSettings = async (settingsData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Settings updated successfully'
+      message: response.message || 'Settings updated successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to update settings',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -598,13 +598,13 @@ export const exportAffiliateData = async (format = 'csv') => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Data exported successfully'
+      message: response.message || 'Data exported successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to export data',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -624,13 +624,13 @@ export const approveLink = async (linkId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Link approved successfully'
+      message: response.message || 'Link approved successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to approve link',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -647,13 +647,13 @@ export const rejectLink = async (linkId, reason) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Link rejected successfully'
+      message: response.message || 'Link rejected successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to reject link',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -669,13 +669,13 @@ export const getPendingApprovals = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch pending approvals',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -713,7 +713,7 @@ const affiliateAPI = {
   exportAffiliateData,
   approveLink,
   rejectLink,
-  getPendingApprovals
+  getPendingApprovals,
 };
 
 export default affiliateAPI;

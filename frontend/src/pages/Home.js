@@ -1,14 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { 
   ArrowRightIcon, 
   CurrencyDollarIcon, 
   UsersIcon, 
   ChartBarIcon,
   ShieldCheckIcon,
-  RocketLaunchIcon
+  RocketLaunchIcon,
 } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
@@ -18,35 +19,35 @@ const Home = () => {
     {
       icon: CurrencyDollarIcon,
       title: 'High Commissions',
-      description: 'Earn up to 30% commission on every successful referral'
+      description: 'Earn up to 30% commission on every successful referral',
     },
     {
       icon: UsersIcon,
       title: 'Multi-level Referrals',
-      description: 'Earn from referrals of your referrals with our 2-tier system'
+      description: 'Earn from referrals of your referrals with our 2-tier system',
     },
     {
       icon: ChartBarIcon,
       title: 'Real-time Analytics',
-      description: 'Track your clicks, conversions, and earnings in real-time'
+      description: 'Track your clicks, conversions, and earnings in real-time',
     },
     {
       icon: RocketLaunchIcon,
       title: 'Quick Payouts',
-      description: 'Get your earnings quickly via PayPal, Bank, or UPI'
+      description: 'Get your earnings quickly via PayPal, Bank, or UPI',
     },
     {
       icon: ShieldCheckIcon,
       title: 'Secure Platform',
-      description: 'Your data and earnings are safe with our secure system'
-    }
+      description: 'Your data and earnings are safe with our secure system',
+    },
   ];
 
   const stats = [
     { value: '10,000+', label: 'Active Affiliates' },
     { value: '$2.5M+', label: 'Commissions Paid' },
     { value: '500+', label: 'Products' },
-    { value: '50+', label: 'Countries' }
+    { value: '50+', label: 'Countries' },
   ];
 
   const testimonials = [
@@ -54,39 +55,39 @@ const Home = () => {
       name: 'John Doe',
       role: 'Top Affiliate',
       content: 'This platform has changed my life. I earn a full-time income from affiliate marketing now.',
-      avatar: 'https://randomuser.me/api/portraits/men/1.jpg'
+      avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
     },
     {
       name: 'Jane Smith',
       role: 'Affiliate Marketer',
       content: 'The best affiliate platform I have ever used. The analytics and tracking are top-notch.',
-      avatar: 'https://randomuser.me/api/portraits/women/1.jpg'
+      avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
     },
     {
       name: 'Mike Johnson',
       role: 'Digital Marketer',
       content: 'Great commissions and timely payouts. Highly recommended for beginners and pros alike.',
-      avatar: 'https://randomuser.me/api/portraits/men/2.jpg'
-    }
+      avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+    },
   ];
 
   const faqs = [
     {
       question: 'How do I start earning?',
-      answer: 'Simply sign up for free, choose products to promote, share your unique referral links, and earn commissions on every sale.'
+      answer: 'Simply sign up for free, choose products to promote, share your unique referral links, and earn commissions on every sale.',
     },
     {
       question: 'When do I get paid?',
-      answer: 'Payouts are processed every week for earnings above the minimum threshold of $10.'
+      answer: 'Payouts are processed every week for earnings above the minimum threshold of $10.',
     },
     {
       question: 'Is it really free to join?',
-      answer: 'Yes, joining is completely free. We only make money when you make money.'
+      answer: 'Yes, joining is completely free. We only make money when you make money.',
     },
     {
       question: 'How are commissions tracked?',
-      answer: 'We use advanced cookie tracking to ensure you get credit for every referral, even if they purchase later.'
-    }
+      answer: 'We use advanced cookie tracking to ensure you get credit for every referral, even if they purchase later.',
+    },
   ];
 
   return (
@@ -213,18 +214,18 @@ const Home = () => {
               {
                 step: '1',
                 title: 'Sign Up Free',
-                description: 'Create your account in minutes. No credit card required.'
+                description: 'Create your account in minutes. No credit card required.',
               },
               {
                 step: '2',
                 title: 'Choose Products',
-                description: 'Browse our marketplace and pick products to promote.'
+                description: 'Browse our marketplace and pick products to promote.',
               },
               {
                 step: '3',
                 title: 'Start Earning',
-                description: 'Share your links and earn commissions on every sale.'
-              }
+                description: 'Share your links and earn commissions on every sale.',
+              },
             ].map((item, index) => (
               <motion.div
                 key={index}

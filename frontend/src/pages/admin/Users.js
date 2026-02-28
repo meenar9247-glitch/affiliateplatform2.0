@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiUsers,
@@ -30,8 +29,9 @@ import {
   FiAlertCircle,
   FiClock,
   FiLock,
-  FiUnlock
+  FiUnlock,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const AdminUsers = () => {
   const [loading, setLoading] = useState(true);
@@ -42,11 +42,11 @@ const AdminUsers = () => {
     role: 'all',
     status: 'all',
     verified: 'all',
-    dateRange: 'all'
+    dateRange: 'all',
   });
   const [sortConfig, setSortConfig] = useState({
     key: 'createdAt',
-    direction: 'desc'
+    direction: 'desc',
   });
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -60,7 +60,7 @@ const AdminUsers = () => {
     affiliates: 0,
     newToday: 0,
     newThisWeek: 0,
-    newThisMonth: 0
+    newThisMonth: 0,
   });
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -71,7 +71,7 @@ const AdminUsers = () => {
     email: '',
     role: 'user',
     status: 'active',
-    verified: false
+    verified: false,
   });
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const AdminUsers = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/users`
+        `${process.env.REACT_APP_API_URL}/admin/users`,
       );
       
       if (response.data.success) {
@@ -104,7 +104,7 @@ const AdminUsers = () => {
   const fetchStats = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/users/stats`
+        `${process.env.REACT_APP_API_URL}/admin/users/stats`,
       );
       
       if (response.data.success) {
@@ -123,7 +123,7 @@ const AdminUsers = () => {
       filtered = filtered.filter(user =>
         user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user._id?.includes(searchTerm)
+        user._id?.includes(searchTerm),
       );
     }
 
@@ -135,14 +135,14 @@ const AdminUsers = () => {
     // Status filter
     if (filters.status !== 'all') {
       filtered = filtered.filter(user => 
-        filters.status === 'active' ? user.isActive : !user.isActive
+        filters.status === 'active' ? user.isActive : !user.isActive,
       );
     }
 
     // Verified filter
     if (filters.verified !== 'all') {
       filtered = filtered.filter(user => 
-        filters.verified === 'verified' ? user.isVerified : !user.isVerified
+        filters.verified === 'verified' ? user.isVerified : !user.isVerified,
       );
     }
 
@@ -189,7 +189,7 @@ const AdminUsers = () => {
   const handleSort = (key) => {
     setSortConfig({
       key,
-      direction: sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc'
+      direction: sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc',
     });
   };
 
@@ -222,7 +222,7 @@ const AdminUsers = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/admin/users/bulk`,
-        { action, userIds: selectedUsers }
+        { action, userIds: selectedUsers },
       );
       
       if (response.data.success) {
@@ -239,7 +239,7 @@ const AdminUsers = () => {
   const handleToggleStatus = async (userId, currentStatus) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/admin/users/${userId}/toggle-status`
+        `${process.env.REACT_APP_API_URL}/admin/users/${userId}/toggle-status`,
       );
       
       if (response.data.success) {
@@ -254,7 +254,7 @@ const AdminUsers = () => {
   const handleToggleVerification = async (userId, currentStatus) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/admin/users/${userId}/toggle-verification`
+        `${process.env.REACT_APP_API_URL}/admin/users/${userId}/toggle-verification`,
       );
       
       if (response.data.success) {
@@ -270,7 +270,7 @@ const AdminUsers = () => {
     if (window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
       try {
         const response = await axios.delete(
-          `${process.env.REACT_APP_API_URL}/admin/users/${userId}`
+          `${process.env.REACT_APP_API_URL}/admin/users/${userId}`,
         );
         
         if (response.data.success) {
@@ -291,7 +291,7 @@ const AdminUsers = () => {
       email: user.email,
       role: user.role,
       status: user.isActive ? 'active' : 'inactive',
-      verified: user.isVerified
+      verified: user.isVerified,
     });
     setShowEditModal(true);
   };
@@ -300,7 +300,7 @@ const AdminUsers = () => {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/admin/users/${selectedUser._id}`,
-        editForm
+        editForm,
       );
       
       if (response.data.success) {
@@ -320,8 +320,8 @@ const AdminUsers = () => {
         `${process.env.REACT_APP_API_URL}/admin/users/export`,
         {
           params: { format },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -342,7 +342,7 @@ const AdminUsers = () => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -351,7 +351,7 @@ const AdminUsers = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 

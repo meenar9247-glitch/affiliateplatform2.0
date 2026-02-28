@@ -7,7 +7,7 @@ import {
   FiX,
   FiAlertTriangle,
   FiBell,
-  FiHelpCircle
+  FiHelpCircle,
 } from 'react-icons/fi';
 
 const Alert = ({
@@ -98,33 +98,33 @@ const Alert = ({
       success: {
         solid: 'alert-success-solid',
         outlined: 'alert-success-outlined',
-        subtle: 'alert-success-subtle'
+        subtle: 'alert-success-subtle',
       },
       error: {
         solid: 'alert-error-solid',
         outlined: 'alert-error-outlined',
-        subtle: 'alert-error-subtle'
+        subtle: 'alert-error-subtle',
       },
       warning: {
         solid: 'alert-warning-solid',
         outlined: 'alert-warning-outlined',
-        subtle: 'alert-warning-subtle'
+        subtle: 'alert-warning-subtle',
       },
       info: {
         solid: 'alert-info-solid',
         outlined: 'alert-info-outlined',
-        subtle: 'alert-info-subtle'
+        subtle: 'alert-info-subtle',
       },
       tip: {
         solid: 'alert-tip-solid',
         outlined: 'alert-tip-outlined',
-        subtle: 'alert-tip-subtle'
+        subtle: 'alert-tip-subtle',
       },
       help: {
         solid: 'alert-help-solid',
         outlined: 'alert-help-outlined',
-        subtle: 'alert-help-subtle'
-      }
+        subtle: 'alert-help-subtle',
+      },
     };
 
     return baseClasses[type]?.[variant] || baseClasses.info.solid;
@@ -134,7 +134,7 @@ const Alert = ({
   const sizeClasses = {
     small: 'alert-small',
     medium: 'alert-medium',
-    large: 'alert-large'
+    large: 'alert-large',
   };
 
   // Styles
@@ -474,7 +474,7 @@ export const AlertContainer = ({ alerts = [], position = 'top-right', onClose })
     'bottom-left': { bottom: 20, left: 20 },
     'bottom-right': { bottom: 20, right: 20 },
     'top-center': { top: 20, left: '50%', transform: 'translateX(-50%)' },
-    'bottom-center': { bottom: 20, left: '50%', transform: 'translateX(-50%)' }
+    'bottom-center': { bottom: 20, left: '50%', transform: 'translateX(-50%)' },
   };
 
   const styles = `
@@ -559,7 +559,7 @@ export const toast = {
   },
   tip: (message, options = {}) => {
     console.log('Toast tip:', message);
-  }
+  },
 };
 
 export default Alert;

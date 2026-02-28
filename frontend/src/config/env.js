@@ -5,7 +5,7 @@ export const ENV_TYPES = {
   DEVELOPMENT: 'development',
   STAGING: 'staging',
   PRODUCTION: 'production',
-  TEST: 'test'
+  TEST: 'test',
 };
 
 // Current environment
@@ -42,8 +42,8 @@ export const API_CONFIG = {
     AFFILIATES: '/affiliates',
     PAYMENTS: '/payments',
     SUPPORT: '/support',
-    ADMIN: '/admin'
-  }
+    ADMIN: '/admin',
+  },
 };
 
 // ==================== App Configuration ====================
@@ -71,7 +71,7 @@ export const APP_CONFIG = {
   
   // Demo mode
   DEMO_MODE: process.env.REACT_APP_DEMO_MODE === 'true',
-  DEMO_MESSAGE: process.env.REACT_APP_DEMO_MESSAGE || 'This is a demo version'
+  DEMO_MESSAGE: process.env.REACT_APP_DEMO_MESSAGE || 'This is a demo version',
 };
 
 // ==================== Auth Configuration ====================
@@ -97,7 +97,7 @@ export const AUTH_CONFIG = {
   // OAuth providers
   GOOGLE_CLIENT_ID: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   FACEBOOK_APP_ID: process.env.REACT_APP_FACEBOOK_APP_ID,
-  GITHUB_CLIENT_ID: process.env.REACT_APP_GITHUB_CLIENT_ID
+  GITHUB_CLIENT_ID: process.env.REACT_APP_GITHUB_CLIENT_ID,
 };
 
 // ==================== Payment Configuration ====================
@@ -126,7 +126,7 @@ export const PAYMENT_CONFIG = {
   // Fees
   TRANSACTION_FEE_PERCENTAGE: parseFloat(process.env.REACT_APP_TRANSACTION_FEE_PERCENTAGE) || 2.9,
   TRANSACTION_FEE_FIXED: parseFloat(process.env.REACT_APP_TRANSACTION_FEE_FIXED) || 0.3,
-  WITHDRAWAL_FEE: parseFloat(process.env.REACT_APP_WITHDRAWAL_FEE) || 1.0
+  WITHDRAWAL_FEE: parseFloat(process.env.REACT_APP_WITHDRAWAL_FEE) || 1.0,
 };
 
 // ==================== Affiliate Configuration ====================
@@ -150,8 +150,8 @@ export const AFFILIATE_CONFIG = {
   LEVEL_COMMISSION_RATES: {
     1: parseFloat(process.env.REACT_APP_LEVEL_1_RATE) || 10,
     2: parseFloat(process.env.REACT_APP_LEVEL_2_RATE) || 5,
-    3: parseFloat(process.env.REACT_APP_LEVEL_3_RATE) || 2
-  }
+    3: parseFloat(process.env.REACT_APP_LEVEL_3_RATE) || 2,
+  },
 };
 
 // ==================== Feature Flags ====================
@@ -195,7 +195,7 @@ export const FEATURES = {
   ADMIN_PAYMENTS: process.env.REACT_APP_FEATURE_ADMIN_PAYMENTS !== 'false',
   ADMIN_REPORTS: process.env.REACT_APP_FEATURE_ADMIN_REPORTS !== 'false',
   ADMIN_LOGS: process.env.REACT_APP_FEATURE_ADMIN_LOGS !== 'false',
-  ADMIN_SYSTEM: process.env.REACT_APP_FEATURE_ADMIN_SYSTEM !== 'false'
+  ADMIN_SYSTEM: process.env.REACT_APP_FEATURE_ADMIN_SYSTEM !== 'false',
 };
 
 // ==================== UI Configuration ====================
@@ -222,7 +222,7 @@ export const UI_CONFIG = {
   
   // Toast
   TOAST_DURATION: parseInt(process.env.REACT_APP_TOAST_DURATION) || 5000,
-  TOAST_POSITION: process.env.REACT_APP_TOAST_POSITION || 'top-right'
+  TOAST_POSITION: process.env.REACT_APP_TOAST_POSITION || 'top-right',
 };
 
 // ==================== Storage Configuration ====================
@@ -239,7 +239,7 @@ export const STORAGE_CONFIG = {
   
   // Encryption
   ENABLE_ENCRYPTION: process.env.REACT_APP_STORAGE_ENCRYPTION === 'true',
-  ENCRYPTION_KEY: process.env.REACT_APP_STORAGE_ENCRYPTION_KEY
+  ENCRYPTION_KEY: process.env.REACT_APP_STORAGE_ENCRYPTION_KEY,
 };
 
 // ==================== Monitoring Configuration ====================
@@ -263,7 +263,7 @@ export const MONITORING_CONFIG = {
   FULLSTORY_ORG_ID: process.env.REACT_APP_FULLSTORY_ORG_ID,
   
   // Mixpanel
-  MIXPANEL_TOKEN: process.env.REACT_APP_MIXPANEL_TOKEN
+  MIXPANEL_TOKEN: process.env.REACT_APP_MIXPANEL_TOKEN,
 };
 
 // ==================== Social Media Configuration ====================
@@ -280,7 +280,7 @@ export const SOCIAL_CONFIG = {
   INSTAGRAM_HANDLE: process.env.REACT_APP_INSTAGRAM_HANDLE,
   LINKEDIN_COMPANY: process.env.REACT_APP_LINKEDIN_COMPANY,
   YOUTUBE_CHANNEL: process.env.REACT_APP_YOUTUBE_CHANNEL,
-  GITHUB_REPO: process.env.REACT_APP_GITHUB_REPO
+  GITHUB_REPO: process.env.REACT_APP_GITHUB_REPO,
 };
 
 // ==================== SEO Configuration ====================
@@ -299,7 +299,7 @@ export const SEO_CONFIG = {
   // Twitter
   TWITTER_CARD: process.env.REACT_APP_TWITTER_CARD || 'summary_large_image',
   TWITTER_SITE: process.env.REACT_APP_TWITTER_SITE,
-  TWITTER_CREATOR: process.env.REACT_APP_TWITTER_CREATOR
+  TWITTER_CREATOR: process.env.REACT_APP_TWITTER_CREATOR,
 };
 
 // ==================== Performance Configuration ====================
@@ -320,7 +320,7 @@ export const PERFORMANCE_CONFIG = {
   ENABLE_PWA: process.env.REACT_APP_ENABLE_PWA === 'true',
   
   // Service worker
-  SERVICE_WORKER_URL: process.env.REACT_APP_SERVICE_WORKER_URL || '/service-worker.js'
+  SERVICE_WORKER_URL: process.env.REACT_APP_SERVICE_WORKER_URL || '/service-worker.js',
 };
 
 // ==================== Security Configuration ====================
@@ -348,7 +348,7 @@ export const SECURITY_CONFIG = {
   
   // HSTS
   HSTS_ENABLED: process.env.REACT_APP_HSTS_ENABLED === 'true',
-  HSTS_MAX_AGE: parseInt(process.env.REACT_APP_HSTS_MAX_AGE) || 31536000
+  HSTS_MAX_AGE: parseInt(process.env.REACT_APP_HSTS_MAX_AGE) || 31536000,
 };
 
 // ==================== Export all configs ====================
@@ -377,7 +377,7 @@ export const ENV_CONFIG = {
   SECURITY: SECURITY_CONFIG,
   
   // Environment types
-  ENV_TYPES
+  ENV_TYPES,
 };
 
 export default ENV_CONFIG;

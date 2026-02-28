@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import io from 'socket.io-client';
+
 import { useAuth } from './useAuth';
 import { useLocalStorage } from './useLocalStorage';
-import io from 'socket.io-client';
 
 // Socket events
 export const SOCKET_EVENTS = {
@@ -15,7 +16,7 @@ export const SOCKET_EVENTS = {
   CONNECT_ERROR: 'connect_error',
   CONNECT_TIMEOUT: 'connect_timeout',
   PING: 'ping',
-  PONG: 'pong'
+  PONG: 'pong',
 };
 
 // Connection states
@@ -25,7 +26,7 @@ export const CONNECTION_STATES = {
   DISCONNECTED: 'disconnected',
   RECONNECTING: 'reconnecting',
   ERROR: 'error',
-  TIMEOUT: 'timeout'
+  TIMEOUT: 'timeout',
 };
 
 // Message types
@@ -38,7 +39,7 @@ export const MESSAGE_TYPES = {
   PRESENCE: 'presence',
   TYPING: 'typing',
   READ_RECEIPT: 'read_receipt',
-  DELIVERY_RECEIPT: 'delivery_receipt'
+  DELIVERY_RECEIPT: 'delivery_receipt',
 };
 
 // Default options
@@ -81,7 +82,7 @@ const DEFAULT_OPTIONS = {
   onDisconnect: null,
   onError: null,
   onReconnect: null,
-  onMessage: null
+  onMessage: null,
 };
 
 export const useSocket = (namespace = '', options = {}) => {
@@ -125,7 +126,7 @@ export const useSocket = (namespace = '', options = {}) => {
     onDisconnect = DEFAULT_OPTIONS.onDisconnect,
     onError = DEFAULT_OPTIONS.onError,
     onReconnect = DEFAULT_OPTIONS.onReconnect,
-    onMessage = DEFAULT_OPTIONS.onMessage
+    onMessage = DEFAULT_OPTIONS.onMessage,
   } = { ...DEFAULT_OPTIONS, ...options };
 
   const { user, token } = useAuth();
@@ -190,9 +191,9 @@ export const useSocket = (namespace = '', options = {}) => {
         timestampParam,
         transportsOptions: {
           polling: {
-            extraHeaders
-          }
-        }
+            extraHeaders,
+          },
+        },
       };
 
       // Create socket instance
@@ -245,271 +246,271 @@ export const useSocket = (namespace = '', options = {}) => {
     }, 100);
   }, [disconnect, connect]);
   // Setup socket event listeners
-useEffect(() => {
-  if (!socketRef.current) return;
+  useEffect(() => {
+    if (!socketRef.current) return;
 
-  const socket = socketRef.current;
+    const socket = socketRef.current;
 
-  // Connection events
-  socket.on(SOCKET_EVENTS.CONNECT, () => {
-    setConnectionState(CONNECTION_STATES.CONNECTED);
-    setConnectionError(null);
-    setReconnectCount(0);
-    retryCountRef.current = 0;
-    onConnect?.();
+    // Connection events
+    socket.on(SOCKET_EVENTS.CONNECT, () => {
+      setConnectionState(CONNECTION_STATES.CONNECTED);
+      setConnectionError(null);
+      setReconnectCount(0);
+      retryCountRef.current = 0;
+      onConnect?.();
 
-    if (enableLogging) console.log('Socket connected:', socket.id);
+      if (enableLogging) console.log('Socket connected:', socket.id);
 
-    // Process queued messages
-    if (enableQueue && messageQueue.length > 0) {
-      messageQueue.forEach(msg => {
-        sendMessage(msg.event, msg.data, msg.options);
-      });
-      setMessageQueue([]);
-    }
-  });
-
-  socket.on(SOCKET_EVENTS.DISCONNECT, (reason) => {
-    setConnectionState(CONNECTION_STATES.DISCONNECTED);
-    onDisconnect?.(reason);
-
-    if (enableLogging) console.log('Socket disconnected:', reason);
-
-    // Handle unexpected disconnections
-    if (reason === 'io server disconnect' || reason === 'transport close') {
-      if (reconnection) {
-        setConnectionState(CONNECTION_STATES.RECONNECTING);
+      // Process queued messages
+      if (enableQueue && messageQueue.length > 0) {
+        messageQueue.forEach(msg => {
+          sendMessage(msg.event, msg.data, msg.options);
+        });
+        setMessageQueue([]);
       }
-    }
-  });
-
-  socket.on(SOCKET_EVENTS.RECONNECT, (attemptNumber) => {
-    setConnectionState(CONNECTION_STATES.CONNECTED);
-    setReconnectCount(attemptNumber);
-    onReconnect?.(attemptNumber);
-
-    if (enableLogging) console.log('Socket reconnected after', attemptNumber, 'attempts');
-  });
-
-  socket.on(SOCKET_EVENTS.RECONNECT_ATTEMPT, (attemptNumber) => {
-    setConnectionState(CONNECTION_STATES.RECONNECTING);
-    setReconnectCount(attemptNumber);
-
-    if (enableLogging) console.log('Socket reconnection attempt:', attemptNumber);
-  });
-
-  socket.on(SOCKET_EVENTS.RECONNECT_ERROR, (error) => {
-    setConnectionError(error);
-    if (enableLogging) console.error('Socket reconnection error:', error);
-  });
-
-  socket.on(SOCKET_EVENTS.RECONNECT_FAILED, () => {
-    setConnectionState(CONNECTION_STATES.ERROR);
-    setConnectionError(new Error('Reconnection failed'));
-    if (enableLogging) console.error('Socket reconnection failed');
-  });
-
-  socket.on(SOCKET_EVENTS.CONNECT_ERROR, (error) => {
-    setConnectionError(error);
-    setConnectionState(CONNECTION_STATES.ERROR);
-    onError?.(error);
-    if (enableLogging) console.error('Socket connection error:', error);
-  });
-
-  socket.on(SOCKET_EVENTS.CONNECT_TIMEOUT, () => {
-    setConnectionState(CONNECTION_STATES.TIMEOUT);
-    if (enableLogging) console.error('Socket connection timeout');
-  });
-
-  socket.on(SOCKET_EVENTS.ERROR, (error) => {
-    setConnectionError(error);
-    onError?.(error);
-    if (enableLogging) console.error('Socket error:', error);
-  });
-
-  // Heartbeat events
-  if (enableHeartbeat) {
-    socket.on(SOCKET_EVENTS.PING, () => {
-      setLastPing(Date.now());
     });
 
-    socket.on(SOCKET_EVENTS.PONG, (latency) => {
-      setLastPong(Date.now());
-      setLatency(latency);
-    });
-  }
+    socket.on(SOCKET_EVENTS.DISCONNECT, (reason) => {
+      setConnectionState(CONNECTION_STATES.DISCONNECTED);
+      onDisconnect?.(reason);
 
-  // Custom event handlers
-  Object.entries(eventHandlersRef.current).forEach(([event, handlers]) => {
-    handlers.forEach(handler => {
-      socket.on(event, handler);
-    });
-  });
+      if (enableLogging) console.log('Socket disconnected:', reason);
 
-  return () => {
-    socket.off(SOCKET_EVENTS.CONNECT);
-    socket.off(SOCKET_EVENTS.DISCONNECT);
-    socket.off(SOCKET_EVENTS.RECONNECT);
-    socket.off(SOCKET_EVENTS.RECONNECT_ATTEMPT);
-    socket.off(SOCKET_EVENTS.RECONNECT_ERROR);
-    socket.off(SOCKET_EVENTS.RECONNECT_FAILED);
-    socket.off(SOCKET_EVENTS.CONNECT_ERROR);
-    socket.off(SOCKET_EVENTS.CONNECT_TIMEOUT);
-    socket.off(SOCKET_EVENTS.ERROR);
-    
+      // Handle unexpected disconnections
+      if (reason === 'io server disconnect' || reason === 'transport close') {
+        if (reconnection) {
+          setConnectionState(CONNECTION_STATES.RECONNECTING);
+        }
+      }
+    });
+
+    socket.on(SOCKET_EVENTS.RECONNECT, (attemptNumber) => {
+      setConnectionState(CONNECTION_STATES.CONNECTED);
+      setReconnectCount(attemptNumber);
+      onReconnect?.(attemptNumber);
+
+      if (enableLogging) console.log('Socket reconnected after', attemptNumber, 'attempts');
+    });
+
+    socket.on(SOCKET_EVENTS.RECONNECT_ATTEMPT, (attemptNumber) => {
+      setConnectionState(CONNECTION_STATES.RECONNECTING);
+      setReconnectCount(attemptNumber);
+
+      if (enableLogging) console.log('Socket reconnection attempt:', attemptNumber);
+    });
+
+    socket.on(SOCKET_EVENTS.RECONNECT_ERROR, (error) => {
+      setConnectionError(error);
+      if (enableLogging) console.error('Socket reconnection error:', error);
+    });
+
+    socket.on(SOCKET_EVENTS.RECONNECT_FAILED, () => {
+      setConnectionState(CONNECTION_STATES.ERROR);
+      setConnectionError(new Error('Reconnection failed'));
+      if (enableLogging) console.error('Socket reconnection failed');
+    });
+
+    socket.on(SOCKET_EVENTS.CONNECT_ERROR, (error) => {
+      setConnectionError(error);
+      setConnectionState(CONNECTION_STATES.ERROR);
+      onError?.(error);
+      if (enableLogging) console.error('Socket connection error:', error);
+    });
+
+    socket.on(SOCKET_EVENTS.CONNECT_TIMEOUT, () => {
+      setConnectionState(CONNECTION_STATES.TIMEOUT);
+      if (enableLogging) console.error('Socket connection timeout');
+    });
+
+    socket.on(SOCKET_EVENTS.ERROR, (error) => {
+      setConnectionError(error);
+      onError?.(error);
+      if (enableLogging) console.error('Socket error:', error);
+    });
+
+    // Heartbeat events
     if (enableHeartbeat) {
-      socket.off(SOCKET_EVENTS.PING);
-      socket.off(SOCKET_EVENTS.PONG);
+      socket.on(SOCKET_EVENTS.PING, () => {
+        setLastPing(Date.now());
+      });
+
+      socket.on(SOCKET_EVENTS.PONG, (latency) => {
+        setLastPong(Date.now());
+        setLatency(latency);
+      });
     }
 
+    // Custom event handlers
     Object.entries(eventHandlersRef.current).forEach(([event, handlers]) => {
       handlers.forEach(handler => {
-        socket.off(event, handler);
+        socket.on(event, handler);
       });
     });
-  };
-}, [enableLogging, enableQueue, messageQueue, reconnection, enableHeartbeat, onConnect, onDisconnect, onReconnect, onError]);
 
-// Auto-connect on mount
-useEffect(() => {
-  if (autoConnect && user) {
-    connect();
-  }
-
-  return () => {
-    if (socketRef.current) {
-      socketRef.current.disconnect();
-    }
-  };
-}, [autoConnect, user, connect]);
-
-// Heartbeat monitoring
-useEffect(() => {
-  if (!enableHeartbeat || !socketRef.current) return;
-
-  heartbeatTimerRef.current = setInterval(() => {
-    if (socketRef.current?.connected) {
-      const now = Date.now();
-      if (lastPing && lastPong && now - lastPong > heartbeatTimeout) {
-        if (enableLogging) console.warn('Heartbeat timeout, reconnecting...');
-        reconnect();
+    return () => {
+      socket.off(SOCKET_EVENTS.CONNECT);
+      socket.off(SOCKET_EVENTS.DISCONNECT);
+      socket.off(SOCKET_EVENTS.RECONNECT);
+      socket.off(SOCKET_EVENTS.RECONNECT_ATTEMPT);
+      socket.off(SOCKET_EVENTS.RECONNECT_ERROR);
+      socket.off(SOCKET_EVENTS.RECONNECT_FAILED);
+      socket.off(SOCKET_EVENTS.CONNECT_ERROR);
+      socket.off(SOCKET_EVENTS.CONNECT_TIMEOUT);
+      socket.off(SOCKET_EVENTS.ERROR);
+    
+      if (enableHeartbeat) {
+        socket.off(SOCKET_EVENTS.PING);
+        socket.off(SOCKET_EVENTS.PONG);
       }
+
+      Object.entries(eventHandlersRef.current).forEach(([event, handlers]) => {
+        handlers.forEach(handler => {
+          socket.off(event, handler);
+        });
+      });
+    };
+  }, [enableLogging, enableQueue, messageQueue, reconnection, enableHeartbeat, onConnect, onDisconnect, onReconnect, onError]);
+
+  // Auto-connect on mount
+  useEffect(() => {
+    if (autoConnect && user) {
+      connect();
     }
-  }, heartbeatInterval);
 
-  return () => {
-    if (heartbeatTimerRef.current) {
-      clearInterval(heartbeatTimerRef.current);
-    }
-  };
-}, [enableHeartbeat, heartbeatInterval, heartbeatTimeout, lastPing, lastPong, reconnect, enableLogging]);
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
+  }, [autoConnect, user, connect]);
 
-// Send message
-const sendMessage = useCallback((event, data, options = {}) => {
-  const {
-    retry = enableRetry,
-    retryAttempts: msgRetryAttempts = retryAttempts,
-    retryDelay: msgRetryDelay = retryDelay,
-    timeout: msgTimeout = 30000,
-    queue = enableQueue,
-    priority = 0,
-    compress = enableCompression
-  } = options;
+  // Heartbeat monitoring
+  useEffect(() => {
+    if (!enableHeartbeat || !socketRef.current) return;
 
-  if (!socketRef.current) {
-    if (queue) {
+    heartbeatTimerRef.current = setInterval(() => {
+      if (socketRef.current?.connected) {
+        const now = Date.now();
+        if (lastPing && lastPong && now - lastPong > heartbeatTimeout) {
+          if (enableLogging) console.warn('Heartbeat timeout, reconnecting...');
+          reconnect();
+        }
+      }
+    }, heartbeatInterval);
+
+    return () => {
+      if (heartbeatTimerRef.current) {
+        clearInterval(heartbeatTimerRef.current);
+      }
+    };
+  }, [enableHeartbeat, heartbeatInterval, heartbeatTimeout, lastPing, lastPong, reconnect, enableLogging]);
+
+  // Send message
+  const sendMessage = useCallback((event, data, options = {}) => {
+    const {
+      retry = enableRetry,
+      retryAttempts: msgRetryAttempts = retryAttempts,
+      retryDelay: msgRetryDelay = retryDelay,
+      timeout: msgTimeout = 30000,
+      queue = enableQueue,
+      priority = 0,
+      compress = enableCompression,
+    } = options;
+
+    if (!socketRef.current) {
+      if (queue) {
       // Queue message for later
-      if (messageQueue.length < queueSize) {
+        if (messageQueue.length < queueSize) {
+          setMessageQueue(prev => [...prev, { event, data, options }]);
+        }
+      }
+      return null;
+    }
+
+    if (!socketRef.current.connected) {
+      if (queue) {
         setMessageQueue(prev => [...prev, { event, data, options }]);
       }
+      return null;
     }
-    return null;
-  }
 
-  if (!socketRef.current.connected) {
-    if (queue) {
-      setMessageQueue(prev => [...prev, { event, data, options }]);
-    }
-    return null;
-  }
+    const messageId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const timestamp = Date.now();
 
-  const messageId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  const timestamp = Date.now();
+    const message = {
+      id: messageId,
+      event,
+      data,
+      timestamp,
+      priority,
+      compress,
+      options,
+    };
 
-  const message = {
-    id: messageId,
-    event,
-    data,
-    timestamp,
-    priority,
-    compress,
-    options
-  };
+    // Store in history
+    setMessageHistory(prev => [message, ...prev].slice(0, 100));
 
-  // Store in history
-  setMessageHistory(prev => [message, ...prev].slice(0, 100));
+    // Send with acknowledgment
+    if (msgTimeout > 0) {
+      return new Promise((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+          pendingMessagesRef.current.delete(messageId);
+          reject(new Error('Message timeout'));
+        }, msgTimeout);
 
-  // Send with acknowledgment
-  if (msgTimeout > 0) {
-    return new Promise((resolve, reject) => {
-      const timeoutId = setTimeout(() => {
-        pendingMessagesRef.current.delete(messageId);
-        reject(new Error('Message timeout'));
-      }, msgTimeout);
+        pendingMessagesRef.current.set(messageId, { resolve, reject, timeoutId });
 
-      pendingMessagesRef.current.set(messageId, { resolve, reject, timeoutId });
-
-      socketRef.current.emit(event, data, (response) => {
-        clearTimeout(timeoutId);
-        pendingMessagesRef.current.delete(messageId);
+        socketRef.current.emit(event, data, (response) => {
+          clearTimeout(timeoutId);
+          pendingMessagesRef.current.delete(messageId);
         
-        if (response.error) {
-          reject(response.error);
-        } else {
-          resolve(response);
-        }
+          if (response.error) {
+            reject(response.error);
+          } else {
+            resolve(response);
+          }
+        });
       });
-    });
-  }
+    }
 
-  // Send without acknowledgment
-  socketRef.current.emit(event, data);
-  return Promise.resolve({ id: messageId, sent: true });
-}, [enableRetry, retryAttempts, retryDelay, enableQueue, queueSize, enableCompression, messageQueue]);
+    // Send without acknowledgment
+    socketRef.current.emit(event, data);
+    return Promise.resolve({ id: messageId, sent: true });
+  }, [enableRetry, retryAttempts, retryDelay, enableQueue, queueSize, enableCompression, messageQueue]);
 
-// Subscribe to event
-const on = useCallback((event, handler) => {
-  if (!eventHandlersRef.current[event]) {
-    eventHandlersRef.current[event] = [];
-  }
-  eventHandlersRef.current[event].push(handler);
+  // Subscribe to event
+  const on = useCallback((event, handler) => {
+    if (!eventHandlersRef.current[event]) {
+      eventHandlersRef.current[event] = [];
+    }
+    eventHandlersRef.current[event].push(handler);
 
-  if (socketRef.current) {
-    socketRef.current.on(event, handler);
-  }
+    if (socketRef.current) {
+      socketRef.current.on(event, handler);
+    }
 
-  return () => off(event, handler);
-}, []);
+    return () => off(event, handler);
+  }, []);
 
-// Unsubscribe from event
-const off = useCallback((event, handler) => {
-  if (eventHandlersRef.current[event]) {
-    eventHandlersRef.current[event] = eventHandlersRef.current[event].filter(h => h !== handler);
-  }
+  // Unsubscribe from event
+  const off = useCallback((event, handler) => {
+    if (eventHandlersRef.current[event]) {
+      eventHandlersRef.current[event] = eventHandlersRef.current[event].filter(h => h !== handler);
+    }
 
-  if (socketRef.current) {
-    socketRef.current.off(event, handler);
-  }
-}, []);
+    if (socketRef.current) {
+      socketRef.current.off(event, handler);
+    }
+  }, []);
 
-// Once subscription
-const once = useCallback((event, handler) => {
-  const wrappedHandler = (...args) => {
-    handler(...args);
-    off(event, wrappedHandler);
-  };
-  on(event, wrappedHandler);
-}, [on, off]);
+  // Once subscription
+  const once = useCallback((event, handler) => {
+    const wrappedHandler = (...args) => {
+      handler(...args);
+      off(event, wrappedHandler);
+    };
+    on(event, wrappedHandler);
+  }, [on, off]);
     // Join room
   const joinRoom = useCallback((room, data = {}) => {
     if (!socketRef.current?.connected) return false;
@@ -521,7 +522,7 @@ const once = useCallback((event, handler) => {
         } else {
           setSubscriptions(prev => ({
             ...prev,
-            [room]: [...(prev[room] || []), socketRef.current.id]
+            [room]: [...(prev[room] || []), socketRef.current.id],
           }));
           resolve(response);
         }
@@ -570,7 +571,7 @@ const once = useCallback((event, handler) => {
         } else {
           setPresence(prev => ({
             ...prev,
-            [socketRef.current.id]: { status, ...data, lastSeen: Date.now() }
+            [socketRef.current.id]: { status, ...data, lastSeen: Date.now() },
           }));
           resolve(response);
         }
@@ -630,7 +631,7 @@ const once = useCallback((event, handler) => {
       messageQueueSize: messageQueue.length,
       pendingMessages: pendingMessagesRef.current.size,
       subscriptions: Object.keys(subscriptions).length,
-      transport: socketRef.current?.io?.engine?.transport?.name || null
+      transport: socketRef.current?.io?.engine?.transport?.name || null,
     };
   }, [connectionState, reconnectCount, lastPing, lastPong, latency, messageQueue, subscriptions]);
 
@@ -697,7 +698,7 @@ const once = useCallback((event, handler) => {
     // Constants
     SOCKET_EVENTS,
     CONNECTION_STATES,
-    MESSAGE_TYPES
+    MESSAGE_TYPES,
   };
 };
 
@@ -730,7 +731,7 @@ export const useChatSocket = (room, options = {}) => {
 
     const handleReadReceipt = (data) => {
       setMessages(prev => prev.map(msg => 
-        msg.id === data.messageId ? { ...msg, read: true } : msg
+        msg.id === data.messageId ? { ...msg, read: true } : msg,
       ));
     };
 
@@ -752,7 +753,7 @@ export const useChatSocket = (room, options = {}) => {
     return socket.sendToRoom(room, 'chat_message', {
       content,
       type,
-      room
+      room,
     });
   }, [room, socket]);
 
@@ -769,7 +770,7 @@ export const useChatSocket = (room, options = {}) => {
     sendMessage,
     markAsRead,
     startTyping: () => socket.startTyping(room),
-    stopTyping: () => socket.stopTyping(room)
+    stopTyping: () => socket.stopTyping(room),
   };
 };
 
@@ -797,7 +798,7 @@ export const useNotificationSocket = (options = {}) => {
     socket.send('mark_read', { notificationId });
     setUnreadNotifications(prev => Math.max(0, prev - 1));
     setNotifications(prev => prev.map(n => 
-      n.id === notificationId ? { ...n, read: true } : n
+      n.id === notificationId ? { ...n, read: true } : n,
     ));
   }, [socket]);
 
@@ -812,7 +813,7 @@ export const useNotificationSocket = (options = {}) => {
     notifications,
     unreadNotifications,
     markAsRead,
-    markAllAsRead
+    markAllAsRead,
   };
 };
 
@@ -826,7 +827,7 @@ export const usePresenceSocket = (userId, options = {}) => {
     const handlePresenceUpdate = (data) => {
       setOnlineUsers(prev => ({
         ...prev,
-        [data.userId]: { ...data, lastSeen: Date.now() }
+        [data.userId]: { ...data, lastSeen: Date.now() },
       }));
     };
 
@@ -855,7 +856,7 @@ export const usePresenceSocket = (userId, options = {}) => {
   return {
     ...socket,
     onlineUsers,
-    getUserStatus
+    getUserStatus,
   };
 };
 
@@ -864,7 +865,7 @@ export const SOCKET_CONSTANTS = {
   EVENTS: SOCKET_EVENTS,
   CONNECTION_STATES,
   MESSAGE_TYPES,
-  DEFAULTS: DEFAULT_OPTIONS
+  DEFAULTS: DEFAULT_OPTIONS,
 };
 
 export default useSocket;

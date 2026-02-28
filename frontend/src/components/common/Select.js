@@ -59,7 +59,7 @@ const Select = ({
         case 'ArrowDown':
           e.preventDefault();
           setHighlightedIndex(prev =>
-            prev < filteredOptions.length - 1 ? prev + 1 : prev
+            prev < filteredOptions.length - 1 ? prev + 1 : prev,
           );
           break;
         case 'ArrowUp':
@@ -95,7 +95,7 @@ const Select = ({
   const getFilteredOptions = () => {
     if (!searchTerm) return options;
     return options.filter(option =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   };
 
@@ -167,7 +167,7 @@ const Select = ({
   const sizeClasses = {
     small: 'select-small',
     medium: 'select-medium',
-    large: 'select-large'
+    large: 'select-large',
   };
 
   // Filtered options

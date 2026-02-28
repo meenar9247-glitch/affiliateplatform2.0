@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import { useTheme } from '../../context/ThemeContext';
 import {
   FiMenu,
   FiSearch,
@@ -23,8 +20,12 @@ import {
   FiInfo,
   FiMessageSquare,
   FiEye,
-  FiEyeOff
+  FiEyeOff,
 } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../hooks/useAuth';
 
 const Header = ({ toggleSidebar }) => {
   const { user, logout } = useAuth();
@@ -55,7 +56,7 @@ const Header = ({ toggleSidebar }) => {
         message: 'Your withdrawal of $500 has been processed successfully',
         time: '5 minutes ago',
         read: false,
-        icon: FiCheckCircle
+        icon: FiCheckCircle,
       },
       {
         id: 2,
@@ -64,7 +65,7 @@ const Header = ({ toggleSidebar }) => {
         message: 'Your new affiliate link has been approved',
         time: '1 hour ago',
         read: false,
-        icon: FiInfo
+        icon: FiInfo,
       },
       {
         id: 3,
@@ -73,7 +74,7 @@ const Header = ({ toggleSidebar }) => {
         message: 'Your commission of $50 is pending approval',
         time: '3 hours ago',
         read: true,
-        icon: FiAlertCircle
+        icon: FiAlertCircle,
       },
       {
         id: 4,
@@ -82,8 +83,8 @@ const Header = ({ toggleSidebar }) => {
         message: 'You earned $25 from your referral',
         time: '1 day ago',
         read: true,
-        icon: FiDollarSign
-      }
+        icon: FiDollarSign,
+      },
     ];
     setNotifications(mockNotifications);
     setUnreadCount(mockNotifications.filter(n => !n.read).length);
@@ -127,9 +128,9 @@ const Header = ({ toggleSidebar }) => {
       { id: 1, title: 'Dashboard', path: '/dashboard', icon: FiActivity },
       { id: 2, title: 'Affiliate Links', path: '/affiliates', icon: FiCreditCard },
       { id: 3, title: 'Earnings Report', path: '/earnings', icon: FiDollarSign },
-      { id: 4, title: 'Profile Settings', path: '/settings', icon: FiSettings }
+      { id: 4, title: 'Profile Settings', path: '/settings', icon: FiSettings },
     ].filter(item => 
-      item.title.toLowerCase().includes(searchQuery.toLowerCase())
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()),
     );
     setSearchResults(results);
     setSearchLoading(false);
@@ -142,7 +143,7 @@ const Header = ({ toggleSidebar }) => {
 
   const markAsRead = (notificationId) => {
     setNotifications(notifications.map(n =>
-      n.id === notificationId ? { ...n, read: true } : n
+      n.id === notificationId ? { ...n, read: true } : n,
     ));
     setUnreadCount(prev => Math.max(0, prev - 1));
   };

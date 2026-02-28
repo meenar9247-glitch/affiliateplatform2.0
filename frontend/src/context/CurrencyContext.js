@@ -23,7 +23,7 @@ const CURRENCIES = {
   AUD: { symbol: 'A$', code: 'AUD', rate: 1.53, name: 'Australian Dollar' },
   CAD: { symbol: 'C$', code: 'CAD', rate: 1.36, name: 'Canadian Dollar' },
   SGD: { symbol: 'S$', code: 'SGD', rate: 1.35, name: 'Singapore Dollar' },
-  AED: { symbol: 'د.إ', code: 'AED', rate: 3.67, name: 'UAE Dirham' }
+  AED: { symbol: 'د.إ', code: 'AED', rate: 3.67, name: 'UAE Dirham' },
 };
 
 // Provider component
@@ -71,7 +71,7 @@ export const CurrencyProvider = ({ children }) => {
       style: 'currency',
       currency: selectedCurrency.code,
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     });
 
     if (showCode) {
@@ -113,7 +113,7 @@ export const CurrencyProvider = ({ children }) => {
       code,
       name: rates[code].name,
       symbol: rates[code].symbol,
-      rate: rates[code].rate
+      rate: rates[code].rate,
     }));
   }, [rates]);
 
@@ -124,7 +124,7 @@ export const CurrencyProvider = ({ children }) => {
     
     const originalFormatted = new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: original.code
+      currency: original.code,
     }).format(amount);
 
     const convertedAmount = convertAmount(amount, originalCurrency, currency);
@@ -144,7 +144,7 @@ export const CurrencyProvider = ({ children }) => {
     changeCurrency,
     getAvailableCurrencies,
     formatWithComparison,
-    availableCurrencies: rates
+    availableCurrencies: rates,
   };
 
   return (

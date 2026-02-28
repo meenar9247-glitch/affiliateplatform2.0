@@ -30,12 +30,12 @@ export const ThemeProvider = ({ children }) => {
         text: '#212529',
         textSecondary: '#6c757d',
         border: '#e9ecef',
-        shadow: 'rgba(0, 0, 0, 0.1)'
+        shadow: 'rgba(0, 0, 0, 0.1)',
       },
       gradients: {
         primary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        secondary: 'linear-gradient(135deg, #6c757d 0%, #495057 100%)'
-      }
+        secondary: 'linear-gradient(135deg, #6c757d 0%, #495057 100%)',
+      },
     },
     dark: {
       name: 'dark',
@@ -51,12 +51,12 @@ export const ThemeProvider = ({ children }) => {
         text: '#ffffff',
         textSecondary: '#b7b7b7',
         border: '#2d3748',
-        shadow: 'rgba(0, 0, 0, 0.3)'
+        shadow: 'rgba(0, 0, 0, 0.3)',
       },
       gradients: {
         primary: 'linear-gradient(135deg, #818cf8 0%, #a78bfa 100%)',
-        secondary: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)'
-      }
+        secondary: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+      },
     },
     cupcake: {
       name: 'cupcake',
@@ -72,12 +72,12 @@ export const ThemeProvider = ({ children }) => {
         text: '#291334',
         textSecondary: '#6b4b6b',
         border: '#e9e2e2',
-        shadow: 'rgba(0, 0, 0, 0.05)'
+        shadow: 'rgba(0, 0, 0, 0.05)',
       },
       gradients: {
         primary: 'linear-gradient(135deg, #65c3c8 0%, #ef9fbc 100%)',
-        secondary: 'linear-gradient(135deg, #d9b6a0 0%, #c4a5a5 100%)'
-      }
+        secondary: 'linear-gradient(135deg, #d9b6a0 0%, #c4a5a5 100%)',
+      },
     },
     business: {
       name: 'business',
@@ -93,12 +93,12 @@ export const ThemeProvider = ({ children }) => {
         text: '#f8fafc',
         textSecondary: '#cbd5e1',
         border: '#334155',
-        shadow: 'rgba(0, 0, 0, 0.5)'
+        shadow: 'rgba(0, 0, 0, 0.5)',
       },
       gradients: {
         primary: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
-        secondary: 'linear-gradient(135deg, #4b5563 0%, #1f2937 100%)'
-      }
+        secondary: 'linear-gradient(135deg, #4b5563 0%, #1f2937 100%)',
+      },
     },
     emerald: {
       name: 'emerald',
@@ -114,13 +114,13 @@ export const ThemeProvider = ({ children }) => {
         text: '#022c22',
         textSecondary: '#065f46',
         border: '#a7f3d0',
-        shadow: 'rgba(0, 150, 0, 0.1)'
+        shadow: 'rgba(0, 150, 0, 0.1)',
       },
       gradients: {
         primary: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
-        secondary: 'linear-gradient(135deg, #059669 0%, #10b981 100%)'
-      }
-    }
+        secondary: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+      },
+    },
   };
 
   // State
@@ -192,9 +192,9 @@ export const ThemeProvider = ({ children }) => {
       ...baseTheme,
       colors: {
         ...baseTheme.colors,
-        ...customColors
+        ...customColors,
       },
-      name: 'custom'
+      name: 'custom',
     };
     setCustomTheme(newCustomTheme);
   };
@@ -220,7 +220,7 @@ export const ThemeProvider = ({ children }) => {
     return Object.keys(themes).map(key => ({
       id: key,
       name: themes[key].name,
-      colors: themes[key].colors
+      colors: themes[key].colors,
     }));
   };
 
@@ -238,7 +238,7 @@ export const ThemeProvider = ({ children }) => {
     getAvailableThemes,
     // Color helpers
     colors: getCurrentTheme().colors,
-    gradients: getCurrentTheme().gradients
+    gradients: getCurrentTheme().gradients,
   };
 
   return (

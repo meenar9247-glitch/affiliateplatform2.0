@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   FiHelpCircle,
   FiMail,
@@ -21,10 +23,8 @@ import {
   FiExternalLink,
   FiThumbsUp,
   FiThumbsDown,
-  FiRefreshCw
+  FiRefreshCw,
 } from 'react-icons/fi';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 
 const Support = () => {
   const [loading, setLoading] = useState(true);
@@ -44,7 +44,7 @@ const Support = () => {
     category: 'technical',
     priority: 'medium',
     message: '',
-    attachments: []
+    attachments: [],
   });
 
   // Reply State
@@ -57,43 +57,43 @@ const Support = () => {
       question: 'How do I earn commissions?',
       answer: 'You can earn commissions by sharing your unique referral links. When someone clicks your link and makes a purchase, you earn a commission based on the product\'s commission rate.',
       category: 'Earnings',
-      helpful: true
+      helpful: true,
     },
     {
       id: 2,
       question: 'When do I get paid?',
       answer: 'Payments are processed on the 1st and 15th of every month, provided you have reached the minimum payout threshold of $50.',
       category: 'Payments',
-      helpful: true
+      helpful: true,
     },
     {
       id: 3,
       question: 'How do I withdraw my earnings?',
       answer: 'Go to Wallet → Withdrawals, choose your preferred payment method (PayPal, Bank Transfer, or UPI), enter the amount, and submit your request.',
       category: 'Withdrawals',
-      helpful: true
+      helpful: true,
     },
     {
       id: 4,
       question: 'What is the minimum withdrawal amount?',
       answer: 'The minimum withdrawal amount is $10 for PayPal and $25 for bank transfers.',
       category: 'Withdrawals',
-      helpful: true
+      helpful: true,
     },
     {
       id: 5,
       question: 'How do I create referral links?',
       answer: 'Go to Affiliate Links page, browse products, and click "Get Link" to generate your unique referral link for any product.',
       category: 'Referrals',
-      helpful: true
+      helpful: true,
     },
     {
       id: 6,
       question: 'My commission is not showing up?',
       answer: 'Commissions may take 24-48 hours to appear in your account. If it\'s been longer, please check if the sale was valid (returns/cancellations don\'t earn commissions).',
       category: 'Earnings',
-      helpful: false
-    }
+      helpful: false,
+    },
   ];
 
   const categories = [
@@ -101,13 +101,13 @@ const Support = () => {
     { value: 'billing', label: 'Billing & Payments' },
     { value: 'account', label: 'Account Issues' },
     { value: 'referral', label: 'Referral Problems' },
-    { value: 'other', label: 'Other' }
+    { value: 'other', label: 'Other' },
   ];
 
   const priorities = [
     { value: 'low', label: 'Low', color: '#28a745' },
     { value: 'medium', label: 'Medium', color: '#ffc107' },
-    { value: 'high', label: 'High', color: '#dc3545' }
+    { value: 'high', label: 'High', color: '#dc3545' },
   ];
 
   useEffect(() => {
@@ -119,7 +119,7 @@ const Support = () => {
       const token = localStorage.getItem('token');
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/support/tickets`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       if (response.data.success) {
@@ -151,7 +151,7 @@ const Support = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/support/tickets`,
         newTicket,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       if (response.data.success) {
@@ -162,7 +162,7 @@ const Support = () => {
           category: 'technical',
           priority: 'medium',
           message: '',
-          attachments: []
+          attachments: [],
         });
         fetchTickets();
       }
@@ -185,7 +185,7 @@ const Support = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/support/tickets/${ticketId}/reply`,
         { message: replyMessage },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       if (response.data.success) {
@@ -202,7 +202,7 @@ const Support = () => {
 
   const filteredFaqs = faqs.filter(faq =>
     faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+    faq.answer.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const getStatusColor = (status) => {
@@ -217,7 +217,7 @@ const Support = () => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -433,7 +433,7 @@ const Support = () => {
                             <h3 style={styles.ticketSubject}>{ticket.subject}</h3>
                             <span style={{
                               ...styles.ticketStatus,
-                              ...getStatusColor(ticket.status)
+                              ...getStatusColor(ticket.status),
                             }}>
                               {ticket.status}
                             </span>
@@ -539,28 +539,28 @@ const styles = {
     maxWidth: '1200px',
     margin: '0 auto',
     padding: '30px 20px',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   header: {
     textAlign: 'center',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   headerTitle: {
     fontSize: '32px',
     color: '#333',
-    margin: '0 0 10px'
+    margin: '0 0 10px',
   },
   headerSubtitle: {
     fontSize: '18px',
     color: '#666',
-    margin: 0
+    margin: 0,
   },
   tabs: {
     display: 'flex',
     gap: '10px',
     marginBottom: '30px',
     borderBottom: '1px solid #e9ecef',
-    paddingBottom: '10px'
+    paddingBottom: '10px',
   },
   tab: {
     padding: '10px 20px',
@@ -572,49 +572,49 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   activeTab: {
     background: '#667eea',
-    color: 'white'
+    color: 'white',
   },
   tabIcon: {
-    fontSize: '18px'
+    fontSize: '18px',
   },
   content: {
     background: 'white',
     borderRadius: '10px',
     padding: '30px',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    minHeight: '400px'
+    minHeight: '400px',
   },
   searchBox: {
     position: 'relative',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   searchIcon: {
     position: 'absolute',
     left: '12px',
     top: '50%',
     transform: 'translateY(-50%)',
-    color: '#999'
+    color: '#999',
   },
   searchInput: {
     width: '100%',
     padding: '12px 12px 12px 40px',
     border: '1px solid #ddd',
     borderRadius: '8px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   faqList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '10px'
+    gap: '10px',
   },
   faqItem: {
     border: '1px solid #e9ecef',
     borderRadius: '8px',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   faqQuestion: {
     padding: '15px',
@@ -622,33 +622,33 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   faqQuestionContent: {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   faqQuestionText: {
     fontWeight: 500,
-    color: '#333'
+    color: '#333',
   },
   faqCategory: {
     padding: '2px 8px',
     background: '#e9ecef',
     borderRadius: '12px',
     fontSize: '11px',
-    color: '#666'
+    color: '#666',
   },
   faqAnswer: {
     padding: '20px',
     background: 'white',
     color: '#666',
-    lineHeight: '1.6'
+    lineHeight: '1.6',
   },
   faqAnswerText: {
-    margin: '0 0 15px'
+    margin: '0 0 15px',
   },
   faqHelpful: {
     display: 'flex',
@@ -656,11 +656,11 @@ const styles = {
     gap: '15px',
     marginTop: '15px',
     paddingTop: '15px',
-    borderTop: '1px solid #e9ecef'
+    borderTop: '1px solid #e9ecef',
   },
   helpfulButtons: {
     display: 'flex',
-    gap: '10px'
+    gap: '10px',
   },
   helpfulBtn: {
     padding: '5px 10px',
@@ -670,18 +670,18 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '3px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   ticketsHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   ticketsTitle: {
     margin: 0,
     fontSize: '20px',
-    color: '#333'
+    color: '#333',
   },
   newTicketBtn: {
     padding: '10px 20px',
@@ -689,46 +689,46 @@ const styles = {
     color: 'white',
     border: 'none',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   newTicketForm: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '20px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   formTitle: {
     margin: '0 0 20px',
-    color: '#333'
+    color: '#333',
   },
   formGroup: {
     marginBottom: '15px',
-    flex: 1
+    flex: 1,
   },
   formRow: {
     display: 'flex',
     gap: '15px',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   label: {
     display: 'block',
     marginBottom: '5px',
     fontWeight: 500,
-    color: '#333'
+    color: '#333',
   },
   input: {
     width: '100%',
     padding: '10px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   select: {
     width: '100%',
     padding: '10px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   textarea: {
     width: '100%',
@@ -736,13 +736,13 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '5px',
     fontSize: '14px',
-    resize: 'vertical'
+    resize: 'vertical',
   },
   formActions: {
     display: 'flex',
     justifyContent: 'flex-end',
     gap: '10px',
-    marginTop: '20px'
+    marginTop: '20px',
   },
   cancelBtn: {
     padding: '10px 20px',
@@ -750,7 +750,7 @@ const styles = {
     color: '#666',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   submitBtn: {
     padding: '10px 20px',
@@ -761,56 +761,56 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   ticketsList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '10px'
+    gap: '10px',
   },
   emptyState: {
     textAlign: 'center',
-    padding: '40px'
+    padding: '40px',
   },
   emptyIcon: {
     fontSize: '48px',
     color: '#ddd',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   ticketCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '15px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   ticketHeader: {
     display: 'flex',
     justifyContent: 'space-between',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   ticketSubject: {
     margin: 0,
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   ticketStatus: {
     padding: '2px 8px',
     borderRadius: '12px',
-    fontSize: '11px'
+    fontSize: '11px',
   },
   ticketMeta: {
     display: 'flex',
     gap: '15px',
     fontSize: '12px',
-    color: '#666'
+    color: '#666',
   },
   ticketId: {
-    fontSize: '12px'
+    fontSize: '12px',
   },
   ticketDate: {
     display: 'flex',
     alignItems: 'center',
-    gap: '3px'
+    gap: '3px',
   },
   backBtn: {
     display: 'flex',
@@ -820,23 +820,23 @@ const styles = {
     border: 'none',
     color: '#667eea',
     cursor: 'pointer',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   ticketDetail: {
     padding: '20px',
     background: '#f8f9fa',
-    borderRadius: '8px'
+    borderRadius: '8px',
   },
   ticketDetailTitle: {
     margin: '0 0 10px',
-    color: '#333'
+    color: '#333',
   },
   ticketDetailMeta: {
     display: 'flex',
     gap: '20px',
     fontSize: '13px',
     color: '#666',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   ticketMessage: {
     padding: '15px',
@@ -844,10 +844,10 @@ const styles = {
     borderRadius: '5px',
     color: '#666',
     lineHeight: '1.6',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   replyForm: {
-    marginTop: '20px'
+    marginTop: '20px',
   },
   sendReplyBtn: {
     padding: '10px 20px',
@@ -859,33 +859,33 @@ const styles = {
     alignItems: 'center',
     gap: '5px',
     cursor: 'pointer',
-    marginTop: '10px'
+    marginTop: '10px',
   },
   contactGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '20px'
+    gap: '20px',
   },
   contactCard: {
     padding: '30px',
     background: '#f8f9fa',
     borderRadius: '10px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   contactIcon: {
     width: '60px',
     height: '60px',
     margin: '0 auto 15px',
-    fontSize: '32px'
+    fontSize: '32px',
   },
   contactTitle: {
     margin: '0 0 10px',
-    color: '#333'
+    color: '#333',
   },
   contactText: {
     margin: '0 0 15px',
     color: '#666',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   contactLink: {
     display: 'inline-block',
@@ -894,18 +894,18 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '5px',
     textDecoration: 'none',
-    color: '#333'
+    color: '#333',
   },
   contactBtn: {
     padding: '8px 16px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   loadingContainer: {
     textAlign: 'center',
-    padding: '60px 20px'
+    padding: '60px 20px',
   },
   spinner: {
     border: '3px solid #f3f3f3',
@@ -914,8 +914,8 @@ const styles = {
     width: '40px',
     height: '40px',
     animation: 'spin 1s linear infinite',
-    margin: '0 auto 15px'
-  }
+    margin: '0 auto 15px',
+  },
 };
 
 export default Support;

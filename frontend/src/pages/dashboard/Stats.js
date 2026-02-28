@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiTrendingUp,
@@ -24,8 +23,9 @@ import {
   FiTarget,
   FiZap,
   FiGift,
-  FiCreditCard
+  FiCreditCard,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -43,7 +43,7 @@ import {
   Legend,
   ResponsiveContainer,
   ComposedChart,
-  Scatter
+  Scatter,
 } from 'recharts';
 
 const Stats = () => {
@@ -53,7 +53,7 @@ const Stats = () => {
   const [timeRange, setTimeRange] = useState('30d');
   const [dateRange, setDateRange] = useState({
     startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    endDate: new Date().toISOString().split('T')[0]
+    endDate: new Date().toISOString().split('T')[0],
   });
   const [stats, setStats] = useState({
     overview: {
@@ -65,13 +65,13 @@ const Stats = () => {
       conversionRate: 0,
       clickThroughRate: 0,
       earningsPerClick: 0,
-      roi: 0
+      roi: 0,
     },
     timeBased: {
       hourly: [],
       daily: [],
       weekly: [],
-      monthly: []
+      monthly: [],
     },
     performance: {
       bestDay: { date: null, earnings: 0, clicks: 0, conversions: 0 },
@@ -80,30 +80,30 @@ const Stats = () => {
       trends: {
         earnings: 0,
         clicks: 0,
-        conversions: 0
-      }
+        conversions: 0,
+      },
     },
     breakdown: {
       bySource: [],
       byDevice: [],
       byCountry: [],
       byCategory: [],
-      byProduct: []
+      byProduct: [],
     },
     comparisons: {
       previousPeriod: {
         earnings: 0,
         clicks: 0,
         conversions: 0,
-        rate: 0
+        rate: 0,
       },
       targets: {
         earnings: 0,
         clicks: 0,
         conversions: 0,
-        achieved: 0
-      }
-    }
+        achieved: 0,
+      },
+    },
   });
   const [chartType, setChartType] = useState('line'); // line, bar, area, composed
   const [selectedMetric, setSelectedMetric] = useState('earnings');
@@ -125,9 +125,9 @@ const Stats = () => {
             timeRange,
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
-            source: filterSource
-          }
-        }
+            source: filterSource,
+          },
+        },
       );
       
       if (response.data.success) {
@@ -156,10 +156,10 @@ const Stats = () => {
             format,
             timeRange,
             startDate: dateRange.startDate,
-            endDate: dateRange.endDate
+            endDate: dateRange.endDate,
           },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -181,7 +181,7 @@ const Stats = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount);
   };
 

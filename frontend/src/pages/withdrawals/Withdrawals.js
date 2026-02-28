@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiDollarSign,
@@ -14,8 +13,9 @@ import {
   FiEyeOff,
   FiCalendar,
   FiTrendingUp,
-  FiTrendingDown
+  FiTrendingDown,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Withdrawals = () => {
   const [loading, setLoading] = useState(true);
@@ -25,11 +25,11 @@ const Withdrawals = () => {
     pendingWithdrawals: 0,
     completedWithdrawals: 0,
     failedWithdrawals: 0,
-    averageProcessingTime: 0
+    averageProcessingTime: 0,
   });
   const [filters, setFilters] = useState({
     status: 'all',
-    dateRange: 'all'
+    dateRange: 'all',
   });
   const [showFilters, setShowFilters] = useState(false);
 
@@ -41,7 +41,7 @@ const Withdrawals = () => {
   const fetchWithdrawals = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/withdrawals`
+        `${process.env.REACT_APP_API_URL}/withdrawals`,
       );
       
       if (response.data.success) {
@@ -57,7 +57,7 @@ const Withdrawals = () => {
   const fetchStats = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/withdrawals/stats`
+        `${process.env.REACT_APP_API_URL}/withdrawals/stats`,
       );
       
       if (response.data.success) {
@@ -81,8 +81,8 @@ const Withdrawals = () => {
         `${process.env.REACT_APP_API_URL}/withdrawals/export`,
         {
           params: filters,
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -104,7 +104,7 @@ const Withdrawals = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount);
   };
 
@@ -114,7 +114,7 @@ const Withdrawals = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 

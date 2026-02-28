@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 // Create Auth Context
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
 
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/login`,
-        { email, password }
+        { email, password },
       );
 
       if (response.data.success) {
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
 
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/register`,
-        userData
+        userData,
       );
 
       if (response.data.success) {
@@ -137,9 +137,9 @@ export const AuthProvider = ({ children }) => {
         userData,
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
 
       if (response.data.success) {
@@ -169,9 +169,9 @@ export const AuthProvider = ({ children }) => {
         { currentPassword, newPassword },
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
 
       if (response.data.success) {
@@ -194,7 +194,7 @@ export const AuthProvider = ({ children }) => {
 
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/forgot-password`,
-        { email }
+        { email },
       );
 
       if (response.data.success) {
@@ -217,7 +217,7 @@ export const AuthProvider = ({ children }) => {
 
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/reset-password/${token}`,
-        { password }
+        { password },
       );
 
       if (response.data.success) {
@@ -239,7 +239,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
 
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/auth/verify-email/${token}`
+        `${process.env.REACT_APP_API_URL}/auth/verify-email/${token}`,
       );
 
       if (response.data.success) {
@@ -262,7 +262,7 @@ export const AuthProvider = ({ children }) => {
 
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/google`,
-        googleData
+        googleData,
       );
 
       if (response.data.success) {
@@ -292,7 +292,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/refresh-token`,
-        { token }
+        { token },
       );
 
       if (response.data.success) {
@@ -354,7 +354,7 @@ export const AuthProvider = ({ children }) => {
     isAdmin,
     getUserRole,
     hasPermission,
-    setError
+    setError,
   };
 
   return (

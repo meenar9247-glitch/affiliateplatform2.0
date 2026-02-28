@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+
 import { useDebounce } from './useDebounce';
 import { useLocalStorage } from './useLocalStorage';
 
@@ -8,7 +9,7 @@ export const VALIDATION_STRATEGIES = {
   ON_BLUR: 'onBlur',
   ON_SUBMIT: 'onSubmit',
   ON_TOUCH: 'onTouch',
-  DEBOUNCE: 'debounce'
+  DEBOUNCE: 'debounce',
 };
 
 // Form submission states
@@ -16,7 +17,7 @@ export const SUBMISSION_STATES = {
   IDLE: 'idle',
   SUBMITTING: 'submitting',
   SUCCESS: 'success',
-  ERROR: 'error'
+  ERROR: 'error',
 };
 
 // Field types
@@ -37,7 +38,7 @@ export const FIELD_TYPES = {
   FILE: 'file',
   IMAGE: 'image',
   COLOR: 'color',
-  RANGE: 'range'
+  RANGE: 'range',
 };
 
 // Default validation messages
@@ -57,7 +58,7 @@ export const DEFAULT_MESSAGES = {
   time: 'Please enter a valid time',
   file: 'Please select a valid file',
   image: 'Please select a valid image',
-  custom: 'Invalid value'
+  custom: 'Invalid value',
 };
 
 // Default options
@@ -98,7 +99,7 @@ const DEFAULT_OPTIONS = {
   onChange: null,
   onBlur: null,
   onFocus: null,
-  onReset: null
+  onReset: null,
 };
 
 export const useForm = (initialValues = {}, options = {}) => {
@@ -129,7 +130,7 @@ export const useForm = (initialValues = {}, options = {}) => {
     onChange = null,
     onBlur = null,
     onFocus = null,
-    onReset = null
+    onReset = null,
   } = { ...DEFAULT_OPTIONS, ...options };
 
   // Core form state
@@ -184,7 +185,7 @@ export const useForm = (initialValues = {}, options = {}) => {
       values,
       touched,
       dirty,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     }));
   }, [values, touched, dirty, persistToStorage, storageKey, storageType]);
 
@@ -281,243 +282,243 @@ export const useForm = (initialValues = {}, options = {}) => {
       ref: (el) => {
         if (el) fieldRefs.current[name] = el;
       },
-      ...rest
+      ...rest,
     };
   }, [values, validateOnChange, validateOnBlur, validationStrategy, onChange, onBlur, onFocus]);
   // Validate a single field
-const validateField = useCallback((name, value, fieldOptions = {}) => {
-  const {
-    required = false,
-    min = null,
-    max = null,
-    minLength = null,
-    maxLength = null,
-    pattern = null,
-    validate: customValidate = null,
-    type = FIELD_TYPES.TEXT
-  } = fieldOptions;
+  const validateField = useCallback((name, value, fieldOptions = {}) => {
+    const {
+      required = false,
+      min = null,
+      max = null,
+      minLength = null,
+      maxLength = null,
+      pattern = null,
+      validate: customValidate = null,
+      type = FIELD_TYPES.TEXT,
+    } = fieldOptions;
 
-  let fieldError = null;
+    let fieldError = null;
 
-  // Required validation
-  if (required) {
-    if (value === undefined || value === null || value === '') {
-      fieldError = DEFAULT_MESSAGES.required;
+    // Required validation
+    if (required) {
+      if (value === undefined || value === null || value === '') {
+        fieldError = DEFAULT_MESSAGES.required;
+      }
     }
-  }
 
-  // Type-specific validation
-  if (!fieldError) {
-    switch (type) {
-      case FIELD_TYPES.EMAIL:
-        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          fieldError = DEFAULT_MESSAGES.email;
-        }
-        break;
+    // Type-specific validation
+    if (!fieldError) {
+      switch (type) {
+        case FIELD_TYPES.EMAIL:
+          if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            fieldError = DEFAULT_MESSAGES.email;
+          }
+          break;
         
-      case FIELD_TYPES.NUMBER:
-        if (value && isNaN(Number(value))) {
-          fieldError = DEFAULT_MESSAGES.number;
-        }
-        break;
+        case FIELD_TYPES.NUMBER:
+          if (value && isNaN(Number(value))) {
+            fieldError = DEFAULT_MESSAGES.number;
+          }
+          break;
         
-      case FIELD_TYPES.URL:
-        if (value && !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(value)) {
-          fieldError = DEFAULT_MESSAGES.url;
-        }
-        break;
+        case FIELD_TYPES.URL:
+          if (value && !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(value)) {
+            fieldError = DEFAULT_MESSAGES.url;
+          }
+          break;
         
-      case FIELD_TYPES.TEL:
-        if (value && !/^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,4}[-\s\.]?[0-9]{1,9}$/.test(value)) {
-          fieldError = DEFAULT_MESSAGES.tel;
+        case FIELD_TYPES.TEL:
+          if (value && !/^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,4}[-\s\.]?[0-9]{1,9}$/.test(value)) {
+            fieldError = DEFAULT_MESSAGES.tel;
+          }
+          break;
+      }
+    }
+
+    // Min validation
+    if (!fieldError && min !== null) {
+      if (type === FIELD_TYPES.NUMBER) {
+        if (Number(value) < min) {
+          fieldError = DEFAULT_MESSAGES.min.replace('{min}', min);
         }
-        break;
-    }
-  }
-
-  // Min validation
-  if (!fieldError && min !== null) {
-    if (type === FIELD_TYPES.NUMBER) {
-      if (Number(value) < min) {
-        fieldError = DEFAULT_MESSAGES.min.replace('{min}', min);
-      }
-    } else {
-      if (value.length < min) {
-        fieldError = DEFAULT_MESSAGES.minLength.replace('{minLength}', min);
+      } else {
+        if (value.length < min) {
+          fieldError = DEFAULT_MESSAGES.minLength.replace('{minLength}', min);
+        }
       }
     }
-  }
 
-  // Max validation
-  if (!fieldError && max !== null) {
-    if (type === FIELD_TYPES.NUMBER) {
-      if (Number(value) > max) {
-        fieldError = DEFAULT_MESSAGES.max.replace('{max}', max);
+    // Max validation
+    if (!fieldError && max !== null) {
+      if (type === FIELD_TYPES.NUMBER) {
+        if (Number(value) > max) {
+          fieldError = DEFAULT_MESSAGES.max.replace('{max}', max);
+        }
+      } else {
+        if (value.length > max) {
+          fieldError = DEFAULT_MESSAGES.maxLength.replace('{maxLength}', max);
+        }
       }
-    } else {
-      if (value.length > max) {
-        fieldError = DEFAULT_MESSAGES.maxLength.replace('{maxLength}', max);
+    }
+
+    // MinLength validation
+    if (!fieldError && minLength !== null && value?.length < minLength) {
+      fieldError = DEFAULT_MESSAGES.minLength.replace('{minLength}', minLength);
+    }
+
+    // MaxLength validation
+    if (!fieldError && maxLength !== null && value?.length > maxLength) {
+      fieldError = DEFAULT_MESSAGES.maxLength.replace('{maxLength}', maxLength);
+    }
+
+    // Pattern validation
+    if (!fieldError && pattern && value) {
+      const regex = pattern instanceof RegExp ? pattern : new RegExp(pattern);
+      if (!regex.test(value)) {
+        fieldError = DEFAULT_MESSAGES.pattern;
       }
     }
-  }
 
-  // MinLength validation
-  if (!fieldError && minLength !== null && value?.length < minLength) {
-    fieldError = DEFAULT_MESSAGES.minLength.replace('{minLength}', minLength);
-  }
-
-  // MaxLength validation
-  if (!fieldError && maxLength !== null && value?.length > maxLength) {
-    fieldError = DEFAULT_MESSAGES.maxLength.replace('{maxLength}', maxLength);
-  }
-
-  // Pattern validation
-  if (!fieldError && pattern && value) {
-    const regex = pattern instanceof RegExp ? pattern : new RegExp(pattern);
-    if (!regex.test(value)) {
-      fieldError = DEFAULT_MESSAGES.pattern;
+    // Custom validation
+    if (!fieldError && customValidate) {
+      const customError = customValidate(value, values);
+      if (customError) {
+        fieldError = customError;
+      }
     }
-  }
 
-  // Custom validation
-  if (!fieldError && customValidate) {
-    const customError = customValidate(value, values);
-    if (customError) {
-      fieldError = customError;
-    }
-  }
-
-  // Update errors state
-  setErrors(prev => {
-    if (fieldError) {
-      return { ...prev, [name]: fieldError };
-    } else {
-      const newErrors = { ...prev };
-      delete newErrors[name];
-      return newErrors;
-    }
-  });
-
-  return fieldError;
-}, [values]);
-
-// Validate all fields
-const validateAll = useCallback(() => {
-  setIsValidating(true);
-  
-  const newErrors = {};
-  
-  Object.keys(values).forEach(key => {
-    const error = validateField(key, values[key]);
-    if (error) {
-      newErrors[key] = error;
-    }
-  });
-
-  // Custom validation callback
-  if (onValidate) {
-    const customErrors = onValidate(values);
-    if (customErrors) {
-      Object.assign(newErrors, customErrors);
-    }
-  }
-
-  setErrors(newErrors);
-  setIsValidating(false);
-  
-  return Object.keys(newErrors).length === 0;
-}, [values, validateField, onValidate]);
-
-// Debounced validation
-const debouncedValidateField = useDebounce(validateField, debounceDelay);
-
-// Set field value
-const setValue = useCallback((name, value, shouldValidate = true) => {
-  setValues(prev => ({ ...prev, [name]: value }));
-  setDirty(prev => ({ ...prev, [name]: true }));
-  
-  if (shouldValidate) {
-    if (enableDebounce) {
-      debouncedValidateField(name, value);
-    } else {
-      validateField(name, value);
-    }
-  }
-  
-  onChange?.({ name, value, values });
-}, [values, validateField, debouncedValidateField, enableDebounce, onChange]);
-
-// Set multiple values
-const setValues_ = useCallback((newValues, shouldValidate = true) => {
-  setValues(prev => ({ ...prev, ...newValues }));
-  
-  Object.keys(newValues).forEach(key => {
-    setDirty(prev => ({ ...prev, [key]: true }));
-  });
-  
-  if (shouldValidate) {
-    Object.entries(newValues).forEach(([key, value]) => {
-      validateField(key, value);
+    // Update errors state
+    setErrors(prev => {
+      if (fieldError) {
+        return { ...prev, [name]: fieldError };
+      } else {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      }
     });
-  }
+
+    return fieldError;
+  }, [values]);
+
+  // Validate all fields
+  const validateAll = useCallback(() => {
+    setIsValidating(true);
   
-  onChange?.({ values: { ...values, ...newValues } });
-}, [values, validateField, onChange]);
+    const newErrors = {};
+  
+    Object.keys(values).forEach(key => {
+      const error = validateField(key, values[key]);
+      if (error) {
+        newErrors[key] = error;
+      }
+    });
 
-// Reset form
-const reset = useCallback(() => {
-  setValues(initialValuesRef.current);
-  setErrors({});
-  setTouched({});
-  setDirty({});
-  setFocused({});
-  setSubmissionState(SUBMISSION_STATES.IDLE);
-  setSubmissionError(null);
-  setSubmissionResult(null);
-  onReset?.();
-}, [onReset]);
+    // Custom validation callback
+    if (onValidate) {
+      const customErrors = onValidate(values);
+      if (customErrors) {
+        Object.assign(newErrors, customErrors);
+      }
+    }
 
-// Clear form
-const clear = useCallback(() => {
-  setValues({});
-  setErrors({});
-  setTouched({});
-  setDirty({});
-  setFocused({});
-}, []);
+    setErrors(newErrors);
+    setIsValidating(false);
+  
+    return Object.keys(newErrors).length === 0;
+  }, [values, validateField, onValidate]);
 
-// Set touched
-const setTouchedField = useCallback((name, isTouched = true) => {
-  setTouched(prev => ({ ...prev, [name]: isTouched }));
-}, []);
+  // Debounced validation
+  const debouncedValidateField = useDebounce(validateField, debounceDelay);
 
-// Set focused
-const setFocusedField = useCallback((name, isFocused = true) => {
-  setFocused(prev => ({ ...prev, [name]: isFocused }));
-}, []);
+  // Set field value
+  const setValue = useCallback((name, value, shouldValidate = true) => {
+    setValues(prev => ({ ...prev, [name]: value }));
+    setDirty(prev => ({ ...prev, [name]: true }));
+  
+    if (shouldValidate) {
+      if (enableDebounce) {
+        debouncedValidateField(name, value);
+      } else {
+        validateField(name, value);
+      }
+    }
+  
+    onChange?.({ name, value, values });
+  }, [values, validateField, debouncedValidateField, enableDebounce, onChange]);
 
-// Set error
-const setError = useCallback((name, error) => {
-  setErrors(prev => ({ ...prev, [name]: error }));
-}, []);
+  // Set multiple values
+  const setValues_ = useCallback((newValues, shouldValidate = true) => {
+    setValues(prev => ({ ...prev, ...newValues }));
+  
+    Object.keys(newValues).forEach(key => {
+      setDirty(prev => ({ ...prev, [key]: true }));
+    });
+  
+    if (shouldValidate) {
+      Object.entries(newValues).forEach(([key, value]) => {
+        validateField(key, value);
+      });
+    }
+  
+    onChange?.({ values: { ...values, ...newValues } });
+  }, [values, validateField, onChange]);
 
-// Clear errors
-const clearErrors = useCallback(() => {
-  setErrors({});
-}, []);
+  // Reset form
+  const reset = useCallback(() => {
+    setValues(initialValuesRef.current);
+    setErrors({});
+    setTouched({});
+    setDirty({});
+    setFocused({});
+    setSubmissionState(SUBMISSION_STATES.IDLE);
+    setSubmissionError(null);
+    setSubmissionResult(null);
+    onReset?.();
+  }, [onReset]);
 
-// Get field props
-const getFieldProps = useCallback((name) => ({
-  name,
-  value: values[name] || '',
-  error: errors[name],
-  touched: touched[name],
-  dirty: dirty[name],
-  focused: focused[name],
-  onChange: (e) => setValue(name, e.target.value),
-  onBlur: () => setTouchedField(name, true),
-  onFocus: () => setFocusedField(name, true)
-}), [values, errors, touched, dirty, focused, setValue, setTouchedField, setFocusedField]);
+  // Clear form
+  const clear = useCallback(() => {
+    setValues({});
+    setErrors({});
+    setTouched({});
+    setDirty({});
+    setFocused({});
+  }, []);
+
+  // Set touched
+  const setTouchedField = useCallback((name, isTouched = true) => {
+    setTouched(prev => ({ ...prev, [name]: isTouched }));
+  }, []);
+
+  // Set focused
+  const setFocusedField = useCallback((name, isFocused = true) => {
+    setFocused(prev => ({ ...prev, [name]: isFocused }));
+  }, []);
+
+  // Set error
+  const setError = useCallback((name, error) => {
+    setErrors(prev => ({ ...prev, [name]: error }));
+  }, []);
+
+  // Clear errors
+  const clearErrors = useCallback(() => {
+    setErrors({});
+  }, []);
+
+  // Get field props
+  const getFieldProps = useCallback((name) => ({
+    name,
+    value: values[name] || '',
+    error: errors[name],
+    touched: touched[name],
+    dirty: dirty[name],
+    focused: focused[name],
+    onChange: (e) => setValue(name, e.target.value),
+    onBlur: () => setTouchedField(name, true),
+    onFocus: () => setFocusedField(name, true),
+  }), [values, errors, touched, dirty, focused, setValue, setTouchedField, setFocusedField]);
   // Handle form submission
   const handleSubmit = useCallback(async (e) => {
     if (e) e.preventDefault();
@@ -707,7 +708,7 @@ const getFieldProps = useCallback((name) => ({
     // Constants
     FIELD_TYPES,
     SUBMISSION_STATES,
-    VALIDATION_STRATEGIES
+    VALIDATION_STRATEGIES,
   };
 };
 
@@ -718,8 +719,8 @@ export const useLoginForm = (options = {}) => {
     {
       validateOnChange: true,
       validateOnBlur: true,
-      ...options
-    }
+      ...options,
+    },
   );
 
   const { register, errors, isSubmitting, handleSubmit } = form;
@@ -733,7 +734,7 @@ export const useLoginForm = (options = {}) => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           return 'Please enter a valid email';
         }
-      }
+      },
     }),
     password: register('password', {
       type: FIELD_TYPES.PASSWORD,
@@ -742,11 +743,11 @@ export const useLoginForm = (options = {}) => {
       validate: (value) => {
         if (!value) return 'Password is required';
         if (value.length < 8) return 'Password must be at least 8 characters';
-      }
+      },
     }),
     remember: register('remember', {
-      type: FIELD_TYPES.CHECKBOX
-    })
+      type: FIELD_TYPES.CHECKBOX,
+    }),
   };
 
   return {
@@ -754,7 +755,7 @@ export const useLoginForm = (options = {}) => {
     register: customRegister,
     errors,
     isSubmitting,
-    handleSubmit
+    handleSubmit,
   };
 };
 
@@ -765,13 +766,13 @@ export const useRegisterForm = (options = {}) => {
       email: '',
       password: '',
       confirmPassword: '',
-      terms: false
+      terms: false,
     },
     {
       validateOnChange: true,
       validateOnBlur: true,
-      ...options
-    }
+      ...options,
+    },
   );
 
   const { register, values, errors, isSubmitting, handleSubmit } = form;
@@ -781,7 +782,7 @@ export const useRegisterForm = (options = {}) => {
       type: FIELD_TYPES.TEXT,
       required: true,
       minLength: 2,
-      maxLength: 50
+      maxLength: 50,
     }),
     email: register('email', {
       type: FIELD_TYPES.EMAIL,
@@ -791,7 +792,7 @@ export const useRegisterForm = (options = {}) => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           return 'Please enter a valid email';
         }
-      }
+      },
     }),
     password: register('password', {
       type: FIELD_TYPES.PASSWORD,
@@ -803,7 +804,7 @@ export const useRegisterForm = (options = {}) => {
         if (!/[A-Z]/.test(value)) return 'Password must contain at least one uppercase letter';
         if (!/[a-z]/.test(value)) return 'Password must contain at least one lowercase letter';
         if (!/[0-9]/.test(value)) return 'Password must contain at least one number';
-      }
+      },
     }),
     confirmPassword: register('confirmPassword', {
       type: FIELD_TYPES.PASSWORD,
@@ -811,15 +812,15 @@ export const useRegisterForm = (options = {}) => {
       validate: (value) => {
         if (!value) return 'Please confirm your password';
         if (value !== values.password) return 'Passwords do not match';
-      }
+      },
     }),
     terms: register('terms', {
       type: FIELD_TYPES.CHECKBOX,
       required: true,
       validate: (value) => {
         if (!value) return 'You must accept the terms and conditions';
-      }
-    })
+      },
+    }),
   };
 
   return {
@@ -827,7 +828,7 @@ export const useRegisterForm = (options = {}) => {
     register: customRegister,
     errors,
     isSubmitting,
-    handleSubmit
+    handleSubmit,
   };
 };
 
@@ -839,9 +840,9 @@ export const useProfileForm = (initialData = {}, options = {}) => {
       phone: '',
       bio: '',
       avatar: null,
-      ...initialData
+      ...initialData,
     },
-    options
+    options,
   );
 
   const { register, values, errors, isSubmitting, handleSubmit } = form;
@@ -851,18 +852,18 @@ export const useProfileForm = (initialData = {}, options = {}) => {
       type: FIELD_TYPES.TEXT,
       required: true,
       minLength: 2,
-      maxLength: 50
+      maxLength: 50,
     }),
     email: register('email', {
       type: FIELD_TYPES.EMAIL,
-      required: true
+      required: true,
     }),
     phone: register('phone', {
-      type: FIELD_TYPES.TEL
+      type: FIELD_TYPES.TEL,
     }),
     bio: register('bio', {
       type: FIELD_TYPES.TEXTAREA,
-      maxLength: 500
+      maxLength: 500,
     }),
     avatar: register('avatar', {
       type: FIELD_TYPES.FILE,
@@ -870,8 +871,8 @@ export const useProfileForm = (initialData = {}, options = {}) => {
         if (file && file.size > 5 * 1024 * 1024) {
           return 'File size must be less than 5MB';
         }
-      }
-    })
+      },
+    }),
   };
 
   return {
@@ -880,7 +881,7 @@ export const useProfileForm = (initialData = {}, options = {}) => {
     values,
     errors,
     isSubmitting,
-    handleSubmit
+    handleSubmit,
   };
 };
 
@@ -943,7 +944,7 @@ export const formUtils = {
   // Deep clone values
   cloneValues: (values) => {
     return JSON.parse(JSON.stringify(values));
-  }
+  },
 };
 
 // Export constants
@@ -952,7 +953,7 @@ export const FORM_CONSTANTS = {
   SUBMISSION_STATES,
   FIELD_TYPES,
   DEFAULT_MESSAGES,
-  DEFAULTS: DEFAULT_OPTIONS
+  DEFAULTS: DEFAULT_OPTIONS,
 };
 
 export default useForm;

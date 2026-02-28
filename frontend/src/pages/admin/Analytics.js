@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   FiTrendingUp,
   FiTrendingDown,
@@ -36,10 +38,8 @@ import {
   FiSettings,
   FiShare2,
   FiMail,
-  FiPrinter
+  FiPrinter,
 } from 'react-icons/fi';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import {
   LineChart,
   Line,
@@ -64,7 +64,7 @@ import {
   ResponsiveContainer,
   Cell,
   Sector,
-  Treemap
+  Treemap,
 } from 'recharts';
 
 const AdminAnalytics = () => {
@@ -115,7 +115,7 @@ const AdminAnalytics = () => {
     projectedRevenue: 0,
     projectedGrowth: 0,
     anomalies: 0,
-    insights: 0
+    insights: 0,
   });
 
   // KPI Cards
@@ -125,7 +125,7 @@ const AdminAnalytics = () => {
     { id: 'clicks', label: 'Clicks', value: 0, trend: 0, icon: <FiMousePointer />, color: '#ff6b6b' },
     { id: 'conversions', label: 'Conversions', value: 0, trend: 0, icon: <FiShoppingCart />, color: '#4ecdc4' },
     { id: 'conversionRate', label: 'Conv. Rate', value: 0, trend: 0, icon: <FiPercent />, color: '#ffd93d' },
-    { id: 'ltv', label: 'LTV', value: 0, trend: 0, icon: <FiTarget />, color: '#6c5ce7' }
+    { id: 'ltv', label: 'LTV', value: 0, trend: 0, icon: <FiTarget />, color: '#6c5ce7' },
   ]);
 
   // Date range options
@@ -141,7 +141,7 @@ const AdminAnalytics = () => {
     { value: 'lastQuarter', label: 'Last Quarter' },
     { value: 'thisYear', label: 'This Year' },
     { value: 'lastYear', label: 'Last Year' },
-    { value: 'custom', label: 'Custom Range' }
+    { value: 'custom', label: 'Custom Range' },
   ];
 
   // Chart colors
@@ -149,7 +149,7 @@ const AdminAnalytics = () => {
   const TREND_COLORS = {
     positive: '#28a745',
     negative: '#dc3545',
-    neutral: '#6c757d'
+    neutral: '#6c757d',
   };
 
   useEffect(() => {
@@ -162,7 +162,7 @@ const AdminAnalytics = () => {
       const token = localStorage.getItem('token');
       const params = {
         range: dateRange,
-        comparison: comparison
+        comparison: comparison,
       };
 
       const [
@@ -184,7 +184,7 @@ const AdminAnalytics = () => {
         lifetimeRes,
         segmentRes,
         forecastRes,
-        insightsRes
+        insightsRes,
       ] = await Promise.all([
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/analytics/revenue`, { params, headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/analytics/traffic`, { params, headers: { Authorization: `Bearer ${token}` } }),
@@ -204,7 +204,7 @@ const AdminAnalytics = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/analytics/lifetime`, { params, headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/analytics/segment`, { params, headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/analytics/forecast`, { params, headers: { Authorization: `Bearer ${token}` } }),
-        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/analytics/insights`, { params, headers: { Authorization: `Bearer ${token}` } })
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/analytics/insights`, { params, headers: { Authorization: `Bearer ${token}` } }),
       ]);
 
       if (revenueRes.data.success) {
@@ -248,7 +248,7 @@ const AdminAnalytics = () => {
         value: formatCurrency(summaryData.totalRevenue),
         trend: summaryData.revenueTrend,
         icon: <FiDollarSign />, 
-        color: '#28a745' 
+        color: '#28a745', 
       },
       { 
         id: 'affiliates', 
@@ -256,7 +256,7 @@ const AdminAnalytics = () => {
         value: formatNumber(summaryData.totalAffiliates),
         trend: summaryData.affiliateTrend,
         icon: <FiUsers />, 
-        color: '#667eea' 
+        color: '#667eea', 
       },
       { 
         id: 'clicks', 
@@ -264,7 +264,7 @@ const AdminAnalytics = () => {
         value: formatNumber(summaryData.totalClicks),
         trend: summaryData.clicksTrend,
         icon: <FiMousePointer />, 
-        color: '#ff6b6b' 
+        color: '#ff6b6b', 
       },
       { 
         id: 'conversions', 
@@ -272,7 +272,7 @@ const AdminAnalytics = () => {
         value: formatNumber(summaryData.totalConversions),
         trend: summaryData.conversionsTrend,
         icon: <FiShoppingCart />, 
-        color: '#4ecdc4' 
+        color: '#4ecdc4', 
       },
       { 
         id: 'conversionRate', 
@@ -280,7 +280,7 @@ const AdminAnalytics = () => {
         value: `${summaryData.conversionRate}%`,
         trend: summaryData.conversionRateTrend,
         icon: <FiPercent />, 
-        color: '#ffd93d' 
+        color: '#ffd93d', 
       },
       { 
         id: 'ltv', 
@@ -288,8 +288,8 @@ const AdminAnalytics = () => {
         value: formatCurrency(summaryData.customerLifetimeValue),
         trend: summaryData.ltvTrend,
         icon: <FiTarget />, 
-        color: '#6c5ce7' 
-      }
+        color: '#6c5ce7', 
+      },
     ]);
   };
 
@@ -308,8 +308,8 @@ const AdminAnalytics = () => {
         {
           params: { range: dateRange },
           headers: { Authorization: `Bearer ${token}` },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -332,7 +332,7 @@ const AdminAnalytics = () => {
       await axios.post(
         `${process.env.REACT_APP_API_URL}/api/admin/analytics/email`,
         { range: dateRange },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       toast.success('Report sent to your email');
     } catch (error) {
@@ -345,7 +345,7 @@ const AdminAnalytics = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(value);
   };
 
@@ -532,7 +532,7 @@ const AdminAnalytics = () => {
         <button
           style={{
             ...styles.chartTypeBtn,
-            ...(chartType === 'line' ? styles.activeChartType : {})
+            ...(chartType === 'line' ? styles.activeChartType : {}),
           }}
           onClick={() => setChartType('line')}
         >
@@ -541,7 +541,7 @@ const AdminAnalytics = () => {
         <button
           style={{
             ...styles.chartTypeBtn,
-            ...(chartType === 'bar' ? styles.activeChartType : {})
+            ...(chartType === 'bar' ? styles.activeChartType : {}),
           }}
           onClick={() => setChartType('bar')}
         >
@@ -550,7 +550,7 @@ const AdminAnalytics = () => {
         <button
           style={{
             ...styles.chartTypeBtn,
-            ...(chartType === 'area' ? styles.activeChartType : {})
+            ...(chartType === 'area' ? styles.activeChartType : {}),
           }}
           onClick={() => setChartType('area')}
         >
@@ -559,7 +559,7 @@ const AdminAnalytics = () => {
         <button
           style={{
             ...styles.chartTypeBtn,
-            ...(chartType === 'pie' ? styles.activeChartType : {})
+            ...(chartType === 'pie' ? styles.activeChartType : {}),
           }}
           onClick={() => setChartType('pie')}
         >
@@ -568,7 +568,7 @@ const AdminAnalytics = () => {
         <button
           style={{
             ...styles.chartTypeBtn,
-            ...(chartType === 'radar' ? styles.activeChartType : {})
+            ...(chartType === 'radar' ? styles.activeChartType : {}),
           }}
           onClick={() => setChartType('radar')}
         >
@@ -577,7 +577,7 @@ const AdminAnalytics = () => {
         <button
           style={{
             ...styles.chartTypeBtn,
-            ...(chartType === 'composed' ? styles.activeChartType : {})
+            ...(chartType === 'composed' ? styles.activeChartType : {}),
           }}
           onClick={() => setChartType('composed')}
         >
@@ -612,283 +612,283 @@ const AdminAnalytics = () => {
           Show Anomalies
         </label>
       </div>
-{/* Main Content Grid */}
-<div style={styles.contentGrid}>
-  {/* Revenue Chart */}
-  <div style={styles.chartCard}>
-    <div style={styles.chartHeader}>
-      <h3 style={styles.chartTitle}>Revenue Analytics</h3>
-      <div style={styles.chartLegend}>
-        <span style={styles.legendItem}>
-          <span style={{...styles.legendColor, background: '#667eea'}}></span>
+      {/* Main Content Grid */}
+      <div style={styles.contentGrid}>
+        {/* Revenue Chart */}
+        <div style={styles.chartCard}>
+          <div style={styles.chartHeader}>
+            <h3 style={styles.chartTitle}>Revenue Analytics</h3>
+            <div style={styles.chartLegend}>
+              <span style={styles.legendItem}>
+                <span style={{...styles.legendColor, background: '#667eea'}}></span>
           Actual
-        </span>
-        {showPredictions && (
-          <span style={styles.legendItem}>
-            <span style={{...styles.legendColor, background: '#ff6b6b', borderStyle: 'dashed'}}></span>
+              </span>
+              {showPredictions && (
+                <span style={styles.legendItem}>
+                  <span style={{...styles.legendColor, background: '#ff6b6b', borderStyle: 'dashed'}}></span>
             Predicted
-          </span>
-        )}
-      </div>
-    </div>
-    <div style={styles.chartContainer}>
-      <ResponsiveContainer width="100%" height={400}>
-        {chartType === 'line' && (
-          <LineChart data={revenueData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-            <Line type="monotone" dataKey="actual" stroke="#667eea" strokeWidth={2} />
-            {showPredictions && (
-              <Line type="monotone" dataKey="predicted" stroke="#ff6b6b" strokeWidth={2} strokeDasharray="5 5" />
-            )}
-            {showAnomalies && (
-              <Scatter dataKey="anomaly" fill="#dc3545" shape="triangle" />
-            )}
-          </LineChart>
-        )}
-        {chartType === 'bar' && (
-          <BarChart data={revenueData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-            <Bar dataKey="actual" fill="#667eea" />
-            {showPredictions && (
-              <Bar dataKey="predicted" fill="#ff6b6b" />
-            )}
-          </BarChart>
-        )}
-        {chartType === 'area' && (
-          <AreaChart data={revenueData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-            <Area type="monotone" dataKey="actual" stroke="#667eea" fill="#667eea" fillOpacity={0.3} />
-            {showPredictions && (
-              <Area type="monotone" dataKey="predicted" stroke="#ff6b6b" fill="#ff6b6b" fillOpacity={0.3} />
-            )}
-          </AreaChart>
-        )}
-      </ResponsiveContainer>
-    </div>
-  </div>
+                </span>
+              )}
+            </div>
+          </div>
+          <div style={styles.chartContainer}>
+            <ResponsiveContainer width="100%" height={400}>
+              {chartType === 'line' && (
+                <LineChart data={revenueData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend />
+                  <Line type="monotone" dataKey="actual" stroke="#667eea" strokeWidth={2} />
+                  {showPredictions && (
+                    <Line type="monotone" dataKey="predicted" stroke="#ff6b6b" strokeWidth={2} strokeDasharray="5 5" />
+                  )}
+                  {showAnomalies && (
+                    <Scatter dataKey="anomaly" fill="#dc3545" shape="triangle" />
+                  )}
+                </LineChart>
+              )}
+              {chartType === 'bar' && (
+                <BarChart data={revenueData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend />
+                  <Bar dataKey="actual" fill="#667eea" />
+                  {showPredictions && (
+                    <Bar dataKey="predicted" fill="#ff6b6b" />
+                  )}
+                </BarChart>
+              )}
+              {chartType === 'area' && (
+                <AreaChart data={revenueData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend />
+                  <Area type="monotone" dataKey="actual" stroke="#667eea" fill="#667eea" fillOpacity={0.3} />
+                  {showPredictions && (
+                    <Area type="monotone" dataKey="predicted" stroke="#ff6b6b" fill="#ff6b6b" fillOpacity={0.3} />
+                  )}
+                </AreaChart>
+              )}
+            </ResponsiveContainer>
+          </div>
+        </div>
 
-  {/* Traffic Sources */}
-  <div style={styles.chartCard}>
-    <h3 style={styles.chartTitle}>Traffic Sources</h3>
-    <div style={styles.chartContainer}>
-      <ResponsiveContainer width="100%" height={300}>
-        <PieChart>
-          <Pie
-            activeIndex={activeIndex}
-            activeShape={renderActiveShape}
-            data={trafficData}
-            cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={80}
-            dataKey="value"
-            onMouseEnter={onPieEnter}
-          >
-            {trafficData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        {/* Traffic Sources */}
+        <div style={styles.chartCard}>
+          <h3 style={styles.chartTitle}>Traffic Sources</h3>
+          <div style={styles.chartContainer}>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  activeIndex={activeIndex}
+                  activeShape={renderActiveShape}
+                  data={trafficData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  dataKey="value"
+                  onMouseEnter={onPieEnter}
+                >
+                  {trafficData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Conversion Funnel */}
+        <div style={styles.chartCard}>
+          <h3 style={styles.chartTitle}>Conversion Funnel</h3>
+          <div style={styles.chartContainer}>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={funnelData} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis dataKey="name" type="category" />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill="#4ecdc4">
+                  {funnelData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div style={styles.funnelStats}>
+            {funnelData.map((stage, index) => (
+              <div key={index} style={styles.funnelStage}>
+                <span>{stage.name}</span>
+                <span>{formatNumber(stage.value)}</span>
+                {index < funnelData.length - 1 && (
+                  <span style={styles.funnelDropoff}>
+                    {((stage.value - funnelData[index + 1].value) / stage.value * 100).toFixed(1)}% drop
+                  </span>
+                )}
+              </div>
             ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
-    </div>
-  </div>
+          </div>
+        </div>
 
-  {/* Conversion Funnel */}
-  <div style={styles.chartCard}>
-    <h3 style={styles.chartTitle}>Conversion Funnel</h3>
-    <div style={styles.chartContainer}>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={funnelData} layout="vertical">
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" />
-          <YAxis dataKey="name" type="category" />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="value" fill="#4ecdc4">
-            {funnelData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        {/* Cohort Analysis */}
+        <div style={styles.chartCard}>
+          <h3 style={styles.chartTitle}>Cohort Retention</h3>
+          <div style={styles.cohortTable}>
+            <table style={styles.cohortMatrix}>
+              <thead>
+                <tr>
+                  <th>Cohort</th>
+                  <th>Month 1</th>
+                  <th>Month 2</th>
+                  <th>Month 3</th>
+                  <th>Month 4</th>
+                  <th>Month 5</th>
+                  <th>Month 6</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cohortData.map((cohort, index) => (
+                  <tr key={index}>
+                    <td>{cohort.cohort}</td>
+                    <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m1 / 100})` }}>
+                      {cohort.m1}%
+                    </td>
+                    <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m2 / 100})` }}>
+                      {cohort.m2}%
+                    </td>
+                    <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m3 / 100})` }}>
+                      {cohort.m3}%
+                    </td>
+                    <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m4 / 100})` }}>
+                      {cohort.m4}%
+                    </td>
+                    <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m5 / 100})` }}>
+                      {cohort.m5}%
+                    </td>
+                    <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m6 / 100})` }}>
+                      {cohort.m6}%
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Geographic Distribution */}
+        <div style={styles.chartCard}>
+          <h3 style={styles.chartTitle}>Geographic Distribution</h3>
+          <div style={styles.geoList}>
+            {geoData.map((country, index) => (
+              <div key={index} style={styles.geoItem}>
+                <div style={styles.geoInfo}>
+                  <FiGlobe />
+                  <span>{country.country}</span>
+                </div>
+                <div style={styles.geoBar}>
+                  <div style={{
+                    width: `${country.percentage}%`,
+                    height: '8px',
+                    background: COLORS[index % COLORS.length],
+                    borderRadius: '4px',
+                  }} />
+                </div>
+                <span style={styles.geoValue}>{country.percentage}%</span>
+              </div>
             ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-    <div style={styles.funnelStats}>
-      {funnelData.map((stage, index) => (
-        <div key={index} style={styles.funnelStage}>
-          <span>{stage.name}</span>
-          <span>{formatNumber(stage.value)}</span>
-          {index < funnelData.length - 1 && (
-            <span style={styles.funnelDropoff}>
-              {((stage.value - funnelData[index + 1].value) / stage.value * 100).toFixed(1)}% drop
-            </span>
-          )}
-        </div>
-      ))}
-    </div>
-  </div>
-
-  {/* Cohort Analysis */}
-  <div style={styles.chartCard}>
-    <h3 style={styles.chartTitle}>Cohort Retention</h3>
-    <div style={styles.cohortTable}>
-      <table style={styles.cohortMatrix}>
-        <thead>
-          <tr>
-            <th>Cohort</th>
-            <th>Month 1</th>
-            <th>Month 2</th>
-            <th>Month 3</th>
-            <th>Month 4</th>
-            <th>Month 5</th>
-            <th>Month 6</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cohortData.map((cohort, index) => (
-            <tr key={index}>
-              <td>{cohort.cohort}</td>
-              <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m1 / 100})` }}>
-                {cohort.m1}%
-              </td>
-              <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m2 / 100})` }}>
-                {cohort.m2}%
-              </td>
-              <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m3 / 100})` }}>
-                {cohort.m3}%
-              </td>
-              <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m4 / 100})` }}>
-                {cohort.m4}%
-              </td>
-              <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m5 / 100})` }}>
-                {cohort.m5}%
-              </td>
-              <td style={{ backgroundColor: `rgba(102, 126, 234, ${cohort.m6 / 100})` }}>
-                {cohort.m6}%
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  {/* Geographic Distribution */}
-  <div style={styles.chartCard}>
-    <h3 style={styles.chartTitle}>Geographic Distribution</h3>
-    <div style={styles.geoList}>
-      {geoData.map((country, index) => (
-        <div key={index} style={styles.geoItem}>
-          <div style={styles.geoInfo}>
-            <FiGlobe />
-            <span>{country.country}</span>
-          </div>
-          <div style={styles.geoBar}>
-            <div style={{
-              width: `${country.percentage}%`,
-              height: '8px',
-              background: COLORS[index % COLORS.length],
-              borderRadius: '4px'
-            }} />
-          </div>
-          <span style={styles.geoValue}>{country.percentage}%</span>
-        </div>
-      ))}
-    </div>
-  </div>
-
-  {/* Device Breakdown */}
-  <div style={styles.chartCard}>
-    <h3 style={styles.chartTitle}>Device Breakdown</h3>
-    <div style={styles.deviceGrid}>
-      {deviceData.map((device, index) => (
-        <div key={index} style={styles.deviceItem}>
-          {device.device === 'mobile' && <FiSmartphone style={{ fontSize: 24, color: COLORS[index] }} />}
-          {device.device === 'tablet' && <FiTablet style={{ fontSize: 24, color: COLORS[index] }} />}
-          {device.device === 'desktop' && <FiMonitor style={{ fontSize: 24, color: COLORS[index] }} />}
-          <span style={styles.deviceName}>{device.device}</span>
-          <span style={styles.deviceValue}>{device.percentage}%</span>
-          <div style={styles.deviceBar}>
-            <div style={{
-              width: `${device.percentage}%`,
-              height: '6px',
-              background: COLORS[index],
-              borderRadius: '3px'
-            }} />
           </div>
         </div>
-      ))}
-    </div>
-  </div>
 
-  {/* Customer Lifetime Value */}
-  <div style={styles.chartCard}>
-    <h3 style={styles.chartTitle}>Customer Lifetime Value</h3>
-    <div style={styles.ltvContainer}>
-      <div style={styles.ltvMain}>
-        <span style={styles.ltvValue}>{formatCurrency(summary.customerLifetimeValue)}</span>
-        <span style={styles.ltvLabel}>Average LTV</span>
-      </div>
-      <div style={styles.ltvSegments}>
-        {lifetimeData.map((segment, index) => (
-          <div key={index} style={styles.ltvSegment}>
-            <span>{segment.cohort}</span>
-            <span>{formatCurrency(segment.value)}</span>
+        {/* Device Breakdown */}
+        <div style={styles.chartCard}>
+          <h3 style={styles.chartTitle}>Device Breakdown</h3>
+          <div style={styles.deviceGrid}>
+            {deviceData.map((device, index) => (
+              <div key={index} style={styles.deviceItem}>
+                {device.device === 'mobile' && <FiSmartphone style={{ fontSize: 24, color: COLORS[index] }} />}
+                {device.device === 'tablet' && <FiTablet style={{ fontSize: 24, color: COLORS[index] }} />}
+                {device.device === 'desktop' && <FiMonitor style={{ fontSize: 24, color: COLORS[index] }} />}
+                <span style={styles.deviceName}>{device.device}</span>
+                <span style={styles.deviceValue}>{device.percentage}%</span>
+                <div style={styles.deviceBar}>
+                  <div style={{
+                    width: `${device.percentage}%`,
+                    height: '6px',
+                    background: COLORS[index],
+                    borderRadius: '3px',
+                  }} />
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
+        </div>
 
-  {/* Churn Rate */}
-  <div style={styles.chartCard}>
-    <h3 style={styles.chartTitle}>Churn Rate</h3>
-    <div style={styles.churnContainer}>
-      <div style={styles.churnMain}>
-        <span style={{
-          ...styles.churnValue,
-          color: summary.churnRate > 5 ? '#dc3545' : '#28a745'
-        }}>
-          {summary.churnRate}%
-        </span>
-        <span style={styles.churnLabel}>Current Churn</span>
-      </div>
-      <div style={styles.churnTrend}>
-        <span>vs Previous: </span>
-        <span style={{ color: summary.churnTrend > 0 ? '#dc3545' : '#28a745' }}>
-          {summary.churnTrend > 0 ? '+' : ''}{summary.churnTrend}%
-        </span>
-      </div>
-    </div>
-  </div>
+        {/* Customer Lifetime Value */}
+        <div style={styles.chartCard}>
+          <h3 style={styles.chartTitle}>Customer Lifetime Value</h3>
+          <div style={styles.ltvContainer}>
+            <div style={styles.ltvMain}>
+              <span style={styles.ltvValue}>{formatCurrency(summary.customerLifetimeValue)}</span>
+              <span style={styles.ltvLabel}>Average LTV</span>
+            </div>
+            <div style={styles.ltvSegments}>
+              {lifetimeData.map((segment, index) => (
+                <div key={index} style={styles.ltvSegment}>
+                  <span>{segment.cohort}</span>
+                  <span>{formatCurrency(segment.value)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
-  {/* Retention Rate */}
-  <div style={styles.chartCard}>
-    <h3 style={styles.chartTitle}>Retention Rate</h3>
-    <div style={styles.retentionContainer}>
-      <ResponsiveContainer width="100%" height={200}>
-        <LineChart data={retentionData}>
-          <XAxis dataKey="month" />
-          <YAxis domain={[0, 100]} />
-          <Tooltip />
-          <Line type="monotone" dataKey="rate" stroke="#28a745" strokeWidth={2} />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
-  </div>
-</div>
+        {/* Churn Rate */}
+        <div style={styles.chartCard}>
+          <h3 style={styles.chartTitle}>Churn Rate</h3>
+          <div style={styles.churnContainer}>
+            <div style={styles.churnMain}>
+              <span style={{
+                ...styles.churnValue,
+                color: summary.churnRate > 5 ? '#dc3545' : '#28a745',
+              }}>
+                {summary.churnRate}%
+              </span>
+              <span style={styles.churnLabel}>Current Churn</span>
+            </div>
+            <div style={styles.churnTrend}>
+              <span>vs Previous: </span>
+              <span style={{ color: summary.churnTrend > 0 ? '#dc3545' : '#28a745' }}>
+                {summary.churnTrend > 0 ? '+' : ''}{summary.churnTrend}%
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Retention Rate */}
+        <div style={styles.chartCard}>
+          <h3 style={styles.chartTitle}>Retention Rate</h3>
+          <div style={styles.retentionContainer}>
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart data={retentionData}>
+                <XAxis dataKey="month" />
+                <YAxis domain={[0, 100]} />
+                <Tooltip />
+                <Line type="monotone" dataKey="rate" stroke="#28a745" strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
       {/* Insights Section */}
       <div style={styles.insightsSection}>
         <h3 style={styles.insightsTitle}>AI-Powered Insights</h3>
@@ -896,7 +896,7 @@ const AdminAnalytics = () => {
           {insights.map((insight, index) => (
             <div key={index} style={{
               ...styles.insightCard,
-              borderLeft: `4px solid ${insight.type === 'positive' ? '#28a745' : insight.type === 'negative' ? '#dc3545' : '#ffc107'}`
+              borderLeft: `4px solid ${insight.type === 'positive' ? '#28a745' : insight.type === 'negative' ? '#dc3545' : '#ffc107'}`,
             }}>
               <div style={styles.insightHeader}>
                 {insight.type === 'positive' && <FiCheckCircle style={{ color: '#28a745' }} />}
@@ -941,7 +941,7 @@ const AdminAnalytics = () => {
                     return (
                       <td key={j} style={{
                         backgroundColor: `rgba(102, 126, 234, ${Math.abs(value)})`,
-                        color: Math.abs(value) > 0.5 ? 'white' : '#333'
+                        color: Math.abs(value) > 0.5 ? 'white' : '#333',
                       }}>
                         {value.toFixed(2)}
                       </td>
@@ -1007,30 +1007,30 @@ const styles = {
     maxWidth: '1600px',
     margin: '0 auto',
     padding: '30px 20px',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   header: {
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   title: {
     fontSize: '32px',
     color: '#333',
-    margin: '0 0 5px'
+    margin: '0 0 5px',
   },
   subtitle: {
     fontSize: '16px',
     color: '#666',
-    margin: '0 0 20px'
+    margin: '0 0 20px',
   },
   headerActions: {
     display: 'flex',
     gap: '10px',
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   dateRangeSelector: {
     position: 'relative',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   calendarIcon: {
     position: 'absolute',
@@ -1038,7 +1038,7 @@ const styles = {
     top: '50%',
     transform: 'translateY(-50%)',
     color: '#999',
-    zIndex: 1
+    zIndex: 1,
   },
   dateSelect: {
     padding: '10px 10px 10px 35px',
@@ -1046,7 +1046,7 @@ const styles = {
     borderRadius: '5px',
     fontSize: '14px',
     minWidth: '180px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   comparisonSelect: {
     padding: '10px',
@@ -1054,7 +1054,7 @@ const styles = {
     borderRadius: '5px',
     fontSize: '14px',
     minWidth: '150px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   refreshBtn: {
     padding: '8px 16px',
@@ -1064,7 +1064,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   exportBtn: {
     padding: '8px 16px',
@@ -1075,7 +1075,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   emailBtn: {
     padding: '8px 16px',
@@ -1086,7 +1086,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   fullscreenBtn: {
     padding: '8px 16px',
@@ -1096,13 +1096,13 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   kpiGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(6, 1fr)',
     gap: '15px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   kpiCard: {
     background: 'white',
@@ -1111,7 +1111,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '15px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   kpiIcon: {
     width: '50px',
@@ -1120,271 +1120,271 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '24px'
+    fontSize: '24px',
   },
   kpiContent: {
-    flex: 1
+    flex: 1,
   },
   kpiLabel: {
     display: 'block',
     fontSize: '12px',
     color: '#666',
-    marginBottom: '3px'
+    marginBottom: '3px',
   },
   kpiValue: {
     display: 'block',
     fontSize: '20px',
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: '3px'
+    marginBottom: '3px',
   },
   kpiTrend: {
     display: 'flex',
     alignItems: 'center',
     gap: '3px',
-    fontSize: '11px'
+    fontSize: '11px',
   },
   chartTypeSelector: {
     display: 'flex',
     gap: '10px',
     marginBottom: '20px',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   chartTypeBtn: {
     padding: '8px 16px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   activeChartType: {
     background: '#667eea',
     color: 'white',
-    borderColor: '#667eea'
+    borderColor: '#667eea',
   },
   toggleOptions: {
     display: 'flex',
     gap: '20px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   toggleLabel: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   contentGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
     gap: '20px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   chartCard: {
     background: 'white',
     borderRadius: '10px',
     padding: '20px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   chartHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   chartTitle: {
     margin: '0 0 15px',
     fontSize: '18px',
-    color: '#333'
+    color: '#333',
   },
   chartLegend: {
     display: 'flex',
-    gap: '15px'
+    gap: '15px',
   },
   legendItem: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
     fontSize: '12px',
-    color: '#666'
+    color: '#666',
   },
   legendColor: {
     width: '12px',
     height: '12px',
-    borderRadius: '3px'
+    borderRadius: '3px',
   },
   chartContainer: {
-    height: '300px'
+    height: '300px',
   },
   funnelStats: {
     marginTop: '15px',
     padding: '10px',
     background: '#f8f9fa',
-    borderRadius: '5px'
+    borderRadius: '5px',
   },
   funnelStage: {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    padding: '5px 0'
+    padding: '5px 0',
   },
   funnelDropoff: {
     fontSize: '11px',
-    color: '#dc3545'
+    color: '#dc3545',
   },
   cohortTable: {
     overflow: 'auto',
-    maxHeight: '300px'
+    maxHeight: '300px',
   },
   cohortMatrix: {
     width: '100%',
-    borderCollapse: 'collapse'
+    borderCollapse: 'collapse',
   },
   geoList: {
-    marginTop: '10px'
+    marginTop: '10px',
   },
   geoItem: {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   geoInfo: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
-    width: '120px'
+    width: '120px',
   },
   geoBar: {
     flex: 1,
     height: '8px',
     background: '#f0f0f0',
-    borderRadius: '4px'
+    borderRadius: '4px',
   },
   geoValue: {
     width: '50px',
-    textAlign: 'right'
+    textAlign: 'right',
   },
   deviceGrid: {
     display: 'grid',
-    gap: '15px'
+    gap: '15px',
   },
   deviceItem: {
     display: 'grid',
     gridTemplateColumns: '30px 80px 50px 1fr',
     alignItems: 'center',
-    gap: '10px'
+    gap: '10px',
   },
   deviceName: {
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   deviceValue: {
-    textAlign: 'right'
+    textAlign: 'right',
   },
   deviceBar: {
     height: '6px',
     background: '#f0f0f0',
-    borderRadius: '3px'
+    borderRadius: '3px',
   },
   ltvContainer: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px'
+    gap: '20px',
   },
   ltvMain: {
     textAlign: 'center',
     padding: '20px',
     background: '#f8f9fa',
-    borderRadius: '8px'
+    borderRadius: '8px',
   },
   ltvValue: {
     display: 'block',
     fontSize: '36px',
     fontWeight: 'bold',
     color: '#667eea',
-    marginBottom: '5px'
+    marginBottom: '5px',
   },
   ltvLabel: {
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   ltvSegments: {
     display: 'grid',
-    gap: '8px'
+    gap: '8px',
   },
   ltvSegment: {
     display: 'flex',
     justifyContent: 'space-between',
     padding: '8px',
     background: '#f8f9fa',
-    borderRadius: '5px'
+    borderRadius: '5px',
   },
   churnContainer: {
     textAlign: 'center',
     padding: '20px',
     background: '#f8f9fa',
-    borderRadius: '8px'
+    borderRadius: '8px',
   },
   churnValue: {
     display: 'block',
     fontSize: '48px',
     fontWeight: 'bold',
-    marginBottom: '5px'
+    marginBottom: '5px',
   },
   churnLabel: {
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   churnTrend: {
     marginTop: '10px',
     fontSize: '13px',
-    color: '#666'
+    color: '#666',
   },
   retentionContainer: {
-    height: '200px'
+    height: '200px',
   },
   insightsSection: {
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   insightsTitle: {
     fontSize: '24px',
     color: '#333',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   insightsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '20px'
+    gap: '20px',
   },
   insightCard: {
     background: 'white',
     borderRadius: '8px',
     padding: '20px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   insightHeader: {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   insightTitle: {
     fontSize: '16px',
     fontWeight: 500,
-    color: '#333'
+    color: '#333',
   },
   insightDescription: {
     fontSize: '14px',
     color: '#666',
     lineHeight: '1.6',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   insightMeta: {
     display: 'flex',
     justifyContent: 'space-between',
     fontSize: '12px',
     color: '#999',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   insightAction: {
     padding: '8px 16px',
@@ -1393,46 +1393,46 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
-    width: '100%'
+    width: '100%',
   },
   correlationSection: {
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   correlationTitle: {
     fontSize: '24px',
     color: '#333',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   correlationGrid: {
     overflow: 'auto',
     background: 'white',
     borderRadius: '8px',
     padding: '20px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   correlationTable: {
     width: '100%',
-    borderCollapse: 'collapse'
+    borderCollapse: 'collapse',
   },
   forecastSection: {
     background: 'white',
     borderRadius: '10px',
     padding: '20px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   forecastTitle: {
     fontSize: '24px',
     color: '#333',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   forecastChart: {
     height: '300px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   forecastStats: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '15px'
+    gap: '15px',
   },
   forecastStat: {
     display: 'flex',
@@ -1440,28 +1440,28 @@ const styles = {
     alignItems: 'center',
     padding: '15px',
     background: '#f8f9fa',
-    borderRadius: '5px'
+    borderRadius: '5px',
   },
   tooltip: {
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
     padding: '10px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   tooltipLabel: {
     margin: '0 0 5px',
     fontSize: '13px',
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   tooltipValue: {
     margin: '2px 0',
-    fontSize: '12px'
+    fontSize: '12px',
   },
   loadingContainer: {
     textAlign: 'center',
-    padding: '60px 20px'
+    padding: '60px 20px',
   },
   spinner: {
     border: '3px solid #f3f3f3',
@@ -1470,8 +1470,8 @@ const styles = {
     width: '40px',
     height: '40px',
     animation: 'spin 1s linear infinite',
-    margin: '0 auto 15px'
-  }
+    margin: '0 auto 15px',
+  },
 };
 
 export default AdminAnalytics;

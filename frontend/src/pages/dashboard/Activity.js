@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiClock,
@@ -29,8 +28,9 @@ import {
   FiChevronsLeft,
   FiChevronsRight,
   FiList,
-  FiGrid
+  FiGrid,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Activity = () => {
   const [loading, setLoading] = useState(true);
@@ -47,13 +47,13 @@ const Activity = () => {
       conversion: 0,
       earning: 0,
       withdrawal: 0,
-      referral: 0
+      referral: 0,
     },
     byStatus: {
       success: 0,
       pending: 0,
-      failed: 0
-    }
+      failed: 0,
+    },
   });
 
   // Filter states
@@ -61,7 +61,7 @@ const Activity = () => {
     type: 'all',
     status: 'all',
     dateRange: 'all',
-    search: ''
+    search: '',
   });
 
   // Pagination
@@ -73,7 +73,7 @@ const Activity = () => {
   // Date range
   const [dateRange, setDateRange] = useState({
     startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    endDate: new Date().toISOString().split('T')[0]
+    endDate: new Date().toISOString().split('T')[0],
   });
 
   // Show filters
@@ -99,9 +99,9 @@ const Activity = () => {
             page: currentPage,
             limit: itemsPerPage,
             startDate: dateRange.startDate,
-            endDate: dateRange.endDate
-          }
-        }
+            endDate: dateRange.endDate,
+          },
+        },
       );
       
       if (response.data.success) {
@@ -135,7 +135,7 @@ const Activity = () => {
       filtered = filtered.filter(a =>
         a.description?.toLowerCase().includes(searchLower) ||
         a.reference?.toLowerCase().includes(searchLower) ||
-        a.details?.some(d => d.value?.toLowerCase().includes(searchLower))
+        a.details?.some(d => d.value?.toLowerCase().includes(searchLower)),
       );
     }
 
@@ -158,10 +158,10 @@ const Activity = () => {
             format,
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
-            ...filters
+            ...filters,
           },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -288,7 +288,7 @@ const Activity = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -296,7 +296,7 @@ const Activity = () => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -305,7 +305,7 @@ const Activity = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount);
   };
 

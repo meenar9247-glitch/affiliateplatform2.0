@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   FiDownload,
   FiCalendar,
@@ -29,10 +31,8 @@ import {
   FiMaximize2,
   FiMinimize2,
   FiSettings,
-  FiInfo
+  FiInfo,
 } from 'react-icons/fi';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import {
   LineChart,
   Line,
@@ -49,7 +49,7 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
-  Sector
+  Sector,
 } from 'recharts';
 
 const AdminReports = () => {
@@ -93,8 +93,8 @@ const AdminReports = () => {
       earnings: 0,
       referrals: 0,
       clicks: 0,
-      conversions: 0
-    }
+      conversions: 0,
+    },
   });
 
   // Date range options
@@ -107,7 +107,7 @@ const AdminReports = () => {
     { value: 'thisMonth', label: 'This Month' },
     { value: 'lastMonth', label: 'Last Month' },
     { value: 'thisYear', label: 'This Year' },
-    { value: 'custom', label: 'Custom Range' }
+    { value: 'custom', label: 'Custom Range' },
   ];
 
   // Chart colors
@@ -126,7 +126,7 @@ const AdminReports = () => {
       const params = {
         range: dateRange,
         startDate: customStartDate,
-        endDate: customEndDate
+        endDate: customEndDate,
       };
 
       const [overviewRes, earningsRes, referralsRes, conversionsRes, trafficRes, productsRes, affiliatesRes, geoRes, deviceRes, hourlyRes, dailyRes, monthlyRes, comparisonRes] = await Promise.all([
@@ -142,7 +142,7 @@ const AdminReports = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/reports/hourly`, { params, headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/reports/daily`, { params, headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/reports/monthly`, { params, headers: { Authorization: `Bearer ${token}` } }),
-        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/reports/comparison`, { params, headers: { Authorization: `Bearer ${token}` } })
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/reports/comparison`, { params, headers: { Authorization: `Bearer ${token}` } }),
       ]);
 
       if (overviewRes.data.success) {
@@ -180,11 +180,11 @@ const AdminReports = () => {
             range: dateRange,
             startDate: customStartDate,
             endDate: customEndDate,
-            tab: activeTab
+            tab: activeTab,
           },
           headers: { Authorization: `Bearer ${token}` },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -212,9 +212,9 @@ const AdminReports = () => {
           range: dateRange,
           startDate: customStartDate,
           endDate: customEndDate,
-          tab: activeTab
+          tab: activeTab,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       toast.success('Report sent to your email');
     } catch (error) {
@@ -229,7 +229,7 @@ const AdminReports = () => {
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
     }).format(value);
   };
 
@@ -302,7 +302,7 @@ const AdminReports = () => {
     { id: 'affiliates', label: 'Top Affiliates', icon: <FiStar /> },
     { id: 'geo', label: 'Geography', icon: <FiEye /> },
     { id: 'devices', label: 'Devices', icon: <FiEye /> },
-    { id: 'hourly', label: 'Hourly', icon: <FiClock /> }
+    { id: 'hourly', label: 'Hourly', icon: <FiClock /> },
   ];
 
   if (loading) {
@@ -420,7 +420,7 @@ const AdminReports = () => {
             <span style={styles.summaryValue}>{formatCurrency(summary.totalEarnings)}</span>
             <span style={{
               ...styles.summaryTrend,
-              color: getTrendIcon(summary.totalEarnings, summary.previousPeriod.earnings).color
+              color: getTrendIcon(summary.totalEarnings, summary.previousPeriod.earnings).color,
             }}>
               {getTrendIcon(summary.totalEarnings, summary.previousPeriod.earths).icon}
               {getTrendIcon(summary.totalEarnings, summary.previousPeriod.earnings).text}
@@ -437,7 +437,7 @@ const AdminReports = () => {
             <span style={styles.summaryValue}>{formatNumber(summary.totalReferrals)}</span>
             <span style={{
               ...styles.summaryTrend,
-              color: getTrendIcon(summary.totalReferrals, summary.previousPeriod.referrals).color
+              color: getTrendIcon(summary.totalReferrals, summary.previousPeriod.referrals).color,
             }}>
               {getTrendIcon(summary.totalReferrals, summary.previousPeriod.referrals).icon}
               {getTrendIcon(summary.totalReferrals, summary.previousPeriod.referrals).text}
@@ -454,7 +454,7 @@ const AdminReports = () => {
             <span style={styles.summaryValue}>{formatNumber(summary.totalClicks)}</span>
             <span style={{
               ...styles.summaryTrend,
-              color: getTrendIcon(summary.totalClicks, summary.previousPeriod.clicks).color
+              color: getTrendIcon(summary.totalClicks, summary.previousPeriod.clicks).color,
             }}>
               {getTrendIcon(summary.totalClicks, summary.previousPeriod.clicks).icon}
               {getTrendIcon(summary.totalClicks, summary.previousPeriod.clicks).text}
@@ -471,7 +471,7 @@ const AdminReports = () => {
             <span style={styles.summaryValue}>{formatNumber(summary.totalConversions)}</span>
             <span style={{
               ...styles.summaryTrend,
-              color: getTrendIcon(summary.totalConversions, summary.previousPeriod.conversions).color
+              color: getTrendIcon(summary.totalConversions, summary.previousPeriod.conversions).color,
             }}>
               {getTrendIcon(summary.totalConversions, summary.previousPeriod.conversions).icon}
               {getTrendIcon(summary.totalConversions, summary.previousPeriod.conversions).text}
@@ -499,403 +499,403 @@ const AdminReports = () => {
           </div>
         </div>
       </div>
-{/* Tabs */}
-<div style={styles.tabs}>
-  {tabs.map(tab => (
-    <button
-      key={tab.id}
-      style={{
-        ...styles.tab,
-        ...(activeTab === tab.id ? styles.activeTab : {})
-      }}
-      onClick={() => setActiveTab(tab.id)}
-    >
-      {tab.icon}
-      {tab.label}
-    </button>
-  ))}
-</div>
-
-{/* Chart Type Selector */}
-<div style={styles.chartTypeSelector}>
-  <button
-    style={{
-      ...styles.chartTypeBtn,
-      ...(chartType === 'line' ? styles.activeChartType : {})
-    }}
-    onClick={() => setChartType('line')}
-  >
-    Line
-  </button>
-  <button
-    style={{
-      ...styles.chartTypeBtn,
-      ...(chartType === 'bar' ? styles.activeChartType : {})
-    }}
-    onClick={() => setChartType('bar')}
-  >
-    Bar
-  </button>
-  <button
-    style={{
-      ...styles.chartTypeBtn,
-      ...(chartType === 'area' ? styles.activeChartType : {})
-    }}
-    onClick={() => setChartType('area')}
-  >
-    Area
-  </button>
-  <button
-    style={{
-      ...styles.chartTypeBtn,
-      ...(chartType === 'pie' ? styles.activeChartType : {})
-    }}
-    onClick={() => setChartType('pie')}
-  >
-    Pie
-  </button>
-</div>
-
-{/* Main Content */}
-<div style={styles.content}>
-  {/* Overview Tab */}
-  {activeTab === 'overview' && (
-    <div style={styles.overviewTab}>
-      {/* Earnings Chart */}
-      <div style={styles.chartCard}>
-        <div style={styles.chartHeader}>
-          <h3 style={styles.chartTitle}>Earnings Overview</h3>
-          <div style={styles.chartLegend}>
-            <span style={styles.legendItem}>
-              <span style={{...styles.legendColor, background: '#667eea'}}></span>
-              Current Period
-            </span>
-            <span style={styles.legendItem}>
-              <span style={{...styles.legendColor, background: '#a0aec0'}}></span>
-              Previous Period
-            </span>
-          </div>
-        </div>
-        <div style={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={400}>
-            {chartType === 'line' && (
-              <LineChart data={earningsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip formatter={(value) => formatCurrency(value)} />
-                <Legend />
-                <Line type="monotone" dataKey="current" stroke="#667eea" strokeWidth={2} />
-                <Line type="monotone" dataKey="previous" stroke="#a0aec0" strokeWidth={2} />
-              </LineChart>
-            )}
-            {chartType === 'bar' && (
-              <BarChart data={earningsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip formatter={(value) => formatCurrency(value)} />
-                <Legend />
-                <Bar dataKey="current" fill="#667eea" />
-                <Bar dataKey="previous" fill="#a0aec0" />
-              </BarChart>
-            )}
-            {chartType === 'area' && (
-              <AreaChart data={earningsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip formatter={(value) => formatCurrency(value)} />
-                <Legend />
-                <Area type="monotone" dataKey="current" stroke="#667eea" fill="#667eea" fillOpacity={0.3} />
-                <Area type="monotone" dataKey="previous" stroke="#a0aec0" fill="#a0aec0" fillOpacity={0.3} />
-              </AreaChart>
-            )}
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Key Metrics Grid */}
-      <div style={styles.metricsGrid}>
-        <div style={styles.metricCard}>
-          <h4 style={styles.metricTitle}>Average Commission</h4>
-          <div style={styles.metricValue}>{formatCurrency(summary.avgCommission)}</div>
-          <div style={styles.metricSub}>per conversion</div>
-        </div>
-        <div style={styles.metricCard}>
-          <h4 style={styles.metricTitle}>Pending Payouts</h4>
-          <div style={styles.metricValue}>{formatCurrency(summary.pendingCommissions)}</div>
-          <div style={styles.metricSub}>awaiting approval</div>
-        </div>
-        <div style={styles.metricCard}>
-          <h4 style={styles.metricTitle}>Affiliate Performance</h4>
-          <div style={styles.metricValue}>{summary.avgEarningsPerAffiliate}</div>
-          <div style={styles.metricSub}>avg. earnings per affiliate</div>
-        </div>
-        <div style={styles.metricCard}>
-          <h4 style={styles.metricTitle}>Click to Sale Ratio</h4>
-          <div style={styles.metricValue}>{summary.clickToSaleRatio}%</div>
-          <div style={styles.metricSub}>conversion efficiency</div>
-        </div>
-      </div>
-
-      {/* Comparison Cards */}
-      {comparisonData && (
-        <div style={styles.comparisonGrid}>
-          <div style={styles.comparisonCard}>
-            <h4 style={styles.comparisonTitle}>vs Previous Period</h4>
-            <div style={styles.comparisonItem}>
-              <span>Earnings</span>
-              <span style={{
-                color: comparisonData.earnings.percentChange > 0 ? '#28a745' : '#dc3545'
-              }}>
-                {comparisonData.earnings.percentChange > 0 ? '+' : ''}
-                {comparisonData.earnings.percentChange}%
-              </span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Referrals</span>
-              <span style={{
-                color: comparisonData.referrals.percentChange > 0 ? '#28a745' : '#dc3545'
-              }}>
-                {comparisonData.referrals.percentChange > 0 ? '+' : ''}
-                {comparisonData.referrals.percentChange}%
-              </span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Clicks</span>
-              <span style={{
-                color: comparisonData.clicks.percentChange > 0 ? '#28a745' : '#dc3545'
-              }}>
-                {comparisonData.clicks.percentChange > 0 ? '+' : ''}
-                {comparisonData.clicks.percentChange}%
-              </span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Conversions</span>
-              <span style={{
-                color: comparisonData.conversions.percentChange > 0 ? '#28a745' : '#dc3545'
-              }}>
-                {comparisonData.conversions.percentChange > 0 ? '+' : ''}
-                {comparisonData.conversions.percentChange}%
-              </span>
-            </div>
-          </div>
-
-          <div style={styles.comparisonCard}>
-            <h4 style={styles.comparisonTitle}>Year to Date</h4>
-            <div style={styles.comparisonItem}>
-              <span>Total Earnings</span>
-              <span>{formatCurrency(comparisonData.ytd.earnings)}</span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Total Referrals</span>
-              <span>{formatNumber(comparisonData.ytd.referrals)}</span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Total Clicks</span>
-              <span>{formatNumber(comparisonData.ytd.clicks)}</span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Growth Rate</span>
-              <span style={{color: '#28a745'}}>+{comparisonData.ytd.growthRate}%</span>
-            </div>
-          </div>
-
-          <div style={styles.comparisonCard}>
-            <h4 style={styles.comparisonTitle}>Projections</h4>
-            <div style={styles.comparisonItem}>
-              <span>Next Month</span>
-              <span>{formatCurrency(comparisonData.projection.nextMonth)}</span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Next Quarter</span>
-              <span>{formatCurrency(comparisonData.projection.nextQuarter)}</span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Year End</span>
-              <span>{formatCurrency(comparisonData.projection.yearEnd)}</span>
-            </div>
-            <div style={styles.comparisonItem}>
-              <span>Confidence</span>
-              <span>{comparisonData.projection.confidence}%</span>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  )}
-
-  {/* Earnings Tab */}
-  {activeTab === 'earnings' && (
-    <div style={styles.earningsTab}>
-      {/* Earnings Chart */}
-      <div style={styles.chartCard}>
-        <h3 style={styles.chartTitle}>Earnings Breakdown</h3>
-        <div style={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={400}>
-            {chartType === 'pie' ? (
-              <PieChart>
-                <Pie
-                  activeIndex={activeIndex}
-                  activeShape={renderActiveShape}
-                  data={earningsData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  dataKey="value"
-                  onMouseEnter={onPieEnter}
-                >
-                  {earningsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value) => formatCurrency(value)} />
-              </PieChart>
-            ) : (
-              <BarChart data={earningsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip formatter={(value) => formatCurrency(value)} />
-                <Legend />
-                <Bar dataKey="value" fill="#667eea">
-                  {earningsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Bar>
-              </BarChart>
-            )}
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Earnings Table */}
-      <div style={styles.tableCard}>
-        <h3 style={styles.tableTitle}>Earnings Details</h3>
-        <div style={styles.tableContainer}>
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th style={styles.th}>Date</th>
-                <th style={styles.th}>Source</th>
-                <th style={styles.th}>Amount</th>
-                <th style={styles.th}>Commission</th>
-                <th style={styles.th}>Status</th>
-                <th style={styles.th}>Affiliate</th>
-              </tr>
-            </thead>
-            <tbody>
-              {earningsData.slice(0, 10).map((item, index) => (
-                <tr key={index} style={styles.tr}>
-                  <td style={styles.td}>{item.date}</td>
-                  <td style={styles.td}>{item.source}</td>
-                  <td style={styles.td}>{formatCurrency(item.amount)}</td>
-                  <td style={styles.td}>{item.commission}%</td>
-                  <td style={styles.td}>
-                    <span style={{
-                      ...styles.statusBadge,
-                      background: item.status === 'paid' ? '#e8f5e9' : '#fff3e0',
-                      color: item.status === 'paid' ? '#388e3c' : '#f57c00'
-                    }}>
-                      {item.status}
-                    </span>
-                  </td>
-                  <td style={styles.td}>{item.affiliate}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  )}
-
-  {/* Referrals Tab */}
-  {activeTab === 'referrals' && (
-    <div style={styles.referralsTab}>
-      {/* Referrals Chart */}
-      <div style={styles.chartCard}>
-        <h3 style={styles.chartTitle}>Referral Growth</h3>
-        <div style={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={referralsData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="newReferrals" stroke="#667eea" strokeWidth={2} />
-              <Line type="monotone" dataKey="activeReferrals" stroke="#48bb78" strokeWidth={2} />
-              <Line type="monotone" dataKey="totalReferrals" stroke="#ed8936" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Referral Stats */}
-      <div style={styles.statsGrid}>
-        <div style={styles.statCard}>
-          <h4 style={styles.statTitle}>New Referrals</h4>
-          <div style={styles.statValue}>{referralsData.reduce((acc, curr) => acc + curr.newReferrals, 0)}</div>
-        </div>
-        <div style={styles.statCard}>
-          <h4 style={styles.statTitle}>Active Referrals</h4>
-          <div style={styles.statValue}>{referralsData.reduce((acc, curr) => acc + curr.activeReferrals, 0)}</div>
-        </div>
-        <div style={styles.statCard}>
-          <h4 style={styles.statTitle}>Inactive Referrals</h4>
-          <div style={styles.statValue}>{referralsData.reduce((acc, curr) => acc + curr.inactiveReferrals, 0)}</div>
-        </div>
-        <div style={styles.statCard}>
-          <h4 style={styles.statTitle}>Conversion Rate</h4>
-          <div style={styles.statValue}>{summary.referralConversionRate}%</div>
-        </div>
-      </div>
-    </div>
-  )}
-
-  {/* Traffic Tab */}
-  {activeTab === 'traffic' && (
-    <div style={styles.trafficTab}>
-      <div style={styles.chartCard}>
-        <h3 style={styles.chartTitle}>Traffic Sources</h3>
-        <div style={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={400}>
-            <PieChart>
-              <Pie
-                data={trafficData}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={100}
-                dataKey="value"
-                label
-              >
-                {trafficData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={TRAFFIC_COLORS[index % TRAFFIC_COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div style={styles.statsGrid}>
-        {trafficData.map((source, index) => (
-          <div key={index} style={styles.trafficCard}>
-            <h4 style={styles.trafficTitle}>{source.name}</h4>
-            <div style={styles.trafficValue}>{source.value.toLocaleString()} clicks</div>
-            <div style={styles.trafficPercentage}>{source.percentage}%</div>
-          </div>
+      {/* Tabs */}
+      <div style={styles.tabs}>
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            style={{
+              ...styles.tab,
+              ...(activeTab === tab.id ? styles.activeTab : {}),
+            }}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
         ))}
       </div>
-    </div>
-  )}
-</div>
+
+      {/* Chart Type Selector */}
+      <div style={styles.chartTypeSelector}>
+        <button
+          style={{
+            ...styles.chartTypeBtn,
+            ...(chartType === 'line' ? styles.activeChartType : {}),
+          }}
+          onClick={() => setChartType('line')}
+        >
+    Line
+        </button>
+        <button
+          style={{
+            ...styles.chartTypeBtn,
+            ...(chartType === 'bar' ? styles.activeChartType : {}),
+          }}
+          onClick={() => setChartType('bar')}
+        >
+    Bar
+        </button>
+        <button
+          style={{
+            ...styles.chartTypeBtn,
+            ...(chartType === 'area' ? styles.activeChartType : {}),
+          }}
+          onClick={() => setChartType('area')}
+        >
+    Area
+        </button>
+        <button
+          style={{
+            ...styles.chartTypeBtn,
+            ...(chartType === 'pie' ? styles.activeChartType : {}),
+          }}
+          onClick={() => setChartType('pie')}
+        >
+    Pie
+        </button>
+      </div>
+
+      {/* Main Content */}
+      <div style={styles.content}>
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+          <div style={styles.overviewTab}>
+            {/* Earnings Chart */}
+            <div style={styles.chartCard}>
+              <div style={styles.chartHeader}>
+                <h3 style={styles.chartTitle}>Earnings Overview</h3>
+                <div style={styles.chartLegend}>
+                  <span style={styles.legendItem}>
+                    <span style={{...styles.legendColor, background: '#667eea'}}></span>
+              Current Period
+                  </span>
+                  <span style={styles.legendItem}>
+                    <span style={{...styles.legendColor, background: '#a0aec0'}}></span>
+              Previous Period
+                  </span>
+                </div>
+              </div>
+              <div style={styles.chartContainer}>
+                <ResponsiveContainer width="100%" height={400}>
+                  {chartType === 'line' && (
+                    <LineChart data={earningsData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip formatter={(value) => formatCurrency(value)} />
+                      <Legend />
+                      <Line type="monotone" dataKey="current" stroke="#667eea" strokeWidth={2} />
+                      <Line type="monotone" dataKey="previous" stroke="#a0aec0" strokeWidth={2} />
+                    </LineChart>
+                  )}
+                  {chartType === 'bar' && (
+                    <BarChart data={earningsData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip formatter={(value) => formatCurrency(value)} />
+                      <Legend />
+                      <Bar dataKey="current" fill="#667eea" />
+                      <Bar dataKey="previous" fill="#a0aec0" />
+                    </BarChart>
+                  )}
+                  {chartType === 'area' && (
+                    <AreaChart data={earningsData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip formatter={(value) => formatCurrency(value)} />
+                      <Legend />
+                      <Area type="monotone" dataKey="current" stroke="#667eea" fill="#667eea" fillOpacity={0.3} />
+                      <Area type="monotone" dataKey="previous" stroke="#a0aec0" fill="#a0aec0" fillOpacity={0.3} />
+                    </AreaChart>
+                  )}
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Key Metrics Grid */}
+            <div style={styles.metricsGrid}>
+              <div style={styles.metricCard}>
+                <h4 style={styles.metricTitle}>Average Commission</h4>
+                <div style={styles.metricValue}>{formatCurrency(summary.avgCommission)}</div>
+                <div style={styles.metricSub}>per conversion</div>
+              </div>
+              <div style={styles.metricCard}>
+                <h4 style={styles.metricTitle}>Pending Payouts</h4>
+                <div style={styles.metricValue}>{formatCurrency(summary.pendingCommissions)}</div>
+                <div style={styles.metricSub}>awaiting approval</div>
+              </div>
+              <div style={styles.metricCard}>
+                <h4 style={styles.metricTitle}>Affiliate Performance</h4>
+                <div style={styles.metricValue}>{summary.avgEarningsPerAffiliate}</div>
+                <div style={styles.metricSub}>avg. earnings per affiliate</div>
+              </div>
+              <div style={styles.metricCard}>
+                <h4 style={styles.metricTitle}>Click to Sale Ratio</h4>
+                <div style={styles.metricValue}>{summary.clickToSaleRatio}%</div>
+                <div style={styles.metricSub}>conversion efficiency</div>
+              </div>
+            </div>
+
+            {/* Comparison Cards */}
+            {comparisonData && (
+              <div style={styles.comparisonGrid}>
+                <div style={styles.comparisonCard}>
+                  <h4 style={styles.comparisonTitle}>vs Previous Period</h4>
+                  <div style={styles.comparisonItem}>
+                    <span>Earnings</span>
+                    <span style={{
+                      color: comparisonData.earnings.percentChange > 0 ? '#28a745' : '#dc3545',
+                    }}>
+                      {comparisonData.earnings.percentChange > 0 ? '+' : ''}
+                      {comparisonData.earnings.percentChange}%
+                    </span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Referrals</span>
+                    <span style={{
+                      color: comparisonData.referrals.percentChange > 0 ? '#28a745' : '#dc3545',
+                    }}>
+                      {comparisonData.referrals.percentChange > 0 ? '+' : ''}
+                      {comparisonData.referrals.percentChange}%
+                    </span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Clicks</span>
+                    <span style={{
+                      color: comparisonData.clicks.percentChange > 0 ? '#28a745' : '#dc3545',
+                    }}>
+                      {comparisonData.clicks.percentChange > 0 ? '+' : ''}
+                      {comparisonData.clicks.percentChange}%
+                    </span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Conversions</span>
+                    <span style={{
+                      color: comparisonData.conversions.percentChange > 0 ? '#28a745' : '#dc3545',
+                    }}>
+                      {comparisonData.conversions.percentChange > 0 ? '+' : ''}
+                      {comparisonData.conversions.percentChange}%
+                    </span>
+                  </div>
+                </div>
+
+                <div style={styles.comparisonCard}>
+                  <h4 style={styles.comparisonTitle}>Year to Date</h4>
+                  <div style={styles.comparisonItem}>
+                    <span>Total Earnings</span>
+                    <span>{formatCurrency(comparisonData.ytd.earnings)}</span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Total Referrals</span>
+                    <span>{formatNumber(comparisonData.ytd.referrals)}</span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Total Clicks</span>
+                    <span>{formatNumber(comparisonData.ytd.clicks)}</span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Growth Rate</span>
+                    <span style={{color: '#28a745'}}>+{comparisonData.ytd.growthRate}%</span>
+                  </div>
+                </div>
+
+                <div style={styles.comparisonCard}>
+                  <h4 style={styles.comparisonTitle}>Projections</h4>
+                  <div style={styles.comparisonItem}>
+                    <span>Next Month</span>
+                    <span>{formatCurrency(comparisonData.projection.nextMonth)}</span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Next Quarter</span>
+                    <span>{formatCurrency(comparisonData.projection.nextQuarter)}</span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Year End</span>
+                    <span>{formatCurrency(comparisonData.projection.yearEnd)}</span>
+                  </div>
+                  <div style={styles.comparisonItem}>
+                    <span>Confidence</span>
+                    <span>{comparisonData.projection.confidence}%</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Earnings Tab */}
+        {activeTab === 'earnings' && (
+          <div style={styles.earningsTab}>
+            {/* Earnings Chart */}
+            <div style={styles.chartCard}>
+              <h3 style={styles.chartTitle}>Earnings Breakdown</h3>
+              <div style={styles.chartContainer}>
+                <ResponsiveContainer width="100%" height={400}>
+                  {chartType === 'pie' ? (
+                    <PieChart>
+                      <Pie
+                        activeIndex={activeIndex}
+                        activeShape={renderActiveShape}
+                        data={earningsData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={80}
+                        dataKey="value"
+                        onMouseEnter={onPieEnter}
+                      >
+                        {earningsData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value) => formatCurrency(value)} />
+                    </PieChart>
+                  ) : (
+                    <BarChart data={earningsData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip formatter={(value) => formatCurrency(value)} />
+                      <Legend />
+                      <Bar dataKey="value" fill="#667eea">
+                        {earningsData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  )}
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Earnings Table */}
+            <div style={styles.tableCard}>
+              <h3 style={styles.tableTitle}>Earnings Details</h3>
+              <div style={styles.tableContainer}>
+                <table style={styles.table}>
+                  <thead>
+                    <tr>
+                      <th style={styles.th}>Date</th>
+                      <th style={styles.th}>Source</th>
+                      <th style={styles.th}>Amount</th>
+                      <th style={styles.th}>Commission</th>
+                      <th style={styles.th}>Status</th>
+                      <th style={styles.th}>Affiliate</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {earningsData.slice(0, 10).map((item, index) => (
+                      <tr key={index} style={styles.tr}>
+                        <td style={styles.td}>{item.date}</td>
+                        <td style={styles.td}>{item.source}</td>
+                        <td style={styles.td}>{formatCurrency(item.amount)}</td>
+                        <td style={styles.td}>{item.commission}%</td>
+                        <td style={styles.td}>
+                          <span style={{
+                            ...styles.statusBadge,
+                            background: item.status === 'paid' ? '#e8f5e9' : '#fff3e0',
+                            color: item.status === 'paid' ? '#388e3c' : '#f57c00',
+                          }}>
+                            {item.status}
+                          </span>
+                        </td>
+                        <td style={styles.td}>{item.affiliate}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Referrals Tab */}
+        {activeTab === 'referrals' && (
+          <div style={styles.referralsTab}>
+            {/* Referrals Chart */}
+            <div style={styles.chartCard}>
+              <h3 style={styles.chartTitle}>Referral Growth</h3>
+              <div style={styles.chartContainer}>
+                <ResponsiveContainer width="100%" height={400}>
+                  <LineChart data={referralsData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="newReferrals" stroke="#667eea" strokeWidth={2} />
+                    <Line type="monotone" dataKey="activeReferrals" stroke="#48bb78" strokeWidth={2} />
+                    <Line type="monotone" dataKey="totalReferrals" stroke="#ed8936" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Referral Stats */}
+            <div style={styles.statsGrid}>
+              <div style={styles.statCard}>
+                <h4 style={styles.statTitle}>New Referrals</h4>
+                <div style={styles.statValue}>{referralsData.reduce((acc, curr) => acc + curr.newReferrals, 0)}</div>
+              </div>
+              <div style={styles.statCard}>
+                <h4 style={styles.statTitle}>Active Referrals</h4>
+                <div style={styles.statValue}>{referralsData.reduce((acc, curr) => acc + curr.activeReferrals, 0)}</div>
+              </div>
+              <div style={styles.statCard}>
+                <h4 style={styles.statTitle}>Inactive Referrals</h4>
+                <div style={styles.statValue}>{referralsData.reduce((acc, curr) => acc + curr.inactiveReferrals, 0)}</div>
+              </div>
+              <div style={styles.statCard}>
+                <h4 style={styles.statTitle}>Conversion Rate</h4>
+                <div style={styles.statValue}>{summary.referralConversionRate}%</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Traffic Tab */}
+        {activeTab === 'traffic' && (
+          <div style={styles.trafficTab}>
+            <div style={styles.chartCard}>
+              <h3 style={styles.chartTitle}>Traffic Sources</h3>
+              <div style={styles.chartContainer}>
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart>
+                    <Pie
+                      data={trafficData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      dataKey="value"
+                      label
+                    >
+                      {trafficData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={TRAFFIC_COLORS[index % TRAFFIC_COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div style={styles.statsGrid}>
+              {trafficData.map((source, index) => (
+                <div key={index} style={styles.trafficCard}>
+                  <h4 style={styles.trafficTitle}>{source.name}</h4>
+                  <div style={styles.trafficValue}>{source.value.toLocaleString()} clicks</div>
+                  <div style={styles.trafficPercentage}>{source.percentage}%</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
       <style>{`
         @keyframes spin {
           0% { transform: rotate(0deg); }
@@ -911,30 +911,30 @@ const styles = {
     maxWidth: '1400px',
     margin: '0 auto',
     padding: '30px 20px',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   header: {
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   title: {
     fontSize: '28px',
     color: '#333',
-    margin: '0 0 5px'
+    margin: '0 0 5px',
   },
   subtitle: {
     fontSize: '16px',
     color: '#666',
-    margin: '0 0 20px'
+    margin: '0 0 20px',
   },
   headerActions: {
     display: 'flex',
     gap: '10px',
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   dateRangeSelector: {
     position: 'relative',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   calendarIcon: {
     position: 'absolute',
@@ -942,7 +942,7 @@ const styles = {
     top: '50%',
     transform: 'translateY(-50%)',
     color: '#999',
-    zIndex: 1
+    zIndex: 1,
   },
   dateSelect: {
     padding: '10px 10px 10px 35px',
@@ -950,18 +950,18 @@ const styles = {
     borderRadius: '5px',
     fontSize: '14px',
     minWidth: '180px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   customDateRange: {
     display: 'flex',
     alignItems: 'center',
-    gap: '10px'
+    gap: '10px',
   },
   dateInput: {
     padding: '8px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   refreshBtn: {
     padding: '8px 16px',
@@ -971,11 +971,11 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   exportDropdown: {
     position: 'relative',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   exportBtn: {
     padding: '8px 16px',
@@ -986,7 +986,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   exportOptions: {
     position: 'absolute',
@@ -997,7 +997,7 @@ const styles = {
     borderRadius: '5px',
     boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
     display: 'none',
-    zIndex: 1000
+    zIndex: 1000,
   },
   emailBtn: {
     padding: '8px 16px',
@@ -1008,7 +1008,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   printBtn: {
     padding: '8px 16px',
@@ -1019,7 +1019,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   viewModeBtn: {
     padding: '8px 16px',
@@ -1029,13 +1029,13 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   summaryGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(6, 1fr)',
     gap: '15px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   summaryCard: {
     background: 'white',
@@ -1044,7 +1044,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '15px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   summaryIcon: {
     width: '50px',
@@ -1055,29 +1055,29 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     color: '#667eea',
-    fontSize: '24px'
+    fontSize: '24px',
   },
   summaryContent: {
-    flex: 1
+    flex: 1,
   },
   summaryLabel: {
     display: 'block',
     fontSize: '12px',
     color: '#666',
-    marginBottom: '3px'
+    marginBottom: '3px',
   },
   summaryValue: {
     display: 'block',
     fontSize: '20px',
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: '3px'
+    marginBottom: '3px',
   },
   summaryTrend: {
     display: 'flex',
     alignItems: 'center',
     gap: '3px',
-    fontSize: '11px'
+    fontSize: '11px',
   },
   tabs: {
     display: 'flex',
@@ -1085,7 +1085,7 @@ const styles = {
     gap: '5px',
     marginBottom: '20px',
     borderBottom: '1px solid #e9ecef',
-    paddingBottom: '10px'
+    paddingBottom: '10px',
   },
   tab: {
     padding: '8px 16px',
@@ -1097,130 +1097,130 @@ const styles = {
     alignItems: 'center',
     gap: '5px',
     fontSize: '13px',
-    color: '#666'
+    color: '#666',
   },
   activeTab: {
     background: '#667eea',
-    color: 'white'
+    color: 'white',
   },
   chartTypeSelector: {
     display: 'flex',
     gap: '10px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   chartTypeBtn: {
     padding: '5px 10px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   activeChartType: {
     background: '#667eea',
     color: 'white',
-    borderColor: '#667eea'
+    borderColor: '#667eea',
   },
   content: {
     background: 'white',
     borderRadius: '10px',
     padding: '20px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   chartCard: {
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   chartHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   chartTitle: {
     margin: 0,
     fontSize: '18px',
-    color: '#333'
+    color: '#333',
   },
   chartLegend: {
     display: 'flex',
-    gap: '15px'
+    gap: '15px',
   },
   legendItem: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
     fontSize: '12px',
-    color: '#666'
+    color: '#666',
   },
   legendColor: {
     width: '12px',
     height: '12px',
-    borderRadius: '3px'
+    borderRadius: '3px',
   },
   chartContainer: {
-    height: '400px'
+    height: '400px',
   },
   metricsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
     gap: '15px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   metricCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '15px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   metricTitle: {
     margin: '0 0 10px',
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   metricValue: {
     fontSize: '24px',
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: '5px'
+    marginBottom: '5px',
   },
   metricSub: {
     fontSize: '12px',
-    color: '#999'
+    color: '#999',
   },
   comparisonGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '20px'
+    gap: '20px',
   },
   comparisonCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
-    padding: '15px'
+    padding: '15px',
   },
   comparisonTitle: {
     margin: '0 0 15px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   comparisonItem: {
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: '8px',
-    fontSize: '13px'
+    fontSize: '13px',
   },
   tableCard: {
-    marginTop: '30px'
+    marginTop: '30px',
   },
   tableTitle: {
     margin: '0 0 15px',
     fontSize: '18px',
-    color: '#333'
+    color: '#333',
   },
   tableContainer: {
-    overflow: 'auto'
+    overflow: 'auto',
   },
   table: {
     width: '100%',
-    borderCollapse: 'collapse'
+    borderCollapse: 'collapse',
   },
   th: {
     padding: '12px',
@@ -1229,68 +1229,68 @@ const styles = {
     borderBottom: '2px solid #e9ecef',
     fontSize: '13px',
     fontWeight: 600,
-    color: '#666'
+    color: '#666',
   },
   tr: {
-    borderBottom: '1px solid #e9ecef'
+    borderBottom: '1px solid #e9ecef',
   },
   td: {
     padding: '12px',
     fontSize: '13px',
-    color: '#333'
+    color: '#333',
   },
   statusBadge: {
     padding: '3px 8px',
     borderRadius: '12px',
     fontSize: '11px',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   statsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
     gap: '15px',
-    marginTop: '20px'
+    marginTop: '20px',
   },
   statCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '15px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   statTitle: {
     margin: '0 0 8px',
     fontSize: '13px',
-    color: '#666'
+    color: '#666',
   },
   statValue: {
     fontSize: '20px',
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   trafficCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '20px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   trafficTitle: {
     margin: '0 0 10px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   trafficValue: {
     fontSize: '24px',
     fontWeight: 'bold',
     color: '#667eea',
-    marginBottom: '5px'
+    marginBottom: '5px',
   },
   trafficPercentage: {
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   loadingContainer: {
     textAlign: 'center',
-    padding: '60px 20px'
+    padding: '60px 20px',
   },
   spinner: {
     border: '3px solid #f3f3f3',
@@ -1299,8 +1299,8 @@ const styles = {
     width: '40px',
     height: '40px',
     animation: 'spin 1s linear infinite',
-    margin: '0 auto 15px'
-  }
+    margin: '0 auto 15px',
+  },
 };
 
 export default AdminReports;

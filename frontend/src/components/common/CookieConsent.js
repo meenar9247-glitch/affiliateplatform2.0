@@ -7,7 +7,7 @@ const CookieConsent = () => {
     necessary: true, // Always true, cannot be disabled
     functional: false,
     analytics: false,
-    marketing: false
+    marketing: false,
   });
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const CookieConsent = () => {
       necessary: true,
       functional: true,
       analytics: true,
-      marketing: true
+      marketing: true,
     };
     setPreferences(allAccepted);
     localStorage.setItem('cookieConsent', JSON.stringify(allAccepted));
@@ -41,7 +41,7 @@ const CookieConsent = () => {
       necessary: true, // Necessary cookies always enabled
       functional: false,
       analytics: false,
-      marketing: false
+      marketing: false,
     };
     setPreferences(allRejected);
     localStorage.setItem('cookieConsent', JSON.stringify(allRejected));
@@ -58,7 +58,7 @@ const CookieConsent = () => {
     if (key === 'necessary') return; // Cannot toggle necessary cookies
     setPreferences(prev => ({
       ...prev,
-      [key]: !prev[key]
+      [key]: !prev[key],
     }));
   };
 
@@ -74,7 +74,7 @@ const CookieConsent = () => {
       boxShadow: '0 -4px 10px rgba(0,0,0,0.1)',
       zIndex: 9999,
       padding: '20px',
-      borderTop: '1px solid #e9ecef'
+      borderTop: '1px solid #e9ecef',
     },
     container: {
       maxWidth: '1200px',
@@ -84,32 +84,32 @@ const CookieConsent = () => {
       alignItems: showPreferences ? 'stretch' : 'center',
       justifyContent: 'space-between',
       gap: '20px',
-      flexWrap: 'wrap'
+      flexWrap: 'wrap',
     },
     content: {
-      flex: 1
+      flex: 1,
     },
     title: {
       fontSize: '18px',
       fontWeight: 600,
       color: '#333',
-      marginBottom: '8px'
+      marginBottom: '8px',
     },
     text: {
       fontSize: '14px',
       color: '#666',
       lineHeight: '1.6',
-      marginBottom: '10px'
+      marginBottom: '10px',
     },
     link: {
       color: '#667eea',
       textDecoration: 'none',
-      cursor: 'pointer'
+      cursor: 'pointer',
     },
     buttons: {
       display: 'flex',
       gap: '10px',
-      flexWrap: 'wrap'
+      flexWrap: 'wrap',
     },
     buttonPrimary: {
       padding: '10px 20px',
@@ -119,7 +119,7 @@ const CookieConsent = () => {
       borderRadius: '5px',
       fontSize: '14px',
       cursor: 'pointer',
-      transition: 'background 0.3s ease'
+      transition: 'background 0.3s ease',
     },
     buttonSecondary: {
       padding: '10px 20px',
@@ -129,51 +129,51 @@ const CookieConsent = () => {
       borderRadius: '5px',
       fontSize: '14px',
       cursor: 'pointer',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
     },
     preferencesPanel: {
       marginTop: '20px',
       padding: '20px',
       background: '#f8f9fa',
-      borderRadius: '8px'
+      borderRadius: '8px',
     },
     preferencesTitle: {
       fontSize: '16px',
       fontWeight: 600,
       color: '#333',
-      marginBottom: '15px'
+      marginBottom: '15px',
     },
     preferenceItem: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
       padding: '10px 0',
-      borderBottom: '1px solid #e9ecef'
+      borderBottom: '1px solid #e9ecef',
     },
     preferenceInfo: {
-      flex: 1
+      flex: 1,
     },
     preferenceName: {
       fontSize: '14px',
       fontWeight: 500,
       color: '#333',
-      marginBottom: '3px'
+      marginBottom: '3px',
     },
     preferenceDesc: {
       fontSize: '12px',
-      color: '#999'
+      color: '#999',
     },
     toggle: {
       position: 'relative',
       display: 'inline-block',
       width: '50px',
       height: '24px',
-      marginLeft: '15px'
+      marginLeft: '15px',
     },
     toggleInput: {
       opacity: 0,
       width: 0,
-      height: 0
+      height: 0,
     },
     slider: {
       position: 'absolute',
@@ -184,7 +184,7 @@ const CookieConsent = () => {
       bottom: 0,
       backgroundColor: '#ccc',
       transition: '0.3s',
-      borderRadius: '24px'
+      borderRadius: '24px',
     },
     sliderBefore: {
       position: 'absolute',
@@ -195,24 +195,24 @@ const CookieConsent = () => {
       bottom: '2px',
       backgroundColor: 'white',
       transition: '0.3s',
-      borderRadius: '50%'
+      borderRadius: '50%',
     },
     toggleChecked: {
-      backgroundColor: '#667eea'
+      backgroundColor: '#667eea',
     },
     toggleCheckedBefore: {
-      transform: 'translateX(26px)'
+      transform: 'translateX(26px)',
     },
     toggleDisabled: {
       opacity: 0.5,
-      cursor: 'not-allowed'
+      cursor: 'not-allowed',
     },
     preferenceActions: {
       display: 'flex',
       gap: '10px',
       marginTop: '20px',
-      justifyContent: 'flex-end'
-    }
+      justifyContent: 'flex-end',
+    },
   };
 
   return (
@@ -291,11 +291,11 @@ const CookieConsent = () => {
                 <span style={{
                   ...styles.slider,
                   ...(preferences.necessary ? styles.toggleChecked : {}),
-                  ...styles.toggleDisabled
+                  ...styles.toggleDisabled,
                 }}></span>
                 <span style={{
                   ...styles.sliderBefore,
-                  ...(preferences.necessary ? styles.toggleCheckedBefore : {})
+                  ...(preferences.necessary ? styles.toggleCheckedBefore : {}),
                 }}></span>
               </label>
             </div>
@@ -317,11 +317,11 @@ const CookieConsent = () => {
                 />
                 <span style={{
                   ...styles.slider,
-                  ...(preferences.functional ? styles.toggleChecked : {})
+                  ...(preferences.functional ? styles.toggleChecked : {}),
                 }}></span>
                 <span style={{
                   ...styles.sliderBefore,
-                  ...(preferences.functional ? styles.toggleCheckedBefore : {})
+                  ...(preferences.functional ? styles.toggleCheckedBefore : {}),
                 }}></span>
               </label>
             </div>
@@ -343,11 +343,11 @@ const CookieConsent = () => {
                 />
                 <span style={{
                   ...styles.slider,
-                  ...(preferences.analytics ? styles.toggleChecked : {})
+                  ...(preferences.analytics ? styles.toggleChecked : {}),
                 }}></span>
                 <span style={{
                   ...styles.sliderBefore,
-                  ...(preferences.analytics ? styles.toggleCheckedBefore : {})
+                  ...(preferences.analytics ? styles.toggleCheckedBefore : {}),
                 }}></span>
               </label>
             </div>
@@ -369,11 +369,11 @@ const CookieConsent = () => {
                 />
                 <span style={{
                   ...styles.slider,
-                  ...(preferences.marketing ? styles.toggleChecked : {})
+                  ...(preferences.marketing ? styles.toggleChecked : {}),
                 }}></span>
                 <span style={{
                   ...styles.sliderBefore,
-                  ...(preferences.marketing ? styles.toggleCheckedBefore : {})
+                  ...(preferences.marketing ? styles.toggleCheckedBefore : {}),
                 }}></span>
               </label>
             </div>

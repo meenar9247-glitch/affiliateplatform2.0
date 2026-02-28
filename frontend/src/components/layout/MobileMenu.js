@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
 import {
   FiMenu,
   FiX,
@@ -24,8 +22,11 @@ import {
   FiChevronUp,
   FiBell,
   FiMail,
-  FiMessageSquare
+  FiMessageSquare,
 } from 'react-icons/fi';
+import { Link, useLocation } from 'react-router-dom';
+
+import { useAuth } from '../../hooks/useAuth';
 
 const MobileMenu = () => {
   const { user, logout } = useAuth();
@@ -90,7 +91,7 @@ const MobileMenu = () => {
       title: 'Dashboard',
       path: '/dashboard',
       icon: FiHome,
-      roles: ['user', 'admin']
+      roles: ['user', 'admin'],
     },
     {
       title: 'Affiliates',
@@ -100,8 +101,8 @@ const MobileMenu = () => {
       submenu: [
         { title: 'All Links', path: '/affiliates', icon: FiLink },
         { title: 'My Links', path: '/affiliates/my-links', icon: FiStar },
-        { title: 'Create Link', path: '/affiliates/create', icon: FiActivity }
-      ]
+        { title: 'Create Link', path: '/affiliates/create', icon: FiActivity },
+      ],
     },
     {
       title: 'Referrals',
@@ -110,8 +111,8 @@ const MobileMenu = () => {
       roles: ['user', 'admin'],
       submenu: [
         { title: 'My Referrals', path: '/referrals', icon: FiUsers },
-        { title: 'Leaderboard', path: '/leaderboard', icon: FiAward }
-      ]
+        { title: 'Leaderboard', path: '/leaderboard', icon: FiAward },
+      ],
     },
     {
       title: 'Earnings',
@@ -121,8 +122,8 @@ const MobileMenu = () => {
       submenu: [
         { title: 'Overview', path: '/earnings', icon: FiPieChart },
         { title: 'Commissions', path: '/earnings/commissions', icon: FiTrendingUp },
-        { title: 'Payouts', path: '/earnings/payouts', icon: FiCreditCard }
-      ]
+        { title: 'Payouts', path: '/earnings/payouts', icon: FiCreditCard },
+      ],
     },
     {
       title: 'Wallet',
@@ -132,27 +133,27 @@ const MobileMenu = () => {
       submenu: [
         { title: 'Balance', path: '/wallet', icon: FiDollarSign },
         { title: 'Withdrawals', path: '/wallet/withdrawals', icon: FiActivity },
-        { title: 'Transactions', path: '/wallet/transactions', icon: FiBarChart2 }
-      ]
+        { title: 'Transactions', path: '/wallet/transactions', icon: FiBarChart2 },
+      ],
     },
     {
       title: 'Analytics',
       path: '/analytics',
       icon: FiBarChart2,
-      roles: ['user', 'admin']
+      roles: ['user', 'admin'],
     },
     {
       title: 'Settings',
       path: '/settings',
       icon: FiSettings,
-      roles: ['user', 'admin']
+      roles: ['user', 'admin'],
     },
     {
       title: 'Support',
       path: '/support',
       icon: FiHelpCircle,
-      roles: ['user', 'admin']
-    }
+      roles: ['user', 'admin'],
+    },
   ];
 
   // Admin items
@@ -161,32 +162,32 @@ const MobileMenu = () => {
       title: 'Admin Dashboard',
       path: '/admin',
       icon: FiShield,
-      roles: ['admin']
+      roles: ['admin'],
     },
     {
       title: 'Manage Users',
       path: '/admin/users',
       icon: FiUsers,
-      roles: ['admin']
+      roles: ['admin'],
     },
     {
       title: 'Manage Affiliates',
       path: '/admin/affiliates',
       icon: FiLink,
-      roles: ['admin']
+      roles: ['admin'],
     },
     {
       title: 'Withdrawals',
       path: '/admin/withdrawals',
       icon: FiDollarSign,
-      roles: ['admin']
+      roles: ['admin'],
     },
     {
       title: 'System Settings',
       path: '/admin/settings',
       icon: FiSettings,
-      roles: ['admin']
-    }
+      roles: ['admin'],
+    },
   ];
 
   const renderNavItem = (item, index) => {

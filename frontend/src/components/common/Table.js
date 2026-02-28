@@ -17,7 +17,7 @@ const Table = ({
   onSelect,
   actions,
   emptyMessage = 'No data found',
-  className = ''
+  className = '',
 }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [searchTerm, setSearchTerm] = useState('');

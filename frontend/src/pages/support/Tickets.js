@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   FiMessageCircle,
   FiPlus,
@@ -19,10 +21,8 @@ import {
   FiTrash2,
   FiEdit2,
   FiFilter,
-  FiSearch
+  FiSearch,
 } from 'react-icons/fi';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 
 const Tickets = () => {
   const [loading, setLoading] = useState(true);
@@ -39,7 +39,7 @@ const Tickets = () => {
     category: 'technical',
     priority: 'medium',
     message: '',
-    attachments: []
+    attachments: [],
   });
 
   // Reply State
@@ -52,14 +52,14 @@ const Tickets = () => {
     { value: 'account', label: 'Account Issues', icon: '👤' },
     { value: 'referral', label: 'Referral Problems', icon: '🤝' },
     { value: 'feature', label: 'Feature Request', icon: '✨' },
-    { value: 'other', label: 'Other', icon: '📌' }
+    { value: 'other', label: 'Other', icon: '📌' },
   ];
 
   const priorities = [
     { value: 'low', label: 'Low', color: '#28a745', bg: '#e8f5e9' },
     { value: 'medium', label: 'Medium', color: '#ff9800', bg: '#fff3e0' },
     { value: 'high', label: 'High', color: '#f44336', bg: '#ffebee' },
-    { value: 'urgent', label: 'Urgent', color: '#dc3545', bg: '#fde9e9' }
+    { value: 'urgent', label: 'Urgent', color: '#dc3545', bg: '#fde9e9' },
   ];
 
   useEffect(() => {
@@ -72,8 +72,8 @@ const Tickets = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/support/tickets`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -90,7 +90,7 @@ const Tickets = () => {
     const { name, value } = e.target;
     setNewTicket({
       ...newTicket,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -105,7 +105,7 @@ const Tickets = () => {
     });
     setNewTicket({
       ...newTicket,
-      attachments: [...newTicket.attachments, ...validFiles]
+      attachments: [...newTicket.attachments, ...validFiles],
     });
   };
 
@@ -117,7 +117,7 @@ const Tickets = () => {
   const removeAttachment = (index) => {
     setNewTicket({
       ...newTicket,
-      attachments: newTicket.attachments.filter((_, i) => i !== index)
+      attachments: newTicket.attachments.filter((_, i) => i !== index),
     });
   };
 
@@ -140,8 +140,8 @@ const Tickets = () => {
         `${process.env.REACT_APP_API_URL}/api/support/tickets`,
         newTicket,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -152,7 +152,7 @@ const Tickets = () => {
           category: 'technical',
           priority: 'medium',
           message: '',
-          attachments: []
+          attachments: [],
         });
         fetchTickets();
       }
@@ -176,8 +176,8 @@ const Tickets = () => {
         `${process.env.REACT_APP_API_URL}/api/support/tickets/${ticketId}/reply`,
         { message: replyMessage },
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -204,8 +204,8 @@ const Tickets = () => {
         `${process.env.REACT_APP_API_URL}/api/support/tickets/${ticketId}/close`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -225,8 +225,8 @@ const Tickets = () => {
         `${process.env.REACT_APP_API_URL}/api/support/tickets/${ticketId}/reopen`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -276,7 +276,7 @@ const Tickets = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -294,7 +294,7 @@ const Tickets = () => {
     open: tickets.filter(t => t.status === 'open').length,
     inProgress: tickets.filter(t => t.status === 'in-progress').length,
     resolved: tickets.filter(t => t.status === 'resolved').length,
-    closed: tickets.filter(t => t.status === 'closed').length
+    closed: tickets.filter(t => t.status === 'closed').length,
   };
 
   if (loading) {
@@ -567,14 +567,14 @@ const Tickets = () => {
                             <span style={{
                               ...styles.priorityBadge,
                               background: priority.bg,
-                              color: priority.color
+                              color: priority.color,
                             }}>
                               {priority.label}
                             </span>
                             <span style={{
                               ...styles.statusBadge,
                               background: status.bg,
-                              color: status.color
+                              color: status.color,
                             }}>
                               {status.text}
                             </span>
@@ -654,7 +654,7 @@ const Tickets = () => {
                 <span style={styles.metaLabel}>Status:</span>
                 <span style={{
                   ...styles.statusValue,
-                  ...getStatusColor(selectedTicket.status)
+                  ...getStatusColor(selectedTicket.status),
                 }}>
                   {getStatusColor(selectedTicket.status).text}
                 </span>
@@ -664,7 +664,7 @@ const Tickets = () => {
                 <span style={{
                   ...styles.priorityValue,
                   background: getPriorityStyle(selectedTicket.priority).bg,
-                  color: getPriorityStyle(selectedTicket.priority).color
+                  color: getPriorityStyle(selectedTicket.priority).color,
                 }}>
                   {getPriorityStyle(selectedTicket.priority).label}
                 </span>
@@ -835,7 +835,7 @@ const styles = {
     maxWidth: '1200px',
     margin: '0 auto',
     padding: '30px 20px',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   header: {
     display: 'flex',
@@ -843,17 +843,17 @@ const styles = {
     alignItems: 'center',
     marginBottom: '30px',
     flexWrap: 'wrap',
-    gap: '20px'
+    gap: '20px',
   },
   title: {
     fontSize: '32px',
     color: '#333',
-    margin: '0 0 5px'
+    margin: '0 0 5px',
   },
   subtitle: {
     fontSize: '16px',
     color: '#666',
-    margin: 0
+    margin: 0,
   },
   newTicketBtn: {
     padding: '12px 24px',
@@ -865,13 +865,13 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '8px'
+    gap: '8px',
   },
   statsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
     gap: '20px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   statCard: {
     background: 'white',
@@ -880,7 +880,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '15px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   statIcon: {
     width: '50px',
@@ -891,16 +891,16 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '24px'
+    fontSize: '24px',
   },
   statValue: {
     fontSize: '24px',
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   statLabel: {
     fontSize: '13px',
-    color: '#666'
+    color: '#666',
   },
   filters: {
     display: 'flex',
@@ -908,12 +908,12 @@ const styles = {
     alignItems: 'center',
     marginBottom: '20px',
     flexWrap: 'wrap',
-    gap: '15px'
+    gap: '15px',
   },
   filterTabs: {
     display: 'flex',
     gap: '10px',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   filterTab: {
     padding: '8px 16px',
@@ -921,71 +921,71 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '20px',
     cursor: 'pointer',
-    fontSize: '13px'
+    fontSize: '13px',
   },
   activeFilter: {
     background: '#667eea',
     color: 'white',
-    borderColor: '#667eea'
+    borderColor: '#667eea',
   },
   searchBox: {
     position: 'relative',
     flex: 1,
-    maxWidth: '300px'
+    maxWidth: '300px',
   },
   searchIcon: {
     position: 'absolute',
     left: '12px',
     top: '50%',
     transform: 'translateY(-50%)',
-    color: '#999'
+    color: '#999',
   },
   searchInput: {
     width: '100%',
     padding: '10px 10px 10px 40px',
     border: '1px solid #ddd',
     borderRadius: '8px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   newTicketForm: {
     background: '#f8f9fa',
     borderRadius: '10px',
     padding: '25px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   formTitle: {
     margin: '0 0 20px',
     color: '#333',
-    fontSize: '20px'
+    fontSize: '20px',
   },
   formGroup: {
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   formRow: {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     gap: '20px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   label: {
     display: 'block',
     marginBottom: '8px',
     fontWeight: 500,
-    color: '#333'
+    color: '#333',
   },
   input: {
     width: '100%',
     padding: '10px 12px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   select: {
     width: '100%',
     padding: '10px 12px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   textarea: {
     width: '100%',
@@ -994,13 +994,13 @@ const styles = {
     borderRadius: '5px',
     fontSize: '14px',
     resize: 'vertical',
-    minHeight: '100px'
+    minHeight: '100px',
   },
   fileUpload: {
     display: 'flex',
     alignItems: 'center',
     gap: '15px',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   fileUploadLabel: {
     padding: '8px 16px',
@@ -1010,45 +1010,45 @@ const styles = {
     cursor: 'pointer',
     display: 'inline-flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   fileUploadHint: {
     fontSize: '12px',
-    color: '#999'
+    color: '#999',
   },
   attachmentsList: {
-    marginTop: '10px'
+    marginTop: '10px',
   },
   attachmentItem: {
-  display: 'flex',
+    display: 'flex',
     alignItems: 'center',
     gap: '10px',
     padding: '8px 12px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    marginBottom: '5px'
+    marginBottom: '5px',
   },
   fileName: {
     flex: 1,
     fontSize: '13px',
-    color: '#333'
+    color: '#333',
   },
   fileSize: {
     fontSize: '11px',
-    color: '#999'
+    color: '#999',
   },
   removeAttachment: {
     background: 'none',
     border: 'none',
     color: '#dc3545',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   formActions: {
     display: 'flex',
     justifyContent: 'flex-end',
     gap: '10px',
-    marginTop: '20px'
+    marginTop: '20px',
   },
   cancelBtn: {
     padding: '10px 20px',
@@ -1056,7 +1056,7 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '5px',
     color: '#666',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   submitBtn: {
     padding: '10px 20px',
@@ -1067,21 +1067,21 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   ticketsList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '15px'
+    gap: '15px',
   },
   emptyState: {
     textAlign: 'center',
-    padding: '60px 20px'
+    padding: '60px 20px',
   },
   emptyIcon: {
     fontSize: '48px',
     color: '#ddd',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   createFirstBtn: {
     padding: '10px 20px',
@@ -1090,79 +1090,79 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
-    marginTop: '15px'
+    marginTop: '15px',
   },
   ticketCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '20px',
     cursor: 'pointer',
-    transition: 'all 0.3s ease'
+    transition: 'all 0.3s ease',
   },
   ticketHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   ticketTitleSection: {
-    flex: 1
+    flex: 1,
   },
   ticketSubject: {
     margin: '0 0 8px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   ticketBadges: {
     display: 'flex',
-    gap: '8px'
+    gap: '8px',
   },
   priorityBadge: {
     padding: '3px 10px',
     borderRadius: '15px',
     fontSize: '11px',
-    fontWeight: 500
+    fontWeight: 500,
   },
   statusBadge: {
     padding: '3px 10px',
     borderRadius: '15px',
     fontSize: '11px',
-    fontWeight: 500
+    fontWeight: 500,
   },
   ticketId: {
     fontSize: '12px',
-    color: '#999'
+    color: '#999',
   },
   ticketPreview: {
     margin: '0 0 15px',
     color: '#666',
     fontSize: '14px',
-    lineHeight: '1.5'
+    lineHeight: '1.5',
   },
   ticketFooter: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    fontSize: '12px'
+    fontSize: '12px',
   },
   ticketMeta: {
     display: 'flex',
-    gap: '15px'
+    gap: '15px',
   },
   metaItem: {
     display: 'flex',
     alignItems: 'center',
     gap: '3px',
-    color: '#666'
+    color: '#666',
   },
   replyCount: {
     display: 'flex',
     alignItems: 'center',
     gap: '3px',
-    color: '#666'
+    color: '#666',
   },
   ticketDetail: {
-    padding: '20px 0'
+    padding: '20px 0',
   },
   backBtn: {
     display: 'flex',
@@ -1172,22 +1172,22 @@ const styles = {
     border: 'none',
     color: '#667eea',
     cursor: 'pointer',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   ticketDetailHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   ticketDetailTitle: {
     margin: 0,
     fontSize: '24px',
-    color: '#333'
+    color: '#333',
   },
   ticketDetailActions: {
     display: 'flex',
-    gap: '10px'
+    gap: '10px',
   },
   closeTicketBtn: {
     padding: '8px 16px',
@@ -1198,7 +1198,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   reopenTicketBtn: {
     padding: '8px 16px',
@@ -1209,60 +1209,60 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   ticketDetailMeta: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '20px',
-    marginBottom: '25px'
+    marginBottom: '25px',
   },
   metaGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '15px'
+    gap: '15px',
   },
   metaLabel: {
     display: 'block',
     fontSize: '11px',
     color: '#999',
-    marginBottom: '3px'
+    marginBottom: '3px',
   },
   metaValue: {
     fontSize: '14px',
-    color: '#333'
+    color: '#333',
   },
   statusValue: {
     padding: '3px 10px',
     borderRadius: '15px',
     fontSize: '12px',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   priorityValue: {
     padding: '3px 10px',
     borderRadius: '15px',
     fontSize: '12px',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   messageThread: {
-    marginBottom: '25px'
+    marginBottom: '25px',
   },
   messageItem: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '20px',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   messageHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   messageAuthor: {
     display: 'flex',
     alignItems: 'center',
-    gap: '10px'
+    gap: '10px',
   },
   authorAvatar: {
     width: '36px',
@@ -1273,36 +1273,36 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '16px'
+    fontSize: '16px',
   },
   authorName: {
     fontWeight: 500,
     color: '#333',
-    marginRight: '8px'
+    marginRight: '8px',
   },
   messageTime: {
     fontSize: '11px',
-    color: '#999'
+    color: '#999',
   },
   messageBadge: {
     padding: '3px 10px',
     background: '#e9ecef',
     borderRadius: '15px',
-    fontSize: '11px'
+    fontSize: '11px',
   },
   staffBadge: {
     background: '#667eea',
-    color: 'white'
+    color: 'white',
   },
   messageContent: {
     color: '#666',
-    lineHeight: '1.6'
+    lineHeight: '1.6',
   },
   messageAttachments: {
     display: 'flex',
     flexWrap: 'wrap',
     gap: '10px',
-    marginTop: '15px'
+    marginTop: '15px',
   },
   attachmentLink: {
     display: 'inline-flex',
@@ -1314,17 +1314,17 @@ const styles = {
     borderRadius: '5px',
     textDecoration: 'none',
     color: '#666',
-    fontSize: '12px'
+    fontSize: '12px',
   },
   replyForm: {
     background: '#f8f9fa',
     borderRadius: '8px',
-    padding: '20px'
+    padding: '20px',
   },
   replyFormTitle: {
     margin: '0 0 15px',
     fontSize: '18px',
-    color: '#333'
+    color: '#333',
   },
   replyTextarea: {
     width: '100%',
@@ -1333,19 +1333,19 @@ const styles = {
     borderRadius: '5px',
     fontSize: '14px',
     resize: 'vertical',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   replyAttachments: {
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   replyActions: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   replyFileUpload: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   replyFileLabel: {
     padding: '8px 16px',
@@ -1355,7 +1355,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   sendReplyBtn: {
     padding: '10px 20px',
@@ -1366,11 +1366,11 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   loadingContainer: {
     textAlign: 'center',
-    padding: '60px 20px'
+    padding: '60px 20px',
   },
   spinner: {
     border: '3px solid #f3f3f3',
@@ -1379,11 +1379,11 @@ const styles = {
     width: '40px',
     height: '40px',
     animation: 'spin 1s linear infinite',
-    margin: '0 auto 15px'
+    margin: '0 auto 15px',
   },
   spin: {
-    animation: 'spin 1s linear infinite'
-  }
+    animation: 'spin 1s linear infinite',
+  },
 };
 
 export default Tickets;

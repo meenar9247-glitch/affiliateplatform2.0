@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import { ROLES } from '../config/roles';
 import { useAuth } from '../hooks/useAuth';
 import { ROUTES } from '../utils/routes';
-import { ROLES } from '../config/roles';
-import LoadingSpinner from '../components/common/LoadingSpinner';
+
 import { GuardResult, GuardContext, BaseGuard } from './authGuard';
 
 // ==================== Guest Guard Types ====================
@@ -14,7 +16,7 @@ export const GUEST_GUARD_TYPES = {
   GUEST_ONLY: 'guest_only',
   VERIFIED_ONLY: 'verified_only',
   UNVERIFIED_ONLY: 'unverified_only',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 export const GUEST_REDIRECTS = {
@@ -22,14 +24,14 @@ export const GUEST_REDIRECTS = {
   [GUEST_GUARD_TYPES.AUTH_ONLY]: ROUTES.LOGIN,
   [GUEST_GUARD_TYPES.GUEST_ONLY]: ROUTES.DASHBOARD,
   [GUEST_GUARD_TYPES.VERIFIED_ONLY]: ROUTES.VERIFY_EMAIL,
-  [GUEST_GUARD_TYPES.UNVERIFIED_ONLY]: ROUTES.DASHBOARD
+  [GUEST_GUARD_TYPES.UNVERIFIED_ONLY]: ROUTES.DASHBOARD,
 };
 
 export const GUEST_PRIORITIES = {
   LOW: 0,
   MEDIUM: 1,
   HIGH: 2,
-  CRITICAL: 3
+  CRITICAL: 3,
 };
 
 // ==================== Guest Session Types ====================
@@ -37,25 +39,25 @@ export const GUEST_PRIORITIES = {
 export const GUEST_SESSION_TYPES = {
   TEMPORARY: 'temporary',
   PERSISTENT: 'persistent',
-  LIMITED: 'limited'
+  LIMITED: 'limited',
 };
 
 export const GUEST_SESSION_DEFAULTS = {
   [GUEST_SESSION_TYPES.TEMPORARY]: {
     duration: 3600000, // 1 hour
     maxActions: 100,
-    canRegister: true
+    canRegister: true,
   },
   [GUEST_SESSION_TYPES.PERSISTENT]: {
     duration: 2592000000, // 30 days
     maxActions: 1000,
-    canRegister: true
+    canRegister: true,
   },
   [GUEST_SESSION_TYPES.LIMITED]: {
     duration: 1800000, // 30 minutes
     maxActions: 20,
-    canRegister: false
-  }
+    canRegister: false,
+  },
 };
 
 // ==================== Base Guest Guard ====================
@@ -65,7 +67,7 @@ export class BaseGuestGuard extends BaseGuard {
     super({
       name: 'BaseGuestGuard',
       type: GUEST_GUARD_TYPES.PUBLIC,
-      ...options
+      ...options,
     });
     this.guardType = options.guardType || GUEST_GUARD_TYPES.PUBLIC;
     this.redirectTo = options.redirectTo || GUEST_REDIRECTS[this.guardType];
@@ -89,7 +91,7 @@ export class BaseGuestGuard extends BaseGuard {
         return this.getResult(false, {
           redirectTo: ROUTES.FORBIDDEN,
           message: 'IP address not allowed',
-          meta: { ip }
+          meta: { ip },
         });
       }
     }
@@ -100,7 +102,7 @@ export class BaseGuestGuard extends BaseGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.TOO_MANY_REQUESTS,
         message: 'Too many requests',
-        meta: { ip }
+        meta: { ip },
       });
     }
 
@@ -137,7 +139,7 @@ export class BaseGuestGuard extends BaseGuard {
     if (!isAuthenticated) {
       return this.getResult(false, {
         redirectTo: this.redirectTo || ROUTES.LOGIN,
-        message: 'Authentication required'
+        message: 'Authentication required',
       });
     }
 
@@ -145,7 +147,7 @@ export class BaseGuestGuard extends BaseGuard {
     if (this.checkBanned && user?.status === 'banned') {
       return this.getResult(false, {
         redirectTo: ROUTES.FORBIDDEN,
-        message: 'Your account has been banned'
+        message: 'Your account has been banned',
       });
     }
 
@@ -158,7 +160,7 @@ export class BaseGuestGuard extends BaseGuard {
     if (isAuthenticated) {
       return this.getResult(false, {
         redirectTo: this.redirectTo || ROUTES.DASHBOARD,
-        message: 'Already logged in'
+        message: 'Already logged in',
       });
     }
 
@@ -171,7 +173,7 @@ export class BaseGuestGuard extends BaseGuard {
     if (!isAuthenticated) {
       return this.getResult(false, {
         redirectTo: ROUTES.LOGIN,
-        message: 'Authentication required'
+        message: 'Authentication required',
       });
     }
 
@@ -179,7 +181,7 @@ export class BaseGuestGuard extends BaseGuard {
       return this.getResult(false, {
         redirectTo: this.redirectTo || ROUTES.VERIFY_EMAIL,
         message: 'Email verification required',
-        meta: { email: user?.email }
+        meta: { email: user?.email },
       });
     }
 
@@ -196,7 +198,7 @@ export class BaseGuestGuard extends BaseGuard {
     if (this.checkVerified && user?.isEmailVerified) {
       return this.getResult(false, {
         redirectTo: this.redirectTo || ROUTES.DASHBOARD,
-        message: 'Email already verified'
+        message: 'Email already verified',
       });
     }
 
@@ -239,7 +241,7 @@ export class BaseGuestGuard extends BaseGuard {
   resetRateLimit(key) {
     this.attempts.delete(key);
   }
-    }
+}
 // ==================== Guest Session Guard ====================
 
 export class GuestSessionGuard extends BaseGuestGuard {
@@ -247,7 +249,7 @@ export class GuestSessionGuard extends BaseGuestGuard {
     super({
       name: 'GuestSessionGuard',
       guardType: GUEST_GUARD_TYPES.GUEST_ONLY,
-      ...options
+      ...options,
     });
     this.sessionType = options.sessionType || GUEST_SESSION_TYPES.TEMPORARY;
     this.sessionDefaults = GUEST_SESSION_DEFAULTS[this.sessionType];
@@ -275,7 +277,7 @@ export class GuestSessionGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.HOME,
         message: 'Guest session expired',
-        meta: { sessionType: this.sessionType }
+        meta: { sessionType: this.sessionType },
       });
     }
     
@@ -284,7 +286,7 @@ export class GuestSessionGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.REGISTER,
         message: 'Action limit reached. Please register to continue.',
-        meta: { actions: session.actions, limit: this.actionLimit }
+        meta: { actions: session.actions, limit: this.actionLimit },
       });
     }
     
@@ -308,7 +310,7 @@ export class GuestSessionGuard extends BaseGuestGuard {
       expiresAt: Date.now() + this.sessionDuration,
       lastActive: Date.now(),
       actions: 0,
-      canRegister: this.sessionDefaults.canRegister
+      canRegister: this.sessionDefaults.canRegister,
     };
     
     this.sessions.set(sessionId, session);
@@ -340,7 +342,7 @@ export class GuestFeatureGuard extends BaseGuestGuard {
     super({
       name: 'GuestFeatureGuard',
       guardType: GUEST_GUARD_TYPES.PUBLIC,
-      ...options
+      ...options,
     });
     this.feature = options.feature;
     this.requireAuth = options.requireAuth || false;
@@ -359,7 +361,7 @@ export class GuestFeatureGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.LOGIN,
         message: 'Authentication required for this feature',
-        meta: { feature: this.feature }
+        meta: { feature: this.feature },
       });
     }
     
@@ -368,14 +370,14 @@ export class GuestFeatureGuard extends BaseGuestGuard {
       if (this.fallbackFeature) {
         context.feature = this.fallbackFeature;
         return this.getResult(true, {
-          meta: { fallback: this.fallbackFeature }
+          meta: { fallback: this.fallbackFeature },
         });
       }
       
       return this.getResult(false, {
         redirectTo: ROUTES.NOT_FOUND,
         message: 'Feature not available',
-        meta: { feature: this.feature }
+        meta: { feature: this.feature },
       });
     }
     
@@ -390,7 +392,7 @@ export class GuestDeviceGuard extends BaseGuestGuard {
     super({
       name: 'GuestDeviceGuard',
       guardType: GUEST_GUARD_TYPES.PUBLIC,
-      ...options
+      ...options,
     });
     this.allowedDevices = options.allowedDevices || ['desktop', 'mobile', 'tablet'];
     this.allowedBrowsers = options.allowedBrowsers || [];
@@ -413,7 +415,7 @@ export class GuestDeviceGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.UNSUPPORTED_DEVICE,
         message: 'Device type not supported',
-        meta: { device: deviceInfo.device }
+        meta: { device: deviceInfo.device },
       });
     }
     
@@ -422,7 +424,7 @@ export class GuestDeviceGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.UNSUPPORTED_BROWSER,
         message: 'Browser not supported',
-        meta: { browser: deviceInfo.browser }
+        meta: { browser: deviceInfo.browser },
       });
     }
     
@@ -431,7 +433,7 @@ export class GuestDeviceGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.UNSUPPORTED_OS,
         message: 'Operating system not supported',
-        meta: { os: deviceInfo.os }
+        meta: { os: deviceInfo.os },
       });
     }
     
@@ -440,7 +442,7 @@ export class GuestDeviceGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.FORBIDDEN,
         message: 'Device type blocked',
-        meta: { device: deviceInfo.device }
+        meta: { device: deviceInfo.device },
       });
     }
     
@@ -448,7 +450,7 @@ export class GuestDeviceGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.FORBIDDEN,
         message: 'Browser blocked',
-        meta: { browser: deviceInfo.browser }
+        meta: { browser: deviceInfo.browser },
       });
     }
     
@@ -456,7 +458,7 @@ export class GuestDeviceGuard extends BaseGuestGuard {
       return this.getResult(false, {
         redirectTo: ROUTES.FORBIDDEN,
         message: 'Operating system blocked',
-        meta: { os: deviceInfo.os }
+        meta: { os: deviceInfo.os },
       });
     }
     
@@ -499,7 +501,7 @@ export class GuestReferrerGuard extends BaseGuestGuard {
     super({
       name: 'GuestReferrerGuard',
       guardType: GUEST_GUARD_TYPES.PUBLIC,
-      ...options
+      ...options,
     });
     this.allowedReferrers = options.allowedReferrers || [];
     this.blockedReferrers = options.blockedReferrers || [];
@@ -518,7 +520,7 @@ export class GuestReferrerGuard extends BaseGuestGuard {
     if (!referrer && !this.allowDirect) {
       return this.getResult(false, {
         redirectTo: ROUTES.HOME,
-        message: 'Direct access not allowed'
+        message: 'Direct access not allowed',
       });
     }
     
@@ -530,7 +532,7 @@ export class GuestReferrerGuard extends BaseGuestGuard {
         return this.getResult(false, {
           redirectTo: ROUTES.HOME,
           message: 'Referrer not allowed',
-          meta: { referrer: referrerDomain }
+          meta: { referrer: referrerDomain },
         });
       }
       
@@ -539,7 +541,7 @@ export class GuestReferrerGuard extends BaseGuestGuard {
         return this.getResult(false, {
           redirectTo: ROUTES.HOME,
           message: 'Referrer blocked',
-          meta: { referrer: referrerDomain }
+          meta: { referrer: referrerDomain },
         });
       }
     }
@@ -549,7 +551,7 @@ export class GuestReferrerGuard extends BaseGuestGuard {
       context.referrerInfo = {
         url: referrer,
         domain: this.extractDomain(referrer),
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
     }
     
@@ -564,7 +566,7 @@ export class GuestReferrerGuard extends BaseGuestGuard {
       return url;
     }
   }
-  }
+}
 // ==================== Guest Guard Factory ====================
 
 export class GuestGuardFactory {
@@ -623,7 +625,7 @@ export class GuestGuardFactory {
           : results.some(r => r.allowed);
         
         return { allowed, results };
-      }
+      },
     };
   }
 }
@@ -659,7 +661,7 @@ export const GuestGuard = ({ children, fallback = null, ...options }) => {
       if (!result.allowed && result.redirectTo) {
         setRedirect({
           to: result.redirectTo,
-          state: { from: location, message: result.message }
+          state: { from: location, message: result.message },
         });
       }
       
@@ -742,7 +744,7 @@ export const GuestSessionGuardComponent = ({ children, ...options }) => {
       if (!result.allowed && result.redirectTo) {
         setRedirect({
           to: result.redirectTo,
-          state: { from: location, message: result.message }
+          state: { from: location, message: result.message },
         });
       }
       
@@ -858,7 +860,7 @@ export const guestGuardUtils = {
       id: localStorage.getItem('guest_session_id'),
       type: localStorage.getItem('guest_session_type'),
       created: localStorage.getItem('guest_session_created'),
-      actions: parseInt(localStorage.getItem('guest_session_actions') || '0')
+      actions: parseInt(localStorage.getItem('guest_session_actions') || '0'),
     };
   },
 
@@ -923,7 +925,7 @@ export const guestGuardUtils = {
       const response = await fetch('/api/guest/convert', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, guestData })
+        body: JSON.stringify({ userId, guestData }),
       });
       
       if (response.ok) {
@@ -936,7 +938,7 @@ export const guestGuardUtils = {
       console.error('Failed to convert guest to user:', error);
       return false;
     }
-  }
+  },
 };
 
 // ==================== Export all ====================
@@ -975,7 +977,7 @@ export const guestGuard = {
   withGuestOnlyGuard,
   
   // Utilities
-  guestGuardUtils
+  guestGuardUtils,
 };
 
 export default guestGuard;

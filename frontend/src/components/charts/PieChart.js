@@ -6,7 +6,7 @@ import {
   FiMinimize2,
   FiPieChart as FiPieChartIcon,
   FiTrendingUp,
-  FiTrendingDown
+  FiTrendingDown,
 } from 'react-icons/fi';
 
 const PieChart = ({
@@ -53,7 +53,7 @@ const PieChart = ({
         const size = Math.min(containerWidth, height) * 0.9;
         setDimensions({
           width: size,
-          height: size
+          height: size,
         });
       }
     };
@@ -90,7 +90,7 @@ const PieChart = ({
     let total = 0;
     const processedData = data.map(item => ({
       ...item,
-      value: item.value || 0
+      value: item.value || 0,
     }));
 
     if (sortValues) {
@@ -110,7 +110,7 @@ const PieChart = ({
         percentage,
         startAngle: start,
         endAngle: start + angle,
-        midAngle: start + angle / 2
+        midAngle: start + angle / 2,
       };
       start += angle;
       return slice;
@@ -150,7 +150,7 @@ const PieChart = ({
         centerY,
         radius,
         (slice.startAngle * Math.PI) / 180,
-        (slice.endAngle * Math.PI) / 180
+        (slice.endAngle * Math.PI) / 180,
       );
       ctx.closePath();
       
@@ -264,7 +264,7 @@ const PieChart = ({
       // Process data to find slice
       const slices = processData();
       const hoveredIndex = slices.findIndex(
-        slice => angle >= slice.startAngle && angle < slice.endAngle
+        slice => angle >= slice.startAngle && angle < slice.endAngle,
       );
       
       if (hoveredIndex !== -1 && hoveredIndex !== hoveredSlice) {
@@ -748,7 +748,7 @@ export const DonutChart = ({
       <div style={{ position: 'relative' }}>
         <PieChart innerRadius={innerRadius} {...props} />
         {(centerText || centerSubtext) && (
-  <div className="donut-center">
+          <div className="donut-center">
             {centerText && <div className="donut-center-value">{centerText}</div>}
             {centerSubtext && <div className="donut-center-label">{centerSubtext}</div>}
           </div>
@@ -796,7 +796,7 @@ export const ProgressPieChart = ({
   
   const data = [
     { value: percentage, color, label: 'Progress' },
-    { value: 100 - percentage, color: backgroundColor, label: 'Remaining' }
+    { value: 100 - percentage, color: backgroundColor, label: 'Remaining' },
   ];
 
   return (

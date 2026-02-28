@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { authApi } from '../hooks/useAuth';
 
 // API base URL
@@ -10,7 +11,7 @@ export const USER_ROLES = {
   AFFILIATE: 'affiliate',
   MODERATOR: 'moderator',
   ADMIN: 'admin',
-  SUPER_ADMIN: 'super_admin'
+  SUPER_ADMIN: 'super_admin',
 };
 
 // User statuses
@@ -20,7 +21,7 @@ export const USER_STATUSES = {
   SUSPENDED: 'suspended',
   PENDING: 'pending',
   BANNED: 'banned',
-  DELETED: 'deleted'
+  DELETED: 'deleted',
 };
 
 // Account types
@@ -29,7 +30,7 @@ export const ACCOUNT_TYPES = {
   BASIC: 'basic',
   PREMIUM: 'premium',
   PROFESSIONAL: 'professional',
-  ENTERPRISE: 'enterprise'
+  ENTERPRISE: 'enterprise',
 };
 
 // Verification levels
@@ -38,7 +39,7 @@ export const VERIFICATION_LEVELS = {
   EMAIL_VERIFIED: 1,
   PHONE_VERIFIED: 2,
   ID_VERIFIED: 3,
-  KYC_VERIFIED: 4
+  KYC_VERIFIED: 4,
 };
 
 // Gender options
@@ -46,7 +47,7 @@ export const GENDER_OPTIONS = [
   { value: 'male', label: 'Male' },
   { value: 'female', label: 'Female' },
   { value: 'other', label: 'Other' },
-  { value: 'prefer_not_to_say', label: 'Prefer not to say' }
+  { value: 'prefer_not_to_say', label: 'Prefer not to say' },
 ];
 
 // Marital status
@@ -54,17 +55,17 @@ export const MARITAL_STATUS = [
   { value: 'single', label: 'Single' },
   { value: 'married', label: 'Married' },
   { value: 'divorced', label: 'Divorced' },
-  { value: 'widowed', label: 'Widowed' }
+  { value: 'widowed', label: 'Widowed' },
 ];
 
 // Education levels
 export const EDUCATION_LEVELS = [
   { value: 'high_school', label: 'High School' },
   { value: 'diploma', label: 'Diploma' },
-  { value: 'bachelors', label: "Bachelor's Degree" },
-  { value: 'masters', label: "Master's Degree" },
+  { value: 'bachelors', label: 'Bachelor\'s Degree' },
+  { value: 'masters', label: 'Master\'s Degree' },
   { value: 'doctorate', label: 'Doctorate' },
-  { value: 'other', label: 'Other' }
+  { value: 'other', label: 'Other' },
 ];
 
 // Employment types
@@ -75,7 +76,7 @@ export const EMPLOYMENT_TYPES = [
   { value: 'freelance', label: 'Freelance' },
   { value: 'unemployed', label: 'Unemployed' },
   { value: 'student', label: 'Student' },
-  { value: 'retired', label: 'Retired' }
+  { value: 'retired', label: 'Retired' },
 ];
 
 // Default avatar
@@ -99,7 +100,7 @@ userApi.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor for error handling
@@ -115,7 +116,7 @@ userApi.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem('refresh_token');
         const response = await axios.post(`${API_URL}/auth/refresh`, {
-          refreshToken
+          refreshToken,
         });
 
         if (response.data.success) {
@@ -131,7 +132,7 @@ userApi.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // Helper function to handle API errors
@@ -209,7 +210,7 @@ const formatUserData = (user) => {
       state: '',
       country: '',
       zipCode: '',
-      coordinates: null
+      coordinates: null,
     },
     socialLinks: user.socialLinks || {
       facebook: '',
@@ -218,7 +219,7 @@ const formatUserData = (user) => {
       instagram: '',
       youtube: '',
       github: '',
-      portfolio: ''
+      portfolio: '',
     },
     
     // Preferences
@@ -227,13 +228,13 @@ const formatUserData = (user) => {
       notifications: {
         email: true,
         push: true,
-        sms: false
+        sms: false,
       },
       privacy: {
         showEmail: false,
         showPhone: false,
-        showProfile: true
-      }
+        showProfile: true,
+      },
     },
     
     // Stats
@@ -246,7 +247,7 @@ const formatUserData = (user) => {
       rank: 0,
       level: 1,
       experience: 0,
-      nextLevelExp: 1000
+      nextLevelExp: 1000,
     },
     
     // Wallet
@@ -254,7 +255,7 @@ const formatUserData = (user) => {
       balance: 0,
       pending: 0,
       totalWithdrawn: 0,
-      currency: 'USD'
+      currency: 'USD',
     },
     
     // Metadata
@@ -270,7 +271,7 @@ const formatUserData = (user) => {
     isPhoneVerified: user.isPhoneVerified || false,
     isTwoFactorEnabled: user.isTwoFactorEnabled || false,
     isProfileComplete: user.isProfileComplete || false,
-    isOnboardingComplete: user.isOnboardingComplete || false
+    isOnboardingComplete: user.isOnboardingComplete || false,
   };
 };
 
@@ -286,13 +287,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          data: formatUserData(response.data.user)
+          data: formatUserData(response.data.user),
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get user'
+        error: response.data.message || 'Failed to get user',
       };
     } catch (error) {
       throw handleError(error);
@@ -307,13 +308,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          data: formatUserData(response.data.user)
+          data: formatUserData(response.data.user),
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get user'
+        error: response.data.message || 'Failed to get user',
       };
     } catch (error) {
       throw handleError(error);
@@ -324,20 +325,20 @@ class UserService {
   async getUsersByRole(role, page = 1, limit = 20) {
     try {
       const response = await userApi.get('/role/' + role, {
-        params: { page, limit }
+        params: { page, limit },
       });
       
       if (response.data.success) {
         return {
           success: true,
           data: response.data.users.map(formatUserData),
-          pagination: response.data.pagination
+          pagination: response.data.pagination,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get users'
+        error: response.data.message || 'Failed to get users',
       };
     } catch (error) {
       throw handleError(error);
@@ -355,13 +356,13 @@ class UserService {
           data: response.data.users.map(formatUserData),
           pagination: response.data.pagination,
           filters: response.data.filters,
-          sort: response.data.sort
+          sort: response.data.sort,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get users'
+        error: response.data.message || 'Failed to get users',
       };
     } catch (error) {
       throw handleError(error);
@@ -372,7 +373,7 @@ class UserService {
   async searchUsers(query, filters = {}, page = 1, limit = 20) {
     try {
       const response = await userApi.get('/search', {
-        params: { q: query, ...filters, page, limit }
+        params: { q: query, ...filters, page, limit },
       });
       
       if (response.data.success) {
@@ -380,13 +381,13 @@ class UserService {
           success: true,
           data: response.data.users.map(formatUserData),
           pagination: response.data.pagination,
-          total: response.data.total
+          total: response.data.total,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to search users'
+        error: response.data.message || 'Failed to search users',
       };
     } catch (error) {
       throw handleError(error);
@@ -404,13 +405,13 @@ class UserService {
         return {
           success: true,
           data: formatUserData(response.data.user),
-          message: response.data.message || 'Profile updated successfully'
+          message: response.data.message || 'Profile updated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update profile'
+        error: response.data.message || 'Failed to update profile',
       };
     } catch (error) {
       throw handleError(error);
@@ -425,8 +426,8 @@ class UserService {
 
       const response = await userApi.post('/avatar', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
       
       if (response.data.success) {
@@ -434,15 +435,15 @@ class UserService {
           success: true,
           data: {
             url: response.data.url,
-            user: formatUserData(response.data.user)
+            user: formatUserData(response.data.user),
           },
-          message: response.data.message || 'Avatar uploaded successfully'
+          message: response.data.message || 'Avatar uploaded successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to upload avatar'
+        error: response.data.message || 'Failed to upload avatar',
       };
     } catch (error) {
       throw handleError(error);
@@ -458,13 +459,13 @@ class UserService {
         return {
           success: true,
           data: formatUserData(response.data.user),
-          message: response.data.message || 'Avatar removed successfully'
+          message: response.data.message || 'Avatar removed successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to remove avatar'
+        error: response.data.message || 'Failed to remove avatar',
       };
     } catch (error) {
       throw handleError(error);
@@ -479,8 +480,8 @@ class UserService {
 
       const response = await userApi.post('/cover', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
       
       if (response.data.success) {
@@ -488,15 +489,15 @@ class UserService {
           success: true,
           data: {
             url: response.data.url,
-            user: formatUserData(response.data.user)
+            user: formatUserData(response.data.user),
           },
-          message: response.data.message || 'Cover photo uploaded successfully'
+          message: response.data.message || 'Cover photo uploaded successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to upload cover photo'
+        error: response.data.message || 'Failed to upload cover photo',
       };
     } catch (error) {
       throw handleError(error);
@@ -512,13 +513,13 @@ class UserService {
         return {
           success: true,
           data: response.data.preferences,
-          message: response.data.message || 'Preferences updated successfully'
+          message: response.data.message || 'Preferences updated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update preferences'
+        error: response.data.message || 'Failed to update preferences',
       };
     } catch (error) {
       throw handleError(error);
@@ -534,13 +535,13 @@ class UserService {
         return {
           success: true,
           data: response.data.privacy,
-          message: response.data.message || 'Privacy settings updated successfully'
+          message: response.data.message || 'Privacy settings updated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update privacy settings'
+        error: response.data.message || 'Failed to update privacy settings',
       };
     } catch (error) {
       throw handleError(error);
@@ -554,19 +555,19 @@ class UserService {
     try {
       const response = await userApi.put('/change-password', {
         currentPassword,
-        newPassword
+        newPassword,
       });
       
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Password changed successfully'
+          message: response.data.message || 'Password changed successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to change password'
+        error: response.data.message || 'Failed to change password',
       };
     } catch (error) {
       throw handleError(error);
@@ -582,13 +583,13 @@ class UserService {
         return {
           success: true,
           message: response.data.message || 'Email updated successfully',
-          verificationSent: response.data.verificationSent
+          verificationSent: response.data.verificationSent,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update email'
+        error: response.data.message || 'Failed to update email',
       };
     } catch (error) {
       throw handleError(error);
@@ -604,13 +605,13 @@ class UserService {
         return {
           success: true,
           message: response.data.message || 'Phone updated successfully',
-          verificationCode: response.data.verificationCode
+          verificationCode: response.data.verificationCode,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update phone'
+        error: response.data.message || 'Failed to update phone',
       };
     } catch (error) {
       throw handleError(error);
@@ -625,13 +626,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Phone verified successfully'
+          message: response.data.message || 'Phone verified successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to verify phone'
+        error: response.data.message || 'Failed to verify phone',
       };
     } catch (error) {
       throw handleError(error);
@@ -650,15 +651,15 @@ class UserService {
           data: {
             secret: response.data.secret,
             qrCode: response.data.qrCode,
-            backupCodes: response.data.backupCodes
+            backupCodes: response.data.backupCodes,
           },
-          message: response.data.message || '2FA enabled successfully'
+          message: response.data.message || '2FA enabled successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to enable 2FA'
+        error: response.data.message || 'Failed to enable 2FA',
       };
     } catch (error) {
       throw handleError(error);
@@ -673,13 +674,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || '2FA verified successfully'
+          message: response.data.message || '2FA verified successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to verify 2FA'
+        error: response.data.message || 'Failed to verify 2FA',
       };
     } catch (error) {
       throw handleError(error);
@@ -694,13 +695,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || '2FA disabled successfully'
+          message: response.data.message || '2FA disabled successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to disable 2FA'
+        error: response.data.message || 'Failed to disable 2FA',
       };
     } catch (error) {
       throw handleError(error);
@@ -715,13 +716,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.codes
+          data: response.data.codes,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get backup codes'
+        error: response.data.message || 'Failed to get backup codes',
       };
     } catch (error) {
       throw handleError(error);
@@ -737,13 +738,13 @@ class UserService {
         return {
           success: true,
           data: response.data.codes,
-          message: response.data.message || 'Backup codes regenerated'
+          message: response.data.message || 'Backup codes regenerated',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to regenerate backup codes'
+        error: response.data.message || 'Failed to regenerate backup codes',
       };
     } catch (error) {
       throw handleError(error);
@@ -760,13 +761,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Account deactivated successfully'
+          message: response.data.message || 'Account deactivated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to deactivate account'
+        error: response.data.message || 'Failed to deactivate account',
       };
     } catch (error) {
       throw handleError(error);
@@ -781,13 +782,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Account reactivated successfully'
+          message: response.data.message || 'Account reactivated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to reactivate account'
+        error: response.data.message || 'Failed to reactivate account',
       };
     } catch (error) {
       throw handleError(error);
@@ -798,19 +799,19 @@ class UserService {
   async deleteAccount(password) {
     try {
       const response = await userApi.delete('/account', {
-        data: { password }
+        data: { password },
       });
       
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Account deleted successfully'
+          message: response.data.message || 'Account deleted successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to delete account'
+        error: response.data.message || 'Failed to delete account',
       };
     } catch (error) {
       throw handleError(error);
@@ -823,20 +824,20 @@ class UserService {
   async getLoginHistory(page = 1, limit = 20) {
     try {
       const response = await userApi.get('/login-history', {
-        params: { page, limit }
+        params: { page, limit },
       });
       
       if (response.data.success) {
         return {
           success: true,
           data: response.data.history,
-          pagination: response.data.pagination
+          pagination: response.data.pagination,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get login history'
+        error: response.data.message || 'Failed to get login history',
       };
     } catch (error) {
       throw handleError(error);
@@ -847,20 +848,20 @@ class UserService {
   async getActivityLog(page = 1, limit = 20) {
     try {
       const response = await userApi.get('/activity', {
-        params: { page, limit }
+        params: { page, limit },
       });
       
       if (response.data.success) {
         return {
           success: true,
           data: response.data.activities,
-          pagination: response.data.pagination
+          pagination: response.data.pagination,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get activity log'
+        error: response.data.message || 'Failed to get activity log',
       };
     } catch (error) {
       throw handleError(error);
@@ -875,13 +876,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.sessions
+          data: response.data.sessions,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get active sessions'
+        error: response.data.message || 'Failed to get active sessions',
       };
     } catch (error) {
       throw handleError(error);
@@ -896,13 +897,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Session terminated successfully'
+          message: response.data.message || 'Session terminated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to terminate session'
+        error: response.data.message || 'Failed to terminate session',
       };
     } catch (error) {
       throw handleError(error);
@@ -917,13 +918,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'All sessions terminated successfully'
+          message: response.data.message || 'All sessions terminated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to terminate sessions'
+        error: response.data.message || 'Failed to terminate sessions',
       };
     } catch (error) {
       throw handleError(error);
@@ -941,13 +942,13 @@ class UserService {
         return {
           success: true,
           data: formatUserData(response.data.user),
-          message: response.data.message || 'User role updated successfully'
+          message: response.data.message || 'User role updated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update user role'
+        error: response.data.message || 'Failed to update user role',
       };
     } catch (error) {
       throw handleError(error);
@@ -963,13 +964,13 @@ class UserService {
         return {
           success: true,
           data: formatUserData(response.data.user),
-          message: response.data.message || 'User status updated successfully'
+          message: response.data.message || 'User status updated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update user status'
+        error: response.data.message || 'Failed to update user status',
       };
     } catch (error) {
       throw handleError(error);
@@ -985,13 +986,13 @@ class UserService {
         return {
           success: true,
           data: formatUserData(response.data.user),
-          message: response.data.message || 'User verified successfully'
+          message: response.data.message || 'User verified successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to verify user'
+        error: response.data.message || 'Failed to verify user',
       };
     } catch (error) {
       throw handleError(error);
@@ -1007,13 +1008,13 @@ class UserService {
         return {
           success: true,
           token: response.data.token,
-          user: formatUserData(response.data.user)
+          user: formatUserData(response.data.user),
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to impersonate user'
+        error: response.data.message || 'Failed to impersonate user',
       };
     } catch (error) {
       throw handleError(error);
@@ -1028,13 +1029,13 @@ class UserService {
       if (response.data.success) {
         return {
           success: true,
-          token: response.data.token
+          token: response.data.token,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to stop impersonation'
+        error: response.data.message || 'Failed to stop impersonation',
       };
     } catch (error) {
       throw handleError(error);
@@ -1046,13 +1047,13 @@ class UserService {
     try {
       const response = await userApi.get('/export', {
         params: { format, ...filters },
-        responseType: 'blob'
+        responseType: 'blob',
       });
       
       return {
         success: true,
         data: response.data,
-        filename: response.headers['content-disposition']?.split('filename=')[1] || `users.${format}`
+        filename: response.headers['content-disposition']?.split('filename=')[1] || `users.${format}`,
       };
     } catch (error) {
       throw handleError(error);
@@ -1067,21 +1068,21 @@ class UserService {
 
       const response = await userApi.post('/import', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
       
       if (response.data.success) {
         return {
           success: true,
           data: response.data.results,
-          message: response.data.message || 'Users imported successfully'
+          message: response.data.message || 'Users imported successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to import users'
+        error: response.data.message || 'Failed to import users',
       };
     } catch (error) {
       throw handleError(error);
@@ -1146,7 +1147,7 @@ export const userHelpers = {
       { level: 7, exp: 2100 },
       { level: 8, exp: 2800 },
       { level: 9, exp: 3600 },
-      { level: 10, exp: 4500 }
+      { level: 10, exp: 4500 },
     ];
     
     for (let i = levels.length - 1; i >= 0; i--) {
@@ -1173,7 +1174,7 @@ export const userHelpers = {
       [USER_STATUSES.SUSPENDED]: 'Suspended',
       [USER_STATUSES.PENDING]: 'Pending',
       [USER_STATUSES.BANNED]: 'Banned',
-      [USER_STATUSES.DELETED]: 'Deleted'
+      [USER_STATUSES.DELETED]: 'Deleted',
     };
     return statusMap[status] || status;
   },
@@ -1186,10 +1187,10 @@ export const userHelpers = {
       [USER_STATUSES.SUSPENDED]: '#dc3545',
       [USER_STATUSES.PENDING]: '#ffc107',
       [USER_STATUSES.BANNED]: '#343a40',
-      [USER_STATUSES.DELETED]: '#dc3545'
+      [USER_STATUSES.DELETED]: '#dc3545',
     };
     return colorMap[status] || '#6c757d';
-  }
+  },
 };
 
 // Export constants
@@ -1202,7 +1203,7 @@ export const USER_CONSTANTS = {
   MARITAL_STATUS,
   EDUCATION_LEVELS,
   EMPLOYMENT_TYPES,
-  DEFAULT_AVATAR
+  DEFAULT_AVATAR,
 };
 
 export default userService;

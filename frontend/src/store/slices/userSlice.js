@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
+
 import { userService } from '../../services/userService';
 
 // ==================== Initial State ====================
@@ -21,7 +22,7 @@ const initialState = {
     experience: 0,
     nextLevelExp: 1000,
     achievements: [],
-    badges: []
+    badges: [],
   },
   
   // Activity
@@ -52,7 +53,7 @@ const initialState = {
     savedItems: false,
     updateProfile: false,
     updateSettings: false,
-    updatePreferences: false
+    updatePreferences: false,
   },
   
   // Errors
@@ -67,7 +68,7 @@ const initialState = {
     savedItems: null,
     updateProfile: null,
     updateSettings: null,
-    updatePreferences: null
+    updatePreferences: null,
   },
   
   // Success messages
@@ -77,7 +78,7 @@ const initialState = {
     preferences: null,
     updateProfile: null,
     updateSettings: null,
-    updatePreferences: null
+    updatePreferences: null,
   },
   
   // Metadata
@@ -88,15 +89,15 @@ const initialState = {
     stats: null,
     activity: null,
     referrals: null,
-    notifications: null
+    notifications: null,
   },
   
   // Pagination
   pagination: {
     activity: { page: 1, limit: 20, total: 0, hasMore: false },
     referrals: { page: 1, limit: 20, total: 0, hasMore: false },
-    notifications: { page: 1, limit: 20, total: 0, hasMore: false }
-  }
+    notifications: { page: 1, limit: 20, total: 0, hasMore: false },
+  },
 };
 
 // ==================== Async Thunks ====================
@@ -111,7 +112,7 @@ export const fetchProfile = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Update profile
@@ -124,7 +125,7 @@ export const updateProfile = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch settings
@@ -137,7 +138,7 @@ export const fetchSettings = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Update settings
@@ -150,7 +151,7 @@ export const updateSettings = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch preferences
@@ -163,7 +164,7 @@ export const fetchPreferences = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Update preferences
@@ -176,7 +177,7 @@ export const updatePreferences = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch stats
@@ -189,7 +190,7 @@ export const fetchStats = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch activity
@@ -202,7 +203,7 @@ export const fetchActivity = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch login history
@@ -215,7 +216,7 @@ export const fetchLoginHistory = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch referrals
@@ -228,7 +229,7 @@ export const fetchReferrals = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch referral stats
@@ -241,7 +242,7 @@ export const fetchReferralStats = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch notifications
@@ -254,7 +255,7 @@ export const fetchNotifications = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Mark notification as read
@@ -267,7 +268,7 @@ export const markNotificationRead = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Mark all notifications as read
@@ -280,7 +281,7 @@ export const markAllNotificationsRead = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch saved items
@@ -293,7 +294,7 @@ export const fetchSavedItems = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Save item
@@ -306,7 +307,7 @@ export const saveItem = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Remove saved item
@@ -319,7 +320,7 @@ export const removeSavedItem = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 // ==================== User Slice ====================
 
@@ -340,7 +341,7 @@ const userSlice = createSlice({
         savedItems: null,
         updateProfile: null,
         updateSettings: null,
-        updatePreferences: null
+        updatePreferences: null,
       };
     },
 
@@ -352,7 +353,7 @@ const userSlice = createSlice({
         preferences: null,
         updateProfile: null,
         updateSettings: null,
-        updatePreferences: null
+        updatePreferences: null,
       };
     },
 
@@ -477,7 +478,7 @@ const userSlice = createSlice({
       if (state.lastUpdated.hasOwnProperty(key)) {
         state.lastUpdated[key] = Date.now();
       }
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -591,7 +592,7 @@ const userSlice = createSlice({
         state.loading.stats = false;
         state.errors.stats = action.payload;
       });
-  }
+  },
 });
 // Continue extraReducers
 builder
@@ -614,7 +615,7 @@ builder
       page: pagination.page,
       limit: pagination.limit,
       total: pagination.total,
-      hasMore: pagination.hasMore
+      hasMore: pagination.hasMore,
     };
     state.lastUpdated.activity = Date.now();
   })
@@ -658,7 +659,7 @@ builder
       page: pagination.page,
       limit: pagination.limit,
       total: pagination.total,
-      hasMore: pagination.hasMore
+      hasMore: pagination.hasMore,
     };
     state.lastUpdated.referrals = Date.now();
   })
@@ -700,7 +701,7 @@ builder
       page: pagination.page,
       limit: pagination.limit,
       total: pagination.total,
-      hasMore: pagination.hasMore
+      hasMore: pagination.hasMore,
     };
     state.unreadNotifications = data.filter(n => !n.read).length;
     state.lastUpdated.notifications = Date.now();
@@ -777,7 +778,7 @@ export const {
   setSuccess,
   updatePagination,
   clearPagination,
-  updateLastUpdated
+  updateLastUpdated,
 } = userSlice.actions;
 
 // ==================== Selectors ====================
@@ -848,7 +849,7 @@ export const selectUserDisplayName = createSelector(
   (profile) => {
     if (!profile) return 'User';
     return profile.name || profile.username || profile.email?.split('@')[0] || 'User';
-  }
+  },
 );
 
 export const selectUserInitials = createSelector(
@@ -863,72 +864,72 @@ export const selectUserInitials = createSelector(
       return (parts[0][0] + parts[1][0]).toUpperCase();
     }
     return name.substring(0, 2).toUpperCase();
-  }
+  },
 );
 
 export const selectUserAvatar = createSelector(
   [selectProfile],
-  (profile) => profile?.avatar || null
+  (profile) => profile?.avatar || null,
 );
 
 export const selectUserEmail = createSelector(
   [selectProfile],
-  (profile) => profile?.email || null
+  (profile) => profile?.email || null,
 );
 
 export const selectUserPhone = createSelector(
   [selectProfile],
-  (profile) => profile?.phone || null
+  (profile) => profile?.phone || null,
 );
 
 export const selectUserJoinDate = createSelector(
   [selectProfile],
-  (profile) => profile?.createdAt || null
+  (profile) => profile?.createdAt || null,
 );
 
 export const selectUserLevel = createSelector(
   [selectStats],
-  (stats) => stats?.level || 1
+  (stats) => stats?.level || 1,
 );
 
 export const selectUserExperience = createSelector(
   [selectStats],
-  (stats) => stats?.experience || 0
+  (stats) => stats?.experience || 0,
 );
 
 export const selectUserRank = createSelector(
   [selectStats],
-  (stats) => stats?.rank || 0
+  (stats) => stats?.rank || 0,
 );
 
 export const selectUserAchievements = createSelector(
   [selectStats],
-  (stats) => stats?.achievements || []
+  (stats) => stats?.achievements || [],
 );
 
 export const selectUserBadges = createSelector(
   [selectStats],
-  (stats) => stats?.badges || []
+  (stats) => stats?.badges || [],
 );
 
 export const selectUserTotalEarnings = createSelector(
   [selectStats],
-  (stats) => stats?.totalEarnings || 0
+  (stats) => stats?.totalEarnings || 0,
 );
 
 export const selectUserTotalReferrals = createSelector(
   [selectStats],
-  (stats) => stats?.totalReferrals || 0
+  (stats) => stats?.totalReferrals || 0,
 );
 
 export const selectUserTotalClicks = createSelector(
   [selectStats],
-  (stats) => stats?.totalClicks || 0
+  (stats) => stats?.totalClicks || 0,
 );
 
 export const selectUserTotalConversions = createSelector(
   [selectStats],
-  (stats) => stats?.totalConversions || 0
+  (stats) => stats?.totalConversions || 0,
 );
 
 export const selectUserConversionRate = createSelector(
@@ -936,29 +937,29 @@ export const selectUserConversionRate = createSelector(
   (clicks, conversions) => {
     if (!clicks) return 0;
     return (conversions / clicks) * 100;
-  }
+  },
 );
 
 export const selectRecentActivity = (limit = 10) => createSelector(
   [selectActivity],
-  (activity) => activity.slice(0, limit)
+  (activity) => activity.slice(0, limit),
 );
 
 export const selectUnreadNotificationsCount = (state) => state.user.unreadNotifications;
 
 export const selectNotificationById = (notificationId) => createSelector(
   [selectNotifications],
-  (notifications) => notifications.find(n => n.id === notificationId)
+  (notifications) => notifications.find(n => n.id === notificationId),
 );
 
 export const selectIsItemSaved = (itemId) => createSelector(
   [selectSavedItems],
-  (savedItems) => savedItems.some(item => item.id === itemId)
+  (savedItems) => savedItems.some(item => item.id === itemId),
 );
 
 export const selectSavedItemById = (itemId) => createSelector(
   [selectSavedItems],
-  (savedItems) => savedItems.find(item => item.id === itemId)
+  (savedItems) => savedItems.find(item => item.id === itemId),
 );
 
 // ==================== Export ====================

@@ -13,7 +13,7 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     this.setState({
       error: error,
-      errorInfo: errorInfo
+      errorInfo: errorInfo,
     });
     // Log error to service
     console.error('Error caught by boundary:', error, errorInfo);
@@ -60,7 +60,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   content: {
     textAlign: 'center',
@@ -68,18 +68,18 @@ const styles = {
     background: 'white',
     borderRadius: '10px',
     boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-    maxWidth: '500px'
+    maxWidth: '500px',
   },
   title: {
     fontSize: '28px',
     color: '#333',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   message: {
     fontSize: '16px',
     color: '#666',
     marginBottom: '30px',
-    lineHeight: '1.6'
+    lineHeight: '1.6',
   },
   button: {
     padding: '12px 30px',
@@ -89,21 +89,21 @@ const styles = {
     borderRadius: '5px',
     fontSize: '16px',
     cursor: 'pointer',
-    transition: 'background 0.3s ease'
+    transition: 'background 0.3s ease',
   },
   details: {
     marginTop: '20px',
     textAlign: 'left',
     background: '#f8f9fa',
     padding: '15px',
-    borderRadius: '5px'
+    borderRadius: '5px',
   },
   pre: {
     fontSize: '12px',
     color: '#666',
     overflow: 'auto',
-    maxHeight: '200px'
-  }
+    maxHeight: '200px',
+  },
 };
 
 export default ErrorBoundary;

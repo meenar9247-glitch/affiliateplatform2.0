@@ -118,7 +118,7 @@ export const AUTH_ACTION_TYPES = {
   UPDATE_LAST_ACTIVITY: 'auth/UPDATE_LAST_ACTIVITY',
   
   // Reset actions
-  RESET_AUTH: 'auth/RESET_AUTH'
+  RESET_AUTH: 'auth/RESET_AUTH',
 };
 
 // ==================== Action Creators ====================
@@ -126,37 +126,37 @@ export const AUTH_ACTION_TYPES = {
 // Login actions
 export const loginRequest = createAction(
   AUTH_ACTION_TYPES.LOGIN_REQUEST,
-  (credentials) => ({ payload: credentials })
+  (credentials) => ({ payload: credentials }),
 );
 
 export const loginSuccess = createAction(
   AUTH_ACTION_TYPES.LOGIN_SUCCESS,
   (user, token, refreshToken) => ({ 
-    payload: { user, token, refreshToken } 
-  })
+    payload: { user, token, refreshToken }, 
+  }),
 );
 
 export const loginFailure = createAction(
   AUTH_ACTION_TYPES.LOGIN_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Register actions
 export const registerRequest = createAction(
   AUTH_ACTION_TYPES.REGISTER_REQUEST,
-  (userData) => ({ payload: userData })
+  (userData) => ({ payload: userData }),
 );
 
 export const registerSuccess = createAction(
   AUTH_ACTION_TYPES.REGISTER_SUCCESS,
   (user, token, refreshToken) => ({ 
-    payload: { user, token, refreshToken } 
-  })
+    payload: { user, token, refreshToken }, 
+  }),
 );
 
 export const registerFailure = createAction(
   AUTH_ACTION_TYPES.REGISTER_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Logout actions
@@ -164,153 +164,153 @@ export const logoutRequest = createAction(AUTH_ACTION_TYPES.LOGOUT_REQUEST);
 export const logoutSuccess = createAction(AUTH_ACTION_TYPES.LOGOUT_SUCCESS);
 export const logoutFailure = createAction(
   AUTH_ACTION_TYPES.LOGOUT_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Token refresh actions
 export const refreshTokenRequest = createAction(AUTH_ACTION_TYPES.REFRESH_TOKEN_REQUEST);
 export const refreshTokenSuccess = createAction(
   AUTH_ACTION_TYPES.REFRESH_TOKEN_SUCCESS,
-  (token, refreshToken) => ({ payload: { token, refreshToken } })
+  (token, refreshToken) => ({ payload: { token, refreshToken } }),
 );
 export const refreshTokenFailure = createAction(
   AUTH_ACTION_TYPES.REFRESH_TOKEN_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Email verification actions
 export const verifyEmailRequest = createAction(
   AUTH_ACTION_TYPES.VERIFY_EMAIL_REQUEST,
-  (token) => ({ payload: token })
+  (token) => ({ payload: token }),
 );
 export const verifyEmailSuccess = createAction(
   AUTH_ACTION_TYPES.VERIFY_EMAIL_SUCCESS,
-  (message) => ({ payload: message })
+  (message) => ({ payload: message }),
 );
 export const verifyEmailFailure = createAction(
   AUTH_ACTION_TYPES.VERIFY_EMAIL_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Forgot password actions
 export const forgotPasswordRequest = createAction(
   AUTH_ACTION_TYPES.FORGOT_PASSWORD_REQUEST,
-  (email) => ({ payload: email })
+  (email) => ({ payload: email }),
 );
 export const forgotPasswordSuccess = createAction(
   AUTH_ACTION_TYPES.FORGOT_PASSWORD_SUCCESS,
-  (message) => ({ payload: message })
+  (message) => ({ payload: message }),
 );
 export const forgotPasswordFailure = createAction(
   AUTH_ACTION_TYPES.FORGOT_PASSWORD_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 // Reset password actions
 export const resetPasswordRequest = createAction(
   AUTH_ACTION_TYPES.RESET_PASSWORD_REQUEST,
-  ({ token, password }) => ({ payload: { token, password } })
+  ({ token, password }) => ({ payload: { token, password } }),
 );
 export const resetPasswordSuccess = createAction(
   AUTH_ACTION_TYPES.RESET_PASSWORD_SUCCESS,
-  (message) => ({ payload: message })
+  (message) => ({ payload: message }),
 );
 export const resetPasswordFailure = createAction(
   AUTH_ACTION_TYPES.RESET_PASSWORD_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Change password actions
 export const changePasswordRequest = createAction(
   AUTH_ACTION_TYPES.CHANGE_PASSWORD_REQUEST,
-  ({ currentPassword, newPassword }) => ({ payload: { currentPassword, newPassword } })
+  ({ currentPassword, newPassword }) => ({ payload: { currentPassword, newPassword } }),
 );
 export const changePasswordSuccess = createAction(
   AUTH_ACTION_TYPES.CHANGE_PASSWORD_SUCCESS,
-  (message) => ({ payload: message })
+  (message) => ({ payload: message }),
 );
 export const changePasswordFailure = createAction(
   AUTH_ACTION_TYPES.CHANGE_PASSWORD_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Profile update actions
 export const updateProfileRequest = createAction(
   AUTH_ACTION_TYPES.UPDATE_PROFILE_REQUEST,
-  (profileData) => ({ payload: profileData })
+  (profileData) => ({ payload: profileData }),
 );
 export const updateProfileSuccess = createAction(
   AUTH_ACTION_TYPES.UPDATE_PROFILE_SUCCESS,
-  (user) => ({ payload: user })
+  (user) => ({ payload: user }),
 );
 export const updateProfileFailure = createAction(
   AUTH_ACTION_TYPES.UPDATE_PROFILE_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // 2FA actions
 export const enable2FARequest = createAction(AUTH_ACTION_TYPES.ENABLE_2FA_REQUEST);
 export const enable2FASuccess = createAction(
   AUTH_ACTION_TYPES.ENABLE_2FA_SUCCESS,
-  (data) => ({ payload: data })
+  (data) => ({ payload: data }),
 );
 export const enable2FAFailure = createAction(
   AUTH_ACTION_TYPES.ENABLE_2FA_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 export const verify2FARequest = createAction(
   AUTH_ACTION_TYPES.VERIFY_2FA_REQUEST,
-  (code) => ({ payload: code })
+  (code) => ({ payload: code }),
 );
 export const verify2FASuccess = createAction(
   AUTH_ACTION_TYPES.VERIFY_2FA_SUCCESS,
-  (message) => ({ payload: message })
+  (message) => ({ payload: message }),
 );
 export const verify2FAFailure = createAction(
   AUTH_ACTION_TYPES.VERIFY_2FA_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 export const disable2FARequest = createAction(
   AUTH_ACTION_TYPES.DISABLE_2FA_REQUEST,
-  (code) => ({ payload: code })
+  (code) => ({ payload: code }),
 );
 export const disable2FASuccess = createAction(
   AUTH_ACTION_TYPES.DISABLE_2FA_SUCCESS,
-  (message) => ({ payload: message })
+  (message) => ({ payload: message }),
 );
 export const disable2FAFailure = createAction(
   AUTH_ACTION_TYPES.DISABLE_2FA_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Social login actions
 export const socialLoginRequest = createAction(
   AUTH_ACTION_TYPES.SOCIAL_LOGIN_REQUEST,
-  ({ provider, code }) => ({ payload: { provider, code } })
+  ({ provider, code }) => ({ payload: { provider, code } }),
 );
 export const socialLoginSuccess = createAction(
   AUTH_ACTION_TYPES.SOCIAL_LOGIN_SUCCESS,
   (user, token, refreshToken) => ({ 
-    payload: { user, token, refreshToken } 
-  })
+    payload: { user, token, refreshToken }, 
+  }),
 );
 export const socialLoginFailure = createAction(
   AUTH_ACTION_TYPES.SOCIAL_LOGIN_FAILURE,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 // Session actions
 export const setSession = createAction(
   AUTH_ACTION_TYPES.SET_SESSION,
-  (sessionData) => ({ payload: sessionData })
+  (sessionData) => ({ payload: sessionData }),
 );
 
 export const clearSession = createAction(AUTH_ACTION_TYPES.CLEAR_SESSION);
 
 export const updateSession = createAction(
   AUTH_ACTION_TYPES.UPDATE_SESSION,
-  (sessionData) => ({ payload: sessionData })
+  (sessionData) => ({ payload: sessionData }),
 );
 
 export const extendSession = createAction(AUTH_ACTION_TYPES.EXTEND_SESSION);
@@ -318,12 +318,12 @@ export const extendSession = createAction(AUTH_ACTION_TYPES.EXTEND_SESSION);
 // User actions
 export const setUser = createAction(
   AUTH_ACTION_TYPES.SET_USER,
-  (user) => ({ payload: user })
+  (user) => ({ payload: user }),
 );
 
 export const updateUser = createAction(
   AUTH_ACTION_TYPES.UPDATE_USER,
-  (userData) => ({ payload: userData })
+  (userData) => ({ payload: userData }),
 );
 
 export const clearUser = createAction(AUTH_ACTION_TYPES.CLEAR_USER);
@@ -331,12 +331,12 @@ export const clearUser = createAction(AUTH_ACTION_TYPES.CLEAR_USER);
 // Token actions
 export const setToken = createAction(
   AUTH_ACTION_TYPES.SET_TOKEN,
-  (token) => ({ payload: token })
+  (token) => ({ payload: token }),
 );
 
 export const setRefreshToken = createAction(
   AUTH_ACTION_TYPES.SET_REFRESH_TOKEN,
-  (refreshToken) => ({ payload: refreshToken })
+  (refreshToken) => ({ payload: refreshToken }),
 );
 
 export const clearTokens = createAction(AUTH_ACTION_TYPES.CLEAR_TOKENS);
@@ -344,27 +344,27 @@ export const clearTokens = createAction(AUTH_ACTION_TYPES.CLEAR_TOKENS);
 // Permission actions
 export const setPermissions = createAction(
   AUTH_ACTION_TYPES.SET_PERMISSIONS,
-  (permissions) => ({ payload: permissions })
+  (permissions) => ({ payload: permissions }),
 );
 
 export const updatePermissions = createAction(
   AUTH_ACTION_TYPES.UPDATE_PERMISSIONS,
-  (permissions) => ({ payload: permissions })
+  (permissions) => ({ payload: permissions }),
 );
 // Status actions
 export const setAuthenticated = createAction(
   AUTH_ACTION_TYPES.SET_AUTHENTICATED,
-  (isAuthenticated) => ({ payload: isAuthenticated })
+  (isAuthenticated) => ({ payload: isAuthenticated }),
 );
 
 export const setLoading = createAction(
   AUTH_ACTION_TYPES.SET_LOADING,
-  (isLoading) => ({ payload: isLoading })
+  (isLoading) => ({ payload: isLoading }),
 );
 
 export const setError = createAction(
   AUTH_ACTION_TYPES.SET_ERROR,
-  (error) => ({ payload: error })
+  (error) => ({ payload: error }),
 );
 
 export const clearError = createAction(AUTH_ACTION_TYPES.CLEAR_ERROR);
@@ -374,54 +374,54 @@ export const incrementLoginAttempts = createAction(AUTH_ACTION_TYPES.INCREMENT_L
 export const resetLoginAttempts = createAction(AUTH_ACTION_TYPES.RESET_LOGIN_ATTEMPTS);
 export const setLockout = createAction(
   AUTH_ACTION_TYPES.SET_LOCKOUT,
-  (lockoutUntil) => ({ payload: lockoutUntil })
+  (lockoutUntil) => ({ payload: lockoutUntil }),
 );
 
 // 2FA status actions
 export const set2FARequired = createAction(
   AUTH_ACTION_TYPES.SET_2FA_REQUIRED,
-  (required) => ({ payload: required })
+  (required) => ({ payload: required }),
 );
 export const set2FAType = createAction(
   AUTH_ACTION_TYPES.SET_2FA_TYPE,
-  (type) => ({ payload: type })
+  (type) => ({ payload: type }),
 );
 export const set2FASent = createAction(
   AUTH_ACTION_TYPES.SET_2FA_SENT,
-  (sent) => ({ payload: sent })
+  (sent) => ({ payload: sent }),
 );
 
 // Verification status actions
 export const setEmailVerified = createAction(
   AUTH_ACTION_TYPES.SET_EMAIL_VERIFIED,
-  (verified) => ({ payload: verified })
+  (verified) => ({ payload: verified }),
 );
 export const setVerificationSent = createAction(
   AUTH_ACTION_TYPES.SET_VERIFICATION_SENT,
-  (sent) => ({ payload: sent })
+  (sent) => ({ payload: sent }),
 );
 
 // Password reset status actions
 export const setResetToken = createAction(
   AUTH_ACTION_TYPES.SET_RESET_TOKEN,
-  (token) => ({ payload: token })
+  (token) => ({ payload: token }),
 );
 export const setResetSent = createAction(
   AUTH_ACTION_TYPES.SET_RESET_SENT,
-  (sent) => ({ payload: sent })
+  (sent) => ({ payload: sent }),
 );
 
 // History actions
 export const addLoginHistory = createAction(
   AUTH_ACTION_TYPES.ADD_LOGIN_HISTORY,
-  (entry) => ({ payload: entry })
+  (entry) => ({ payload: entry }),
 );
 export const clearLoginHistory = createAction(AUTH_ACTION_TYPES.CLEAR_LOGIN_HISTORY);
 
 // Session info actions
 export const setSessionInfo = createAction(
   AUTH_ACTION_TYPES.SET_SESSION_INFO,
-  (info) => ({ payload: info })
+  (info) => ({ payload: info }),
 );
 export const updateLastActivity = createAction(AUTH_ACTION_TYPES.UPDATE_LAST_ACTIVITY);
 
@@ -444,7 +444,7 @@ export const authThunks = {
       const mockResponse = {
         user: { id: 1, name: 'John Doe', email: credentials.email },
         token: 'mock_token',
-        refreshToken: 'mock_refresh_token'
+        refreshToken: 'mock_refresh_token',
       };
       
       dispatch(loginSuccess(mockResponse.user, mockResponse.token, mockResponse.refreshToken));
@@ -472,7 +472,7 @@ export const authThunks = {
       const mockResponse = {
         user: { id: 1, name: userData.name, email: userData.email },
         token: 'mock_token',
-        refreshToken: 'mock_refresh_token'
+        refreshToken: 'mock_refresh_token',
       };
       
       dispatch(registerSuccess(mockResponse.user, mockResponse.token, mockResponse.refreshToken));
@@ -518,7 +518,7 @@ export const authThunks = {
       // Mock success response
       const mockResponse = {
         token: 'new_mock_token',
-        refreshToken: 'new_mock_refresh_token'
+        refreshToken: 'new_mock_refresh_token',
       };
       
       dispatch(refreshTokenSuccess(mockResponse.token, mockResponse.refreshToken));
@@ -625,7 +625,7 @@ export const authThunks = {
       
       const mockData = {
         secret: 'MOCK_SECRET',
-        qrCode: 'data:image/png;base64,MOCK_QR_CODE'
+        qrCode: 'data:image/png;base64,MOCK_QR_CODE',
       };
       
       dispatch(enable2FASuccess(mockData));
@@ -679,13 +679,13 @@ export const authThunks = {
       const mockResponse = {
         user: { id: 1, name: 'Social User', email: 'social@example.com' },
         token: 'mock_social_token',
-        refreshToken: 'mock_social_refresh_token'
+        refreshToken: 'mock_social_refresh_token',
       };
       
       dispatch(socialLoginSuccess(
         mockResponse.user,
         mockResponse.token,
-        mockResponse.refreshToken
+        mockResponse.refreshToken,
       ));
       dispatch(setAuthenticated(true));
       
@@ -720,7 +720,7 @@ export const authThunks = {
         dispatch(authThunks.logout());
       }
     }
-  }
+  },
 };
 
 // ==================== Export all actions ====================
@@ -797,5 +797,5 @@ export default {
   setSessionInfo,
   updateLastActivity,
   resetAuth,
-  authThunks
+  authThunks,
 };

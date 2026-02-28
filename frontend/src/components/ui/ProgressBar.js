@@ -7,7 +7,7 @@ import {
   FiLoader,
   FiTrendingUp,
   FiTrendingDown,
-  FiActivity
+  FiActivity,
 } from 'react-icons/fi';
 
 const ProgressBar = ({
@@ -74,7 +74,7 @@ const ProgressBar = ({
     small: 'progress-small',
     medium: 'progress-medium',
     large: 'progress-large',
-    xl: 'progress-xl'
+    xl: 'progress-xl',
   };
 
   // Variant classes
@@ -84,7 +84,7 @@ const ProgressBar = ({
     warning: 'progress-warning',
     danger: 'progress-danger',
     info: 'progress-info',
-    gradient: 'progress-gradient'
+    gradient: 'progress-gradient',
   };
 
   // Get variant color
@@ -129,7 +129,7 @@ const ProgressBar = ({
       style={{
         height: thickness,
         backgroundColor: trackColor || 'var(--bg-tertiary)',
-        borderRadius: 'var(--radius-full)'
+        borderRadius: 'var(--radius-full)',
       }}
     >
       {/* Buffer bar */}
@@ -141,7 +141,7 @@ const ProgressBar = ({
             height: '100%',
             backgroundColor: 'var(--bg-secondary)',
             borderRadius: 'var(--radius-full)',
-            position: 'absolute'
+            position: 'absolute',
           }}
         />
       )}
@@ -156,7 +156,7 @@ const ProgressBar = ({
           borderRadius: 'var(--radius-full)',
           transition: animated ? `width ${animationDuration}ms var(--transition-ease)` : 'none',
           position: 'relative',
-          animation: indeterminate ? 'indeterminate 1.5s infinite linear' : 'none'
+          animation: indeterminate ? 'indeterminate 1.5s infinite linear' : 'none',
         }}
       >
         {/* Glow effect */}
@@ -173,7 +173,7 @@ const ProgressBar = ({
       small: 80,
       medium: 120,
       large: 160,
-      xl: 200
+      xl: 200,
     };
     const strokeWidth = thickness;
     const radius = (sizeMap[size] / 2) - strokeWidth;
@@ -214,7 +214,7 @@ const ProgressBar = ({
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             style={{
-              transition: animated ? `stroke-dashoffset ${animationDuration}ms var(--transition-ease)` : 'none'
+              transition: animated ? `stroke-dashoffset ${animationDuration}ms var(--transition-ease)` : 'none',
             }}
             transform={`rotate(-90 ${sizeMap[size] / 2} ${sizeMap[size] / 2})`}
           />
@@ -266,7 +266,7 @@ const ProgressBar = ({
                 className="step-progress"
                 style={{
                   width: `${stepProgress}%`,
-                  background: getVariantColor()
+                  background: getVariantColor(),
                 }}
               />
             </div>
@@ -675,7 +675,7 @@ const ProgressBar = ({
               position: 'absolute',
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)'
+              transform: 'translate(-50%, -50%)',
             }}
           >
             {showValue && (
@@ -816,7 +816,7 @@ export const MultiProgress = ({ sections = [], ...props }) => {
               className="multi-progress-section"
               style={{
                 width: `${section.percent}%`,
-                backgroundColor: section.color || 'var(--primary)'
+                backgroundColor: section.color || 'var(--primary)',
               }}
             />
           ))}

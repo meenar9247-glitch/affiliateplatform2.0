@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   FiActivity,
   FiAlertCircle,
@@ -43,10 +45,8 @@ import {
   FiCopy,
   FiPrinter,
   FiArchive,
-  FiClock as FiClockSolid
+  FiClock as FiClockSolid,
 } from 'react-icons/fi';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 
 const AdminLogs = () => {
   const [loading, setLoading] = useState(true);
@@ -91,7 +91,7 @@ const AdminLogs = () => {
     uniqueUsers: 0,
     uniqueIPs: 0,
     peakHour: '',
-    peakDay: ''
+    peakDay: '',
   });
 
   // Log Types
@@ -105,7 +105,7 @@ const AdminLogs = () => {
     { value: 'system', label: 'System', icon: <FiServer /> },
     { value: 'api', label: 'API Calls', icon: <FiGlobe /> },
     { value: 'email', label: 'Email', icon: <FiMail /> },
-    { value: 'security', label: 'Security', icon: <FiLock /> }
+    { value: 'security', label: 'Security', icon: <FiLock /> },
   ];
 
   // Log Levels
@@ -115,7 +115,7 @@ const AdminLogs = () => {
     { value: 'success', label: 'Success', icon: <FiCheckCircle />, color: '#28a745' },
     { value: 'warning', label: 'Warning', icon: <FiAlertCircle />, color: '#ffc107' },
     { value: 'error', label: 'Error', icon: <FiXCircle />, color: '#dc3545' },
-    { value: 'critical', label: 'Critical', icon: <FiAlertCircle />, color: '#dc3545' }
+    { value: 'critical', label: 'Critical', icon: <FiAlertCircle />, color: '#dc3545' },
   ];
 
   // Date range options
@@ -127,7 +127,7 @@ const AdminLogs = () => {
     { value: '7d', label: 'Last 7 Days' },
     { value: '30d', label: 'Last 30 Days' },
     { value: '90d', label: 'Last 90 Days' },
-    { value: 'custom', label: 'Custom Range' }
+    { value: 'custom', label: 'Custom Range' },
   ];
 
   // Action types for filter
@@ -141,7 +141,7 @@ const AdminLogs = () => {
     { value: 'link_created', label: 'Link Created' },
     { value: 'profile_update', label: 'Profile Update' },
     { value: 'settings_change', label: 'Settings Change' },
-    { value: 'admin_action', label: 'Admin Action' }
+    { value: 'admin_action', label: 'Admin Action' },
   ];
 
   useEffect(() => {
@@ -171,7 +171,7 @@ const AdminLogs = () => {
         log.message?.toLowerCase().includes(query) ||
         log.user?.toLowerCase().includes(query) ||
         log.ip?.toLowerCase().includes(query) ||
-        log.details?.toLowerCase().includes(query)
+        log.details?.toLowerCase().includes(query),
       );
     }
     
@@ -206,12 +206,12 @@ const AdminLogs = () => {
         endDate: customEndDate,
         user: userFilter !== 'all' ? userFilter : undefined,
         action: actionFilter !== 'all' ? actionFilter : undefined,
-        limit: 1000
+        limit: 1000,
       };
       
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/admin/logs`,
-        { params, headers: { Authorization: `Bearer ${token}` } }
+        { params, headers: { Authorization: `Bearer ${token}` } },
       );
       
       if (response.data.success) {
@@ -239,7 +239,7 @@ const AdminLogs = () => {
       affiliate: filteredLogs.filter(l => l.category === 'affiliate').length,
       admin: filteredLogs.filter(l => l.category === 'admin').length,
       uniqueUsers: new Set(filteredLogs.map(l => l.userId)).size,
-      uniqueIPs: new Set(filteredLogs.map(l => l.ip)).size
+      uniqueIPs: new Set(filteredLogs.map(l => l.ip)).size,
     };
     setStats(newStats);
   };
@@ -256,7 +256,7 @@ const AdminLogs = () => {
       const token = localStorage.getItem('token');
       await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/admin/logs`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       toast.success('Logs cleared successfully');
@@ -277,11 +277,11 @@ const AdminLogs = () => {
             level: logLevel !== 'all' ? logLevel : undefined,
             range: dateRange,
             startDate: customStartDate,
-            endDate: customEndDate
+            endDate: customEndDate,
           },
           headers: { Authorization: `Bearer ${token}` },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -305,7 +305,7 @@ const AdminLogs = () => {
       const token = localStorage.getItem('token');
       await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/admin/logs/${logId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       toast.success('Log deleted');
@@ -607,302 +607,302 @@ const AdminLogs = () => {
           </div>
         )}
       </div>
-{/* Logs Table */}
-<div style={styles.tableContainer}>
-  <table style={styles.table}>
-    <thead>
-      <tr>
-        <th style={styles.th}>Timestamp</th>
-        <th style={styles.th}>Level</th>
-        <th style={styles.th}>Type</th>
-        <th style={styles.th}>User</th>
-        <th style={styles.th}>Action</th>
-        <th style={styles.th}>Message</th>
-        <th style={styles.th}>IP Address</th>
-        <th style={styles.th}>Location</th>
-        <th style={styles.th}>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {currentLogs.map((log) => {
-        const level = getLevelBadge(log.level);
-        return (
-          <tr key={log.id} style={styles.tr}>
-            <td style={styles.td}>
-              <div style={styles.timestamp}>
-                <FiClock style={styles.timestampIcon} />
-                <span>{formatTimestamp(log.timestamp)}</span>
-              </div>
-            </td>
+      {/* Logs Table */}
+      <div style={styles.tableContainer}>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Timestamp</th>
+              <th style={styles.th}>Level</th>
+              <th style={styles.th}>Type</th>
+              <th style={styles.th}>User</th>
+              <th style={styles.th}>Action</th>
+              <th style={styles.th}>Message</th>
+              <th style={styles.th}>IP Address</th>
+              <th style={styles.th}>Location</th>
+              <th style={styles.th}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentLogs.map((log) => {
+              const level = getLevelBadge(log.level);
+              return (
+                <tr key={log.id} style={styles.tr}>
+                  <td style={styles.td}>
+                    <div style={styles.timestamp}>
+                      <FiClock style={styles.timestampIcon} />
+                      <span>{formatTimestamp(log.timestamp)}</span>
+                    </div>
+                  </td>
             
-            <td style={styles.td}>
-              <span style={{
-                ...styles.levelBadge,
-                background: level.bg,
-                color: level.color
-              }}>
-                {getLevelIcon(log.level)}
-                {level.text}
-              </span>
-            </td>
+                  <td style={styles.td}>
+                    <span style={{
+                      ...styles.levelBadge,
+                      background: level.bg,
+                      color: level.color,
+                    }}>
+                      {getLevelIcon(log.level)}
+                      {level.text}
+                    </span>
+                  </td>
             
-            <td style={styles.td}>
-              <span style={styles.logType}>
-                {logTypes.find(t => t.value === log.type)?.icon}
-                {log.type}
-              </span>
-            </td>
+                  <td style={styles.td}>
+                    <span style={styles.logType}>
+                      {logTypes.find(t => t.value === log.type)?.icon}
+                      {log.type}
+                    </span>
+                  </td>
             
-            <td style={styles.td}>
-              <div style={styles.userInfo}>
-                <FiUser style={styles.userIcon} />
-                <span>{log.user || 'System'}</span>
-                {log.userId && <span style={styles.userId}>({log.userId})</span>}
-              </div>
-            </td>
+                  <td style={styles.td}>
+                    <div style={styles.userInfo}>
+                      <FiUser style={styles.userIcon} />
+                      <span>{log.user || 'System'}</span>
+                      {log.userId && <span style={styles.userId}>({log.userId})</span>}
+                    </div>
+                  </td>
             
-            <td style={styles.td}>
-              <div style={styles.actionInfo}>
-                {getActionIcon(log.action)}
-                <span>{log.action}</span>
-              </div>
-            </td>
+                  <td style={styles.td}>
+                    <div style={styles.actionInfo}>
+                      {getActionIcon(log.action)}
+                      <span>{log.action}</span>
+                    </div>
+                  </td>
             
-            <td style={styles.td}>
-              <div style={styles.messageCell}>
-                <span style={styles.message}>{log.message}</span>
-                {log.details && (
-                  <button
-                    style={styles.viewDetailsBtn}
-                    onClick={() => {
-                      setSelectedLog(log);
-                      setShowDetails(true);
-                    }}
-                  >
-                    <FiEye />
-                  </button>
-                )}
-              </div>
-            </td>
+                  <td style={styles.td}>
+                    <div style={styles.messageCell}>
+                      <span style={styles.message}>{log.message}</span>
+                      {log.details && (
+                        <button
+                          style={styles.viewDetailsBtn}
+                          onClick={() => {
+                            setSelectedLog(log);
+                            setShowDetails(true);
+                          }}
+                        >
+                          <FiEye />
+                        </button>
+                      )}
+                    </div>
+                  </td>
             
-            <td style={styles.td}>
-              <code style={styles.ipAddress}>{log.ip}</code>
-            </td>
+                  <td style={styles.td}>
+                    <code style={styles.ipAddress}>{log.ip}</code>
+                  </td>
             
-            <td style={styles.td}>
-              {log.location ? (
-                <div style={styles.location}>
-                  <FiMapPin style={styles.locationIcon} />
-                  <span>{log.location}</span>
-                </div>
-              ) : (
-                <span style={styles.na}>N/A</span>
-              )}
-            </td>
+                  <td style={styles.td}>
+                    {log.location ? (
+                      <div style={styles.location}>
+                        <FiMapPin style={styles.locationIcon} />
+                        <span>{log.location}</span>
+                      </div>
+                    ) : (
+                      <span style={styles.na}>N/A</span>
+                    )}
+                  </td>
             
-            <td style={styles.td}>
-              <div style={styles.actionButtons}>
-                <button
-                  style={styles.actionBtn}
-                  onClick={() => {
-                    setSelectedLog(log);
-                    setShowDetails(true);
-                  }}
-                  title="View Details"
-                >
-                  <FiEye />
-                </button>
-                <button
-                  style={styles.actionBtn}
-                  onClick={() => handleDeleteLog(log.id)}
-                  title="Delete"
-                >
-                  <FiTrash2 />
-                </button>
-              </div>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  </table>
-</div>
+                  <td style={styles.td}>
+                    <div style={styles.actionButtons}>
+                      <button
+                        style={styles.actionBtn}
+                        onClick={() => {
+                          setSelectedLog(log);
+                          setShowDetails(true);
+                        }}
+                        title="View Details"
+                      >
+                        <FiEye />
+                      </button>
+                      <button
+                        style={styles.actionBtn}
+                        onClick={() => handleDeleteLog(log.id)}
+                        title="Delete"
+                      >
+                        <FiTrash2 />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
-{/* Pagination */}
-<div style={styles.pagination}>
-  <button
-    style={styles.pageBtn}
-    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-    disabled={currentPage === 1}
-  >
+      {/* Pagination */}
+      <div style={styles.pagination}>
+        <button
+          style={styles.pageBtn}
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
     Previous
-  </button>
-  <span style={styles.pageInfo}>
+        </button>
+        <span style={styles.pageInfo}>
     Page {currentPage} of {totalPages} ({totalLogs} total logs)
-  </span>
-  <button
-    style={styles.pageBtn}
-    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-    disabled={currentPage === totalPages}
-  >
+        </span>
+        <button
+          style={styles.pageBtn}
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
     Next
-  </button>
-</div>
+        </button>
+      </div>
 
-{/* Log Details Modal */}
-{showDetails && selectedLog && (
-  <div style={styles.modalOverlay}>
-    <div style={styles.modal}>
-      <div style={styles.modalHeader}>
-        <h2 style={styles.modalTitle}>Log Details</h2>
-        <button
-          style={styles.modalClose}
-          onClick={() => setShowDetails(false)}
-        >
+      {/* Log Details Modal */}
+      {showDetails && selectedLog && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.modal}>
+            <div style={styles.modalHeader}>
+              <h2 style={styles.modalTitle}>Log Details</h2>
+              <button
+                style={styles.modalClose}
+                onClick={() => setShowDetails(false)}
+              >
           ×
-        </button>
-      </div>
+              </button>
+            </div>
       
-      <div style={styles.modalContent}>
-        {/* Basic Info */}
-        <div style={styles.detailsSection}>
-          <h3 style={styles.detailsSectionTitle}>Basic Information</h3>
-          <div style={styles.detailsGrid}>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Log ID:</span>
-              <code style={styles.detailValue}>{selectedLog.id}</code>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Timestamp:</span>
-              <span style={styles.detailValue}>
-                {new Date(selectedLog.timestamp).toLocaleString()}
-              </span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Level:</span>
-              <span style={{
-                ...styles.levelValue,
-                ...getLevelBadge(selectedLog.level)
-              }}>
-                {getLevelIcon(selectedLog.level)}
-                {selectedLog.level}
-              </span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Type:</span>
-              <span style={styles.detailValue}>{selectedLog.type}</span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Action:</span>
-              <span style={styles.detailValue}>{selectedLog.action}</span>
-            </div>
-          </div>
-        </div>
+            <div style={styles.modalContent}>
+              {/* Basic Info */}
+              <div style={styles.detailsSection}>
+                <h3 style={styles.detailsSectionTitle}>Basic Information</h3>
+                <div style={styles.detailsGrid}>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Log ID:</span>
+                    <code style={styles.detailValue}>{selectedLog.id}</code>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Timestamp:</span>
+                    <span style={styles.detailValue}>
+                      {new Date(selectedLog.timestamp).toLocaleString()}
+                    </span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Level:</span>
+                    <span style={{
+                      ...styles.levelValue,
+                      ...getLevelBadge(selectedLog.level),
+                    }}>
+                      {getLevelIcon(selectedLog.level)}
+                      {selectedLog.level}
+                    </span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Type:</span>
+                    <span style={styles.detailValue}>{selectedLog.type}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Action:</span>
+                    <span style={styles.detailValue}>{selectedLog.action}</span>
+                  </div>
+                </div>
+              </div>
 
-        {/* User Info */}
-        <div style={styles.detailsSection}>
-          <h3 style={styles.detailsSectionTitle}>User Information</h3>
-          <div style={styles.detailsGrid}>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>User:</span>
-              <span style={styles.detailValue}>{selectedLog.user || 'System'}</span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>User ID:</span>
-              <span style={styles.detailValue}>{selectedLog.userId || 'N/A'}</span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Email:</span>
-              <span style={styles.detailValue}>{selectedLog.userEmail || 'N/A'}</span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Role:</span>
-              <span style={styles.detailValue}>{selectedLog.userRole || 'N/A'}</span>
-            </div>
-          </div>
-        </div>
+              {/* User Info */}
+              <div style={styles.detailsSection}>
+                <h3 style={styles.detailsSectionTitle}>User Information</h3>
+                <div style={styles.detailsGrid}>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>User:</span>
+                    <span style={styles.detailValue}>{selectedLog.user || 'System'}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>User ID:</span>
+                    <span style={styles.detailValue}>{selectedLog.userId || 'N/A'}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Email:</span>
+                    <span style={styles.detailValue}>{selectedLog.userEmail || 'N/A'}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Role:</span>
+                    <span style={styles.detailValue}>{selectedLog.userRole || 'N/A'}</span>
+                  </div>
+                </div>
+              </div>
 
-        {/* Request Info */}
-        <div style={styles.detailsSection}>
-          <h3 style={styles.detailsSectionTitle}>Request Information</h3>
-          <div style={styles.detailsGrid}>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>IP Address:</span>
-              <code style={styles.detailValue}>{selectedLog.ip}</code>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Location:</span>
-              <span style={styles.detailValue}>{selectedLog.location || 'Unknown'}</span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>User Agent:</span>
-              <span style={styles.detailValue}>{selectedLog.userAgent}</span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Device:</span>
-              <span style={styles.detailValue}>{selectedLog.device}</span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>Browser:</span>
-              <span style={styles.detailValue}>{selectedLog.browser}</span>
-            </div>
-            <div style={styles.detailRow}>
-              <span style={styles.detailLabel}>OS:</span>
-              <span style={styles.detailValue}>{selectedLog.os}</span>
-            </div>
-          </div>
-        </div>
+              {/* Request Info */}
+              <div style={styles.detailsSection}>
+                <h3 style={styles.detailsSectionTitle}>Request Information</h3>
+                <div style={styles.detailsGrid}>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>IP Address:</span>
+                    <code style={styles.detailValue}>{selectedLog.ip}</code>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Location:</span>
+                    <span style={styles.detailValue}>{selectedLog.location || 'Unknown'}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>User Agent:</span>
+                    <span style={styles.detailValue}>{selectedLog.userAgent}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Device:</span>
+                    <span style={styles.detailValue}>{selectedLog.device}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Browser:</span>
+                    <span style={styles.detailValue}>{selectedLog.browser}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>OS:</span>
+                    <span style={styles.detailValue}>{selectedLog.os}</span>
+                  </div>
+                </div>
+              </div>
 
-        {/* Message */}
-        <div style={styles.detailsSection}>
-          <h3 style={styles.detailsSectionTitle}>Message</h3>
-          <div style={styles.messageBox}>
-            {selectedLog.message}
-          </div>
-        </div>
+              {/* Message */}
+              <div style={styles.detailsSection}>
+                <h3 style={styles.detailsSectionTitle}>Message</h3>
+                <div style={styles.messageBox}>
+                  {selectedLog.message}
+                </div>
+              </div>
 
-        {/* Details */}
-        {selectedLog.details && (
-          <div style={styles.detailsSection}>
-            <h3 style={styles.detailsSectionTitle}>Additional Details</h3>
-            <pre style={styles.detailsPre}>
-              {JSON.stringify(selectedLog.details, null, 2)}
-            </pre>
-          </div>
-        )}
+              {/* Details */}
+              {selectedLog.details && (
+                <div style={styles.detailsSection}>
+                  <h3 style={styles.detailsSectionTitle}>Additional Details</h3>
+                  <pre style={styles.detailsPre}>
+                    {JSON.stringify(selectedLog.details, null, 2)}
+                  </pre>
+                </div>
+              )}
 
-        {/* Metadata */}
-        {selectedLog.metadata && (
-          <div style={styles.detailsSection}>
-            <h3 style={styles.detailsSectionTitle}>Metadata</h3>
-            <pre style={styles.detailsPre}>
-              {JSON.stringify(selectedLog.metadata, null, 2)}
-            </pre>
-          </div>
-        )}
-      </div>
+              {/* Metadata */}
+              {selectedLog.metadata && (
+                <div style={styles.detailsSection}>
+                  <h3 style={styles.detailsSectionTitle}>Metadata</h3>
+                  <pre style={styles.detailsPre}>
+                    {JSON.stringify(selectedLog.metadata, null, 2)}
+                  </pre>
+                </div>
+              )}
+            </div>
 
-      <div style={styles.modalFooter}>
-        <button
-          style={styles.modalCloseBtn}
-          onClick={() => setShowDetails(false)}
-        >
+            <div style={styles.modalFooter}>
+              <button
+                style={styles.modalCloseBtn}
+                onClick={() => setShowDetails(false)}
+              >
           Close
-        </button>
-        <button
-          style={styles.modalCopyBtn}
-          onClick={() => {
-            navigator.clipboard.writeText(JSON.stringify(selectedLog, null, 2));
-            toast.success('Copied to clipboard');
-          }}
-        >
-          <FiCopy />
+              </button>
+              <button
+                style={styles.modalCopyBtn}
+                onClick={() => {
+                  navigator.clipboard.writeText(JSON.stringify(selectedLog, null, 2));
+                  toast.success('Copied to clipboard');
+                }}
+              >
+                <FiCopy />
           Copy JSON
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <style>{`
         @keyframes spin {
           0% { transform: rotate(0deg); }
@@ -921,7 +921,7 @@ const styles = {
     maxWidth: '1600px',
     margin: '0 auto',
     padding: '30px 20px',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   header: {
     display: 'flex',
@@ -929,36 +929,36 @@ const styles = {
     alignItems: 'center',
     marginBottom: '30px',
     flexWrap: 'wrap',
-    gap: '20px'
+    gap: '20px',
   },
   title: {
     fontSize: '32px',
     color: '#333',
-    margin: '0 0 5px'
+    margin: '0 0 5px',
   },
   subtitle: {
     fontSize: '16px',
     color: '#666',
-    margin: 0
+    margin: 0,
   },
   headerActions: {
     display: 'flex',
     gap: '10px',
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   autoRefreshLabel: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   refreshIntervalSelect: {
     padding: '8px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '13px'
+    fontSize: '13px',
   },
   refreshBtn: {
     padding: '8px 16px',
@@ -968,7 +968,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   exportBtn: {
     padding: '8px 16px',
@@ -979,7 +979,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   clearBtn: {
     padding: '8px 16px',
@@ -990,13 +990,13 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   statsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(8, 1fr)',
     gap: '10px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   statCard: {
     background: 'white',
@@ -1005,7 +1005,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   statIconWrapper: {
     width: '36px',
@@ -1014,74 +1014,74 @@ const styles = {
     background: '#f0f4ff',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   statIcon: {
     fontSize: '18px',
-    color: '#667eea'
+    color: '#667eea',
   },
   statValue: {
     fontSize: '16px',
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   statLabel: {
     fontSize: '10px',
-    color: '#666'
+    color: '#666',
   },
   filtersSection: {
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   filtersRow: {
     display: 'flex',
     gap: '10px',
     flexWrap: 'wrap',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   searchBox: {
     position: 'relative',
     flex: 2,
-    minWidth: '250px'
+    minWidth: '250px',
   },
   searchIcon: {
     position: 'absolute',
     left: '12px',
     top: '50%',
     transform: 'translateY(-50%)',
-    color: '#999'
+    color: '#999',
   },
   searchInput: {
     width: '100%',
     padding: '10px 10px 10px 40px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   filterSelect: {
     padding: '10px',
     border: '1px solid #ddd',
     borderRadius: '5px',
     fontSize: '14px',
-    minWidth: '150px'
+    minWidth: '150px',
   },
   ipInput: {
     padding: '10px',
     border: '1px solid #ddd',
     borderRadius: '5px',
     fontSize: '14px',
-    minWidth: '150px'
+    minWidth: '150px',
   },
   customDateRange: {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    marginTop: '10px'
+    marginTop: '10px',
   },
   dateInput: {
     padding: '8px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   tableContainer: {
     background: 'white',
@@ -1089,12 +1089,12 @@ const styles = {
     overflow: 'auto',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
     marginBottom: '20px',
-    maxHeight: '600px'
+    maxHeight: '600px',
   },
   table: {
     width: '100%',
     borderCollapse: 'collapse',
-    minWidth: '1200px'
+    minWidth: '1200px',
   },
   th: {
     padding: '12px',
@@ -1106,29 +1106,29 @@ const styles = {
     color: '#666',
     position: 'sticky',
     top: 0,
-    zIndex: 10
+    zIndex: 10,
   },
   tr: {
     borderBottom: '1px solid #e9ecef',
     '&:hover': {
-      background: '#f8f9fa'
-    }
+      background: '#f8f9fa',
+    },
   },
   td: {
     padding: '12px',
     fontSize: '13px',
-    color: '#333'
+    color: '#333',
   },
   timestamp: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
     fontSize: '12px',
-    color: '#666'
+    color: '#666',
   },
   timestampIcon: {
     fontSize: '12px',
-    color: '#999'
+    color: '#999',
   },
   levelBadge: {
     padding: '3px 8px',
@@ -1137,78 +1137,78 @@ const styles = {
     fontWeight: 500,
     display: 'inline-flex',
     alignItems: 'center',
-    gap: '3px'
+    gap: '3px',
   },
   logType: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
     fontSize: '12px',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   userInfo: {
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   userIcon: {
     fontSize: '12px',
-    color: '#999'
+    color: '#999',
   },
   userId: {
     fontSize: '10px',
     color: '#999',
-    marginLeft: '3px'
+    marginLeft: '3px',
   },
   actionInfo: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
     fontSize: '12px',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   messageCell: {
     display: 'flex',
     alignItems: 'center',
     gap: '5px',
-    maxWidth: '300px'
+    maxWidth: '300px',
   },
   message: {
     flex: 1,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
   },
   viewDetailsBtn: {
     background: 'none',
     border: 'none',
     color: '#667eea',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   ipAddress: {
     fontSize: '12px',
     background: '#f8f9fa',
     padding: '2px 4px',
-    borderRadius: '3px'
+    borderRadius: '3px',
   },
   location: {
     display: 'flex',
     alignItems: 'center',
     gap: '3px',
-    fontSize: '12px'
+    fontSize: '12px',
   },
   locationIcon: {
     fontSize: '12px',
-    color: '#999'
+    color: '#999',
   },
   na: {
     fontSize: '12px',
     color: '#999',
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   actionButtons: {
     display: 'flex',
-    gap: '5px'
+    gap: '5px',
   },
   actionBtn: {
     padding: '4px',
@@ -1216,24 +1216,24 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '3px',
     cursor: 'pointer',
-    color: '#666'
+    color: '#666',
   },
   pagination: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '15px'
+    gap: '15px',
   },
   pageBtn: {
     padding: '8px 16px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   pageInfo: {
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   modalOverlay: {
     position: 'fixed',
@@ -1245,7 +1245,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1000
+    zIndex: 1000,
   },
   modal: {
     background: 'white',
@@ -1253,7 +1253,7 @@ const styles = {
     width: '90%',
     maxWidth: '800px',
     maxHeight: '90vh',
-    overflow: 'auto'
+    overflow: 'auto',
   },
   modalHeader: {
     padding: '20px',
@@ -1264,36 +1264,36 @@ const styles = {
     position: 'sticky',
     top: 0,
     background: 'white',
-    zIndex: 10
+    zIndex: 10,
   },
   modalTitle: {
     margin: 0,
     fontSize: '20px',
-    color: '#333'
+    color: '#333',
   },
   modalClose: {
     background: 'none',
     border: 'none',
     fontSize: '24px',
     cursor: 'pointer',
-    color: '#999'
+    color: '#999',
   },
   modalContent: {
-    padding: '20px'
+    padding: '20px',
   },
   modalFooter: {
     padding: '20px',
     borderTop: '1px solid #e9ecef',
     display: 'flex',
     justifyContent: 'flex-end',
-    gap: '10px'
+    gap: '10px',
   },
   modalCloseBtn: {
     padding: '8px 16px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   modalCopyBtn: {
     padding: '8px 16px',
@@ -1304,34 +1304,34 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   detailsSection: {
-    marginBottom: '25px'
+    marginBottom: '25px',
   },
   detailsSectionTitle: {
     margin: '0 0 15px',
     fontSize: '16px',
     color: '#333',
     borderBottom: '1px solid #e9ecef',
-    paddingBottom: '8px'
+    paddingBottom: '8px',
   },
   detailsGrid: {
     display: 'grid',
-    gap: '10px'
+    gap: '10px',
   },
   detailRow: {
     display: 'flex',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   detailLabel: {
     width: '120px',
     color: '#666',
-    fontWeight: 500
+    fontWeight: 500,
   },
   detailValue: {
     flex: 1,
-    color: '#333'
+    color: '#333',
   },
   levelValue: {
     display: 'inline-flex',
@@ -1339,14 +1339,14 @@ const styles = {
     gap: '5px',
     padding: '3px 8px',
     borderRadius: '12px',
-    fontSize: '12px'
+    fontSize: '12px',
   },
   messageBox: {
     padding: '15px',
     background: '#f8f9fa',
     borderRadius: '5px',
     fontSize: '14px',
-    lineHeight: '1.6'
+    lineHeight: '1.6',
   },
   detailsPre: {
     padding: '15px',
@@ -1354,11 +1354,11 @@ const styles = {
     borderRadius: '5px',
     fontSize: '12px',
     overflow: 'auto',
-    maxHeight: '200px'
+    maxHeight: '200px',
   },
   loadingContainer: {
     textAlign: 'center',
-    padding: '60px 20px'
+    padding: '60px 20px',
   },
   spinner: {
     border: '3px solid #f3f3f3',
@@ -1367,8 +1367,8 @@ const styles = {
     width: '40px',
     height: '40px',
     animation: 'spin 1s linear infinite',
-    margin: '0 auto 15px'
-  }
+    margin: '0 auto 15px',
+  },
 };
 
 export default AdminLogs;

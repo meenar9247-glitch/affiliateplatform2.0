@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { 
   TrophyIcon, 
   StarIcon, 
@@ -11,10 +10,11 @@ import {
   ChartBarIcon,
   GiftIcon,
   ShieldCheckIcon,
-  RocketLaunchIcon
+  RocketLaunchIcon,
 } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
 import axios from 'axios';
+import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
 
 const Achievements = () => {
   const [achievements, setAchievements] = useState([]);
@@ -51,7 +51,7 @@ const Achievements = () => {
             unlocked: true,
             unlockedAt: '2024-01-15',
             reward: '100 Bonus Points',
-            rarity: 'common'
+            rarity: 'common',
           },
           {
             id: 2,
@@ -63,7 +63,7 @@ const Achievements = () => {
             progress: 850,
             unlocked: false,
             reward: '500 Bonus Points',
-            rarity: 'rare'
+            rarity: 'rare',
           },
           {
             id: 3,
@@ -75,7 +75,7 @@ const Achievements = () => {
             progress: 3850,
             unlocked: false,
             reward: 'Gold Badge + 2000 Points',
-            rarity: 'legendary'
+            rarity: 'legendary',
           },
 
           // Referral Achievements
@@ -90,7 +90,7 @@ const Achievements = () => {
             unlocked: true,
             unlockedAt: '2024-01-10',
             reward: '50 Bonus Points',
-            rarity: 'common'
+            rarity: 'common',
           },
           {
             id: 5,
@@ -102,7 +102,7 @@ const Achievements = () => {
             progress: 7,
             unlocked: false,
             reward: 'Team Builder Badge',
-            rarity: 'rare'
+            rarity: 'rare',
           },
           {
             id: 6,
@@ -114,7 +114,7 @@ const Achievements = () => {
             progress: 12,
             unlocked: false,
             reward: 'King Badge + 5000 Points',
-            rarity: 'legendary'
+            rarity: 'legendary',
           },
 
           // Conversion Achievements
@@ -129,7 +129,7 @@ const Achievements = () => {
             unlocked: true,
             unlockedAt: '2024-01-12',
             reward: '100 Points',
-            rarity: 'common'
+            rarity: 'common',
           },
           {
             id: 8,
@@ -142,7 +142,7 @@ const Achievements = () => {
             progressType: 'percentage',
             unlocked: false,
             reward: 'Master Badge',
-            rarity: 'epic'
+            rarity: 'epic',
           },
           {
             id: 9,
@@ -154,7 +154,7 @@ const Achievements = () => {
             progress: 23,
             unlocked: false,
             reward: '5000 Points',
-            rarity: 'legendary'
+            rarity: 'legendary',
           },
 
           // Click Achievements
@@ -169,7 +169,7 @@ const Achievements = () => {
             unlocked: true,
             unlockedAt: '2024-01-08',
             reward: '50 Points',
-            rarity: 'common'
+            rarity: 'common',
           },
           {
             id: 11,
@@ -181,7 +181,7 @@ const Achievements = () => {
             progress: 850,
             unlocked: false,
             reward: '500 Points',
-            rarity: 'rare'
+            rarity: 'rare',
           },
           {
             id: 12,
@@ -193,7 +193,7 @@ const Achievements = () => {
             progress: 2350,
             unlocked: false,
             reward: 'Viral Badge',
-            rarity: 'legendary'
+            rarity: 'legendary',
           },
 
           // Streak Achievements
@@ -208,7 +208,7 @@ const Achievements = () => {
             unlocked: true,
             unlockedAt: '2024-01-20',
             reward: 'Streak Badge',
-            rarity: 'rare'
+            rarity: 'rare',
           },
           {
             id: 14,
@@ -220,7 +220,7 @@ const Achievements = () => {
             progress: 12,
             unlocked: false,
             reward: 'Legendary Streak Badge',
-            rarity: 'epic'
+            rarity: 'epic',
           },
           {
             id: 15,
@@ -232,7 +232,7 @@ const Achievements = () => {
             progress: 45,
             unlocked: false,
             reward: 'Immortal Badge',
-            rarity: 'legendary'
+            rarity: 'legendary',
           },
 
           // Special Achievements
@@ -247,7 +247,7 @@ const Achievements = () => {
             unlocked: true,
             unlockedAt: '2024-01-05',
             reward: 'Early Adopter Badge',
-            rarity: 'rare'
+            rarity: 'rare',
           },
           {
             id: 17,
@@ -260,7 +260,7 @@ const Achievements = () => {
             progressType: 'count',
             unlocked: false,
             reward: 'Social Badge',
-            rarity: 'rare'
+            rarity: 'rare',
           },
           {
             id: 18,
@@ -273,8 +273,8 @@ const Achievements = () => {
             progressType: 'rank',
             unlocked: false,
             reward: 'Champion Badge',
-            rarity: 'legendary'
-          }
+            rarity: 'legendary',
+          },
         ];
 
         const sampleUserStats = {
@@ -287,7 +287,7 @@ const Achievements = () => {
           longestStreak: 15,
           rank: 42,
           points: 1250,
-          badges: ['early-bird', 'first-earnings', 'streak-7']
+          badges: ['early-bird', 'first-earnings', 'streak-7'],
         };
 
         setAchievements(sampleAchievements);
@@ -307,7 +307,7 @@ const Achievements = () => {
     { id: 'conversions', name: 'Conversions', icon: '🎯' },
     { id: 'clicks', name: 'Clicks', icon: '👆' },
     { id: 'streak', name: 'Streaks', icon: '🔥' },
-    { id: 'special', name: 'Special', icon: '✨' }
+    { id: 'special', name: 'Special', icon: '✨' },
   ];
 
   const getRarityColor = (rarity) => {
@@ -560,7 +560,7 @@ const Achievements = () => {
                     <div className={`mt-2 text-xs ${
                       achievement.unlocked ? 'text-white text-opacity-75' : 'text-gray-400'
   
-   }`}>
+                    }`}>
                       Unlocked on {new Date(achievement.unlockedAt).toLocaleDateString()}
                     </div>
                   )}

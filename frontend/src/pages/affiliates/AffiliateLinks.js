@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { 
   FiSearch, 
@@ -13,8 +12,9 @@ import {
   FiDollarSign,
   FiTrendingUp,
   FiClock,
-  FiStar
+  FiStar,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const AffiliateLinks = () => {
   const [links, setLinks] = useState([]);
@@ -28,7 +28,7 @@ const AffiliateLinks = () => {
     totalLinks: 0,
     totalClicks: 0,
     totalConversions: 0,
-    totalEarnings: 0
+    totalEarnings: 0,
   });
 
   // Fetch affiliate links
@@ -42,7 +42,7 @@ const AffiliateLinks = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/affiliates/links`
+        `${process.env.REACT_APP_API_URL}/affiliates/links`,
       );
       
       if (response.data.success) {
@@ -58,7 +58,7 @@ const AffiliateLinks = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/affiliates/categories`
+        `${process.env.REACT_APP_API_URL}/affiliates/categories`,
       );
       
       if (response.data.success) {
@@ -72,7 +72,7 @@ const AffiliateLinks = () => {
   const fetchStats = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/affiliates/stats`
+        `${process.env.REACT_APP_API_URL}/affiliates/stats`,
       );
       
       if (response.data.success) {
@@ -114,7 +114,7 @@ const AffiliateLinks = () => {
   const handleCopyLink = async (linkId) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/affiliates/generate-link/${linkId}`
+        `${process.env.REACT_APP_API_URL}/affiliates/generate-link/${linkId}`,
       );
       
       if (response.data.success) {
@@ -133,7 +133,7 @@ const AffiliateLinks = () => {
       navigator.share({
         title: link.title,
         text: link.description,
-        url: link.originalUrl
+        url: link.originalUrl,
       }).catch(console.error);
     } else {
       handleCopyLink(link._id);

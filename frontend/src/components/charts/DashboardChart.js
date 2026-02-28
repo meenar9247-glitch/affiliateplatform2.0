@@ -14,12 +14,13 @@ import {
   FiMinimize2,
   FiBarChart2,
   FiPieChart,
-  FiActivity
+  FiActivity,
 } from 'react-icons/fi';
-import LineChart from './LineChart';
-import BarChart from './BarChart';
-import PieChart from './PieChart';
+
 import AreaChart from './AreaChart';
+import BarChart from './BarChart';
+import LineChart from './LineChart';
+import PieChart from './PieChart';
 
 const DashboardChart = ({
   type = 'line', // line, bar, pie, area, metric, kpi
@@ -54,7 +55,7 @@ const DashboardChart = ({
   const sizeClasses = {
     small: 'dashboard-chart-small',
     medium: 'dashboard-chart-medium',
-    large: 'dashboard-chart-large'
+    large: 'dashboard-chart-large',
   };
 
   // Period options
@@ -65,7 +66,7 @@ const DashboardChart = ({
     { value: 'month', label: 'This Month' },
     { value: 'quarter', label: 'This Quarter' },
     { value: 'year', label: 'This Year' },
-    { value: 'custom', label: 'Custom' }
+    { value: 'custom', label: 'Custom' },
   ];
 
   // Chart type options
@@ -73,7 +74,7 @@ const DashboardChart = ({
     { value: 'line', label: 'Line', icon: FiActivity },
     { value: 'bar', label: 'Bar', icon: FiBarChart2 },
     { value: 'pie', label: 'Pie', icon: FiPieChart },
-    { value: 'area', label: 'Area', icon: FiTrendingUp }
+    { value: 'area', label: 'Area', icon: FiTrendingUp },
   ];
 
   const handlePeriodChange = (newPeriod) => {
@@ -111,7 +112,7 @@ const DashboardChart = ({
       showFullscreen: false,
       animate: true,
       animationDuration: 1000,
-      ...props
+      ...props,
     };
 
     switch (chartType) {
@@ -649,7 +650,7 @@ const DashboardChart = ({
     { label: 'Mar', value: 80 },
     { label: 'Apr', value: 81 },
     { label: 'May', value: 56 },
-    { label: 'Jun', value: 55 }
+    { label: 'Jun', value: 55 },
   ];
 
   const sampleBarData = [
@@ -658,34 +659,34 @@ const DashboardChart = ({
     { label: 'Wed', value: 3 },
     { label: 'Thu', value: 5 },
     { label: 'Fri', value: 2 },
-    { label: 'Sat', value: 3 }
+    { label: 'Sat', value: 3 },
   ];
 
   const samplePieData = [
     { label: 'Desktop', value: 45 },
     { label: 'Mobile', value: 35 },
-    { label: 'Tablet', value: 20 }
+    { label: 'Tablet', value: 20 },
   ];
 
   const sampleAreaData = [
     { label: 'Week 1', value: 30 },
     { label: 'Week 2', value: 45 },
     { label: 'Week 3', value: 38 },
-    { label: 'Week 4', value: 52 }
+    { label: 'Week 4', value: 52 },
   ];
 
   const sampleKPIData = [
     { title: 'Revenue', value: '$45,231', change: 12.5, icon: FiDollarSign, color: 'primary' },
     { title: 'Users', value: '23,456', change: 8.2, icon: FiUsers, color: 'success' },
     { title: 'Clicks', value: '12,345', change: -2.4, icon: FiMousePointer, color: 'warning' },
-    { title: 'Conversions', value: '4,567', change: 15.3, icon: FiShoppingCart, color: 'danger' }
+    { title: 'Conversions', value: '4,567', change: 15.3, icon: FiShoppingCart, color: 'danger' },
   ];
 
   const sampleMetricData = [
     { title: 'Avg. Time', value: '2m 34s', trend: 5.2 },
     { title: 'Bounce Rate', value: '42%', trend: -3.1 },
     { title: 'Pages/Session', value: '3.2', trend: 0.8 },
-    { title: 'New Users', value: '1,234', trend: 18.5 }
+    { title: 'New Users', value: '1,234', trend: 18.5 },
   ];
 
   return (
@@ -818,7 +819,7 @@ export const RevenueChart = ({ data, ...props }) => {
     { label: 'Mar', revenue: 48000 },
     { label: 'Apr', revenue: 61000 },
     { label: 'May', revenue: 58000 },
-    { label: 'Jun', revenue: 67000 }
+    { label: 'Jun', revenue: 67000 },
   ];
 
   return (
@@ -843,7 +844,7 @@ export const TrafficChart = ({ data, ...props }) => {
     { label: 'Thu', visits: 1800 },
     { label: 'Fri', visits: 2100 },
     { label: 'Sat', visits: 1600 },
-    { label: 'Sun', visits: 1100 }
+    { label: 'Sun', visits: 1100 },
   ];
 
   return (
@@ -867,7 +868,7 @@ export const ConversionChart = ({ data, ...props }) => {
     { label: 'Mar', rate: 3.2 },
     { label: 'Apr', rate: 2.9 },
     { label: 'May', rate: 3.5 },
-    { label: 'Jun', rate: 3.8 }
+    { label: 'Jun', rate: 3.8 },
   ];
 
   return (
@@ -889,7 +890,7 @@ export const SalesChart = ({ data, ...props }) => {
     { label: 'Product A', sales: 45 },
     { label: 'Product B', sales: 78 },
     { label: 'Product C', sales: 33 },
-    { label: 'Product D', sales: 56 }
+    { label: 'Product D', sales: 56 },
   ];
 
   return (
@@ -909,7 +910,7 @@ export const PerformanceChart = ({ data, ...props }) => {
     { label: 'Week 1', clicks: 1200, conversions: 45, revenue: 3400 },
     { label: 'Week 2', clicks: 1500, conversions: 52, revenue: 4100 },
     { label: 'Week 3', clicks: 1800, conversions: 61, revenue: 5200 },
-    { label: 'Week 4', clicks: 2100, conversions: 73, revenue: 6300 }
+    { label: 'Week 4', clicks: 2100, conversions: 73, revenue: 6300 },
   ];
 
   return (
@@ -921,7 +922,7 @@ export const PerformanceChart = ({ data, ...props }) => {
       series={[
         { key: 'clicks', name: 'Clicks' },
         { key: 'conversions', name: 'Conversions' },
-        { key: 'revenue', name: 'Revenue ($)' }
+        { key: 'revenue', name: 'Revenue ($)' },
       ]}
       {...props}
     />

@@ -8,7 +8,7 @@ export const ENCRYPTION_ALGORITHMS = {
   TRIPLE_DES: 'triple-des',
   RC4: 'rc4',
   RABBIT: 'rabbit',
-  EVP_KDF: 'evp-kdf'
+  EVP_KDF: 'evp-kdf',
 };
 
 export const HASH_ALGORITHMS = {
@@ -17,25 +17,25 @@ export const HASH_ALGORITHMS = {
   SHA256: 'sha256',
   SHA512: 'sha512',
   SHA3: 'sha3',
-  RIPEMD160: 'ripemd160'
+  RIPEMD160: 'ripemd160',
 };
 
 export const ENCODING_FORMATS = {
   BASE64: 'base64',
   HEX: 'hex',
   UTF8: 'utf8',
-  LATIN1: 'latin1'
+  LATIN1: 'latin1',
 };
 
 export const ENCRYPTION_STRENGTHS = {
   LOW: 128,
   MEDIUM: 192,
-  HIGH: 256
+  HIGH: 256,
 };
 
 export const KEY_DERIVATION_FUNCTIONS = {
   PBKDF2: 'pbkdf2',
-  EVP_BYTES_TO_KEY: 'evp-bytes-to-key'
+  EVP_BYTES_TO_KEY: 'evp-bytes-to-key',
 };
 
 // Default encryption options
@@ -45,7 +45,7 @@ export const DEFAULT_ENCRYPTION_OPTIONS = {
   ivSize: 128 / 32, // 128 bits = 4 words
   iterations: 10000,
   salt: null,
-  encoding: ENCODING_FORMATS.BASE64
+  encoding: ENCODING_FORMATS.BASE64,
 };
 
 // ==================== Core Encryption Functions ====================
@@ -55,7 +55,7 @@ export class EncryptionService {
     this.secretKey = secretKey;
     this.options = {
       ...DEFAULT_ENCRYPTION_OPTIONS,
-      ...options
+      ...options,
     };
   }
 
@@ -73,7 +73,7 @@ export class EncryptionService {
   deriveKey(password, salt, iterations = this.options.iterations) {
     return CryptoJS.PBKDF2(password, salt, {
       keySize: this.options.keySize,
-      iterations: iterations
+      iterations: iterations,
     });
   }
 
@@ -91,7 +91,7 @@ export class EncryptionService {
       const encrypted = CryptoJS.AES.encrypt(data, key, {
         iv: iv,
         mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
+        padding: CryptoJS.pad.Pkcs7,
       });
       
       // Combine salt, iv, and encrypted data
@@ -107,12 +107,12 @@ export class EncryptionService {
         iv: iv.toString(),
         algorithm: options.algorithm,
         keySize: options.keySize,
-        encoding: options.encoding
+        encoding: options.encoding,
       };
     } catch (error) {
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -132,7 +132,7 @@ export class EncryptionService {
       const salt = CryptoJS.lib.WordArray.create(combined.words.slice(0, saltSize / 4));
       const iv = CryptoJS.lib.WordArray.create(combined.words.slice(saltSize / 4, (saltSize + ivSize) / 4));
       const ciphertext = CryptoJS.lib.WordArray.create(
-        combined.words.slice((saltSize + ivSize) / 4)
+        combined.words.slice((saltSize + ivSize) / 4),
       );
       
       // Derive key
@@ -140,24 +140,24 @@ export class EncryptionService {
       
       // Create cipher params
       const cipherParams = CryptoJS.lib.CipherParams.create({
-        ciphertext: ciphertext
+        ciphertext: ciphertext,
       });
       
       // Decrypt
       const decrypted = CryptoJS.AES.decrypt(cipherParams, key, {
         iv: iv,
         mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
+        padding: CryptoJS.pad.Pkcs7,
       });
       
       return {
         success: true,
-        data: decrypted.toString(CryptoJS.enc.Utf8)
+        data: decrypted.toString(CryptoJS.enc.Utf8),
       };
     } catch (error) {
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -193,12 +193,12 @@ export class EncryptionService {
       return {
         success: true,
         data: hashed.toString(CryptoJS.enc.Hex),
-        algorithm: algorithm
+        algorithm: algorithm,
       };
     } catch (error) {
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -211,16 +211,16 @@ export class EncryptionService {
       return {
         success: true,
         data: hmac.toString(CryptoJS.enc.Hex),
-        algorithm: algorithm
+        algorithm: algorithm,
       };
     } catch (error) {
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
-      }
+}
 // ==================== Advanced Encryption Functions ====================
 
 // Encrypt with password
@@ -231,7 +231,7 @@ export const encryptWithPassword = (data, password, options = {}) => {
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -244,7 +244,7 @@ export const decryptWithPassword = (encryptedData, password, options = {}) => {
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -258,7 +258,7 @@ export const encryptObject = (obj, secretKey, options = {}) => {
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -272,7 +272,7 @@ export const decryptObject = (encryptedData, secretKey, options = {}) => {
     if (result.success) {
       return {
         success: true,
-        data: JSON.parse(result.data)
+        data: JSON.parse(result.data),
       };
     }
     
@@ -280,7 +280,7 @@ export const decryptObject = (encryptedData, secretKey, options = {}) => {
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -301,13 +301,13 @@ export const encryptFile = async (file, secretKey, options = {}) => {
         if (result.success) {
           // Create encrypted file blob
           const encryptedBlob = new Blob([result.data], {
-            type: 'application/octet-stream'
+            type: 'application/octet-stream',
           });
           
           const encryptedFile = new File(
             [encryptedBlob],
             `${file.name}.encrypted`,
-            { type: 'application/octet-stream' }
+            { type: 'application/octet-stream' },
           );
           
           resolve({
@@ -320,8 +320,8 @@ export const encryptFile = async (file, secretKey, options = {}) => {
               encryptedSize: encryptedBlob.size,
               algorithm: result.algorithm,
               keySize: result.keySize,
-              encoding: result.encoding
-            }
+              encoding: result.encoding,
+            },
           });
         } else {
           reject(result);
@@ -329,7 +329,7 @@ export const encryptFile = async (file, secretKey, options = {}) => {
       } catch (error) {
         reject({
           success: false,
-          error: error.message
+          error: error.message,
         });
       }
     };
@@ -337,7 +337,7 @@ export const encryptFile = async (file, secretKey, options = {}) => {
     reader.onerror = () => {
       reject({
         success: false,
-        error: 'Failed to read file'
+        error: 'Failed to read file',
       });
     };
     
@@ -375,13 +375,13 @@ export const decryptFile = async (encryptedFile, secretKey, options = {}) => {
           const decryptedFile = new File(
             [decryptedBlob],
             originalName,
-            { type: 'application/octet-stream' }
+            { type: 'application/octet-stream' },
           );
           
           resolve({
             success: true,
             file: decryptedFile,
-            size: decryptedBlob.size
+            size: decryptedBlob.size,
           });
         } else {
           reject(result);
@@ -389,7 +389,7 @@ export const decryptFile = async (encryptedFile, secretKey, options = {}) => {
       } catch (error) {
         reject({
           success: false,
-          error: error.message
+          error: error.message,
         });
       }
     };
@@ -397,7 +397,7 @@ export const decryptFile = async (encryptedFile, secretKey, options = {}) => {
     reader.onerror = () => {
       reject({
         success: false,
-        error: 'Failed to read encrypted file'
+        error: 'Failed to read encrypted file',
       });
     };
     
@@ -425,7 +425,7 @@ export const generateKeyPair = () => {
   
   return {
     publicKey,
-    privateKey
+    privateKey,
   };
 };
 
@@ -446,7 +446,7 @@ export const rotateEncryptionKey = (oldKey, newKey, encryptedData, options = {})
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -463,7 +463,7 @@ export const multiLayerEncrypt = (data, keys, options = {}) => {
       if (!result.success) {
         return {
           success: false,
-          error: `Encryption failed at layer ${i + 1}: ${result.error}`
+          error: `Encryption failed at layer ${i + 1}: ${result.error}`,
         };
       }
       
@@ -471,7 +471,7 @@ export const multiLayerEncrypt = (data, keys, options = {}) => {
         key: keys[i],
         encryptedData: result.data,
         algorithm: result.algorithm,
-        keySize: result.keySize
+        keySize: result.keySize,
       });
       
       currentData = result.data;
@@ -480,12 +480,12 @@ export const multiLayerEncrypt = (data, keys, options = {}) => {
     return {
       success: true,
       data: currentData,
-      layers: layers
+      layers: layers,
     };
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -501,7 +501,7 @@ export const multiLayerDecrypt = (encryptedData, keys, options = {}) => {
       if (!result.success) {
         return {
           success: false,
-          error: `Decryption failed at layer ${i + 1}: ${result.error}`
+          error: `Decryption failed at layer ${i + 1}: ${result.error}`,
         };
       }
       
@@ -510,12 +510,12 @@ export const multiLayerDecrypt = (encryptedData, keys, options = {}) => {
     
     return {
       success: true,
-      data: currentData
+      data: currentData,
     };
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -533,12 +533,12 @@ export const base64Encode = (data) => {
     
     return {
       success: true,
-      data: base64
+      data: base64,
     };
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -552,18 +552,18 @@ export const base64Decode = (base64, parseJson = false) => {
     if (parseJson) {
       return {
         success: true,
-        data: JSON.parse(utf8)
+        data: JSON.parse(utf8),
       };
     }
     
     return {
       success: true,
-      data: utf8
+      data: utf8,
     };
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -580,12 +580,12 @@ export const hexEncode = (data) => {
     
     return {
       success: true,
-      data: hex
+      data: hex,
     };
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -599,18 +599,18 @@ export const hexDecode = (hex, parseJson = false) => {
     if (parseJson) {
       return {
         success: true,
-        data: JSON.parse(utf8)
+        data: JSON.parse(utf8),
       };
     }
     
     return {
       success: true,
-      data: utf8
+      data: utf8,
     };
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -662,8 +662,8 @@ export const checkPasswordStrength = (password) => {
       lowercase: false,
       numbers: false,
       special: false,
-      noCommon: true
-    }
+      noCommon: true,
+    },
   };
   
   // Length check
@@ -845,7 +845,7 @@ export const encryptionUtils = {
   ENCODING_FORMATS,
   ENCRYPTION_STRENGTHS,
   KEY_DERIVATION_FUNCTIONS,
-  DEFAULT_ENCRYPTION_OPTIONS
+  DEFAULT_ENCRYPTION_OPTIONS,
 };
 
 export default encryptionUtils;

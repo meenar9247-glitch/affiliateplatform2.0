@@ -6,7 +6,7 @@ export const API = {
   TIMEOUT: 30000,
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000,
-  VERSION: 'v1'
+  VERSION: 'v1',
 };
 
 export const API_ENDPOINTS = {
@@ -21,7 +21,7 @@ export const API_ENDPOINTS = {
     RESET_PASSWORD: '/auth/reset-password',
     CHANGE_PASSWORD: '/auth/change-password',
     PROFILE: '/auth/profile',
-    TWO_FACTOR: '/auth/2fa'
+    TWO_FACTOR: '/auth/2fa',
   },
   
   // User endpoints
@@ -32,7 +32,7 @@ export const API_ENDPOINTS = {
     SETTINGS: '/users/settings',
     PREFERENCES: '/users/preferences',
     ACTIVITY: '/users/activity',
-    SESSIONS: '/users/sessions'
+    SESSIONS: '/users/sessions',
   },
   
   // Affiliate endpoints
@@ -45,7 +45,7 @@ export const API_ENDPOINTS = {
     EARNINGS: '/affiliates/earnings',
     PAYOUTS: '/affiliates/payouts',
     STATS: '/affiliates/stats',
-    PRODUCTS: '/affiliates/products'
+    PRODUCTS: '/affiliates/products',
   },
   
   // Payment endpoints
@@ -56,7 +56,7 @@ export const API_ENDPOINTS = {
     REFUND: '/payments/refund',
     METHODS: '/payments/methods',
     TRANSACTIONS: '/payments/transactions',
-    WITHDRAWALS: '/payments/withdrawals'
+    WITHDRAWALS: '/payments/withdrawals',
   },
   
   // Admin endpoints
@@ -69,7 +69,7 @@ export const API_ENDPOINTS = {
     ANALYTICS: '/admin/analytics',
     SETTINGS: '/admin/settings',
     LOGS: '/admin/logs',
-    SYSTEM: '/admin/system'
+    SYSTEM: '/admin/system',
   },
   
   // Support endpoints
@@ -77,8 +77,8 @@ export const API_ENDPOINTS = {
     BASE: '/support',
     TICKETS: '/support/tickets',
     FAQ: '/support/faq',
-    CHAT: '/support/chat'
-  }
+    CHAT: '/support/chat',
+  },
 };
 
 // ==================== HTTP Constants ====================
@@ -90,7 +90,7 @@ export const HTTP_METHODS = {
   PATCH: 'PATCH',
   DELETE: 'DELETE',
   HEAD: 'HEAD',
-  OPTIONS: 'OPTIONS'
+  OPTIONS: 'OPTIONS',
 };
 
 export const HTTP_STATUS = {
@@ -122,7 +122,7 @@ export const HTTP_STATUS = {
   NOT_IMPLEMENTED: 501,
   BAD_GATEWAY: 502,
   SERVICE_UNAVAILABLE: 503,
-  GATEWAY_TIMEOUT: 504
+  GATEWAY_TIMEOUT: 504,
 };
 
 export const HTTP_HEADERS = {
@@ -133,7 +133,7 @@ export const HTTP_HEADERS = {
   USER_AGENT: 'User-Agent',
   X_REQUESTED_WITH: 'X-Requested-With',
   X_CSRF_TOKEN: 'X-CSRF-Token',
-  X_API_KEY: 'X-API-Key'
+  X_API_KEY: 'X-API-Key',
 };
 
 export const CONTENT_TYPES = {
@@ -145,7 +145,7 @@ export const CONTENT_TYPES = {
   XML: 'application/xml',
   PDF: 'application/pdf',
   CSV: 'text/csv',
-  BLOB: 'application/octet-stream'
+  BLOB: 'application/octet-stream',
 };
 
 // ==================== User Constants ====================
@@ -155,7 +155,7 @@ export const USER_ROLES = {
   AFFILIATE: 'affiliate',
   MODERATOR: 'moderator',
   ADMIN: 'admin',
-  SUPER_ADMIN: 'super_admin'
+  SUPER_ADMIN: 'super_admin',
 };
 
 export const USER_STATUSES = {
@@ -164,7 +164,7 @@ export const USER_STATUSES = {
   SUSPENDED: 'suspended',
   BANNED: 'banned',
   PENDING: 'pending',
-  DELETED: 'deleted'
+  DELETED: 'deleted',
 };
 
 export const ACCOUNT_TYPES = {
@@ -172,7 +172,7 @@ export const ACCOUNT_TYPES = {
   BASIC: 'basic',
   PREMIUM: 'premium',
   PROFESSIONAL: 'professional',
-  ENTERPRISE: 'enterprise'
+  ENTERPRISE: 'enterprise',
 };
 
 export const VERIFICATION_LEVELS = {
@@ -180,21 +180,21 @@ export const VERIFICATION_LEVELS = {
   EMAIL_VERIFIED: 1,
   PHONE_VERIFIED: 2,
   ID_VERIFIED: 3,
-  KYC_VERIFIED: 4
+  KYC_VERIFIED: 4,
 };
 
 export const GENDERS = {
   MALE: 'male',
   FEMALE: 'female',
   OTHER: 'other',
-  PREFER_NOT_TO_SAY: 'prefer_not_to_say'
+  PREFER_NOT_TO_SAY: 'prefer_not_to_say',
 };
 
 export const MARITAL_STATUS = {
   SINGLE: 'single',
   MARRIED: 'married',
   DIVORCED: 'divorced',
-  WIDOWED: 'widowed'
+  WIDOWED: 'widowed',
 };
 
 // ==================== Affiliate Constants ====================
@@ -204,7 +204,7 @@ export const COMMISSION_TYPES = {
   FIXED: 'fixed',
   TIERED: 'tiered',
   RECURRING: 'recurring',
-  LIFETIME: 'lifetime'
+  LIFETIME: 'lifetime',
 };
 
 export const COMMISSION_STATUSES = {
@@ -213,7 +213,7 @@ export const COMMISSION_STATUSES = {
   PAID: 'paid',
   CANCELLED: 'cancelled',
   REFUNDED: 'refunded',
-  REJECTED: 'rejected'
+  REJECTED: 'rejected',
 };
 
 export const REFERRAL_STATUSES = {
@@ -221,7 +221,7 @@ export const REFERRAL_STATUSES = {
   ACTIVE: 'active',
   CONVERTED: 'converted',
   EXPIRED: 'expired',
-  CANCELLED: 'cancelled'
+  CANCELLED: 'cancelled',
 };
 
 export const LINK_TYPES = {
@@ -232,7 +232,7 @@ export const LINK_TYPES = {
   VIDEO: 'video',
   SOCIAL: 'social',
   QR: 'qr',
-  COUPON: 'coupon'
+  COUPON: 'coupon',
 };
 
 export const LINK_STATUSES = {
@@ -240,7 +240,7 @@ export const LINK_STATUSES = {
   INACTIVE: 'inactive',
   EXPIRED: 'expired',
   PAUSED: 'paused',
-  DELETED: 'deleted'
+  DELETED: 'deleted',
 };
 
 export const AFFILIATE_LEVELS = {
@@ -249,7 +249,7 @@ export const AFFILIATE_LEVELS = {
   GOLD: 'gold',
   PLATINUM: 'platinum',
   DIAMOND: 'diamond',
-  ELITE: 'elite'
+  ELITE: 'elite',
 };
 
 export const DEFAULT_COMMISSION_RATES = {
@@ -258,7 +258,7 @@ export const DEFAULT_COMMISSION_RATES = {
   [AFFILIATE_LEVELS.GOLD]: 15,
   [AFFILIATE_LEVELS.PLATINUM]: 20,
   [AFFILIATE_LEVELS.DIAMOND]: 25,
-  [AFFILIATE_LEVELS.ELITE]: 30
+  [AFFILIATE_LEVELS.ELITE]: 30,
 };
 
 // ==================== Payment Constants ====================
@@ -272,7 +272,7 @@ export const PAYMENT_GATEWAYS = {
   INSTAMOJO: 'instamojo',
   CCAVENUE: 'ccavenue',
   BILLDESK: 'billdesk',
-  PHONEPE: 'phonepe'
+  PHONEPE: 'phonepe',
 };
 
 export const PAYMENT_METHODS = {
@@ -284,7 +284,7 @@ export const PAYMENT_METHODS = {
   PAYPAL: 'paypal',
   CRYPTO: 'crypto',
   BANK_TRANSFER: 'bank_transfer',
-  CASH: 'cash'
+  CASH: 'cash',
 };
 
 export const PAYMENT_STATUSES = {
@@ -296,7 +296,7 @@ export const PAYMENT_STATUSES = {
   PARTIALLY_REFUNDED: 'partially_refunded',
   CANCELLED: 'cancelled',
   DISPUTED: 'disputed',
-  CHARGEBACK: 'chargeback'
+  CHARGEBACK: 'chargeback',
 };
 
 export const TRANSACTION_TYPES = {
@@ -306,7 +306,7 @@ export const TRANSACTION_TYPES = {
   DEPOSIT: 'deposit',
   COMMISSION: 'commission',
   BONUS: 'bonus',
-  ADJUSTMENT: 'adjustment'
+  ADJUSTMENT: 'adjustment',
 };
 
 export const CURRENCIES = {
@@ -319,7 +319,7 @@ export const CURRENCIES = {
   AUD: 'AUD',
   CAD: 'CAD',
   SGD: 'SGD',
-  AED: 'AED'
+  AED: 'AED',
 };
 
 export const WITHDRAWAL_METHODS = {
@@ -328,7 +328,7 @@ export const WITHDRAWAL_METHODS = {
   UPI: 'upi',
   PAYONEER: 'payoneer',
   WISE: 'wise',
-  CRYPTO: 'crypto'
+  CRYPTO: 'crypto',
 };
 
 export const WITHDRAWAL_STATUSES = {
@@ -337,7 +337,7 @@ export const WITHDRAWAL_STATUSES = {
   COMPLETED: 'completed',
   FAILED: 'failed',
   CANCELLED: 'cancelled',
-  REJECTED: 'rejected'
+  REJECTED: 'rejected',
 };
 
 export const MINIMUM_WITHDRAWAL = {
@@ -346,7 +346,7 @@ export const MINIMUM_WITHDRAWAL = {
   [WITHDRAWAL_METHODS.UPI]: 10,
   [WITHDRAWAL_METHODS.PAYONEER]: 20,
   [WITHDRAWAL_METHODS.WISE]: 20,
-  [WITHDRAWAL_METHODS.CRYPTO]: 50
+  [WITHDRAWAL_METHODS.CRYPTO]: 50,
 };
 
 // ==================== Notification Constants ====================
@@ -364,14 +364,14 @@ export const NOTIFICATION_TYPES = {
   REMINDER: 'reminder',
   PROMOTION: 'promotion',
   SECURITY: 'security',
-  SYSTEM: 'system'
+  SYSTEM: 'system',
 };
 
 export const NOTIFICATION_PRIORITIES = {
   LOW: 'low',
   MEDIUM: 'medium',
   HIGH: 'high',
-  URGENT: 'urgent'
+  URGENT: 'urgent',
 };
 
 export const NOTIFICATION_CHANNELS = {
@@ -380,7 +380,7 @@ export const NOTIFICATION_CHANNELS = {
   SMS: 'sms',
   PUSH: 'push',
   WHATSAPP: 'whatsapp',
-  TELEGRAM: 'telegram'
+  TELEGRAM: 'telegram',
 };
 
 // ==================== Analytics Constants ====================
@@ -392,7 +392,7 @@ export const TIME_PERIODS = {
   MONTHLY: 'monthly',
   QUARTERLY: 'quarterly',
   YEARLY: 'yearly',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 export const METRIC_TYPES = {
@@ -401,7 +401,7 @@ export const METRIC_TYPES = {
   AVERAGE: 'average',
   PERCENTAGE: 'percentage',
   RATE: 'rate',
-  RATIO: 'ratio'
+  RATIO: 'ratio',
 };
 
 export const CHART_TYPES = {
@@ -412,7 +412,7 @@ export const CHART_TYPES = {
   AREA: 'area',
   RADAR: 'radar',
   SCATTER: 'scatter',
-  HEATMAP: 'heatmap'
+  HEATMAP: 'heatmap',
 };
 
 // ==================== Storage Constants ====================
@@ -428,7 +428,7 @@ export const STORAGE_KEYS = {
   PREFERENCES: 'user_preferences',
   CART: 'shopping_cart',
   WISHLIST: 'wishlist',
-  RECENT_VIEWS: 'recent_views'
+  RECENT_VIEWS: 'recent_views',
 };
 
 export const STORAGE_TYPES = {
@@ -436,7 +436,7 @@ export const STORAGE_TYPES = {
   SESSION: 'session',
   MEMORY: 'memory',
   INDEXED_DB: 'indexed_db',
-  COOKIE: 'cookie'
+  COOKIE: 'cookie',
 };
 
 // ==================== Route Constants ====================
@@ -479,7 +479,7 @@ export const ROUTES = {
   
   NOT_FOUND: '/404',
   SERVER_ERROR: '/500',
-  UNAUTHORIZED: '/unauthorized'
+  UNAUTHORIZED: '/unauthorized',
 };
 
 // ==================== Validation Constants ====================
@@ -509,8 +509,8 @@ export const VALIDATION_RULES = {
     LOGIN: 5, // attempts per 15 minutes
     REGISTER: 3,
     PASSWORD_RESET: 3,
-    API: 100 // requests per minute
-  }
+    API: 100, // requests per minute
+  },
 };
 
 // ==================== UI Constants ====================
@@ -521,21 +521,21 @@ export const BREAKPOINTS = {
   MD: 768,
   LG: 992,
   XL: 1200,
-  XXL: 1400
+  XXL: 1400,
 };
 
 export const DEVICE_SIZES = {
   MOBILE: 'mobile',
   TABLET: 'tablet',
   DESKTOP: 'desktop',
-  LARGE_DESKTOP: 'large_desktop'
+  LARGE_DESKTOP: 'large_desktop',
 };
 
 export const THEMES = {
   LIGHT: 'light',
   DARK: 'dark',
   SYSTEM: 'system',
-  HIGH_CONTRAST: 'high_contrast'
+  HIGH_CONTRAST: 'high_contrast',
 };
 
 export const LANGUAGES = {
@@ -548,7 +548,7 @@ export const LANGUAGES = {
   UR: 'ur',
   GU: 'gu',
   KN: 'kn',
-  ML: 'ml'
+  ML: 'ml',
 };
 
 export const DATE_FORMATS = {
@@ -556,24 +556,24 @@ export const DATE_FORMATS = {
   UK: 'DD/MM/YYYY',
   ISO: 'YYYY-MM-DD',
   LONG: 'MMMM D, YYYY',
-  SHORT: 'MMM D, YYYY'
+  SHORT: 'MMM D, YYYY',
 };
 
 export const TIME_FORMATS = {
   H12: '12h',
-  H24: '24h'
+  H24: '24h',
 };
 
 export const PAGINATION = {
   DEFAULT_PAGE: 1,
   DEFAULT_LIMIT: 10,
   LIMITS: [10, 25, 50, 100],
-  MAX_LIMIT: 100
+  MAX_LIMIT: 100,
 };
 
 export const SORT_ORDERS = {
   ASC: 'asc',
-  DESC: 'desc'
+  DESC: 'desc',
 };
 
 export const TOAST_POSITIONS = {
@@ -582,7 +582,7 @@ export const TOAST_POSITIONS = {
   BOTTOM_RIGHT: 'bottom-right',
   BOTTOM_LEFT: 'bottom-left',
   TOP_CENTER: 'top-center',
-  BOTTOM_CENTER: 'bottom-center'
+  BOTTOM_CENTER: 'bottom-center',
 };
 
 export const MODAL_SIZES = {
@@ -590,14 +590,14 @@ export const MODAL_SIZES = {
   MD: 'md',
   LG: 'lg',
   XL: 'xl',
-  FULL: 'full'
+  FULL: 'full',
 };
 
 export const ALERT_TYPES = {
   SUCCESS: 'success',
   ERROR: 'error',
   WARNING: 'warning',
-  INFO: 'info'
+  INFO: 'info',
 };
 
 // ==================== Social Media Constants ====================
@@ -612,14 +612,14 @@ export const SOCIAL_PLATFORMS = {
   REDDIT: 'reddit',
   TELEGRAM: 'telegram',
   WHATSAPP: 'whatsapp',
-  DISCORD: 'discord'
+  DISCORD: 'discord',
 };
 
 export const SOCIAL_SHARE_MESSAGES = {
   FACEBOOK: 'Check this out!',
   TWITTER: 'Check this out!',
   WHATSAPP: 'Check this out!',
-  TELEGRAM: 'Check this out!'
+  TELEGRAM: 'Check this out!',
 };
 
 // ==================== Regex Patterns ====================
@@ -638,7 +638,7 @@ export const REGEX = {
   CREDIT_CARD: /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/,
   CVV: /^[0-9]{3,4}$/,
   ZIP_CODE: /^\d{5}(-\d{4})?$/,
-  UUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  UUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
 };
 
 // ==================== App Constants ====================
@@ -656,20 +656,20 @@ export const SOCIAL_LINKS = {
   INSTAGRAM: 'https://instagram.com/affiliateplatform',
   LINKEDIN: 'https://linkedin.com/company/affiliateplatform',
   YOUTUBE: 'https://youtube.com/affiliateplatform',
-  GITHUB: 'https://github.com/affiliateplatform'
+  GITHUB: 'https://github.com/affiliateplatform',
 };
 
 export const COOKIE_CONSENT = {
   NECESSARY: 'necessary',
   FUNCTIONAL: 'functional',
   ANALYTICS: 'analytics',
-  MARKETING: 'marketing'
+  MARKETING: 'marketing',
 };
 
 export const MAINTENANCE_MODES = {
   OFF: 'off',
   ON: 'on',
-  SCHEDULED: 'scheduled'
+  SCHEDULED: 'scheduled',
 };
 
 // ==================== Error Messages ====================
@@ -709,7 +709,7 @@ export const ERROR_MESSAGES = {
   // Server errors
   SERVER_ERROR: 'Internal server error',
   SERVICE_UNAVAILABLE: 'Service temporarily unavailable',
-  NETWORK_ERROR: 'Network error occurred'
+  NETWORK_ERROR: 'Network error occurred',
 };
 
 // ==================== Success Messages ====================
@@ -735,7 +735,7 @@ export const SUCCESS_MESSAGES = {
   
   // Settings success
   SETTINGS_SAVED: 'Settings saved successfully',
-  PREFERENCES_UPDATED: 'Preferences updated successfully'
+  PREFERENCES_UPDATED: 'Preferences updated successfully',
 };
 
 // ==================== Export all constants ====================
@@ -802,5 +802,5 @@ export default {
   COOKIE_CONSENT,
   MAINTENANCE_MODES,
   ERROR_MESSAGES,
-  SUCCESS_MESSAGES
+  SUCCESS_MESSAGES,
 };

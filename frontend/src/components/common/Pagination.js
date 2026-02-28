@@ -4,7 +4,7 @@ import {
   FiChevronRight,
   FiChevronsLeft,
   FiChevronsRight,
-  FiMoreHorizontal
+  FiMoreHorizontal,
 } from 'react-icons/fi';
 
 const Pagination = ({
@@ -57,13 +57,13 @@ const Pagination = ({
     } else if (shouldShowLeftDots && !shouldShowRightDots) {
       const rightRange = Array.from(
         { length: 2 * siblingCount + 3 },
-        (_, i) => totalPages - (2 * siblingCount + 2) + i
+        (_, i) => totalPages - (2 * siblingCount + 2) + i,
       );
       setPages([1, '...', ...rightRange]);
     } else if (shouldShowLeftDots && shouldShowRightDots) {
       const middleRange = Array.from(
         { length: rightSibling - leftSibling + 1 },
-        (_, i) => leftSibling + i
+        (_, i) => leftSibling + i,
       );
       setPages([1, '...', ...middleRange, '...', totalPages]);
     }
@@ -88,21 +88,21 @@ const Pagination = ({
   const sizeClasses = {
     small: 'pagination-small',
     medium: 'pagination-medium',
-    large: 'pagination-large'
+    large: 'pagination-large',
   };
 
   // Variant classes
   const variantClasses = {
     outlined: 'pagination-outlined',
     solid: 'pagination-solid',
-    minimal: 'pagination-minimal'
+    minimal: 'pagination-minimal',
   };
 
   // Shape classes
   const shapeClasses = {
     rounded: 'pagination-rounded',
     circle: 'pagination-circle',
-    square: 'pagination-square'
+    square: 'pagination-square',
   };
 
   // Calculate range
@@ -541,7 +541,7 @@ export const InfinitePagination = ({
   onLoadMore,
   loading = false,
   threshold = 100,
-  children
+  children,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = React.useRef(null);

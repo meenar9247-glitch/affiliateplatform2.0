@@ -13,7 +13,7 @@ import {
   FiHeart,
   FiBell,
   FiMail,
-  FiMessageSquare
+  FiMessageSquare,
 } from 'react-icons/fi';
 
 const Badge = ({
@@ -36,14 +36,14 @@ const Badge = ({
   const sizeClasses = {
     small: 'badge-small',
     medium: 'badge-medium',
-    large: 'badge-large'
+    large: 'badge-large',
   };
 
   // Shape classes
   const shapeClasses = {
     rounded: 'badge-rounded',
     circle: 'badge-circle',
-    square: 'badge-square'
+    square: 'badge-square',
   };
 
   // Color classes based on variant
@@ -55,7 +55,7 @@ const Badge = ({
         success: 'badge-success-solid',
         danger: 'badge-danger-solid',
         warning: 'badge-warning-solid',
-        info: 'badge-info-solid'
+        info: 'badge-info-solid',
       },
       outlined: {
         primary: 'badge-primary-outlined',
@@ -63,7 +63,7 @@ const Badge = ({
         success: 'badge-success-outlined',
         danger: 'badge-danger-outlined',
         warning: 'badge-warning-outlined',
-        info: 'badge-info-outlined'
+        info: 'badge-info-outlined',
       },
       subtle: {
         primary: 'badge-primary-subtle',
@@ -71,8 +71,8 @@ const Badge = ({
         success: 'badge-success-subtle',
         danger: 'badge-danger-subtle',
         warning: 'badge-warning-subtle',
-        info: 'badge-info-subtle'
-      }
+        info: 'badge-info-subtle',
+      },
     };
 
     return variants[variant]?.[color] || variants.solid.primary;
@@ -505,7 +505,7 @@ export const StatusBadge = ({ status, ...props }) => {
     new: { color: 'success', label: 'New', icon: FiStar },
     popular: { color: 'warning', label: 'Popular', icon: FiTrendingUp },
     admin: { color: 'danger', label: 'Admin', icon: FiShield },
-    user: { color: 'primary', label: 'User', icon: FiUsers }
+    user: { color: 'primary', label: 'User', icon: FiUsers },
   };
 
   const config = statusConfig[status] || statusConfig.pending;
@@ -529,7 +529,7 @@ export const RoleBadge = ({ role, ...props }) => {
     user: { color: 'primary', label: 'User', icon: FiUsers },
     guest: { color: 'secondary', label: 'Guest', icon: FiUsers },
     affiliate: { color: 'success', label: 'Affiliate', icon: FiUsers },
-    manager: { color: 'info', label: 'Manager', icon: FiUsers }
+    manager: { color: 'info', label: 'Manager', icon: FiUsers },
   };
 
   const config = roleConfig[role] || roleConfig.user;
@@ -583,7 +583,7 @@ export const PremiumBadge = ({ type = 'pro', ...props }) => {
     vip: { color: 'warning', label: 'VIP', icon: FiStar },
     gold: { color: 'warning', label: 'GOLD', icon: FiStar },
     silver: { color: 'secondary', label: 'SILVER', icon: FiStar },
-    bronze: { color: 'warning', label: 'BRONZE', icon: FiStar }
+    bronze: { color: 'warning', label: 'BRONZE', icon: FiStar },
   };
 
   const { color, label, icon } = config[type] || config.pro;

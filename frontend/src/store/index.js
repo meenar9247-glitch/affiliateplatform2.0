@@ -1,29 +1,29 @@
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import sessionStorage from 'redux-persist/lib/storage/session';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import { createEpicMiddleware } from 'redux-observable';
-import { createBrowserHistory } from 'history';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore, persistReducer } from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import storage from 'redux-persist/lib/storage';
+import sessionStorage from 'redux-persist/lib/storage/session';
+import thunk from 'redux-thunk';
 
 // Import reducers
-import authReducer from './slices/authSlice';
-import userReducer from './slices/userSlice';
-import affiliateReducer from './slices/affiliateSlice';
-import paymentReducer from './slices/paymentSlice';
-import notificationReducer from './slices/notificationSlice';
-import uiReducer from './slices/uiSlice';
-import settingsReducer from './slices/settingsSlice';
-import analyticsReducer from './slices/analyticsSlice';
-import supportReducer from './slices/supportSlice';
+import { rootEpic } from './epics';
 import adminReducer from './slices/adminSlice';
+import affiliateReducer from './slices/affiliateSlice';
+import analyticsReducer from './slices/analyticsSlice';
+import authReducer from './slices/authSlice';
+import notificationReducer from './slices/notificationSlice';
+import paymentReducer from './slices/paymentSlice';
+import settingsReducer from './slices/settingsSlice';
+import supportReducer from './slices/supportSlice';
+import uiReducer from './slices/uiSlice';
+import userReducer from './slices/userSlice';
 
 // Import epics
-import { rootEpic } from './epics';
 
 // ==================== History ====================
 
@@ -39,28 +39,28 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
   version: 1,
   timeout: 0,
-  transforms: []
+  transforms: [],
 };
 
 const authPersistConfig = {
   key: 'auth',
   storage: storage,
   whitelist: ['user', 'token', 'isAuthenticated'],
-  blacklist: ['loading', 'error']
+  blacklist: ['loading', 'error'],
 };
 
 const settingsPersistConfig = {
   key: 'settings',
   storage: storage,
   whitelist: ['theme', 'language', 'currency', 'notifications'],
-  blacklist: ['loading', 'error']
+  blacklist: ['loading', 'error'],
 };
 
 const uiPersistConfig = {
   key: 'ui',
   storage: sessionStorage, // Use session storage for UI state
   whitelist: ['sidebar', 'theme', 'layout'],
-  blacklist: ['modals', 'toasts']
+  blacklist: ['modals', 'toasts'],
 };
 
 // ==================== Root Reducer ====================
@@ -76,7 +76,7 @@ const rootReducer = combineReducers({
   settings: persistReducer(settingsPersistConfig, settingsReducer),
   analytics: analyticsReducer,
   support: supportReducer,
-  admin: adminReducer
+  admin: adminReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -88,7 +88,7 @@ const epicMiddleware = createEpicMiddleware();
 const middleware = [
   thunk,
   routerMiddleware(history),
-  epicMiddleware
+  epicMiddleware,
 ];
 
 // Add logger only in development
@@ -104,8 +104,8 @@ if (process.env.NODE_ENV === 'development') {
       prevState: () => '#1C5FAF',
       action: () => '#149945',
       nextState: () => '#A47104',
-      error: () => '#ff0005'
-    }
+      error: () => '#ff0005',
+    },
   });
   middleware.push(logger);
 }
@@ -120,7 +120,7 @@ if (process.env.NODE_ENV === 'development') {
   composeEnhancers = composeWithDevTools({
     name: 'Affiliate Platform',
     trace: true,
-    traceLimit: 25
+    traceLimit: 25,
   });
 }
 
@@ -130,8 +130,8 @@ export const store = createStore(
   persistedReducer,
   composeEnhancers(
     applyMiddleware(...middleware),
-    ...enhancers
-  )
+    ...enhancers,
+  ),
 );
 
 // ==================== Epic Middleware ====================
@@ -179,7 +179,7 @@ export const storeActions = {
   // Resume persistence
   resume: () => {
     persistor.resume();
-  }
+  },
 };
 // ==================== Store Selectors ====================
 
@@ -194,7 +194,7 @@ export const storeSelectors = {
     getRole: (state) => state.auth.user?.role,
     hasRole: (state, role) => state.auth.user?.role === role,
     hasAnyRole: (state, roles) => roles.includes(state.auth.user?.role),
-    isEmailVerified: (state) => state.auth.user?.isEmailVerified
+    isEmailVerified: (state) => state.auth.user?.isEmailVerified,
   },
 
   // User selectors
@@ -205,7 +205,7 @@ export const storeSelectors = {
     getStats: (state) => state.user.stats,
     getActivity: (state) => state.user.activity,
     isLoading: (state) => state.user.loading,
-    getError: (state) => state.user.error
+    getError: (state) => state.user.error,
   },
 
   // Affiliate selectors
@@ -219,7 +219,7 @@ export const storeSelectors = {
     getProducts: (state) => state.affiliate.products,
     getAnalytics: (state) => state.affiliate.analytics,
     isLoading: (state) => state.affiliate.loading,
-    getError: (state) => state.affiliate.error
+    getError: (state) => state.affiliate.error,
   },
 
   // Payment selectors
@@ -231,7 +231,7 @@ export const storeSelectors = {
     getPendingWithdrawals: (state) => state.payment.pendingWithdrawals,
     getCompletedWithdrawals: (state) => state.payment.completedWithdrawals,
     isLoading: (state) => state.payment.loading,
-    getError: (state) => state.payment.error
+    getError: (state) => state.payment.error,
   },
 
   // Notification selectors
@@ -242,7 +242,7 @@ export const storeSelectors = {
     getUnreadCount: (state) => state.notification.notifications.filter(n => !n.read).length,
     getSettings: (state) => state.notification.settings,
     isLoading: (state) => state.notification.loading,
-    getError: (state) => state.notification.error
+    getError: (state) => state.notification.error,
   },
 
   // UI selectors
@@ -256,7 +256,7 @@ export const storeSelectors = {
     isModalOpen: (state, modalId) => state.ui.modals[modalId] || false,
     isSidebarOpen: (state) => state.ui.sidebar.open,
     getSidebarWidth: (state) => state.ui.sidebar.width,
-    getLayout: (state) => state.ui.layout
+    getLayout: (state) => state.ui.layout,
   },
 
   // Settings selectors
@@ -268,7 +268,7 @@ export const storeSelectors = {
     getNotifications: (state) => state.settings.notifications,
     getPrivacy: (state) => state.settings.privacy,
     isLoading: (state) => state.settings.loading,
-    getError: (state) => state.settings.error
+    getError: (state) => state.settings.error,
   },
 
   // Analytics selectors
@@ -280,7 +280,7 @@ export const storeSelectors = {
     getReports: (state) => state.analytics.reports,
     getMetrics: (state) => state.analytics.metrics,
     isLoading: (state) => state.analytics.loading,
-    getError: (state) => state.analytics.error
+    getError: (state) => state.analytics.error,
   },
 
   // Support selectors
@@ -292,7 +292,7 @@ export const storeSelectors = {
     getCategories: (state) => state.support.categories,
     isLoading: (state) => state.support.loading,
     getError: (state) => state.support.error,
-    getUnreadMessages: (state) => state.support.unreadMessages
+    getUnreadMessages: (state) => state.support.unreadMessages,
   },
 
   // Admin selectors
@@ -307,7 +307,7 @@ export const storeSelectors = {
     getSettings: (state) => state.admin.settings,
     isLoading: (state) => state.admin.loading,
     getError: (state) => state.admin.error,
-    getStats: (state) => state.admin.stats
+    getStats: (state) => state.admin.stats,
   },
 
   // Router selectors
@@ -320,8 +320,8 @@ export const storeSelectors = {
       const search = state.router.location?.search;
       if (!search) return {};
       return Object.fromEntries(new URLSearchParams(search));
-    }
-  }
+    },
+  },
 };
 
 // ==================== Store Dispatchers ====================
@@ -336,7 +336,7 @@ export const storeDispatchers = {
     changePassword: (passwords) => store.dispatch({ type: 'auth/changePassword', payload: passwords }),
     verifyEmail: (token) => store.dispatch({ type: 'auth/verifyEmail', payload: token }),
     resetPassword: (data) => store.dispatch({ type: 'auth/resetPassword', payload: data }),
-    refreshToken: () => store.dispatch({ type: 'auth/refreshToken' })
+    refreshToken: () => store.dispatch({ type: 'auth/refreshToken' }),
   },
 
   // User dispatchers
@@ -348,7 +348,7 @@ export const storeDispatchers = {
     fetchPreferences: () => store.dispatch({ type: 'user/fetchPreferences' }),
     updatePreferences: (preferences) => store.dispatch({ type: 'user/updatePreferences', payload: preferences }),
     fetchActivity: () => store.dispatch({ type: 'user/fetchActivity' }),
-    fetchStats: () => store.dispatch({ type: 'user/fetchStats' })
+    fetchStats: () => store.dispatch({ type: 'user/fetchStats' }),
   },
 
   // Affiliate dispatchers
@@ -364,7 +364,7 @@ export const storeDispatchers = {
     fetchPayouts: () => store.dispatch({ type: 'affiliate/fetchPayouts' }),
     requestPayout: (amount) => store.dispatch({ type: 'affiliate/requestPayout', payload: amount }),
     fetchProducts: () => store.dispatch({ type: 'affiliate/fetchProducts' }),
-    fetchAnalytics: () => store.dispatch({ type: 'affiliate/fetchAnalytics' })
+    fetchAnalytics: () => store.dispatch({ type: 'affiliate/fetchAnalytics' }),
   },
 
   // Payment dispatchers
@@ -376,7 +376,7 @@ export const storeDispatchers = {
     addPaymentMethod: (method) => store.dispatch({ type: 'payment/addPaymentMethod', payload: method }),
     removePaymentMethod: (methodId) => store.dispatch({ type: 'payment/removePaymentMethod', payload: methodId }),
     processPayment: (paymentData) => store.dispatch({ type: 'payment/processPayment', payload: paymentData }),
-    requestWithdrawal: (withdrawalData) => store.dispatch({ type: 'payment/requestWithdrawal', payload: withdrawalData })
+    requestWithdrawal: (withdrawalData) => store.dispatch({ type: 'payment/requestWithdrawal', payload: withdrawalData }),
   },
 
   // Notification dispatchers
@@ -386,7 +386,7 @@ export const storeDispatchers = {
     markAllAsRead: () => store.dispatch({ type: 'notification/markAllAsRead' }),
     deleteNotification: (notificationId) => store.dispatch({ type: 'notification/deleteNotification', payload: notificationId }),
     clearAll: () => store.dispatch({ type: 'notification/clearAll' }),
-    updateSettings: (settings) => store.dispatch({ type: 'notification/updateSettings', payload: settings })
+    updateSettings: (settings) => store.dispatch({ type: 'notification/updateSettings', payload: settings }),
   },
 
   // UI dispatchers
@@ -399,7 +399,7 @@ export const storeDispatchers = {
     showToast: (toast) => store.dispatch({ type: 'ui/showToast', payload: toast }),
     hideToast: (toastId) => store.dispatch({ type: 'ui/hideToast', payload: toastId }),
     setLoading: (loading) => store.dispatch({ type: 'ui/setLoading', payload: loading }),
-    setLayout: (layout) => store.dispatch({ type: 'ui/setLayout', payload: layout })
+    setLayout: (layout) => store.dispatch({ type: 'ui/setLayout', payload: layout }),
   },
 
   // Settings dispatchers
@@ -410,7 +410,7 @@ export const storeDispatchers = {
     setTheme: (theme) => store.dispatch({ type: 'settings/setTheme', payload: theme }),
     setLanguage: (language) => store.dispatch({ type: 'settings/setLanguage', payload: language }),
     setCurrency: (currency) => store.dispatch({ type: 'settings/setCurrency', payload: currency }),
-    setTimezone: (timezone) => store.dispatch({ type: 'settings/setTimezone', payload: timezone })
+    setTimezone: (timezone) => store.dispatch({ type: 'settings/setTimezone', payload: timezone }),
   },
 
   // Analytics dispatchers
@@ -421,7 +421,7 @@ export const storeDispatchers = {
     fetchEarnings: () => store.dispatch({ type: 'analytics/fetchEarnings' }),
     fetchReports: () => store.dispatch({ type: 'analytics/fetchReports' }),
     generateReport: (params) => store.dispatch({ type: 'analytics/generateReport', payload: params }),
-    exportData: (format) => store.dispatch({ type: 'analytics/exportData', payload: format })
+    exportData: (format) => store.dispatch({ type: 'analytics/exportData', payload: format }),
   },
 
   // Support dispatchers
@@ -433,7 +433,7 @@ export const storeDispatchers = {
     deleteTicket: (ticketId) => store.dispatch({ type: 'support/deleteTicket', payload: ticketId }),
     sendMessage: (messageData) => store.dispatch({ type: 'support/sendMessage', payload: messageData }),
     fetchFaqs: () => store.dispatch({ type: 'support/fetchFaqs' }),
-    fetchCategories: () => store.dispatch({ type: 'support/fetchCategories' })
+    fetchCategories: () => store.dispatch({ type: 'support/fetchCategories' }),
   },
 
   // Admin dispatchers
@@ -452,8 +452,8 @@ export const storeDispatchers = {
     fetchAnalytics: () => store.dispatch({ type: 'admin/fetchAnalytics' }),
     fetchLogs: () => store.dispatch({ type: 'admin/fetchLogs' }),
     fetchSystem: () => store.dispatch({ type: 'admin/fetchSystem' }),
-    updateSettings: (settings) => store.dispatch({ type: 'admin/updateSettings', payload: settings })
-  }
+    updateSettings: (settings) => store.dispatch({ type: 'admin/updateSettings', payload: settings }),
+  },
 };
 // ==================== Custom Hooks ====================
 
@@ -505,7 +505,7 @@ export const useAffiliateState = () => {
   const isLoading = useAppSelector(storeSelectors.affiliate.isLoading);
   
   return useMemo(() => ({
-    dashboard, links, referrals, earnings, commissions, payouts, products, analytics, isLoading
+    dashboard, links, referrals, earnings, commissions, payouts, products, analytics, isLoading,
   }), [dashboard, links, referrals, earnings, commissions, payouts, products, analytics, isLoading]);
 };
 
@@ -595,7 +595,7 @@ export const useAdminState = () => {
   const isLoading = useAppSelector(storeSelectors.admin.isLoading);
   
   return useMemo(() => ({
-    users, affiliates, payments, reports, analytics, logs, system, settings, stats, isLoading
+    users, affiliates, payments, reports, analytics, logs, system, settings, stats, isLoading,
   }), [users, affiliates, payments, reports, analytics, logs, system, settings, stats, isLoading]);
 };
 
@@ -643,7 +643,7 @@ export const storeUtils = {
   createAsyncAction: (type) => ({
     request: (payload) => ({ type: `${type}_REQUEST`, payload }),
     success: (payload) => ({ type: `${type}_SUCCESS`, payload }),
-    failure: (error) => ({ type: `${type}_FAILURE`, payload: error })
+    failure: (error) => ({ type: `${type}_FAILURE`, payload: error }),
   }),
 
   // Wait for action
@@ -701,7 +701,7 @@ export const storeUtils = {
       result[key] = selector(state);
     }
     return result;
-  }
+  },
 };
 
 // ==================== Export all ====================
@@ -725,5 +725,5 @@ export default {
   useSettingsState,
   useAnalyticsState,
   useSupportState,
-  useAdminState
+  useAdminState,
 };

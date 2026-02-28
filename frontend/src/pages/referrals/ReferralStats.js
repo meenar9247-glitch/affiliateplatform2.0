@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiUsers,
@@ -23,8 +22,9 @@ import {
   FiChevronLeft,
   FiUserPlus,
   FiUserCheck,
-  FiUserX
+  FiUserX,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -40,7 +40,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts';
 
 const ReferralStats = () => {
@@ -56,18 +56,18 @@ const ReferralStats = () => {
       conversionRate: 0,
       totalEarned: 0,
       averagePerReferral: 0,
-      projectedEarnings: 0
+      projectedEarnings: 0,
     },
     timeline: {
       daily: [],
       weekly: [],
-      monthly: []
+      monthly: [],
     },
     breakdown: {
       byStatus: [],
       byTier: [],
       bySource: [],
-      byCountry: []
+      byCountry: [],
     },
     topReferrals: [],
     recentReferrals: [],
@@ -76,8 +76,8 @@ const ReferralStats = () => {
       { level: 'Silver', min: 11, max: 50, rate: 10, color: '#c0c0c0' },
       { level: 'Gold', min: 51, max: 100, rate: 15, color: '#ffd700' },
       { level: 'Platinum', min: 101, max: 500, rate: 20, color: '#e5e4e2' },
-      { level: 'Diamond', min: 501, max: Infinity, rate: 25, color: '#b9f2ff' }
-    ]
+      { level: 'Diamond', min: 501, max: Infinity, rate: 25, color: '#b9f2ff' },
+    ],
   });
   const [referralCode, setReferralCode] = useState('');
   const [referralLink, setReferralLink] = useState('');
@@ -92,7 +92,7 @@ const ReferralStats = () => {
       setLoading(true);
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/referrals/stats`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -108,7 +108,7 @@ const ReferralStats = () => {
   const fetchReferralCode = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/referrals/code`
+        `${process.env.REACT_APP_API_URL}/referrals/code`,
       );
       
       if (response.data.success) {
@@ -133,8 +133,8 @@ const ReferralStats = () => {
         `${process.env.REACT_APP_API_URL}/referrals/export`,
         {
           params: { format, timeRange },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -160,7 +160,7 @@ const ReferralStats = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount || 0);
   };
 
@@ -225,7 +225,7 @@ const ReferralStats = () => {
   const STATUS_COLORS = {
     active: '#28a745',
     pending: '#ffc107',
-    inactive: '#dc3545'
+    inactive: '#dc3545',
   };
 
   const SOURCE_COLORS = ['#667eea', '#764ba2', '#28a745', '#ffc107', '#17a2b8'];

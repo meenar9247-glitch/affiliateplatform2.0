@@ -1,5 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  FaGhost,
+  FaRocket,
+  FaSpaceShuttle,
+  FaSatellite,
+  FaUserAstronaut,
+  FaMeteor,
+  FaMoon,
+  FaSun,
+  FaStar,
+  FaGalacticRepublic,
+  FaJedi,
+  FaRobot,
+  FaBug,
+  FaSkull,
+  FaDragon,
+  FaPhoenixFramework,
+  FaMagic,
+  FaHatWizard,
+  FaCrown,
+  FaGem,
+  FaDiamond,
+  FaTrophy,
+} from 'react-icons/fa';
 import {
   FiAlertCircle,
   FiHome,
@@ -55,33 +78,10 @@ import {
   FiSave,
   FiClock,
   FiCalendar,
-  FiMapPin
+  FiMapPin,
 } from 'react-icons/fi';
-import {
-  FaGhost,
-  FaRocket,
-  FaSpaceShuttle,
-  FaSatellite,
-  FaUserAstronaut,
-  FaMeteor,
-  FaMoon,
-  FaSun,
-  FaStar,
-  FaGalacticRepublic,
-  FaJedi,
-  FaRobot,
-  FaBug,
-  FaSkull,
-  FaDragon,
-  FaPhoenixFramework,
-  FaMagic,
-  FaHatWizard,
-  FaCrown,
-  FaGem,
-  FaDiamond,
-  FaTrophy
-} from 'react-icons/fa';
 import { GiSpaceship, GiAlienSkull, GiGalaxy, GiPlanetConquest, GiBlackHoleBolas } from 'react-icons/gi';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -103,38 +103,38 @@ const NotFound = () => {
 
   // 404 jokes collection
   const jokes = [
-    { setup: "Why did the page go to therapy?", punchline: "It had too many 404 issues!" },
-    { setup: "What do you call a ghost page?", punchline: "A 404-boo!" },
-    { setup: "Why was the JavaScript developer sad?", punchline: "They couldn't find their 'this'!" },
-    { setup: "How many programmers does it take to find a 404 page?", punchline: "None, it's a server issue!" },
-    { setup: "Why did the page break up with the server?", punchline: "It couldn't find a connection!" },
-    { setup: "What's a 404 page's favorite song?", punchline: "U Can't Touch This!" },
-    { setup: "Why do 404 pages make terrible comedians?", punchline: "They always miss the mark!" },
-    { setup: "What did the 404 page say to the visitor?", punchline: "You've lost that lovin' feeling!" }
+    { setup: 'Why did the page go to therapy?', punchline: 'It had too many 404 issues!' },
+    { setup: 'What do you call a ghost page?', punchline: 'A 404-boo!' },
+    { setup: 'Why was the JavaScript developer sad?', punchline: 'They couldn\'t find their \'this\'!' },
+    { setup: 'How many programmers does it take to find a 404 page?', punchline: 'None, it\'s a server issue!' },
+    { setup: 'Why did the page break up with the server?', punchline: 'It couldn\'t find a connection!' },
+    { setup: 'What\'s a 404 page\'s favorite song?', punchline: 'U Can\'t Touch This!' },
+    { setup: 'Why do 404 pages make terrible comedians?', punchline: 'They always miss the mark!' },
+    { setup: 'What did the 404 page say to the visitor?', punchline: 'You\'ve lost that lovin\' feeling!' },
   ];
 
   // Fun facts about 404
   const facts = [
-    "The first 404 error was recorded at CERN in 1992.",
-    "404 is the room number where the first web server was located at CERN.",
-    "Some websites have creative 404 pages with games and easter eggs.",
-    "Google's 404 page has a broken robot and a search bar.",
-    "GitHub's 404 page features a random Star Wars scene.",
-    "Amazon's 404 page shows a dog looking confused.",
-    "404 errors can hurt your website's SEO ranking.",
-    "The term '404' comes from HTTP status code for 'Not Found'."
+    'The first 404 error was recorded at CERN in 1992.',
+    '404 is the room number where the first web server was located at CERN.',
+    'Some websites have creative 404 pages with games and easter eggs.',
+    'Google\'s 404 page has a broken robot and a search bar.',
+    'GitHub\'s 404 page features a random Star Wars scene.',
+    'Amazon\'s 404 page shows a dog looking confused.',
+    '404 errors can hurt your website\'s SEO ranking.',
+    'The term \'404\' comes from HTTP status code for \'Not Found\'.',
   ];
 
   // Dad jokes
   const dadJokeList = [
-    "I'm reading a book on anti-gravity. It's impossible to put down!",
-    "Why don't scientists trust atoms? Because they make up everything!",
-    "What do you call a fake noodle? An impasta!",
-    "How does a penguin build its house? Igloos it together!",
-    "Why did the scarecrow win an award? He was outstanding in his field!",
-    "What do you call a bear with no teeth? A gummy bear!",
-    "I told my wife she should embrace her mistakes. She gave me a hug.",
-    "Why don't eggs tell jokes? They'd crack each other up!"
+    'I\'m reading a book on anti-gravity. It\'s impossible to put down!',
+    'Why don\'t scientists trust atoms? Because they make up everything!',
+    'What do you call a fake noodle? An impasta!',
+    'How does a penguin build its house? Igloos it together!',
+    'Why did the scarecrow win an award? He was outstanding in his field!',
+    'What do you call a bear with no teeth? A gummy bear!',
+    'I told my wife she should embrace her mistakes. She gave me a hug.',
+    'Why don\'t eggs tell jokes? They\'d crack each other up!',
   ];
 
   // Suggested pages based on current path
@@ -145,14 +145,14 @@ const NotFound = () => {
       { path: '/products', name: 'Products', icon: <FiStar />, description: 'Browse affiliate products' },
       { path: '/earnings', name: 'Earnings', icon: <FiTrendingUp />, description: 'Check your earnings' },
       { path: '/support', name: 'Support', icon: <FiHelpCircle />, description: 'Get help' },
-      { path: '/settings', name: 'Settings', icon: <FiSettings />, description: 'Configure your account' }
+      { path: '/settings', name: 'Settings', icon: <FiSettings />, description: 'Configure your account' },
     ];
 
     if (path.includes('admin')) {
       return [
         { path: '/admin', name: 'Admin Dashboard', icon: <FiServer />, description: 'Return to admin panel' },
         { path: '/admin/users', name: 'User Management', icon: <FiUsers />, description: 'Manage users' },
-        ...baseSuggestions
+        ...baseSuggestions,
       ];
     }
     return baseSuggestions;
@@ -167,7 +167,7 @@ const NotFound = () => {
       { path: `/${lastSegment}`, name: `Try /${lastSegment}`, icon: <FiLink />, probability: 'high' },
       { path: `/${lastSegment}-list`, name: `/${lastSegment}-list`, icon: <FiLink />, probability: 'medium' },
       { path: `/${lastSegment}s`, name: `/${lastSegment}s`, icon: <FiLink />, probability: 'low' },
-      { path: `/api/${lastSegment}`, name: `/api/${lastSegment}`, icon: <FiCode />, probability: 'api' }
+      { path: `/api/${lastSegment}`, name: `/api/${lastSegment}`, icon: <FiCode />, probability: 'api' },
     ];
   };
 
@@ -190,7 +190,7 @@ const NotFound = () => {
         y: Math.random() * 100,
         size: Math.random() * 3 + 1,
         speed: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.5 + 0.2
+        opacity: Math.random() * 0.5 + 0.2,
       });
     }
     setParticles(newParticles);
@@ -210,7 +210,7 @@ const NotFound = () => {
     const handleMouseMove = (e) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100
+        y: (e.clientY / window.innerHeight) * 100,
       });
     };
     window.addEventListener('mousemove', handleMouseMove);
@@ -259,7 +259,7 @@ const NotFound = () => {
       <FaDragon />,
       <FaPhoenixFramework />,
       <FaMagic />,
-      <FaHatWizard />
+      <FaHatWizard />,
     ];
     return icons[Math.floor(Math.random() * icons.length)];
   };
@@ -275,7 +275,7 @@ const NotFound = () => {
       background: theme === 'dark' 
         ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
         : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-      fontFamily: 'Arial, sans-serif'
+      fontFamily: 'Arial, sans-serif',
     },
     particlesContainer: {
       position: 'absolute',
@@ -283,13 +283,13 @@ const NotFound = () => {
       left: 0,
       right: 0,
       bottom: 0,
-      pointerEvents: 'none'
+      pointerEvents: 'none',
     },
     particle: {
       position: 'absolute',
       borderRadius: '50%',
       background: theme === 'dark' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)',
-      transition: 'transform 0.1s ease'
+      transition: 'transform 0.1s ease',
     },
     content: {
       position: 'relative',
@@ -302,8 +302,8 @@ const NotFound = () => {
       backdropFilter: 'blur(10px)',
       borderRadius: '20px',
       boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-      border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-    }
+      border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+    },
   };
 
   return (
@@ -320,302 +320,302 @@ const NotFound = () => {
               width: `${particle.size}px`,
               height: `${particle.size}px`,
               opacity: particle.opacity,
-              transform: `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)`
+              transform: `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)`,
             }}
           />
         ))}
       </div>
-{/* Main Content */}
-<div style={styles.content}>
-  {/* Error Code with Animation */}
-  <div style={{ marginBottom: '30px', position: 'relative' }}>
-    <div style={{
-      fontSize: '180px',
-      fontWeight: 'bold',
-      lineHeight: 1,
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      textShadow: '0 10px 30px rgba(102,126,234,0.3)',
-      animation: 'float 3s ease-in-out infinite'
-    }}>
-      {errorCode}
-    </div>
-    <div style={{
-      fontSize: '28px',
-      color: theme === 'dark' ? '#fff' : '#333',
-      marginTop: '-20px',
-      fontWeight: 500
-    }}>
-      {errorMessage}
-    </div>
-  </div>
+      {/* Main Content */}
+      <div style={styles.content}>
+        {/* Error Code with Animation */}
+        <div style={{ marginBottom: '30px', position: 'relative' }}>
+          <div style={{
+            fontSize: '180px',
+            fontWeight: 'bold',
+            lineHeight: 1,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            textShadow: '0 10px 30px rgba(102,126,234,0.3)',
+            animation: 'float 3s ease-in-out infinite',
+          }}>
+            {errorCode}
+          </div>
+          <div style={{
+            fontSize: '28px',
+            color: theme === 'dark' ? '#fff' : '#333',
+            marginTop: '-20px',
+            fontWeight: 500,
+          }}>
+            {errorMessage}
+          </div>
+        </div>
 
-  {/* Fun Icon */}
-  <div style={{
-    fontSize: '80px',
-    marginBottom: '20px',
-    animation: 'spin 10s linear infinite'
-  }}>
-    {getRandomIcon()}
-  </div>
+        {/* Fun Icon */}
+        <div style={{
+          fontSize: '80px',
+          marginBottom: '20px',
+          animation: 'spin 10s linear infinite',
+        }}>
+          {getRandomIcon()}
+        </div>
 
-  {/* Location Info */}
-  <div style={{
-    background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
-    padding: '15px',
-    borderRadius: '10px',
-    marginBottom: '20px',
-    display: 'inline-block'
-  }}>
-    <code style={{
-      color: theme === 'dark' ? '#ff6b6b' : '#dc3545',
-      fontSize: '16px'
-    }}>
-      {location.pathname}
-    </code>
-    <button
-      onClick={handleCopyUrl}
-      style={{
-        marginLeft: '10px',
-        padding: '5px 10px',
-        background: 'none',
-        border: '1px solid #667eea',
-        borderRadius: '5px',
-        color: '#667eea',
-        cursor: 'pointer'
-      }}
-    >
-      <FiCopy />
-    </button>
-  </div>
+        {/* Location Info */}
+        <div style={{
+          background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
+          padding: '15px',
+          borderRadius: '10px',
+          marginBottom: '20px',
+          display: 'inline-block',
+        }}>
+          <code style={{
+            color: theme === 'dark' ? '#ff6b6b' : '#dc3545',
+            fontSize: '16px',
+          }}>
+            {location.pathname}
+          </code>
+          <button
+            onClick={handleCopyUrl}
+            style={{
+              marginLeft: '10px',
+              padding: '5px 10px',
+              background: 'none',
+              border: '1px solid #667eea',
+              borderRadius: '5px',
+              color: '#667eea',
+              cursor: 'pointer',
+            }}
+          >
+            <FiCopy />
+          </button>
+        </div>
 
-  {/* Funny Message */}
-  <div style={{
-    fontSize: '18px',
-    color: theme === 'dark' ? '#e2e8f0' : '#4a5568',
-    marginBottom: '30px',
-    lineHeight: 1.6,
-    padding: '0 20px'
-  }}>
-    <p>Oops! Looks like you've ventured into the digital void.</p>
-    <p style={{ fontStyle: 'italic', color: '#667eea' }}>
+        {/* Funny Message */}
+        <div style={{
+          fontSize: '18px',
+          color: theme === 'dark' ? '#e2e8f0' : '#4a5568',
+          marginBottom: '30px',
+          lineHeight: 1.6,
+          padding: '0 20px',
+        }}>
+          <p>Oops! Looks like you've ventured into the digital void.</p>
+          <p style={{ fontStyle: 'italic', color: '#667eea' }}>
       "{jokes[jokeIndex]?.setup}"
-    </p>
-    <p style={{ fontSize: '20px', marginTop: '10px' }}>
-      {jokes[jokeIndex]?.punchline}
-    </p>
-  </div>
+          </p>
+          <p style={{ fontSize: '20px', marginTop: '10px' }}>
+            {jokes[jokeIndex]?.punchline}
+          </p>
+        </div>
 
-  {/* Countdown */}
-  <div style={{
-    marginBottom: '30px',
-    fontSize: '16px',
-    color: theme === 'dark' ? '#a0aec0' : '#718096'
-  }}>
+        {/* Countdown */}
+        <div style={{
+          marginBottom: '30px',
+          fontSize: '16px',
+          color: theme === 'dark' ? '#a0aec0' : '#718096',
+        }}>
     Redirecting to home in <span style={{
-      fontSize: '24px',
-      fontWeight: 'bold',
-      color: '#667eea'
-    }}>{countdown}</span> seconds...
-  </div>
+            fontSize: '24px',
+            fontWeight: 'bold',
+            color: '#667eea',
+          }}>{countdown}</span> seconds...
+        </div>
 
-  {/* Search Bar */}
-  <form onSubmit={handleSearch} style={{
-    display: 'flex',
-    gap: '10px',
-    marginBottom: '30px',
-    maxWidth: '500px',
-    margin: '0 auto 30px'
-  }}>
-    <input
-      type="text"
-      placeholder="Search for what you're looking for..."
-      value={searchQuery}
-      onChange={(e) => setSearchQuery(e.target.value)}
-      style={{
-        flex: 1,
-        padding: '12px 20px',
-        border: `2px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : '#e2e8f0'}`,
-        borderRadius: '30px',
-        fontSize: '16px',
-        background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'white',
-        color: theme === 'dark' ? 'white' : '#333',
-        outline: 'none'
-      }}
-    />
-    <button
-      type="submit"
-      style={{
-        padding: '12px 30px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        border: 'none',
-        borderRadius: '30px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '5px'
-      }}
-    >
-      <FiSearch />
+        {/* Search Bar */}
+        <form onSubmit={handleSearch} style={{
+          display: 'flex',
+          gap: '10px',
+          marginBottom: '30px',
+          maxWidth: '500px',
+          margin: '0 auto 30px',
+        }}>
+          <input
+            type="text"
+            placeholder="Search for what you're looking for..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              flex: 1,
+              padding: '12px 20px',
+              border: `2px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : '#e2e8f0'}`,
+              borderRadius: '30px',
+              fontSize: '16px',
+              background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'white',
+              color: theme === 'dark' ? 'white' : '#333',
+              outline: 'none',
+            }}
+          />
+          <button
+            type="submit"
+            style={{
+              padding: '12px 30px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '30px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+            }}
+          >
+            <FiSearch />
       Search
-    </button>
-  </form>
+          </button>
+        </form>
 
-  {/* Action Buttons */}
-  <div style={{
-    display: 'flex',
-    gap: '15px',
-    justifyContent: 'center',
-    marginBottom: '30px',
-    flexWrap: 'wrap'
-  }}>
-    <button
-      onClick={() => navigate('/')}
-      style={{
-        padding: '12px 30px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        border: 'none',
-        borderRadius: '30px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        transition: 'transform 0.3s ease'
-      }}
-      onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-      onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-    >
-      <FiHome />
+        {/* Action Buttons */}
+        <div style={{
+          display: 'flex',
+          gap: '15px',
+          justifyContent: 'center',
+          marginBottom: '30px',
+          flexWrap: 'wrap',
+        }}>
+          <button
+            onClick={() => navigate('/')}
+            style={{
+              padding: '12px 30px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '30px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'transform 0.3s ease',
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <FiHome />
       Go Home
-    </button>
+          </button>
     
-    <button
-      onClick={() => navigate(-1)}
-      style={{
-        padding: '12px 30px',
-        background: 'transparent',
-        border: `2px solid #667eea`,
-        color: '#667eea',
-        borderRadius: '30px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}
-    >
-      <FiArrowLeft />
+          <button
+            onClick={() => navigate(-1)}
+            style={{
+              padding: '12px 30px',
+              background: 'transparent',
+              border: '2px solid #667eea',
+              color: '#667eea',
+              borderRadius: '30px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <FiArrowLeft />
       Go Back
-    </button>
+          </button>
     
-    <button
-      onClick={handleReportIssue}
-      style={{
-        padding: '12px 30px',
-        background: 'transparent',
-        border: `2px solid ${theme === 'dark' ? '#fff' : '#333'}`,
-        color: theme === 'dark' ? '#fff' : '#333',
-        borderRadius: '30px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}
-    >
-      <FiHelpCircle />
+          <button
+            onClick={handleReportIssue}
+            style={{
+              padding: '12px 30px',
+              background: 'transparent',
+              border: `2px solid ${theme === 'dark' ? '#fff' : '#333'}`,
+              color: theme === 'dark' ? '#fff' : '#333',
+              borderRadius: '30px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <FiHelpCircle />
       Report Issue
-    </button>
-  </div>
+          </button>
+        </div>
 
-  {/* Toggle Details */}
-  <button
-    onClick={() => setShowDetails(!showDetails)}
-    style={{
-      background: 'none',
-      border: 'none',
-      color: '#667eea',
-      fontSize: '14px',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '5px',
-      margin: '0 auto 20px'
-    }}
-  >
-    {showDetails ? <FiEyeOff /> : <FiEye />}
-    {showDetails ? 'Hide Details' : 'Show Technical Details'}
-  </button>
+        {/* Toggle Details */}
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#667eea',
+            fontSize: '14px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+            margin: '0 auto 20px',
+          }}
+        >
+          {showDetails ? <FiEyeOff /> : <FiEye />}
+          {showDetails ? 'Hide Details' : 'Show Technical Details'}
+        </button>
 
-  {/* Technical Details */}
-  {showDetails && (
-    <div style={{
-      background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
-      padding: '20px',
-      borderRadius: '10px',
-      marginBottom: '30px',
-      textAlign: 'left'
-    }}>
-      <h3 style={{
-        margin: '0 0 15px',
-        fontSize: '18px',
-        color: '#667eea',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '5px'
-      }}>
-        <FiCode />
+        {/* Technical Details */}
+        {showDetails && (
+          <div style={{
+            background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
+            padding: '20px',
+            borderRadius: '10px',
+            marginBottom: '30px',
+            textAlign: 'left',
+          }}>
+            <h3 style={{
+              margin: '0 0 15px',
+              fontSize: '18px',
+              color: '#667eea',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+            }}>
+              <FiCode />
         Technical Details
-      </h3>
+            </h3>
       
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '15px'
-      }}>
-        <div>
-          <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Status Code</div>
-          <code style={{ color: '#ff6b6b' }}>{errorCode} Not Found</code>
-        </div>
-        <div>
-          <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Request URL</div>
-          <code style={{ color: '#667eea' }}>{window.location.href}</code>
-        </div>
-        <div>
-          <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Path</div>
-          <code>{location.pathname}</code>
-        </div>
-        <div>
-          <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Timestamp</div>
-          <code>{new Date().toLocaleString()}</code>
-        </div>
-        <div>
-          <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>User Agent</div>
-          <code style={{ fontSize: '11px' }}>{navigator.userAgent.substring(0, 50)}...</code>
-        </div>
-        <div>
-          <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Referrer</div>
-          <code>{document.referrer || 'Direct'}</code>
-        </div>
-      </div>
-    </div>
-  )}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '15px',
+            }}>
+              <div>
+                <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Status Code</div>
+                <code style={{ color: '#ff6b6b' }}>{errorCode} Not Found</code>
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Request URL</div>
+                <code style={{ color: '#667eea' }}>{window.location.href}</code>
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Path</div>
+                <code>{location.pathname}</code>
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Timestamp</div>
+                <code>{new Date().toLocaleString()}</code>
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>User Agent</div>
+                <code style={{ fontSize: '11px' }}>{navigator.userAgent.substring(0, 50)}...</code>
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', color: '#999', marginBottom: '3px' }}>Referrer</div>
+                <code>{document.referrer || 'Direct'}</code>
+              </div>
+            </div>
+          </div>
+        )}
         {/* Suggestions */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '15px',
-          marginBottom: '30px'
+          marginBottom: '30px',
         }}>
           <div style={{
             background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
             padding: '20px',
-            borderRadius: '10px'
+            borderRadius: '10px',
           }}>
             <h3 style={{
               margin: '0 0 15px',
@@ -623,7 +623,7 @@ const NotFound = () => {
               color: '#667eea',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              gap: '5px',
             }}>
               <FiMap />
               Suggested Pages
@@ -644,7 +644,7 @@ const NotFound = () => {
                     cursor: 'pointer',
                     textAlign: 'left',
                     color: theme === 'dark' ? '#fff' : '#333',
-                    transition: 'background 0.3s ease'
+                    transition: 'background 0.3s ease',
                   }}
                   onMouseEnter={(e) => e.target.style.background = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}
                   onMouseLeave={(e) => e.target.style.background = 'none'}
@@ -662,7 +662,7 @@ const NotFound = () => {
           <div style={{
             background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
             padding: '20px',
-            borderRadius: '10px'
+            borderRadius: '10px',
           }}>
             <h3 style={{
               margin: '0 0 15px',
@@ -670,7 +670,7 @@ const NotFound = () => {
               color: '#667eea',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              gap: '5px',
             }}>
               <FiLink />
               Did you mean?
@@ -690,13 +690,13 @@ const NotFound = () => {
                     borderRadius: '5px',
                     cursor: 'pointer',
                     textAlign: 'left',
-                    color: theme === 'dark' ? '#fff' : '#333'
+                    color: theme === 'dark' ? '#fff' : '#333',
                   }}
                 >
                   <span style={{
                     color: link.probability === 'high' ? '#28a745' : 
-                           link.probability === 'medium' ? '#ffc107' : 
-                           link.probability === 'low' ? '#dc3545' : '#667eea'
+                      link.probability === 'medium' ? '#ffc107' : 
+                        link.probability === 'low' ? '#dc3545' : '#667eea',
                   }}>
                     {link.icon}
                   </span>
@@ -717,12 +717,12 @@ const NotFound = () => {
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '15px',
-          marginBottom: '30px'
+          marginBottom: '30px',
         }}>
           <div style={{
             background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
             padding: '20px',
-            borderRadius: '10px'
+            borderRadius: '10px',
           }}>
             <h3 style={{
               margin: '0 0 15px',
@@ -730,7 +730,7 @@ const NotFound = () => {
               color: '#667eea',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              gap: '5px',
             }}>
               <FaStar />
               Fun Fact #{Math.floor(Math.random() * 100)}
@@ -738,7 +738,7 @@ const NotFound = () => {
             <p style={{
               fontSize: '14px',
               lineHeight: '1.6',
-              color: theme === 'dark' ? '#e2e8f0' : '#4a5568'
+              color: theme === 'dark' ? '#e2e8f0' : '#4a5568',
             }}>
               {funFacts[Math.floor(Math.random() * funFacts.length)]}
             </p>
@@ -747,7 +747,7 @@ const NotFound = () => {
           <div style={{
             background: theme === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.05)',
             padding: '20px',
-            borderRadius: '10px'
+            borderRadius: '10px',
           }}>
             <h3 style={{
               margin: '0 0 15px',
@@ -755,7 +755,7 @@ const NotFound = () => {
               color: '#667eea',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              gap: '5px',
             }}>
               <FaSmile />
               Dad Joke
@@ -764,7 +764,7 @@ const NotFound = () => {
               fontSize: '14px',
               lineHeight: '1.6',
               color: theme === 'dark' ? '#e2e8f0' : '#4a5568',
-              fontStyle: 'italic'
+              fontStyle: 'italic',
             }}>
               {dadJokes[Math.floor(Math.random() * dadJokes.length)]}
             </p>
@@ -779,7 +779,7 @@ const NotFound = () => {
           flexWrap: 'wrap',
           marginTop: '20px',
           padding: '20px',
-          borderTop: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+          borderTop: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
         }}>
           <a href="/privacy" style={{ color: '#667eea', textDecoration: 'none' }}>Privacy</a>
           <a href="/terms" style={{ color: '#667eea', textDecoration: 'none' }}>Terms</a>
@@ -793,7 +793,7 @@ const NotFound = () => {
           display: 'flex',
           justifyContent: 'center',
           gap: '15px',
-          marginTop: '10px'
+          marginTop: '10px',
         }}>
           <a href="#" style={{ color: '#667eea', fontSize: '20px' }}><FiGithub /></a>
           <a href="#" style={{ color: '#667eea', fontSize: '20px' }}><FiTwitter /></a>

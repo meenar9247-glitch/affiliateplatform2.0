@@ -23,7 +23,7 @@ const BackToTop = ({ threshold = 300, showBelow = true }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -46,19 +46,19 @@ const BackToTop = ({ threshold = 300, showBelow = true }) => {
       boxShadow: '0 4px 10px rgba(102, 126, 234, 0.4)',
       transition: 'all 0.3s ease',
       zIndex: 999,
-      animation: 'fadeIn 0.3s ease-in-out'
+      animation: 'fadeIn 0.3s ease-in-out',
     },
     buttonHover: {
       transform: 'translateY(-5px)',
-      boxShadow: '0 6px 15px rgba(102, 126, 234, 0.5)'
+      boxShadow: '0 6px 15px rgba(102, 126, 234, 0.5)',
     },
     buttonMobile: {
       bottom: '20px',
       right: '20px',
       width: '45px',
       height: '45px',
-      fontSize: '20px'
-    }
+      fontSize: '20px',
+    },
   };
 
   return (
@@ -134,7 +134,7 @@ export const BackToTopWithProgress = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -161,7 +161,7 @@ export const BackToTopWithProgress = () => {
       boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
       transition: 'all 0.3s ease',
       zIndex: 999,
-      animation: 'fadeIn 0.3s ease-in-out'
+      animation: 'fadeIn 0.3s ease-in-out',
     },
     svg: {
       position: 'absolute',
@@ -169,7 +169,7 @@ export const BackToTopWithProgress = () => {
       left: 0,
       width: size,
       height: size,
-      transform: 'rotate(-90deg)'
+      transform: 'rotate(-90deg)',
     },
     circle: {
       stroke: '#667eea',
@@ -177,17 +177,17 @@ export const BackToTopWithProgress = () => {
       fill: 'none',
       strokeDasharray: circumference,
       strokeDashoffset: offset,
-      transition: 'stroke-dashoffset 0.2s'
+      transition: 'stroke-dashoffset 0.2s',
     },
     icon: {
       color: '#667eea',
       fontSize: '24px',
-      zIndex: 1
+      zIndex: 1,
     },
     buttonMobile: {
       bottom: '20px',
-      right: '20px'
-    }
+      right: '20px',
+    },
   };
 
   return (

@@ -7,13 +7,13 @@ const Loader = ({
   fullScreen = false,
   text = '',
   overlay = false,
-  className = ''
+  className = '',
 }) => {
   // Size classes
   const sizeClasses = {
     small: 'loader-small',
     medium: 'loader-medium',
-    large: 'loader-large'
+    large: 'loader-large',
   };
 
   // Color classes
@@ -25,7 +25,7 @@ const Loader = ({
     warning: 'loader-warning',
     info: 'loader-info',
     light: 'loader-light',
-    dark: 'loader-dark'
+    dark: 'loader-dark',
   };
 
   // Render spinner

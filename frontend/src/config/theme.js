@@ -6,12 +6,12 @@ export const THEME_NAMES = {
   SYSTEM: 'system',
   DIM: 'dim',
   CONTRAST: 'high-contrast',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 export const THEME_MODES = {
   LIGHT: 'light',
-  DARK: 'dark'
+  DARK: 'dark',
 };
 
 export const COLOR_SCHEMES = {
@@ -22,7 +22,7 @@ export const COLOR_SCHEMES = {
   ORANGE: 'orange',
   RED: 'red',
   TEAL: 'teal',
-  INDIGO: 'indigo'
+  INDIGO: 'indigo',
 };
 
 export const FONT_FAMILIES = {
@@ -41,7 +41,7 @@ export const FONT_FAMILIES = {
   OSWALD: 'Oswald, sans-serif',
   MERRIWEATHER: 'Merriweather, serif',
   PLAYFAIR: 'Playfair Display, serif',
-  SOURCE_CODE: 'Source Code Pro, monospace'
+  SOURCE_CODE: 'Source Code Pro, monospace',
 };
 
 export const FONT_SIZES = {
@@ -57,7 +57,7 @@ export const FONT_SIZES = {
   '6XL': '3.75rem',  // 60px
   '7XL': '4.5rem',   // 72px
   '8XL': '6rem',     // 96px
-  '9XL': '8rem'      // 128px
+  '9XL': '8rem',      // 128px
 };
 
 export const FONT_WEIGHTS = {
@@ -69,7 +69,7 @@ export const FONT_WEIGHTS = {
   SEMI_BOLD: 600,
   BOLD: 700,
   EXTRA_BOLD: 800,
-  BLACK: 900
+  BLACK: 900,
 };
 
 export const LINE_HEIGHTS = {
@@ -78,7 +78,7 @@ export const LINE_HEIGHTS = {
   SNUG: 1.375,
   NORMAL: 1.5,
   RELAXED: 1.625,
-  LOOSE: 2
+  LOOSE: 2,
 };
 
 export const LETTER_SPACINGS = {
@@ -87,7 +87,7 @@ export const LETTER_SPACINGS = {
   NORMAL: '0',
   WIDE: '0.025em',
   WIDER: '0.05em',
-  WIDEST: '0.1em'
+  WIDEST: '0.1em',
 };
 
 export const SPACING = {
@@ -125,7 +125,7 @@ export const SPACING = {
   64: '16rem',     // 256px
   72: '18rem',     // 288px
   80: '20rem',     // 320px
-  96: '24rem'      // 384px
+  96: '24rem',      // 384px
 };
 
 export const BORDER_RADIUS = {
@@ -137,7 +137,7 @@ export const BORDER_RADIUS = {
   XL: '0.75rem',   // 12px
   '2XL': '1rem',   // 16px
   '3XL': '1.5rem', // 24px
-  FULL: '9999px'
+  FULL: '9999px',
 };
 
 export const BORDER_WIDTHS = {
@@ -145,7 +145,7 @@ export const BORDER_WIDTHS = {
   1: '1px',
   2: '2px',
   4: '4px',
-  8: '8px'
+  8: '8px',
 };
 
 export const OPACITY = {
@@ -163,7 +163,7 @@ export const OPACITY = {
   80: '0.8',
   90: '0.9',
   95: '0.95',
-  100: '1'
+  100: '1',
 };
 
 export const Z_INDEX = {
@@ -178,7 +178,7 @@ export const Z_INDEX = {
   OVERLAY: 2000,
   DROPDOWN: 3000,
   TOOLTIP: 4000,
-  TOAST: 5000
+  TOAST: 5000,
 };
 
 export const TRANSITIONS = {
@@ -187,7 +187,7 @@ export const TRANSITIONS = {
   BASE: '300ms',
   SLOW: '500ms',
   SLOWER: '700ms',
-  SLOWEST: '1000ms'
+  SLOWEST: '1000ms',
 };
 
 export const EASINGS = {
@@ -195,7 +195,7 @@ export const EASINGS = {
   IN: 'cubic-bezier(0.4, 0, 1, 1)',
   OUT: 'cubic-bezier(0, 0, 0.2, 1)',
   IN_OUT: 'cubic-bezier(0.4, 0, 0.2, 1)',
-  BOUNCE: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+  BOUNCE: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
 };
 
 // ==================== Light Theme Colors ====================
@@ -274,7 +274,7 @@ export const LIGHT_THEME = {
   chart5: '#dc3545',
   chart6: '#17a2b8',
   chart7: '#ff6b6b',
-  chart8: '#4ecdc4'
+  chart8: '#4ecdc4',
 };
 // ==================== Dark Theme Colors ====================
 
@@ -352,7 +352,7 @@ export const DARK_THEME = {
   chart5: '#dc3545',
   chart6: '#17a2b8',
   chart7: '#ff6b6b',
-  chart8: '#4ecdc4'
+  chart8: '#4ecdc4',
 };
 
 // ==================== Dim Theme Colors ====================
@@ -429,7 +429,7 @@ export const DIM_THEME = {
   chart5: '#dc3545',
   chart6: '#17a2b8',
   chart7: '#ff6b6b',
-  chart8: '#4ecdc4'
+  chart8: '#4ecdc4',
 };
 
 // ==================== High Contrast Theme Colors ====================
@@ -508,7 +508,7 @@ export const CONTRAST_THEME = {
   chart5: '#ff0000',
   chart6: '#00ffff',
   chart7: '#ff00ff',
-  chart8: '#00ff00'
+  chart8: '#00ff00',
 };
 
 // ==================== Theme Color Schemes ====================
@@ -520,7 +520,7 @@ export const COLOR_SCHEME_VARIANTS = {
     success: '#28a745',
     warning: '#ffc107',
     error: '#dc3545',
-    info: '#17a2b8'
+    info: '#17a2b8',
   },
   [COLOR_SCHEMES.BLUE]: {
     primary: '#4299e1',
@@ -528,7 +528,7 @@ export const COLOR_SCHEME_VARIANTS = {
     success: '#38a169',
     warning: '#ecc94b',
     error: '#f56565',
-    info: '#4299e1'
+    info: '#4299e1',
   },
   [COLOR_SCHEMES.GREEN]: {
     primary: '#48bb78',
@@ -536,7 +536,7 @@ export const COLOR_SCHEME_VARIANTS = {
     success: '#48bb78',
     warning: '#ecc94b',
     error: '#f56565',
-    info: '#4299e1'
+    info: '#4299e1',
   },
   [COLOR_SCHEMES.PURPLE]: {
     primary: '#9f7aea',
@@ -544,7 +544,7 @@ export const COLOR_SCHEME_VARIANTS = {
     success: '#48bb78',
     warning: '#ecc94b',
     error: '#f56565',
-    info: '#4299e1'
+    info: '#4299e1',
   },
   [COLOR_SCHEMES.ORANGE]: {
     primary: '#ed8936',
@@ -552,7 +552,7 @@ export const COLOR_SCHEME_VARIANTS = {
     success: '#48bb78',
     warning: '#ecc94b',
     error: '#f56565',
-    info: '#4299e1'
+    info: '#4299e1',
   },
   [COLOR_SCHEMES.RED]: {
     primary: '#f56565',
@@ -560,7 +560,7 @@ export const COLOR_SCHEME_VARIANTS = {
     success: '#48bb78',
     warning: '#ecc94b',
     error: '#f56565',
-    info: '#4299e1'
+    info: '#4299e1',
   },
   [COLOR_SCHEMES.TEAL]: {
     primary: '#4fd1c5',
@@ -568,7 +568,7 @@ export const COLOR_SCHEME_VARIANTS = {
     success: '#48bb78',
     warning: '#ecc94b',
     error: '#f56565',
-    info: '#4299e1'
+    info: '#4299e1',
   },
   [COLOR_SCHEMES.INDIGO]: {
     primary: '#667eea',
@@ -576,8 +576,8 @@ export const COLOR_SCHEME_VARIANTS = {
     success: '#48bb78',
     warning: '#ecc94b',
     error: '#f56565',
-    info: '#4299e1'
-  }
+    info: '#4299e1',
+  },
 };
 
 // ==================== Component Styles ====================
@@ -594,7 +594,7 @@ export const COMPONENT_STYLES = {
       borderRadius: BORDER_RADIUS.MD,
       padding: `${SPACING[2]} ${SPACING[4]}`,
       fontSize: FONT_SIZES.BASE,
-      fontWeight: FONT_WEIGHTS.MEDIUM
+      fontWeight: FONT_WEIGHTS.MEDIUM,
     },
     secondary: {
       background: LIGHT_THEME.white,
@@ -605,7 +605,7 @@ export const COMPONENT_STYLES = {
       borderRadius: BORDER_RADIUS.MD,
       padding: `${SPACING[2]} ${SPACING[4]}`,
       fontSize: FONT_SIZES.BASE,
-      fontWeight: FONT_WEIGHTS.MEDIUM
+      fontWeight: FONT_WEIGHTS.MEDIUM,
     },
     danger: {
       background: LIGHT_THEME.error,
@@ -616,8 +616,8 @@ export const COMPONENT_STYLES = {
       borderRadius: BORDER_RADIUS.MD,
       padding: `${SPACING[2]} ${SPACING[4]}`,
       fontSize: FONT_SIZES.BASE,
-      fontWeight: FONT_WEIGHTS.MEDIUM
-    }
+      fontWeight: FONT_WEIGHTS.MEDIUM,
+    },
   },
 
   // Input styles
@@ -634,8 +634,8 @@ export const COMPONENT_STYLES = {
       errorBorder: LIGHT_THEME.error,
       errorFocusShadow: `0 0 0 3px ${LIGHT_THEME.error}20`,
       disabledBackground: LIGHT_THEME.gray100,
-      disabledColor: LIGHT_THEME.gray400
-    }
+      disabledColor: LIGHT_THEME.gray400,
+    },
   },
 
   // Card styles
@@ -646,15 +646,15 @@ export const COMPONENT_STYLES = {
       borderRadius: BORDER_RADIUS.LG,
       padding: SPACING[6],
       shadow: `0 4px 6px ${LIGHT_THEME.shadow}`,
-      hoverShadow: `0 10px 15px ${LIGHT_THEME.shadowDark}`
-    }
+      hoverShadow: `0 10px 15px ${LIGHT_THEME.shadowDark}`,
+    },
   },
 
   // Modal styles
   modal: {
     overlay: {
       background: LIGHT_THEME.overlay,
-      zIndex: Z_INDEX.MODAL
+      zIndex: Z_INDEX.MODAL,
     },
     content: {
       background: LIGHT_THEME.white,
@@ -662,8 +662,8 @@ export const COMPONENT_STYLES = {
       padding: SPACING[6],
       maxWidth: '500px',
       maxHeight: '90vh',
-      shadow: `0 20px 25px ${LIGHT_THEME.shadowDark}`
-    }
+      shadow: `0 20px 25px ${LIGHT_THEME.shadowDark}`,
+    },
   },
 
   // Dropdown styles
@@ -674,15 +674,15 @@ export const COMPONENT_STYLES = {
       borderRadius: BORDER_RADIUS.MD,
       padding: `${SPACING[1]} 0`,
       shadow: `0 10px 15px ${LIGHT_THEME.shadow}`,
-      zIndex: Z_INDEX.DROPDOWN
+      zIndex: Z_INDEX.DROPDOWN,
     },
     item: {
       padding: `${SPACING[2]} ${SPACING[4]}`,
       hoverBackground: LIGHT_THEME.gray100,
       activeBackground: LIGHT_THEME.gray200,
       color: LIGHT_THEME.text,
-      fontSize: FONT_SIZES.BASE
-    }
+      fontSize: FONT_SIZES.BASE,
+    },
   },
 
   // Tooltip styles
@@ -692,7 +692,7 @@ export const COMPONENT_STYLES = {
     fontSize: FONT_SIZES.SM,
     padding: `${SPACING[1]} ${SPACING[2]}`,
     borderRadius: BORDER_RADIUS.SM,
-    zIndex: Z_INDEX.TOOLTIP
+    zIndex: Z_INDEX.TOOLTIP,
   },
 
   // Toast styles
@@ -702,30 +702,30 @@ export const COMPONENT_STYLES = {
       color: LIGHT_THEME.white,
       borderRadius: BORDER_RADIUS.MD,
       padding: SPACING[3],
-      zIndex: Z_INDEX.TOAST
+      zIndex: Z_INDEX.TOAST,
     },
     error: {
       background: LIGHT_THEME.error,
       color: LIGHT_THEME.white,
       borderRadius: BORDER_RADIUS.MD,
       padding: SPACING[3],
-      zIndex: Z_INDEX.TOAST
+      zIndex: Z_INDEX.TOAST,
     },
     warning: {
       background: LIGHT_THEME.warning,
       color: LIGHT_THEME.text,
       borderRadius: BORDER_RADIUS.MD,
       padding: SPACING[3],
-      zIndex: Z_INDEX.TOAST
+      zIndex: Z_INDEX.TOAST,
     },
     info: {
       background: LIGHT_THEME.info,
       color: LIGHT_THEME.white,
       borderRadius: BORDER_RADIUS.MD,
       padding: SPACING[3],
-      zIndex: Z_INDEX.TOAST
-    }
-  }
+      zIndex: Z_INDEX.TOAST,
+    },
+  },
 };
 // ==================== Theme Configurations ====================
 
@@ -733,7 +733,7 @@ export const THEMES = {
   [THEME_NAMES.LIGHT]: LIGHT_THEME,
   [THEME_NAMES.DARK]: DARK_THEME,
   [THEME_NAMES.DIM]: DIM_THEME,
-  [THEME_NAMES.CONTRAST]: CONTRAST_THEME
+  [THEME_NAMES.CONTRAST]: CONTRAST_THEME,
 };
 
 // ==================== Typography Configuration ====================
@@ -743,12 +743,12 @@ export const TYPOGRAPHY = {
     sans: FONT_FAMILIES.INTER,
     serif: FONT_FAMILIES.MERRIWEATHER,
     mono: FONT_FAMILIES.SOURCE_CODE,
-    system: FONT_FAMILIES.SYSTEM
+    system: FONT_FAMILIES.SYSTEM,
   },
   fontSize: FONT_SIZES,
   fontWeight: FONT_WEIGHTS,
   lineHeight: LINE_HEIGHTS,
-  letterSpacing: LETTER_SPACINGS
+  letterSpacing: LETTER_SPACINGS,
 };
 
 // ==================== Spacing Configuration ====================
@@ -756,7 +756,7 @@ export const TYPOGRAPHY = {
 export const SPACING_CONFIG = {
   spacing: SPACING,
   borderRadius: BORDER_RADIUS,
-  borderWidth: BORDER_WIDTHS
+  borderWidth: BORDER_WIDTHS,
 };
 
 // ==================== Effects Configuration ====================
@@ -765,7 +765,7 @@ export const EFFECTS = {
   opacity: OPACITY,
   zIndex: Z_INDEX,
   transitions: TRANSITIONS,
-  easings: EASINGS
+  easings: EASINGS,
 };
 
 // ==================== Breakpoints Configuration ====================
@@ -776,7 +776,7 @@ export const BREAKPOINTS = {
   md: 768,
   lg: 1024,
   xl: 1280,
-  '2xl': 1536
+  '2xl': 1536,
 };
 
 export const MEDIA_QUERIES = {
@@ -788,7 +788,7 @@ export const MEDIA_QUERIES = {
   dark: '@media (prefers-color-scheme: dark)',
   light: '@media (prefers-color-scheme: light)',
   reducedMotion: '@media (prefers-reduced-motion: reduce)',
-  highContrast: '@media (prefers-contrast: high)'
+  highContrast: '@media (prefers-contrast: high)',
 };
 
 // ==================== Theme Context ====================
@@ -802,14 +802,14 @@ export const createThemeContext = (themeName = THEME_NAMES.LIGHT, colorScheme = 
     colorScheme,
     colors: {
       ...baseTheme,
-      ...schemeColors
+      ...schemeColors,
     },
     typography: TYPOGRAPHY,
     spacing: SPACING_CONFIG,
     effects: EFFECTS,
     breakpoints: BREAKPOINTS,
     mediaQueries: MEDIA_QUERIES,
-    components: COMPONENT_STYLES
+    components: COMPONENT_STYLES,
   };
 };
 
@@ -910,7 +910,7 @@ export const themeHelpers = {
     return window.matchMedia('(prefers-color-scheme: dark)').matches 
       ? THEME_NAMES.DARK 
       : THEME_NAMES.LIGHT;
-  }
+  },
 };
 
 // ==================== Default Theme ====================
@@ -967,7 +967,7 @@ export const themeConfig = {
   createThemeContext,
   generateCSSVariables,
   themeHelpers,
-  defaultTheme
+  defaultTheme,
 };
 
 export default themeConfig;

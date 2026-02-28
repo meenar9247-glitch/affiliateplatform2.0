@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiUsers,
@@ -26,8 +25,9 @@ import {
   FiCheckCircle,
   FiXCircle,
   FiSettings,
-  FiLogOut
+  FiLogOut,
 } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -43,7 +43,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts';
 
 const AdminDashboard = () => {
@@ -62,13 +62,13 @@ const AdminDashboard = () => {
     totalEarnings: 0,
     pendingPayouts: 0,
     totalWithdrawn: 0,
-    platformFees: 0
+    platformFees: 0,
   });
   const [chartData, setChartData] = useState({
     users: [],
     earnings: [],
     clicks: [],
-    conversions: []
+    conversions: [],
   });
   const [recentActivity, setRecentActivity] = useState([]);
   const [topAffiliates, setTopAffiliates] = useState([]);
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
     serverLoad: 42,
     databaseStatus: 'connected',
     apiStatus: 'operational',
-    lastBackup: '2026-02-20T03:00:00Z'
+    lastBackup: '2026-02-20T03:00:00Z',
   });
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
       setLoading(true);
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/admin/dashboard`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -114,7 +114,7 @@ const AdminDashboard = () => {
   const fetchRecentActivity = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/recent-activity`
+        `${process.env.REACT_APP_API_URL}/admin/recent-activity`,
       );
       
       if (response.data.success) {
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
   const fetchTopAffiliates = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/top-affiliates`
+        `${process.env.REACT_APP_API_URL}/admin/top-affiliates`,
       );
       
       if (response.data.success) {
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
   const fetchPendingWithdrawals = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/pending-withdrawals`
+        `${process.env.REACT_APP_API_URL}/admin/pending-withdrawals`,
       );
       
       if (response.data.success) {
@@ -156,7 +156,7 @@ const AdminDashboard = () => {
   const fetchSystemHealth = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/system-health`
+        `${process.env.REACT_APP_API_URL}/admin/system-health`,
       );
       
       if (response.data.success) {
@@ -182,8 +182,8 @@ const AdminDashboard = () => {
         `${process.env.REACT_APP_API_URL}/admin/export-report`,
         {
           params: { format, timeRange },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -205,7 +205,7 @@ const AdminDashboard = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -218,7 +218,7 @@ const AdminDashboard = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -903,7 +903,7 @@ const AdminDashboard = () => {
           <div className="chart-card">
             <div className="chart-header">
               <h3>User Activity</h3>
-          <span>Last {timeRange}</span>
+              <span>Last {timeRange}</span>
             </div>
             <div className="chart-container">
               <ResponsiveContainer width="100%" height="100%">

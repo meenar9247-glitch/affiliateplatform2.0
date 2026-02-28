@@ -20,13 +20,13 @@ export const getAllUsers = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch users',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -42,13 +42,13 @@ export const getUserById = async (userId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch user',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -63,13 +63,13 @@ export const getMyProfile = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch profile',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -98,13 +98,13 @@ export const updateProfile = async (profileData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Profile updated successfully'
+      message: response.message || 'Profile updated successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Profile update failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -120,19 +120,19 @@ export const uploadAvatar = async (file) => {
     formData.append('avatar', file);
     
     const response = await post('/users/profile/avatar', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
     
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Avatar uploaded successfully'
+      message: response.message || 'Avatar uploaded successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Avatar upload failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -147,13 +147,13 @@ export const deleteAvatar = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Avatar deleted successfully'
+      message: response.message || 'Avatar deleted successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Avatar deletion failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -170,13 +170,13 @@ export const getUserStats = async (userId = null) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch user stats',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -195,13 +195,13 @@ export const getUserActivity = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch activity',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -220,13 +220,13 @@ export const getUserReferrals = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch referrals',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -241,13 +241,13 @@ export const getReferralStats = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch referral stats',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -262,13 +262,13 @@ export const getReferralCode = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch referral code',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -283,13 +283,13 @@ export const generateReferralCode = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'New referral code generated'
+      message: response.message || 'New referral code generated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to generate referral code',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -308,13 +308,13 @@ export const getUserNotifications = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch notifications',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -330,13 +330,13 @@ export const markNotificationRead = async (notificationId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Notification marked as read'
+      message: response.message || 'Notification marked as read',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to mark notification',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -351,13 +351,13 @@ export const markAllNotificationsRead = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'All notifications marked as read'
+      message: response.message || 'All notifications marked as read',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to mark notifications',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -373,13 +373,13 @@ export const deleteNotification = async (notificationId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Notification deleted'
+      message: response.message || 'Notification deleted',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to delete notification',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -394,13 +394,13 @@ export const getUserSettings = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch settings',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -416,13 +416,13 @@ export const updateUserSettings = async (settingsData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Settings updated successfully'
+      message: response.message || 'Settings updated successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to update settings',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -438,13 +438,13 @@ export const updateNotificationPreferences = async (preferences) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Notification preferences updated'
+      message: response.message || 'Notification preferences updated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to update preferences',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -460,13 +460,13 @@ export const updatePrivacySettings = async (privacyData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Privacy settings updated'
+      message: response.message || 'Privacy settings updated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to update privacy settings',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -481,13 +481,13 @@ export const enable2FA = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || '2FA enabled successfully'
+      message: response.message || '2FA enabled successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to enable 2FA',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -503,13 +503,13 @@ export const disable2FA = async (code) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || '2FA disabled successfully'
+      message: response.message || '2FA disabled successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to disable 2FA',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -525,13 +525,13 @@ export const verify2FA = async (code) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || '2FA verified successfully'
+      message: response.message || '2FA verified successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Invalid 2FA code',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -549,13 +549,13 @@ export const getLoginHistory = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch login history',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -571,13 +571,13 @@ export const revokeSession = async (sessionId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Session revoked successfully'
+      message: response.message || 'Session revoked successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to revoke session',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -592,13 +592,13 @@ export const revokeAllSessions = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'All sessions revoked successfully'
+      message: response.message || 'All sessions revoked successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to revoke sessions',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -613,13 +613,13 @@ export const requestAccountDeletion = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Account deletion requested'
+      message: response.message || 'Account deletion requested',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to request account deletion',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -634,13 +634,13 @@ export const cancelAccountDeletion = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Account deletion cancelled'
+      message: response.message || 'Account deletion cancelled',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to cancel account deletion',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -655,13 +655,13 @@ export const exportUserData = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Data export initiated'
+      message: response.message || 'Data export initiated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to export data',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -699,7 +699,7 @@ const userAPI = {
   revokeAllSessions,
   requestAccountDeletion,
   cancelAccountDeletion,
-  exportUserData
+  exportUserData,
 };
 
 export default userAPI;

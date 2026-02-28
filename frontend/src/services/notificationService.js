@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { authApi } from '../hooks/useAuth';
 
 // API base URL
@@ -24,7 +25,7 @@ export const NOTIFICATION_TYPES = {
   SECURITY: 'security',
   SYSTEM: 'system',
   MESSAGE: 'message',
-  ALERT: 'alert'
+  ALERT: 'alert',
 };
 
 // Notification priorities
@@ -33,7 +34,7 @@ export const NOTIFICATION_PRIORITIES = {
   MEDIUM: 'medium',
   HIGH: 'high',
   URGENT: 'urgent',
-  CRITICAL: 'critical'
+  CRITICAL: 'critical',
 };
 
 // Notification statuses
@@ -45,7 +46,7 @@ export const NOTIFICATION_STATUSES = {
   SENT: 'sent',
   DELIVERED: 'delivered',
   FAILED: 'failed',
-  SCHEDULED: 'scheduled'
+  SCHEDULED: 'scheduled',
 };
 
 // Notification channels
@@ -58,7 +59,7 @@ export const NOTIFICATION_CHANNELS = {
   TELEGRAM: 'telegram',
   SLACK: 'slack',
   DISCORD: 'discord',
-  WEBHOOK: 'webhook'
+  WEBHOOK: 'webhook',
 };
 
 // Delivery methods
@@ -66,7 +67,7 @@ export const DELIVERY_METHODS = {
   IMMEDIATE: 'immediate',
   SCHEDULED: 'scheduled',
   BATCH: 'batch',
-  TRIGGERED: 'triggered'
+  TRIGGERED: 'triggered',
 };
 
 // Template types
@@ -75,7 +76,7 @@ export const TEMPLATE_TYPES = {
   SMS: 'sms',
   PUSH: 'push',
   IN_APP: 'in_app',
-  WHATSAPP: 'whatsapp'
+  WHATSAPP: 'whatsapp',
 };
 
 // Default notification settings
@@ -87,43 +88,43 @@ export const DEFAULT_SETTINGS = {
     desktop: true,
     position: 'top-right',
     duration: 5000,
-    maxStack: 5
+    maxStack: 5,
   },
   [NOTIFICATION_CHANNELS.EMAIL]: {
     enabled: true,
     digest: false,
     digestFrequency: 'daily',
-    importantOnly: false
+    importantOnly: false,
   },
   [NOTIFICATION_CHANNELS.SMS]: {
     enabled: false,
     importantOnly: true,
-    quietHours: false
+    quietHours: false,
   },
   [NOTIFICATION_CHANNELS.PUSH]: {
     enabled: true,
     sound: true,
     badge: true,
-    requireInteraction: false
+    requireInteraction: false,
   },
   [NOTIFICATION_CHANNELS.WHATSAPP]: {
     enabled: false,
-    importantOnly: true
+    importantOnly: true,
   },
   [NOTIFICATION_CHANNELS.TELEGRAM]: {
     enabled: false,
     botToken: null,
-    chatId: null
+    chatId: null,
   },
   [NOTIFICATION_CHANNELS.SLACK]: {
     enabled: false,
     webhook: null,
-    channel: null
+    channel: null,
   },
   [NOTIFICATION_CHANNELS.DISCORD]: {
     enabled: false,
-    webhook: null
-  }
+    webhook: null,
+  },
 };
 
 // Quiet hours configuration
@@ -132,7 +133,7 @@ export const QUIET_HOURS = {
   start: '22:00',
   end: '08:00',
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  allowUrgent: true
+  allowUrgent: true,
 };
 
 // Rate limits (per channel)
@@ -140,7 +141,7 @@ export const RATE_LIMITS = {
   [NOTIFICATION_CHANNELS.EMAIL]: { perMinute: 10, perHour: 100, perDay: 1000 },
   [NOTIFICATION_CHANNELS.SMS]: { perMinute: 1, perHour: 10, perDay: 50 },
   [NOTIFICATION_CHANNELS.PUSH]: { perMinute: 30, perHour: 300, perDay: 3000 },
-  [NOTIFICATION_CHANNELS.WHATSAPP]: { perMinute: 5, perHour: 50, perDay: 500 }
+  [NOTIFICATION_CHANNELS.WHATSAPP]: { perMinute: 5, perHour: 50, perDay: 500 },
 };
 
 // Default templates
@@ -148,58 +149,58 @@ export const DEFAULT_TEMPLATES = {
   [NOTIFICATION_TYPES.INFO]: {
     title: 'Information',
     icon: 'ℹ️',
-    color: '#17a2b8'
+    color: '#17a2b8',
   },
   [NOTIFICATION_TYPES.SUCCESS]: {
     title: 'Success',
     icon: '✅',
-    color: '#28a745'
+    color: '#28a745',
   },
   [NOTIFICATION_TYPES.WARNING]: {
     title: 'Warning',
     icon: '⚠️',
-    color: '#ffc107'
+    color: '#ffc107',
   },
   [NOTIFICATION_TYPES.ERROR]: {
     title: 'Error',
     icon: '❌',
-    color: '#dc3545'
+    color: '#dc3545',
   },
   [NOTIFICATION_TYPES.EARNING]: {
     title: 'New Earnings',
     icon: '💰',
-    color: '#28a745'
+    color: '#28a745',
   },
   [NOTIFICATION_TYPES.REFERRAL]: {
     title: 'New Referral',
     icon: '👥',
-    color: '#667eea'
+    color: '#667eea',
   },
   [NOTIFICATION_TYPES.COMMISSION]: {
     title: 'Commission Earned',
     icon: '💵',
-    color: '#4ecdc4'
+    color: '#4ecdc4',
   },
   [NOTIFICATION_TYPES.WITHDRAWAL]: {
     title: 'Withdrawal Update',
     icon: '💳',
-    color: '#ff6b6b'
+    color: '#ff6b6b',
   },
   [NOTIFICATION_TYPES.ACHIEVEMENT]: {
     title: 'Achievement Unlocked',
     icon: '🏆',
-    color: '#ffd93d'
+    color: '#ffd93d',
   },
   [NOTIFICATION_TYPES.SECURITY]: {
     title: 'Security Alert',
     icon: '🔒',
-    color: '#6c5ce7'
+    color: '#6c5ce7',
   },
   [NOTIFICATION_TYPES.MAINTENANCE]: {
     title: 'Maintenance',
     icon: '🔧',
-    color: '#95a5a6'
-  }
+    color: '#95a5a6',
+  },
 };
 
 // Create axios instance for notification service
@@ -220,7 +221,7 @@ notificationApi.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor for error handling
@@ -235,7 +236,7 @@ notificationApi.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem('refresh_token');
         const response = await axios.post(`${API_URL}/auth/refresh`, {
-          refreshToken
+          refreshToken,
         });
 
         if (response.data.success) {
@@ -250,7 +251,7 @@ notificationApi.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // Helper function to handle API errors
@@ -326,7 +327,7 @@ const formatNotification = (notification) => {
     
     // Timestamps
     createdAt: notification.createdAt || new Date().toISOString(),
-    updatedAt: notification.updatedAt
+    updatedAt: notification.updatedAt,
   };
 };
 // Notification Service Class
@@ -337,7 +338,7 @@ class NotificationService {
   async getNotifications(filters = {}, page = 1, limit = 20) {
     try {
       const response = await notificationApi.get('/', {
-        params: { ...filters, page, limit }
+        params: { ...filters, page, limit },
       });
       
       if (response.data.success) {
@@ -346,13 +347,13 @@ class NotificationService {
           data: response.data.notifications.map(formatNotification),
           pagination: response.data.pagination,
           total: response.data.total,
-          unreadCount: response.data.unreadCount
+          unreadCount: response.data.unreadCount,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get notifications'
+        error: response.data.message || 'Failed to get notifications',
       };
     } catch (error) {
       throw handleError(error);
@@ -367,13 +368,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          data: formatNotification(response.data.notification)
+          data: formatNotification(response.data.notification),
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get notification'
+        error: response.data.message || 'Failed to get notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -389,13 +390,13 @@ class NotificationService {
         return {
           success: true,
           data: formatNotification(response.data.notification),
-          message: response.data.message || 'Notification created'
+          message: response.data.message || 'Notification created',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to create notification'
+        error: response.data.message || 'Failed to create notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -411,13 +412,13 @@ class NotificationService {
         return {
           success: true,
           data: formatNotification(response.data.notification),
-          message: response.data.message || 'Notification updated'
+          message: response.data.message || 'Notification updated',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update notification'
+        error: response.data.message || 'Failed to update notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -432,13 +433,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Notification deleted'
+          message: response.data.message || 'Notification deleted',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to delete notification'
+        error: response.data.message || 'Failed to delete notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -449,20 +450,20 @@ class NotificationService {
   async bulkDeleteNotifications(notificationIds) {
     try {
       const response = await notificationApi.delete('/', {
-        data: { notificationIds }
+        data: { notificationIds },
       });
       
       if (response.data.success) {
         return {
           success: true,
           message: response.data.message || 'Notifications deleted',
-          deleted: response.data.deleted
+          deleted: response.data.deleted,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to delete notifications'
+        error: response.data.message || 'Failed to delete notifications',
       };
     } catch (error) {
       throw handleError(error);
@@ -479,13 +480,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Marked as read'
+          message: response.data.message || 'Marked as read',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to mark as read'
+        error: response.data.message || 'Failed to mark as read',
       };
     } catch (error) {
       throw handleError(error);
@@ -501,13 +502,13 @@ class NotificationService {
         return {
           success: true,
           message: response.data.message || 'All marked as read',
-          count: response.data.count
+          count: response.data.count,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to mark all as read'
+        error: response.data.message || 'Failed to mark all as read',
       };
     } catch (error) {
       throw handleError(error);
@@ -522,13 +523,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Marked as unread'
+          message: response.data.message || 'Marked as unread',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to mark as unread'
+        error: response.data.message || 'Failed to mark as unread',
       };
     } catch (error) {
       throw handleError(error);
@@ -543,13 +544,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Notification archived'
+          message: response.data.message || 'Notification archived',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to archive notification'
+        error: response.data.message || 'Failed to archive notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -564,13 +565,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Notification unarchived'
+          message: response.data.message || 'Notification unarchived',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to unarchive notification'
+        error: response.data.message || 'Failed to unarchive notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -585,13 +586,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          count: response.data.count
+          count: response.data.count,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get unread count'
+        error: response.data.message || 'Failed to get unread count',
       };
     } catch (error) {
       throw handleError(error);
@@ -609,13 +610,13 @@ class NotificationService {
         return {
           success: true,
           message: response.data.message || 'Notification sent',
-          deliveryStatus: response.data.deliveryStatus
+          deliveryStatus: response.data.deliveryStatus,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to send notification'
+        error: response.data.message || 'Failed to send notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -626,20 +627,20 @@ class NotificationService {
   async scheduleNotification(notificationId, scheduledTime) {
     try {
       const response = await notificationApi.post(`/${notificationId}/schedule`, {
-        scheduledTime
+        scheduledTime,
       });
       
       if (response.data.success) {
         return {
           success: true,
           message: response.data.message || 'Notification scheduled',
-          scheduledFor: response.data.scheduledFor
+          scheduledFor: response.data.scheduledFor,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to schedule notification'
+        error: response.data.message || 'Failed to schedule notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -654,13 +655,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Scheduled notification cancelled'
+          message: response.data.message || 'Scheduled notification cancelled',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to cancel notification'
+        error: response.data.message || 'Failed to cancel notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -675,13 +676,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Notification resent'
+          message: response.data.message || 'Notification resent',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to resend notification'
+        error: response.data.message || 'Failed to resend notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -697,13 +698,13 @@ class NotificationService {
         return {
           success: true,
           status: response.data.status,
-          deliveries: response.data.deliveries
+          deliveries: response.data.deliveries,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get delivery status'
+        error: response.data.message || 'Failed to get delivery status',
       };
     } catch (error) {
       throw handleError(error);
@@ -722,13 +723,13 @@ class NotificationService {
           success: true,
           message: response.data.message || 'Bulk notifications sent',
           results: response.data.results,
-          failed: response.data.failed
+          failed: response.data.failed,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to send bulk notifications'
+        error: response.data.message || 'Failed to send bulk notifications',
       };
     } catch (error) {
       throw handleError(error);
@@ -745,13 +746,13 @@ class NotificationService {
           success: true,
           message: response.data.message || 'Bulk notifications created',
           data: response.data.notifications,
-          count: response.data.count
+          count: response.data.count,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to create bulk notifications'
+        error: response.data.message || 'Failed to create bulk notifications',
       };
     } catch (error) {
       throw handleError(error);
@@ -767,13 +768,13 @@ class NotificationService {
         return {
           success: true,
           message: response.data.message || 'Bulk marked as read',
-          count: response.data.count
+          count: response.data.count,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to mark bulk as read'
+        error: response.data.message || 'Failed to mark bulk as read',
       };
     } catch (error) {
       throw handleError(error);
@@ -789,37 +790,37 @@ class NotificationService {
         return {
           success: true,
           message: response.data.message || 'Bulk archived',
-          count: response.data.count
+          count: response.data.count,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to archive bulk'
+        error: response.data.message || 'Failed to archive bulk',
       };
     } catch (error) {
       throw handleError(error);
     }
-    }
-    // ==================== Templates ====================
+  }
+  // ==================== Templates ====================
 
   // Get templates
   async getTemplates(type = null) {
     try {
       const response = await notificationApi.get('/templates', {
-        params: { type }
+        params: { type },
       });
       
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.templates
+          data: response.data.templates,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get templates'
+        error: response.data.message || 'Failed to get templates',
       };
     } catch (error) {
       throw handleError(error);
@@ -834,13 +835,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.template
+          data: response.data.template,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get template'
+        error: response.data.message || 'Failed to get template',
       };
     } catch (error) {
       throw handleError(error);
@@ -856,13 +857,13 @@ class NotificationService {
         return {
           success: true,
           data: response.data.template,
-          message: response.data.message || 'Template created'
+          message: response.data.message || 'Template created',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to create template'
+        error: response.data.message || 'Failed to create template',
       };
     } catch (error) {
       throw handleError(error);
@@ -878,13 +879,13 @@ class NotificationService {
         return {
           success: true,
           data: response.data.template,
-          message: response.data.message || 'Template updated'
+          message: response.data.message || 'Template updated',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update template'
+        error: response.data.message || 'Failed to update template',
       };
     } catch (error) {
       throw handleError(error);
@@ -899,13 +900,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Template deleted'
+          message: response.data.message || 'Template deleted',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to delete template'
+        error: response.data.message || 'Failed to delete template',
       };
     } catch (error) {
       throw handleError(error);
@@ -920,13 +921,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          rendered: response.data.rendered
+          rendered: response.data.rendered,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to render template'
+        error: response.data.message || 'Failed to render template',
       };
     } catch (error) {
       throw handleError(error);
@@ -941,13 +942,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          preview: response.data.preview
+          preview: response.data.preview,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to preview template'
+        error: response.data.message || 'Failed to preview template',
       };
     } catch (error) {
       throw handleError(error);
@@ -964,13 +965,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.settings
+          data: response.data.settings,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get settings'
+        error: response.data.message || 'Failed to get settings',
       };
     } catch (error) {
       throw handleError(error);
@@ -986,13 +987,13 @@ class NotificationService {
         return {
           success: true,
           data: response.data.settings,
-          message: response.data.message || 'Settings updated'
+          message: response.data.message || 'Settings updated',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update settings'
+        error: response.data.message || 'Failed to update settings',
       };
     } catch (error) {
       throw handleError(error);
@@ -1008,13 +1009,13 @@ class NotificationService {
         return {
           success: true,
           data: response.data.settings,
-          message: response.data.message || 'Channel settings updated'
+          message: response.data.message || 'Channel settings updated',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update channel settings'
+        error: response.data.message || 'Failed to update channel settings',
       };
     } catch (error) {
       throw handleError(error);
@@ -1030,13 +1031,13 @@ class NotificationService {
         return {
           success: true,
           data: response.data.quietHours,
-          message: response.data.message || 'Quiet hours updated'
+          message: response.data.message || 'Quiet hours updated',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update quiet hours'
+        error: response.data.message || 'Failed to update quiet hours',
       };
     } catch (error) {
       throw handleError(error);
@@ -1052,13 +1053,13 @@ class NotificationService {
         return {
           success: true,
           data: response.data.settings,
-          message: response.data.message || 'Settings reset to default'
+          message: response.data.message || 'Settings reset to default',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to reset settings'
+        error: response.data.message || 'Failed to reset settings',
       };
     } catch (error) {
       throw handleError(error);
@@ -1075,13 +1076,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.preferences
+          data: response.data.preferences,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get preferences'
+        error: response.data.message || 'Failed to get preferences',
       };
     } catch (error) {
       throw handleError(error);
@@ -1097,13 +1098,13 @@ class NotificationService {
         return {
           success: true,
           data: response.data.preferences,
-          message: response.data.message || 'Preferences updated'
+          message: response.data.message || 'Preferences updated',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update preferences'
+        error: response.data.message || 'Failed to update preferences',
       };
     } catch (error) {
       throw handleError(error);
@@ -1118,13 +1119,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.preferences
+          data: response.data.preferences,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get type preferences'
+        error: response.data.message || 'Failed to get type preferences',
       };
     } catch (error) {
       throw handleError(error);
@@ -1140,13 +1141,13 @@ class NotificationService {
         return {
           success: true,
           data: response.data.preferences,
-          message: response.data.message || 'Type preferences updated'
+          message: response.data.message || 'Type preferences updated',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update type preferences'
+        error: response.data.message || 'Failed to update type preferences',
       };
     } catch (error) {
       throw handleError(error);
@@ -1163,13 +1164,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || `Subscribed to ${topic}`
+          message: response.data.message || `Subscribed to ${topic}`,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to subscribe'
+        error: response.data.message || 'Failed to subscribe',
       };
     } catch (error) {
       throw handleError(error);
@@ -1184,13 +1185,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || `Unsubscribed from ${topic}`
+          message: response.data.message || `Unsubscribed from ${topic}`,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to unsubscribe'
+        error: response.data.message || 'Failed to unsubscribe',
       };
     } catch (error) {
       throw handleError(error);
@@ -1205,13 +1206,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.subscriptions
+          data: response.data.subscriptions,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get subscriptions'
+        error: response.data.message || 'Failed to get subscriptions',
       };
     } catch (error) {
       throw handleError(error);
@@ -1225,20 +1226,20 @@ class NotificationService {
     try {
       const response = await notificationApi.post('/devices/register', {
         token: deviceToken,
-        ...deviceData
+        ...deviceData,
       });
       
       if (response.data.success) {
         return {
           success: true,
           message: response.data.message || 'Device registered',
-          deviceId: response.data.deviceId
+          deviceId: response.data.deviceId,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to register device'
+        error: response.data.message || 'Failed to register device',
       };
     } catch (error) {
       throw handleError(error);
@@ -1253,13 +1254,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Device unregistered'
+          message: response.data.message || 'Device unregistered',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to unregister device'
+        error: response.data.message || 'Failed to unregister device',
       };
     } catch (error) {
       throw handleError(error);
@@ -1274,13 +1275,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.devices
+          data: response.data.devices,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get devices'
+        error: response.data.message || 'Failed to get devices',
       };
     } catch (error) {
       throw handleError(error);
@@ -1293,19 +1294,19 @@ class NotificationService {
   async getStats(period = '30days') {
     try {
       const response = await notificationApi.get('/stats', {
-        params: { period }
+        params: { period },
       });
       
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.stats
+          data: response.data.stats,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get statistics'
+        error: response.data.message || 'Failed to get statistics',
       };
     } catch (error) {
       throw handleError(error);
@@ -1316,19 +1317,19 @@ class NotificationService {
   async getDeliveryStats(period = '30days') {
     try {
       const response = await notificationApi.get('/stats/delivery', {
-        params: { period }
+        params: { period },
       });
       
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.stats
+          data: response.data.stats,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get delivery stats'
+        error: response.data.message || 'Failed to get delivery stats',
       };
     } catch (error) {
       throw handleError(error);
@@ -1339,19 +1340,19 @@ class NotificationService {
   async getEngagementStats(period = '30days') {
     try {
       const response = await notificationApi.get('/stats/engagement', {
-        params: { period }
+        params: { period },
       });
       
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.stats
+          data: response.data.stats,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get engagement stats'
+        error: response.data.message || 'Failed to get engagement stats',
       };
     } catch (error) {
       throw handleError(error);
@@ -1368,13 +1369,13 @@ class NotificationService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Test notification sent'
+          message: response.data.message || 'Test notification sent',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to send test notification'
+        error: response.data.message || 'Failed to send test notification',
       };
     } catch (error) {
       throw handleError(error);
@@ -1494,7 +1495,7 @@ export const notificationHelpers = {
       read,
       byType,
       byPriority,
-      readRate: total ? (read / total) * 100 : 0
+      readRate: total ? (read / total) * 100 : 0,
     };
   },
 
@@ -1538,7 +1539,7 @@ export const notificationHelpers = {
       color: notificationHelpers.getNotificationColor(type),
       channels: [NOTIFICATION_CHANNELS.IN_APP],
       data,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
   },
 
@@ -1550,7 +1551,7 @@ export const notificationHelpers = {
       body,
       channels: [NOTIFICATION_CHANNELS.EMAIL],
       data,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
   },
 
@@ -1561,7 +1562,7 @@ export const notificationHelpers = {
       body,
       channels: [NOTIFICATION_CHANNELS.PUSH],
       data,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
   },
 
@@ -1572,9 +1573,9 @@ export const notificationHelpers = {
       message,
       channels: [NOTIFICATION_CHANNELS.SMS],
       data,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
-  }
+  },
 };
 
 // Export constants
@@ -1588,7 +1589,7 @@ export const NOTIFICATION_CONSTANTS = {
   DEFAULT_SETTINGS,
   QUIET_HOURS,
   RATE_LIMITS,
-  DEFAULT_TEMPLATES
+  DEFAULT_TEMPLATES,
 };
 
 export default notificationService;

@@ -29,8 +29,8 @@ export const NotificationProvider = ({ children }) => {
   const markAsRead = useCallback((id) => {
     setNotifications(prev => 
       prev.map(notif => 
-        notif.id === id ? { ...notif, read: true } : notif
-      )
+        notif.id === id ? { ...notif, read: true } : notif,
+      ),
     );
     setUnreadCount(prev => Math.max(0, prev - 1));
   }, []);
@@ -38,7 +38,7 @@ export const NotificationProvider = ({ children }) => {
   // Mark all as read
   const markAllAsRead = useCallback(() => {
     setNotifications(prev => 
-      prev.map(notif => ({ ...notif, read: true }))
+      prev.map(notif => ({ ...notif, read: true })),
     );
     setUnreadCount(0);
   }, []);
@@ -67,7 +67,7 @@ export const NotificationProvider = ({ children }) => {
     markAsRead,
     markAllAsRead,
     removeNotification,
-    clearAll
+    clearAll,
   };
 
   return (

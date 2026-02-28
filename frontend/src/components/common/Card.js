@@ -24,7 +24,7 @@ const Card = ({
     primary: 'card-primary',
     success: 'card-success',
     danger: 'card-danger',
-    warning: 'card-warning'
+    warning: 'card-warning',
   };
 
   const cardClasses = [
@@ -32,7 +32,7 @@ const Card = ({
     variants[variant] || 'card-default',
     hoverable ? 'card-hoverable' : '',
     clickable ? 'card-clickable' : '',
-    className
+    className,
   ].filter(Boolean).join(' ');
 
   const handleClick = () => {

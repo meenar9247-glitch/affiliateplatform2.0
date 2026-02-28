@@ -140,7 +140,7 @@ export const PERMISSIONS = {
   PERMISSION_VIEW: 'permission:view',
   PERMISSION_ASSIGN: 'permission:assign',
   PERMISSION_REVOKE: 'permission:revoke',
-  PERMISSION_MANAGE: 'permission:manage'
+  PERMISSION_MANAGE: 'permission:manage',
 };
 
 // ==================== Role Definitions ====================
@@ -150,7 +150,7 @@ export const ROLES = {
   AFFILIATE: 'affiliate',
   MODERATOR: 'moderator',
   ADMIN: 'admin',
-  SUPER_ADMIN: 'super_admin'
+  SUPER_ADMIN: 'super_admin',
 };
 
 // ==================== Role Hierarchy ====================
@@ -160,7 +160,7 @@ export const ROLE_HIERARCHY = {
   [ROLES.AFFILIATE]: 2,
   [ROLES.MODERATOR]: 3,
   [ROLES.ADMIN]: 4,
-  [ROLES.SUPER_ADMIN]: 5
+  [ROLES.SUPER_ADMIN]: 5,
 };
 
 // ==================== Default Role Permissions ====================
@@ -203,7 +203,7 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.NOTIFICATION_VIEW,
     
     // Products
-    PERMISSIONS.PRODUCT_VIEW
+    PERMISSIONS.PRODUCT_VIEW,
   ],
   
   [ROLES.AFFILIATE]: [
@@ -216,7 +216,7 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.COMMISSION_MANAGE,
     PERMISSIONS.ANALYTICS_EXPORT,
     PERMISSIONS.REPORT_VIEW,
-    PERMISSIONS.REPORT_EXPORT
+    PERMISSIONS.REPORT_EXPORT,
   ],
   
   [ROLES.MODERATOR]: [
@@ -230,7 +230,7 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.SUPPORT_REPLY,
     PERMISSIONS.SUPPORT_CLOSE,
     PERMISSIONS.REPORT_CREATE,
-    PERMISSIONS.LOG_VIEW
+    PERMISSIONS.LOG_VIEW,
   ],
   
   [ROLES.ADMIN]: [
@@ -284,7 +284,7 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.SYSTEM_VIEW,
     PERMISSIONS.LOG_EXPORT,
     PERMISSIONS.API_ACCESS,
-    PERMISSIONS.NOTIFICATION_SEND
+    PERMISSIONS.NOTIFICATION_SEND,
   ],
   
   [ROLES.SUPER_ADMIN]: [
@@ -312,8 +312,8 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.API_KEY_CREATE,
     PERMISSIONS.API_KEY_REVOKE,
     
-    PERMISSIONS.SETTINGS_MANAGE
-  ]
+    PERMISSIONS.SETTINGS_MANAGE,
+  ],
 };
 // ==================== Permission Helpers ====================
 
@@ -436,7 +436,7 @@ export const permissionHelpers = {
   // Get permissions by category
   getPermissionsByCategory: (category) => {
     return Object.values(PERMISSIONS).filter(perm => 
-      perm.startsWith(category + ':')
+      perm.startsWith(category + ':'),
     );
   },
   
@@ -463,9 +463,9 @@ export const permissionHelpers = {
       `${resource}:create`,
       `${resource}:edit`,
       `${resource}:delete`,
-      `${resource}:manage`
+      `${resource}:manage`,
     ];
-  }
+  },
 };
 
 // ==================== Access Control Functions ====================
@@ -613,7 +613,7 @@ export const accessControl = {
     
     // Check permission
     return permissionHelpers.hasPermission(user, PERMISSIONS.SUPPORT_CLOSE);
-  }
+  },
 };
 // ==================== Permission Guards ====================
 
@@ -623,7 +623,7 @@ export const permissionGuards = {
     if (!user) {
       return {
         allowed: false,
-        reason: 'No user provided'
+        reason: 'No user provided',
       };
     }
     
@@ -632,20 +632,20 @@ export const permissionGuards = {
         return {
           allowed: false,
           reason: 'Missing required permissions',
-          missing: requiredPermissions.filter(p => !permissionHelpers.hasPermission(user, p))
+          missing: requiredPermissions.filter(p => !permissionHelpers.hasPermission(user, p)),
         };
       }
     } else {
       if (!permissionHelpers.hasAnyPermission(user, requiredPermissions)) {
         return {
           allowed: false,
-          reason: 'No matching permissions found'
+          reason: 'No matching permissions found',
         };
       }
     }
     
     return {
-      allowed: true
+      allowed: true,
     };
   },
   
@@ -654,7 +654,7 @@ export const permissionGuards = {
     if (!user) {
       return {
         allowed: false,
-        reason: 'No user provided'
+        reason: 'No user provided',
       };
     }
     
@@ -663,12 +663,12 @@ export const permissionGuards = {
         allowed: false,
         reason: 'Insufficient role',
         required: requiredRoles,
-        current: user.role
+        current: user.role,
       };
     }
     
     return {
-      allowed: true
+      allowed: true,
     };
   },
   
@@ -677,14 +677,14 @@ export const permissionGuards = {
     if (!user) {
       return {
         allowed: false,
-        reason: 'No user provided'
+        reason: 'No user provided',
       };
     }
     
     // Check if user owns the resource
     if (ownerId && user.id === ownerId) {
       return {
-        allowed: true
+        allowed: true,
       };
     }
     
@@ -692,13 +692,13 @@ export const permissionGuards = {
     const permission = `${resource}:${action}`;
     if (permissionHelpers.hasPermission(user, permission)) {
       return {
-        allowed: true
+        allowed: true,
       };
     }
     
     return {
       allowed: false,
-      reason: `Missing permission: ${permission}`
+      reason: `Missing permission: ${permission}`,
     };
   },
   
@@ -707,7 +707,7 @@ export const permissionGuards = {
     if (!user) {
       return {
         allowed: false,
-        reason: 'No user provided'
+        reason: 'No user provided',
       };
     }
     
@@ -737,7 +737,7 @@ export const permissionGuards = {
     if (!user) {
       return {
         allowed: false,
-        reason: 'No user provided'
+        reason: 'No user provided',
       };
     }
     
@@ -762,7 +762,7 @@ export const permissionGuards = {
     if (!user) {
       return {
         allowed: false,
-        reason: 'No user provided'
+        reason: 'No user provided',
       };
     }
     
@@ -787,7 +787,7 @@ export const permissionGuards = {
     if (!user) {
       return {
         allowed: false,
-        reason: 'No user provided'
+        reason: 'No user provided',
       };
     }
     
@@ -810,7 +810,7 @@ export const permissionGuards = {
       default:
         return { allowed: false, reason: 'Invalid action' };
     }
-  }
+  },
 };
 
 // ==================== Higher-Order Functions ====================
@@ -866,7 +866,7 @@ export const permissionMiddleware = (requiredPermissions, requireAll = false) =>
       return res.status(403).json({
         error: 'Forbidden',
         message: guard.reason,
-        required: requiredPermissions
+        required: requiredPermissions,
       });
     }
     
@@ -884,7 +884,7 @@ export const roleMiddleware = (requiredRoles) => {
         error: 'Forbidden',
         message: guard.reason,
         required: requiredRoles,
-        current: user?.role
+        current: user?.role,
       });
     }
     
@@ -906,5 +906,5 @@ export default {
   withRole,
   withResourceGuard,
   permissionMiddleware,
-  roleMiddleware
+  roleMiddleware,
 };

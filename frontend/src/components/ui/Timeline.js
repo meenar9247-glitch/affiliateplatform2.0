@@ -14,7 +14,7 @@ import {
   FiCalendar,
   FiDollarSign,
   FiTrendingUp,
-  FiAward
+  FiAward,
 } from 'react-icons/fi';
 
 const Timeline = ({
@@ -51,34 +51,34 @@ const Timeline = ({
   const sizeClasses = {
     small: 'timeline-small',
     medium: 'timeline-medium',
-    large: 'timeline-large'
+    large: 'timeline-large',
   };
 
   // Direction classes
   const directionClasses = {
     vertical: 'timeline-vertical',
-    horizontal: 'timeline-horizontal'
+    horizontal: 'timeline-horizontal',
   };
 
   // Align classes
   const alignClasses = {
     left: 'timeline-left',
     right: 'timeline-right',
-    alternate: 'timeline-alternate'
+    alternate: 'timeline-alternate',
   };
 
   // Variant classes
   const variantClasses = {
     outlined: 'timeline-outlined',
     contained: 'timeline-contained',
-    minimal: 'timeline-minimal'
+    minimal: 'timeline-minimal',
   };
 
   // Mode classes (for content placement)
   const modeClasses = {
     left: 'timeline-mode-left',
     right: 'timeline-mode-right',
-    alternate: 'timeline-mode-alternate'
+    alternate: 'timeline-mode-alternate',
   };
 
   // Get icon based on type or custom
@@ -652,7 +652,7 @@ const Timeline = ({
                     `}
                     style={direction === 'horizontal' ? {
                       left: index === 0 ? '50%' : '0',
-                      width: index === 0 ? '50%' : '100%'
+                      width: index === 0 ? '50%' : '100%',
                     } : {}}
                   />
                 )}
@@ -710,7 +710,7 @@ export const BasicTimeline = ({ items, ...props }) => {
     <Timeline
       items={items.map(item => ({
         ...item,
-        icon: <FiClock />
+        icon: <FiClock />,
       }))}
       variant="minimal"
       size="small"
@@ -732,7 +732,7 @@ export const OrderTimeline = ({ steps = [], currentStep, ...props }) => {
     <Timeline
       items={steps.map((step, index) => ({
         ...step,
-        status: getStatus(index)
+        status: getStatus(index),
       }))}
       variant="outlined"
       {...props}
@@ -747,7 +747,7 @@ export const NotificationTimeline = ({ notifications = [], ...props }) => {
       items={notifications.map(notification => ({
         ...notification,
         icon: notification.read ? <FiInfo /> : <FiAlertCircle />,
-        status: notification.read ? 'inactive' : 'active'
+        status: notification.read ? 'inactive' : 'active',
       }))}
       variant="minimal"
       {...props}
@@ -794,7 +794,7 @@ export const AchievementTimeline = ({ achievements = [], ...props }) => {
               <span className="achievement-badge">{achievement.category}</span>
               <span className="achievement-points">+{achievement.points} pts</span>
             </div>
-          )
+          ),
         }))}
         {...props}
       />

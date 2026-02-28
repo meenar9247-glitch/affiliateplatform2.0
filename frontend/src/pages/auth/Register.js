@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -10,14 +10,14 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    referralCode: ''
+    referralCode: '',
   });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -47,8 +47,8 @@ const Register = () => {
           name: formData.name,
           email: formData.email,
           password: formData.password,
-          referralCode: formData.referralCode || undefined
-        }
+          referralCode: formData.referralCode || undefined,
+        },
       );
 
       if (response.data.success) {

@@ -7,8 +7,8 @@ const api = axios.create({
   timeout: 30000, // 30 seconds timeout
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  }
+    'Accept': 'application/json',
+  },
 });
 
 // Request interceptor to add token
@@ -23,7 +23,7 @@ api.interceptors.request.use(
     if (config.method === 'get') {
       config.params = {
         ...config.params,
-        _t: Date.now()
+        _t: Date.now(),
       };
     }
     
@@ -32,7 +32,7 @@ api.interceptors.request.use(
   (error) => {
     console.error('Request interceptor error:', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor for error handling
@@ -60,7 +60,7 @@ api.interceptors.response.use(
         if (refreshToken) {
           const response = await axios.post(
             `${process.env.REACT_APP_API_URL}/auth/refresh-token`,
-            { token: refreshToken }
+            { token: refreshToken },
           );
 
           if (response.data.success) {
@@ -119,7 +119,7 @@ api.interceptors.response.use(
     const errorMessage = error.response?.data?.message || 'An error occurred';
     toast.error(errorMessage);
     return Promise.reject(error);
-  }
+  },
 );
 
 // ============================================
@@ -158,7 +158,7 @@ export const authAPI = {
   updatePassword: (passwords) => api.put('/auth/update-password', passwords),
 
   // Google OAuth
-  googleAuth: (googleData) => api.post('/auth/google', googleData)
+  googleAuth: (googleData) => api.post('/auth/google', googleData),
 };
 
 // ============================================
@@ -185,7 +185,7 @@ export const userAPI = {
   getUserReferrals: (userId) => api.get(`/users/${userId}/referrals`),
 
   // Get user earnings
-  getUserEarnings: (userId) => api.get(`/users/${userId}/earnings`)
+  getUserEarnings: (userId) => api.get(`/users/${userId}/earnings`),
 };
 
 // ============================================
@@ -237,8 +237,8 @@ export const affiliateAPI = {
 
   // Bulk upload links (admin only)
   bulkUpload: (formData) => api.post('/affiliates/bulk-upload', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  })
+    headers: { 'Content-Type': 'multipart/form-data' },
+  }),
 };
 
 // ============================================
@@ -283,7 +283,7 @@ export const paymentAPI = {
   getStripeDashboard: () => api.get('/payments/stripe-dashboard'),
 
   // Create PayPal payout
-  createPaypalPayout: (payoutData) => api.post('/payments/create-paypal-payout', payoutData)
+  createPaypalPayout: (payoutData) => api.post('/payments/create-paypal-payout', payoutData),
 };
 
 // ============================================
@@ -329,7 +329,7 @@ export const adminAPI = {
   getConversionsReport: (params) => api.get('/admin/reports/conversions', { params }),
   exportData: (type, params) => api.get(`/admin/export/${type}`, { 
     params,
-    responseType: 'blob' 
+    responseType: 'blob', 
   }),
 
   // Analytics
@@ -339,7 +339,7 @@ export const adminAPI = {
   // Admin management
   createAdmin: (adminData) => api.post('/admin/admins', adminData),
   getAdmins: () => api.get('/admin/admins'),
-  removeAdmin: (id) => api.delete(`/admin/admins/${id}`)
+  removeAdmin: (id) => api.delete(`/admin/admins/${id}`),
 };
 
 // ============================================
@@ -363,7 +363,7 @@ export const analyticsAPI = {
   getTrafficSources: (params) => api.get('/analytics/traffic', { params }),
 
   // Get leaderboard
-  getLeaderboard: (params) => api.get('/analytics/leaderboard', { params })
+  getLeaderboard: (params) => api.get('/analytics/leaderboard', { params }),
 };
 
 // ============================================
@@ -387,7 +387,7 @@ export const supportAPI = {
   closeTicket: (id) => api.put(`/support/tickets/${id}/close`),
 
   // Get FAQ
-  getFAQ: () => api.get('/support/faq')
+  getFAQ: () => api.get('/support/faq'),
 };
 
 // ============================================

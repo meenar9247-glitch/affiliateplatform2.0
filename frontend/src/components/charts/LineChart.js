@@ -8,7 +8,7 @@ import {
   FiMinimize2,
   FiCalendar,
   FiTrendingUp,
-  FiTrendingDown
+  FiTrendingDown,
 } from 'react-icons/fi';
 
 const LineChart = ({
@@ -62,7 +62,7 @@ const LineChart = ({
         const { width: containerWidth } = containerRef.current.getBoundingClientRect();
         setDimensions({
           width: containerWidth - margin.left - margin.right,
-          height: height - margin.top - margin.bottom
+          height: height - margin.top - margin.bottom,
         });
       }
     };
@@ -96,7 +96,7 @@ const LineChart = ({
     // Calculate scales
     const xScale = dimensions.width / (data.length - 1);
     const yValues = data.flatMap(d => 
-      series.map(s => d[s.key] || 0)
+      series.map(s => d[s.key] || 0),
     );
     const minY = Math.min(0, ...yValues);
     const maxY = Math.max(...yValues);
@@ -181,7 +181,7 @@ const LineChart = ({
       // Draw curved line
       const points = data.map((d, i) => ({
         x: margin.left + i * xScale + xScale / 2,
-        y: margin.top + dimensions.height - (d[series.key] - minY) * yScale
+        y: margin.top + dimensions.height - (d[series.key] - minY) * yScale,
       }));
       
       ctx.moveTo(points[0].x, points[0].y);
@@ -196,7 +196,7 @@ const LineChart = ({
         points[points.length - 2].x,
         points[points.length - 2].y,
         points[points.length - 1].x,
-        points[points.length - 1].y
+        points[points.length - 1].y,
       );
     } else {
       // Draw straight line
@@ -234,7 +234,7 @@ const LineChart = ({
       
       ctx.lineTo(
         margin.left + (data.length - 1) * xScale + xScale / 2,
-        margin.top + dimensions.height
+        margin.top + dimensions.height,
       );
       ctx.closePath();
       ctx.fill();
@@ -353,7 +353,7 @@ const LineChart = ({
       ctx.fillText(
         xAxisLabel,
         margin.left + dimensions.width / 2,
-        margin.top + dimensions.height + 40
+        margin.top + dimensions.height + 40,
       );
     }
     
@@ -377,7 +377,7 @@ const LineChart = ({
     // Check if hovering over a point
     const xScale = dimensions.width / (data.length - 1);
     const yValues = data.flatMap(d => 
-      series.map(s => d[s.key] || 0)
+      series.map(s => d[s.key] || 0),
     );
     const minY = Math.min(0, ...yValues);
     const maxY = Math.max(...yValues);
@@ -744,7 +744,7 @@ const LineChart = ({
                 <FiRefreshCw size={16} />
               </button>
             )}
-        {showDownload && (
+            {showDownload && (
               <button className="chart-btn" onClick={handleDownload} title="Download">
                 <FiDownload size={16} />
               </button>
@@ -762,7 +762,7 @@ const LineChart = ({
         <div
           className="chart-wrapper"
           style={{
-            transform: `scale(${zoomLevel}) translate(${panOffset.x}px, ${panOffset.y}px)`
+            transform: `scale(${zoomLevel}) translate(${panOffset.x}px, ${panOffset.y}px)`,
           }}
         >
           <canvas

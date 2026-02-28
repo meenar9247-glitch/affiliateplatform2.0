@@ -5,7 +5,7 @@ export const NUMBER_FORMATS = {
   CURRENCY: 'currency',
   SCIENTIFIC: 'scientific',
   ENGINEERING: 'engineering',
-  COMPACT: 'compact'
+  COMPACT: 'compact',
 };
 
 // Currency display formats
@@ -13,13 +13,13 @@ export const CURRENCY_DISPLAY = {
   SYMBOL: 'symbol',
   CODE: 'code',
   NAME: 'name',
-  NARROW_SYMBOL: 'narrowSymbol'
+  NARROW_SYMBOL: 'narrowSymbol',
 };
 
 // Compact display formats
 export const COMPACT_DISPLAY = {
   SHORT: 'short',
-  LONG: 'long'
+  LONG: 'long',
 };
 
 // Number formatter class
@@ -30,7 +30,7 @@ export class NumberFormatter {
       maximumFractionDigits: 2,
       minimumFractionDigits: 0,
       useGrouping: true,
-      ...options
+      ...options,
     };
   }
 
@@ -46,7 +46,7 @@ export class NumberFormatter {
     return this.format(number, {
       style: NUMBER_FORMATS.DECIMAL,
       minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
+      maximumFractionDigits: decimals,
     });
   }
 
@@ -55,7 +55,7 @@ export class NumberFormatter {
     return this.format(number / 100, {
       style: NUMBER_FORMATS.PERCENT,
       minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
+      maximumFractionDigits: decimals,
     });
   }
 
@@ -65,7 +65,7 @@ export class NumberFormatter {
       style: NUMBER_FORMATS.CURRENCY,
       currency,
       currencyDisplay: CURRENCY_DISPLAY.SYMBOL,
-      ...options
+      ...options,
     });
   }
 
@@ -75,7 +75,7 @@ export class NumberFormatter {
       notation: NUMBER_FORMATS.COMPACT,
       compactDisplay: display,
       minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
+      maximumFractionDigits: decimals,
     });
   }
 
@@ -84,7 +84,7 @@ export class NumberFormatter {
     return this.format(number, {
       notation: NUMBER_FORMATS.SCIENTIFIC,
       minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
+      maximumFractionDigits: decimals,
     });
   }
 
@@ -93,7 +93,7 @@ export class NumberFormatter {
     return this.format(number, {
       notation: NUMBER_FORMATS.ENGINEERING,
       minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
+      maximumFractionDigits: decimals,
     });
   }
 
@@ -136,8 +136,8 @@ export class NumberFormatter {
   // English number to words
   numberToWordsEnglish(number) {
     const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
-                  'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
-                  'seventeen', 'eighteen', 'nineteen'];
+      'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+      'seventeen', 'eighteen', 'nineteen'];
     const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
     const scales = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion'];
     
@@ -268,7 +268,7 @@ export class NumberFormatter {
     
     return `${totalNumerator}/${bestDenominator}`;
   }
-  }
+}
 // Date formats
 export const DATE_FORMATS = {
   ISO: 'iso',
@@ -278,7 +278,7 @@ export const DATE_FORMATS = {
   MEDIUM: 'medium',
   LONG: 'long',
   FULL: 'full',
-  RELATIVE: 'relative'
+  RELATIVE: 'relative',
 };
 
 // Time formats
@@ -286,7 +286,7 @@ export const TIME_FORMATS = {
   SHORT: 'short',
   MEDIUM: 'medium',
   LONG: 'long',
-  FULL: 'full'
+  FULL: 'full',
 };
 
 // Date formatter class
@@ -304,7 +304,7 @@ export class DateFormatter {
     
     const formatOptions = {
       timeZone: this.timezone,
-      ...options
+      ...options,
     };
     
     return new Intl.DateTimeFormat(this.locale, formatOptions).format(dateObj);
@@ -333,7 +333,7 @@ export class DateFormatter {
       [DATE_FORMATS.SHORT]: { dateStyle: 'short' },
       [DATE_FORMATS.MEDIUM]: { dateStyle: 'medium' },
       [DATE_FORMATS.LONG]: { dateStyle: 'long' },
-      [DATE_FORMATS.FULL]: { dateStyle: 'full' }
+      [DATE_FORMATS.FULL]: { dateStyle: 'full' },
     };
     
     return this.format(date, options[format] || options[DATE_FORMATS.MEDIUM]);
@@ -345,7 +345,7 @@ export class DateFormatter {
       [TIME_FORMATS.SHORT]: { timeStyle: 'short' },
       [TIME_FORMATS.MEDIUM]: { timeStyle: 'medium' },
       [TIME_FORMATS.LONG]: { timeStyle: 'long' },
-      [TIME_FORMATS.FULL]: { timeStyle: 'full' }
+      [TIME_FORMATS.FULL]: { timeStyle: 'full' },
     };
     
     return this.format(date, options[format] || options[TIME_FORMATS.MEDIUM]);
@@ -368,7 +368,7 @@ export class DateFormatter {
       { name: 'day', seconds: 86400 },
       { name: 'hour', seconds: 3600 },
       { name: 'minute', seconds: 60 },
-      { name: 'second', seconds: 1 }
+      { name: 'second', seconds: 1 },
     ];
     
     for (const unit of units) {
@@ -402,7 +402,7 @@ export class DateFormatter {
     const options = {
       short: { weekday: 'short' },
       long: { weekday: 'long' },
-      narrow: { weekday: 'narrow' }
+      narrow: { weekday: 'narrow' },
     };
     
     return this.format(date, options[format] || options.long);
@@ -415,7 +415,7 @@ export class DateFormatter {
       '2-digit': { month: '2-digit' },
       short: { month: 'short' },
       long: { month: 'long' },
-      narrow: { month: 'narrow' }
+      narrow: { month: 'narrow' },
     };
     
     return this.format(date, options[format] || options.long);
@@ -425,7 +425,7 @@ export class DateFormatter {
   year(date, format = 'numeric') {
     const options = {
       numeric: { year: 'numeric' },
-      '2-digit': { year: '2-digit' }
+      '2-digit': { year: '2-digit' },
     };
     
     return this.format(date, options[format] || options.numeric);
@@ -482,7 +482,7 @@ export class DateFormatter {
       'ddd': this.dayOfWeek(date, 'short'),
       'dddd': this.dayOfWeek(date, 'long'),
       'MMM': this.month(date, 'short'),
-      'MMMM': this.month(date, 'long')
+      'MMMM': this.month(date, 'long'),
     };
     
     return pattern.replace(/YYYY|YY|MM|M|DD|D|HH|H|hh|h|mm|m|ss|s|SSS|A|a|ddd|dddd|MMM|MMMM/g, 
@@ -598,12 +598,12 @@ export class DateFormatter {
       days: 24 * 60 * 60 * 1000,
       weeks: 7 * 24 * 60 * 60 * 1000,
       months: 30 * 24 * 60 * 60 * 1000,
-      years: 365 * 24 * 60 * 60 * 1000
+      years: 365 * 24 * 60 * 60 * 1000,
     };
     
     return diffInMs / units[unit];
   }
-  }
+}
 // String formatter class
 export class StringFormatter {
   // Truncate string
@@ -711,7 +711,7 @@ export class StringFormatter {
       visibleStart = 4,
       visibleEnd = 4,
       maskChar = '*',
-      preserveLength = true
+      preserveLength = true,
     } = options;
     
     if (type === 'email') {
@@ -788,7 +788,7 @@ export class ArrayFormatter {
     const {
       type = 'conjunction',
       style = 'long',
-      locale = 'en'
+      locale = 'en',
     } = options;
     
     return new Intl.ListFormat(locale, { type, style }).format(arr);
@@ -1009,7 +1009,7 @@ export const FORMATTER_CONSTANTS = {
   CURRENCY_DISPLAY,
   COMPACT_DISPLAY,
   DATE_FORMATS,
-  TIME_FORMATS
+  TIME_FORMATS,
 };
 
 export default formatter;

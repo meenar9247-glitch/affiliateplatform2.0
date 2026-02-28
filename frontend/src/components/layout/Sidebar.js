@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
 import {
   FiHome,
   FiTrendingUp,
@@ -32,8 +30,11 @@ import {
   FiEye,
   FiEyeOff,
   FiChevronDown,
-  FiChevronUp
+  FiChevronUp,
 } from 'react-icons/fi';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+import { useAuth } from '../../hooks/useAuth';
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
@@ -88,7 +89,7 @@ const Sidebar = () => {
       path: '/dashboard',
       icon: FiHome,
       roles: ['user', 'admin'],
-      exact: true
+      exact: true,
     },
     {
       title: 'Affiliates',
@@ -98,8 +99,8 @@ const Sidebar = () => {
       submenu: [
         { title: 'All Links', path: '/affiliates', icon: FiLink },
         { title: 'My Links', path: '/affiliates/my-links', icon: FiStar },
-        { title: 'Create Link', path: '/affiliates/create', icon: FiUpload }
-      ]
+        { title: 'Create Link', path: '/affiliates/create', icon: FiUpload },
+      ],
     },
     {
       title: 'Referrals',
@@ -109,8 +110,8 @@ const Sidebar = () => {
       submenu: [
         { title: 'My Referrals', path: '/referrals', icon: FiUsers },
         { title: 'Referral Tree', path: '/referrals/tree', icon: FiActivity },
-        { title: 'Leaderboard', path: '/leaderboard', icon: FiAward }
-      ]
+        { title: 'Leaderboard', path: '/leaderboard', icon: FiAward },
+      ],
     },
     {
       title: 'Earnings',
@@ -120,8 +121,8 @@ const Sidebar = () => {
       submenu: [
         { title: 'Overview', path: '/earnings', icon: FiPieChart },
         { title: 'Commissions', path: '/earnings/commissions', icon: FiTrendingUp },
-        { title: 'Payouts', path: '/earnings/payouts', icon: FiDownload }
-      ]
+        { title: 'Payouts', path: '/earnings/payouts', icon: FiDownload },
+      ],
     },
     {
       title: 'Wallet',
@@ -132,8 +133,8 @@ const Sidebar = () => {
         { title: 'Balance', path: '/wallet', icon: FiDollarSign },
         { title: 'Withdrawals', path: '/wallet/withdrawals', icon: FiUpload },
         { title: 'Transactions', path: '/wallet/transactions', icon: FiActivity },
-        { title: 'Payment Methods', path: '/wallet/payment-methods', icon: FiCreditCard }
-      ]
+        { title: 'Payment Methods', path: '/wallet/payment-methods', icon: FiCreditCard },
+      ],
     },
     {
       title: 'Analytics',
@@ -144,9 +145,9 @@ const Sidebar = () => {
         { title: 'Overview', path: '/analytics', icon: FiPieChart },
         { title: 'Reports', path: '/analytics/reports', icon: FiBarChart2 },
         { title: 'Traffic', path: '/analytics/traffic', icon: FiTrendingUp },
-        { title: 'Conversions', path: '/analytics/conversions', icon: FiActivity }
-      ]
-    }
+        { title: 'Conversions', path: '/analytics/conversions', icon: FiActivity },
+      ],
+    },
   ];
 
   // Admin only items
@@ -164,9 +165,9 @@ const Sidebar = () => {
         { title: 'Reports', path: '/admin/reports', icon: FiBarChart2 },
         { title: 'Analytics', path: '/admin/analytics', icon: FiActivity },
         { title: 'Settings', path: '/admin/settings', icon: FiSettings },
-        { title: 'Logs', path: '/admin/logs', icon: FiClock }
-      ]
-    }
+        { title: 'Logs', path: '/admin/logs', icon: FiClock },
+      ],
+    },
   ];
 
   // Bottom items
@@ -175,14 +176,14 @@ const Sidebar = () => {
       title: 'Settings',
       path: '/settings',
       icon: FiSettings,
-      roles: ['user', 'admin']
+      roles: ['user', 'admin'],
     },
     {
       title: 'Support',
       path: '/support',
       icon: FiHelpCircle,
-      roles: ['user', 'admin']
-    }
+      roles: ['user', 'admin'],
+    },
   ];
 
   const renderNavItem = (item, index) => {

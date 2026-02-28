@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiGlobe,
@@ -49,7 +49,7 @@ import {
   FiCheckCircle,
   FiXCircle,
   FiInfo,
-  FiHelpCircle
+  FiHelpCircle,
 } from 'react-icons/fi';
 
 const Preferences = () => {
@@ -71,7 +71,7 @@ const Preferences = () => {
       showThumbnails: true,
       defaultView: 'grid', // grid, list, table
       itemsPerPage: 20,
-      colorScheme: 'default' // default, blue, green, purple
+      colorScheme: 'default', // default, blue, green, purple
     },
     
     // Language & Region
@@ -83,7 +83,7 @@ const Preferences = () => {
       timezone: 'Asia/Kolkata',
       firstDayOfWeek: 'monday', // monday, sunday
       numberFormat: 'en-US',
-      currencyFormat: 'en-US'
+      currencyFormat: 'en-US',
     },
     
     // Currency Settings
@@ -94,7 +94,7 @@ const Preferences = () => {
       thousandSeparator: ',',
       decimalSeparator: '.',
       showCents: true,
-      autoConvert: false
+      autoConvert: false,
     },
     
     // Dashboard Preferences
@@ -108,7 +108,7 @@ const Preferences = () => {
       chartType: 'line', // line, bar, area
       refreshInterval: 5, // minutes
       pinnedWidgets: ['earnings', 'referrals', 'clicks'],
-      hiddenWidgets: []
+      hiddenWidgets: [],
     },
     
     // Accessibility
@@ -120,7 +120,7 @@ const Preferences = () => {
       largeCursors: false,
       disableAnimations: false,
       voiceControl: false,
-      captionsEnabled: false
+      captionsEnabled: false,
     },
     
     // Privacy
@@ -133,7 +133,7 @@ const Preferences = () => {
       allowTracking: false,
       allowMarketing: false,
       searchEngineIndexing: true,
-      dataCollection: true
+      dataCollection: true,
     },
     
     // Communication
@@ -146,7 +146,7 @@ const Preferences = () => {
       whatsappNotifications: false,
       telegramNotifications: false,
       slackIntegration: false,
-      discordIntegration: false
+      discordIntegration: false,
     },
     
     // Performance
@@ -158,7 +158,7 @@ const Preferences = () => {
       compressionEnabled: true,
       imageQuality: 'high', // low, medium, high
       videoAutoplay: false,
-      backgroundSync: true
+      backgroundSync: true,
     },
     
     // Data Management
@@ -169,27 +169,27 @@ const Preferences = () => {
       backupFrequency: 'weekly', // daily, weekly, monthly
       exportFormat: 'csv', // csv, json, excel
       dataRetention: 90, // days
-      compressExports: true
-    }
+      compressExports: true,
+    },
   });
 
   // Available Options
   const themeOptions = [
     { value: 'light', label: 'Light', icon: <FiSun /> },
     { value: 'dark', label: 'Dark', icon: <FiMoon /> },
-    { value: 'system', label: 'System', icon: <FiMonitor /> }
+    { value: 'system', label: 'System', icon: <FiMonitor /> },
   ];
 
   const fontSizeOptions = [
     { value: 'small', label: 'Small', size: '12px' },
     { value: 'medium', label: 'Medium', size: '14px' },
-    { value: 'large', label: 'Large', size: '16px' }
+    { value: 'large', label: 'Large', size: '16px' },
   ];
 
   const densityOptions = [
     { value: 'comfortable', label: 'Comfortable', spacing: 'loose' },
     { value: 'compact', label: 'Compact', spacing: 'tight' },
-    { value: 'cozy', label: 'Cozy', spacing: 'medium' }
+    { value: 'cozy', label: 'Cozy', spacing: 'medium' },
   ];
 
   const languages = [
@@ -220,7 +220,7 @@ const Preferences = () => {
     { code: 'zh', name: 'Chinese', native: '中文' },
     { code: 'ja', name: 'Japanese', native: '日本語' },
     { code: 'ru', name: 'Russian', native: 'Русский' },
-    { code: 'ar', name: 'Arabic', native: 'العربية' }
+    { code: 'ar', name: 'Arabic', native: 'العربية' },
   ];
 
   const currencies = [
@@ -235,7 +235,7 @@ const Preferences = () => {
     { code: 'CHF', symbol: 'Fr', name: 'Swiss Franc' },
     { code: 'HKD', symbol: 'HK$', name: 'Hong Kong Dollar' },
     { code: 'SGD', symbol: 'S$', name: 'Singapore Dollar' },
-    { code: 'NZD', symbol: 'NZ$', name: 'New Zealand Dollar' }
+    { code: 'NZD', symbol: 'NZ$', name: 'New Zealand Dollar' },
   ];
 
   const timezones = [
@@ -249,7 +249,7 @@ const Preferences = () => {
     { value: 'Asia/Dubai', label: 'Gulf (GST)' },
     { value: 'Asia/Singapore', label: 'Singapore (SGT)' },
     { value: 'Asia/Tokyo', label: 'Japan (JST)' },
-    { value: 'Australia/Sydney', label: 'Australia (AEDT)' }
+    { value: 'Australia/Sydney', label: 'Australia (AEDT)' },
   ];
 
   const [expandedSection, setExpandedSection] = useState('display');
@@ -265,8 +265,8 @@ const Preferences = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/preferences`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -284,8 +284,8 @@ const Preferences = () => {
       ...preferences,
       [section]: {
         ...preferences[section],
-        [field]: value
-      }
+        [field]: value,
+      },
     });
   };
 
@@ -294,8 +294,8 @@ const Preferences = () => {
       ...preferences,
       [section]: {
         ...preferences[section],
-        [field]: !preferences[section][field]
-      }
+        [field]: !preferences[section][field],
+      },
     });
   };
 
@@ -307,8 +307,8 @@ const Preferences = () => {
         `${process.env.REACT_APP_API_URL}/api/user/preferences`,
         preferences,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -338,8 +338,8 @@ const Preferences = () => {
         `${process.env.REACT_APP_API_URL}/api/user/preferences/reset`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -613,7 +613,7 @@ const Preferences = () => {
                   </label>
                 </div>
 
-       <div className="toggle-item">
+                <div className="toggle-item">
                   <div className="toggle-info">
                     <span className="toggle-label">Sidebar Collapsed</span>
                     <span className="toggle-desc">Start with sidebar closed</span>
@@ -802,7 +802,7 @@ const Preferences = () => {
             </div>
           )}
         </div>
-                        {/* Currency Settings */}
+        {/* Currency Settings */}
         <div className="preference-section">
           <div 
             className="section-header"
@@ -1392,7 +1392,7 @@ const Preferences = () => {
                   <label className="switch">
                     <input
                       type="checkbox"
-           checked={preferences.data.autoSave}
+                      checked={preferences.data.autoSave}
                       onChange={() => handleToggleChange('data', 'autoSave')}
                     />
                     <span className="slider"></span>

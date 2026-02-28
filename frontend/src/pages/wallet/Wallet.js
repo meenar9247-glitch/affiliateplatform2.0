@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiDollarSign,
@@ -21,8 +20,9 @@ import {
   FiEye,
   FiEyeOff,
   FiCopy,
-  FiShare2
+  FiShare2,
 } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Wallet = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Wallet = () => {
     pendingBalance: 0,
     totalEarned: 0,
     totalWithdrawn: 0,
-    currency: 'USD'
+    currency: 'USD',
   });
   const [transactions, setTransactions] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
@@ -44,7 +44,7 @@ const Wallet = () => {
     monthEarnings: 0,
     averageDaily: 0,
     projectedEarnings: 0,
-    nextPayout: null
+    nextPayout: null,
   });
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Wallet = () => {
   const fetchWalletData = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/wallet/info`
+        `${process.env.REACT_APP_API_URL}/wallet/info`,
       );
       
       if (response.data.success) {
@@ -74,7 +74,7 @@ const Wallet = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/wallet/transactions`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -88,7 +88,7 @@ const Wallet = () => {
   const fetchPaymentMethods = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/wallet/payment-methods`
+        `${process.env.REACT_APP_API_URL}/wallet/payment-methods`,
       );
       
       if (response.data.success) {
@@ -103,7 +103,7 @@ const Wallet = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/wallet/stats`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -126,7 +126,7 @@ const Wallet = () => {
     if (window.confirm('Are you sure you want to remove this payment method?')) {
       try {
         const response = await axios.delete(
-          `${process.env.REACT_APP_API_URL}/wallet/payment-methods/${id}`
+          `${process.env.REACT_APP_API_URL}/wallet/payment-methods/${id}`,
         );
         
         if (response.data.success) {
@@ -142,13 +142,13 @@ const Wallet = () => {
   const handleSetDefaultPaymentMethod = async (id) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/wallet/payment-methods/${id}/default`
+        `${process.env.REACT_APP_API_URL}/wallet/payment-methods/${id}/default`,
       );
       
       if (response.data.success) {
         setPaymentMethods(paymentMethods.map(method => ({
           ...method,
-          isDefault: method._id === id
+          isDefault: method._id === id,
         })));
         toast.success('Default payment method updated');
       }
@@ -163,8 +163,8 @@ const Wallet = () => {
         `${process.env.REACT_APP_API_URL}/wallet/transactions/export`,
         {
           params: { timeRange },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -186,7 +186,7 @@ const Wallet = () => {
       style: 'currency',
       currency: wallet.currency,
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount);
   };
 
@@ -196,7 +196,7 @@ const Wallet = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 

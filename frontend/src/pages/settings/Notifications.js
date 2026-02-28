@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiBell,
@@ -25,7 +25,7 @@ import {
   FiShoppingBag,
   FiStar,
   FiCalendar,
-  FiInfo
+  FiInfo,
 } from 'react-icons/fi';
 
 const Notifications = () => {
@@ -47,7 +47,7 @@ const Notifications = () => {
       productUpdates: true,
       dailyDigest: false,
       weeklyReport: true,
-      monthlyStatement: true
+      monthlyStatement: true,
     },
     
     // Push Notifications
@@ -61,7 +61,7 @@ const Notifications = () => {
       newProducts: true,
       leaderboard: false,
       achievements: true,
-      reminders: true
+      reminders: true,
     },
     
     // SMS Notifications
@@ -70,7 +70,7 @@ const Notifications = () => {
       withdrawals: true,
       security: true,
       twoFactor: true,
-      promotions: false
+      promotions: false,
     },
     
     // In-App Notifications
@@ -84,8 +84,8 @@ const Notifications = () => {
       messages: true,
       system: true,
       achievements: true,
-      leaderboard: true
-    }
+      leaderboard: true,
+    },
   });
 
   // Notification Schedule
@@ -93,10 +93,10 @@ const Notifications = () => {
     quietHours: {
       enabled: false,
       start: '22:00',
-      end: '08:00'
+      end: '08:00',
     },
     digestFrequency: 'daily', // daily, weekly, never
-    reminderTime: '09:00'
+    reminderTime: '09:00',
   });
 
   // Notification History
@@ -107,7 +107,7 @@ const Notifications = () => {
     unread: 0,
     today: 0,
     thisWeek: 0,
-    thisMonth: 0
+    thisMonth: 0,
   });
 
   // UI State
@@ -128,8 +128,8 @@ const Notifications = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/notifications/preferences`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -151,8 +151,8 @@ const Notifications = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/notifications/history?limit=20`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -169,8 +169,8 @@ const Notifications = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/notifications/stats`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -186,15 +186,15 @@ const Notifications = () => {
       ...preferences,
       [type]: {
         ...preferences[type],
-        [key]: !preferences[type][key]
-      }
+        [key]: !preferences[type][key],
+      },
     });
   };
 
   const handleScheduleChange = (field, value) => {
     setSchedule({
       ...schedule,
-      [field]: value
+      [field]: value,
     });
   };
 
@@ -203,8 +203,8 @@ const Notifications = () => {
       ...schedule,
       quietHours: {
         ...schedule.quietHours,
-        [field]: value
-      }
+        [field]: value,
+      },
     });
   };
 
@@ -218,11 +218,11 @@ const Notifications = () => {
           preferences,
           schedule,
           soundEnabled,
-          doNotDisturb
+          doNotDisturb,
         },
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -242,12 +242,12 @@ const Notifications = () => {
         `${process.env.REACT_APP_API_URL}/api/user/notifications/${id}/read`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       setHistory(history.map(n => 
-        n.id === id ? { ...n, read: true } : n
+        n.id === id ? { ...n, read: true } : n,
       ));
     } catch (error) {
       console.error('Failed to mark as read');
@@ -261,8 +261,8 @@ const Notifications = () => {
         `${process.env.REACT_APP_API_URL}/api/user/notifications/read-all`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       setHistory(history.map(n => ({ ...n, read: true })));
@@ -280,8 +280,8 @@ const Notifications = () => {
       await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/user/notifications`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       setHistory([]);
@@ -299,8 +299,8 @@ const Notifications = () => {
         `${process.env.REACT_APP_API_URL}/api/user/notifications/test`,
         { type: activeTab === 'email' ? 'email' : 'push' },
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {

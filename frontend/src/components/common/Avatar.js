@@ -6,7 +6,7 @@ import {
   FiX,
   FiCheck,
   FiEdit2,
-  FiTrash2
+  FiTrash2,
 } from 'react-icons/fi';
 
 const Avatar = ({
@@ -54,7 +54,7 @@ const Avatar = ({
       'avatar-success',
       'avatar-danger',
       'avatar-warning',
-      'avatar-info'
+      'avatar-info',
     ];
     
     const hash = name.split('').reduce((acc, char) => {
@@ -71,14 +71,14 @@ const Avatar = ({
     medium: 'avatar-medium',
     large: 'avatar-large',
     xl: 'avatar-xl',
-    xxl: 'avatar-xxl'
+    xxl: 'avatar-xxl',
   };
 
   // Shape classes
   const shapeClasses = {
     circle: 'avatar-circle',
     rounded: 'avatar-rounded',
-    square: 'avatar-square'
+    square: 'avatar-square',
   };
 
   // Status position classes
@@ -86,7 +86,7 @@ const Avatar = ({
     'top-left': 'status-top-left',
     'top-right': 'status-top-right',
     'bottom-left': 'status-bottom-left',
-    'bottom-right': 'status-bottom-right'
+    'bottom-right': 'status-bottom-right',
   };
 
   // Status color classes
@@ -95,7 +95,7 @@ const Avatar = ({
     offline: 'status-offline',
     away: 'status-away',
     busy: 'status-busy',
-    idle: 'status-idle'
+    idle: 'status-idle',
   };
 
   // Styles
@@ -674,7 +674,7 @@ export const TeamAvatar = ({ team, ...props }) => {
     <AvatarGroup
       avatars={team.members?.map(member => ({
         src: member.avatar,
-        name: member.name
+        name: member.name,
       }))}
       max={3}
       size={props.size}

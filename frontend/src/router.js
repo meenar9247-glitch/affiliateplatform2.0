@@ -1,20 +1,21 @@
 import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Navigate, Outlet } from 'react-router-dom';
+
 import LoadingSpinner from './components/common/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
 
 // ==================== Layout Components ====================
 
 // Main Layout
-import MainLayout from './components/layout/MainLayout';
+import AdminLayout from './components/layout/AdminLayout';
 import AuthLayout from './components/layout/AuthLayout';
 import DashboardLayout from './components/layout/DashboardLayout';
-import AdminLayout from './components/layout/AdminLayout';
+import MainLayout from './components/layout/MainLayout';
 
 // ==================== Route Guards ====================
 
-import { AuthGuard, GuestGuard, RoleGuard, PermissionGuard } from './middleware/authGuard';
 import { AdminGuard, SuperAdminGuard } from './middleware/adminGuard';
+import { AuthGuard, GuestGuard, RoleGuard, PermissionGuard } from './middleware/authGuard';
 
 // ==================== Lazy Load Pages ====================
 
@@ -344,8 +345,8 @@ export const router = createBrowserRouter(
         <Route path="logs" element={<AdminLogs />} />
         <Route path="system" element={<AdminSystem />} />
       </Route>
-    </>
-  )
+    </>,
+  ),
 );
 // ==================== Super Admin Routes (Nested within Admin) =====
 // These need to be added inside the admin route definition
@@ -488,7 +489,7 @@ export const routerUtils = {
       currentPath += `/${part}`;
       breadcrumbs.push({
         label: part.charAt(0).toUpperCase() + part.slice(1),
-        path: currentPath
+        path: currentPath,
       });
     });
 
@@ -530,7 +531,7 @@ export const routerUtils = {
       '/500': 'Server Error',
       '/unauthorized': 'Unauthorized',
       '/forbidden': 'Forbidden',
-      '/maintenance': 'Maintenance'
+      '/maintenance': 'Maintenance',
     };
 
     return titles[path] || 'Affiliate Platform';
@@ -553,7 +554,7 @@ export const routerUtils = {
       '/support': 'Get help and support',
       '/admin': 'Administration panel',
       '/privacy': 'Our privacy policy',
-      '/terms': 'Terms of service'
+      '/terms': 'Terms of service',
     };
 
     return descriptions[path] || 'Affiliate Marketing Platform';
@@ -566,7 +567,7 @@ export const routerUtils = {
       '/user',
       '/affiliate',
       '/payment',
-      '/support/tickets'
+      '/support/tickets',
     ];
     return authRoutes.some(route => path.startsWith(route));
   },
@@ -590,7 +591,7 @@ export const routerUtils = {
       '/cookies',
       '/gdpr',
       '/faq',
-      '/products'
+      '/products',
     ];
     return publicRoutes.some(route => path.startsWith(route));
   },
@@ -613,7 +614,7 @@ export const routerUtils = {
       '/admin/reports': '📈',
       '/admin/settings': '🔧',
       '/404': '🚫',
-      '/500': '⚠️'
+      '/500': '⚠️',
     };
 
     return icons[path] || '📄';
@@ -628,7 +629,7 @@ export const routerUtils = {
       '/affiliate': '#ed8936',
       '/payment': '#9f7aea',
       '/support': '#f56565',
-      '/admin': '#fc8181'
+      '/admin': '#fc8181',
     };
 
     for (const [key, color] of Object.entries(colors)) {
@@ -636,7 +637,7 @@ export const routerUtils = {
     }
 
     return '#a0aec0';
-  }
+  },
 };
 
 // ==================== Route Constants ====================
@@ -733,7 +734,7 @@ export const ROUTE_PATHS = {
   SERVER_ERROR: '/500',
   UNAUTHORIZED: '/unauthorized',
   FORBIDDEN: '/forbidden',
-  MAINTENANCE: '/maintenance'
+  MAINTENANCE: '/maintenance',
 };
 
 // ==================== Export Router ====================

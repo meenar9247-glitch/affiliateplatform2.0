@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiAward,
@@ -20,8 +19,9 @@ import {
   FiEyeOff,
   FiThumbsUp,
   FiMessageCircle,
-  FiShare2
+  FiShare2,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Leaderboard = () => {
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ const Leaderboard = () => {
     averageEarnings: 0,
     topEarner: null,
     fastestRiser: null,
-    mostConsistent: null
+    mostConsistent: null,
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [showAnonymous, setShowAnonymous] = useState(false);
@@ -53,7 +53,7 @@ const Leaderboard = () => {
       setLoading(true);
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/leaderboard`,
-        { params: { timeRange, category } }
+        { params: { timeRange, category } },
       );
       
       if (response.data.success) {
@@ -70,7 +70,7 @@ const Leaderboard = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/leaderboard/user-rank`,
-        { params: { timeRange, category } }
+        { params: { timeRange, category } },
       );
       
       if (response.data.success) {
@@ -85,7 +85,7 @@ const Leaderboard = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/leaderboard/stats`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -106,7 +106,7 @@ const Leaderboard = () => {
       navigator.share({
         title: `${user.name} is ranking #${user.rank} on the leaderboard!`,
         text: `Check out ${user.name}'s performance on the affiliate platform.`,
-        url: window.location.href
+        url: window.location.href,
       }).catch(console.error);
     } else {
       navigator.clipboard.writeText(`${user.name} is ranking #${user.rank} on the leaderboard!`);
@@ -120,8 +120,8 @@ const Leaderboard = () => {
         `${process.env.REACT_APP_API_URL}/leaderboard/export`,
         {
           params: { timeRange, category },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -143,7 +143,7 @@ const Leaderboard = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -931,7 +931,7 @@ const Leaderboard = () => {
 
   const filteredLeaderboard = leaderboard.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.country?.toLowerCase().includes(searchTerm.toLowerCase())
+    user.country?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   if (loading) {

@@ -175,13 +175,13 @@ class AuthService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data
+          data: response.data,
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Registration failed'
+        message: response.data.message || 'Registration failed',
       };
     } catch (error) {
       return this.handleError(error);
@@ -201,13 +201,13 @@ class AuthService {
         
         return {
           success: true,
-          data: { token, user }
+          data: { token, user },
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Login failed'
+        message: response.data.message || 'Login failed',
       };
     } catch (error) {
       return this.handleError(error);
@@ -242,13 +242,13 @@ class AuthService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data
+          data: response.data,
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Email verification failed'
+        message: response.data.message || 'Email verification failed',
       };
     } catch (error) {
       return this.handleError(error);
@@ -263,13 +263,13 @@ class AuthService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data
+          data: response.data,
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Failed to send reset email'
+        message: response.data.message || 'Failed to send reset email',
       };
     } catch (error) {
       return this.handleError(error);
@@ -284,13 +284,13 @@ class AuthService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data
+          data: response.data,
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Password reset failed'
+        message: response.data.message || 'Password reset failed',
       };
     } catch (error) {
       return this.handleError(error);
@@ -305,7 +305,7 @@ class AuthService {
       if (!refreshToken) {
         return {
           success: false,
-          message: 'No refresh token available'
+          message: 'No refresh token available',
         };
       }
       
@@ -317,13 +317,13 @@ class AuthService {
         
         return {
           success: true,
-          data: { token }
+          data: { token },
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Token refresh failed'
+        message: response.data.message || 'Token refresh failed',
       };
     } catch (error) {
       return this.handleError(error);
@@ -341,13 +341,13 @@ class AuthService {
         
         return {
           success: true,
-          data: user
+          data: user,
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Failed to get user'
+        message: response.data.message || 'Failed to get user',
       };
     } catch (error) {
       return this.handleError(error);
@@ -365,13 +365,13 @@ class AuthService {
         
         return {
           success: true,
-          data: user
+          data: user,
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Failed to update details'
+        message: response.data.message || 'Failed to update details',
       };
     } catch (error) {
       return this.handleError(error);
@@ -383,19 +383,19 @@ class AuthService {
     try {
       const response = await api.put('/auth/update-password', {
         currentPassword,
-        newPassword
+        newPassword,
       });
       
       if (response.data.success) {
         return {
           success: true,
-          data: response.data
+          data: response.data,
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Failed to update password'
+        message: response.data.message || 'Failed to update password',
       };
     } catch (error) {
       return this.handleError(error);
@@ -415,13 +415,13 @@ class AuthService {
         
         return {
           success: true,
-          data: { token, user }
+          data: { token, user },
         };
       }
       
       return {
         success: false,
-        message: response.data.message || 'Google authentication failed'
+        message: response.data.message || 'Google authentication failed',
       };
     } catch (error) {
       return this.handleError(error);
@@ -488,21 +488,21 @@ class AuthService {
         success: false,
         message,
         status,
-        data: error.response.data
+        data: error.response.data,
       };
     } else if (error.request) {
       // Request made but no response
       return {
         success: false,
         message: 'Network error. Please check your connection.',
-        status: 0
+        status: 0,
       };
     } else {
       // Something else happened
       return {
         success: false,
         message: error.message || 'An error occurred',
-        status: 500
+        status: 500,
       };
     }
   }

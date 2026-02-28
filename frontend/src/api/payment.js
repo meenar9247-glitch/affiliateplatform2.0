@@ -14,13 +14,13 @@ export const getWalletInfo = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch wallet info',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -42,13 +42,13 @@ export const getTransactionHistory = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch transaction history',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -64,13 +64,13 @@ export const getTransactionById = async (transactionId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch transaction',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -85,13 +85,13 @@ export const getBalance = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch balance',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -110,13 +110,13 @@ export const getWithdrawals = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch withdrawals',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -132,13 +132,13 @@ export const getWithdrawalById = async (withdrawalId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch withdrawal',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -158,13 +158,13 @@ export const requestWithdrawal = async (withdrawalData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Withdrawal request submitted'
+      message: response.message || 'Withdrawal request submitted',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to request withdrawal',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -180,13 +180,13 @@ export const cancelWithdrawal = async (withdrawalId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Withdrawal cancelled'
+      message: response.message || 'Withdrawal cancelled',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to cancel withdrawal',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -201,13 +201,13 @@ export const getPaymentMethods = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch payment methods',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -223,13 +223,13 @@ export const getPaymentMethodById = async (methodId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch payment method',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -248,13 +248,13 @@ export const addPaymentMethod = async (methodData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Payment method added'
+      message: response.message || 'Payment method added',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to add payment method',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -271,13 +271,13 @@ export const updatePaymentMethod = async (methodId, methodData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Payment method updated'
+      message: response.message || 'Payment method updated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to update payment method',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -293,13 +293,13 @@ export const deletePaymentMethod = async (methodId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Payment method deleted'
+      message: response.message || 'Payment method deleted',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to delete payment method',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -315,13 +315,13 @@ export const setDefaultPaymentMethod = async (methodId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Default payment method updated'
+      message: response.message || 'Default payment method updated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to set default payment method',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -336,13 +336,13 @@ export const createStripeAccount = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Stripe account created'
+      message: response.message || 'Stripe account created',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to create Stripe account',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -357,13 +357,13 @@ export const getStripeDashboard = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to get Stripe dashboard',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -381,13 +381,13 @@ export const createStripePaymentIntent = async (paymentData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Payment intent created'
+      message: response.message || 'Payment intent created',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to create payment intent',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -403,13 +403,13 @@ export const createStripeCheckoutSession = async (sessionData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Checkout session created'
+      message: response.message || 'Checkout session created',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to create checkout session',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -427,13 +427,13 @@ export const createPaypalPayout = async (payoutData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'PayPal payout created'
+      message: response.message || 'PayPal payout created',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to create PayPal payout',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -449,13 +449,13 @@ export const createPaypalOrder = async (orderData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'PayPal order created'
+      message: response.message || 'PayPal order created',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to create PayPal order',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -471,13 +471,13 @@ export const capturePaypalOrder = async (orderId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'PayPal order captured'
+      message: response.message || 'PayPal order captured',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to capture PayPal order',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -492,13 +492,13 @@ export const getPayoutSettings = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch payout settings',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -514,13 +514,13 @@ export const updatePayoutSettings = async (settingsData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Payout settings updated'
+      message: response.message || 'Payout settings updated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to update payout settings',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -537,13 +537,13 @@ export const getPaymentStats = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch payment stats',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -560,13 +560,13 @@ export const getEarningsSummary = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch earnings summary',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -582,13 +582,13 @@ export const getCommissionBreakdown = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch commission breakdown',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -603,13 +603,13 @@ export const getPendingCommissions = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch pending commissions',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -624,13 +624,13 @@ export const getWithdrawalLimits = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch withdrawal limits',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -647,13 +647,13 @@ export const calculateWithdrawalFee = async (amount, method) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to calculate fee',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -669,13 +669,13 @@ export const verifyBankAccount = async (bankData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Bank account verified'
+      message: response.message || 'Bank account verified',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to verify bank account',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -691,13 +691,13 @@ export const verifyUPI = async (upiId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'UPI ID verified'
+      message: response.message || 'UPI ID verified',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to verify UPI ID',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -713,13 +713,13 @@ export const verifyPayPal = async (email) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'PayPal email verified'
+      message: response.message || 'PayPal email verified',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to verify PayPal email',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -735,13 +735,13 @@ export const generateWithdrawalReceipt = async (withdrawalId) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Receipt generated'
+      message: response.message || 'Receipt generated',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to generate receipt',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -758,13 +758,13 @@ export const exportPaymentHistory = async (format = 'csv', params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Payment history exported'
+      message: response.message || 'Payment history exported',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to export payment history',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -784,13 +784,13 @@ export const getAllPayments = async (params = {}) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to fetch payments',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -807,13 +807,13 @@ export const processWithdrawal = async (withdrawalId, processData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Withdrawal processed'
+      message: response.message || 'Withdrawal processed',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to process withdrawal',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -830,13 +830,13 @@ export const completeWithdrawal = async (withdrawalId, completeData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Withdrawal completed'
+      message: response.message || 'Withdrawal completed',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to complete withdrawal',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -853,13 +853,13 @@ export const rejectWithdrawal = async (withdrawalId, reason) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Withdrawal rejected'
+      message: response.message || 'Withdrawal rejected',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to reject withdrawal',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -906,7 +906,7 @@ const paymentAPI = {
   getAllPayments,
   processWithdrawal,
   completeWithdrawal,
-  rejectWithdrawal
+  rejectWithdrawal,
 };
 
 export default paymentAPI;

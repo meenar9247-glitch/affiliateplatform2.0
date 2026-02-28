@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { FiClock, FiMail, FiTwitter, FiFacebook, FiGithub, FiAlertCircle, FiTool } from 'react-icons/fi';
 
 const Maintenance = ({ 
-  title = "Under Maintenance",
-  message = "We're currently performing scheduled maintenance to improve your experience.",
-  estimatedTime = "2 hours",
-  contactEmail = "support@affiliateplatform.com",
+  title = 'Under Maintenance',
+  message = 'We\'re currently performing scheduled maintenance to improve your experience.',
+  estimatedTime = '2 hours',
+  contactEmail = 'support@affiliateplatform.com',
   showProgress = true,
   showSocialLinks = true,
   showCountdown = false,
-  scheduledTime = null
+  scheduledTime = null,
 }) => {
   const [countdown, setCountdown] = useState('');
   const [progress, setProgress] = useState(0);
@@ -60,7 +60,7 @@ const Maintenance = ({
       justifyContent: 'center',
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       fontFamily: 'Arial, sans-serif',
-      padding: '20px'
+      padding: '20px',
     },
     card: {
       background: 'white',
@@ -69,31 +69,31 @@ const Maintenance = ({
       maxWidth: '600px',
       width: '100%',
       boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-      textAlign: 'center'
+      textAlign: 'center',
     },
     icon: {
       fontSize: '80px',
       color: '#667eea',
       marginBottom: '20px',
-      animation: 'spin 4s linear infinite'
+      animation: 'spin 4s linear infinite',
     },
     title: {
       fontSize: '36px',
       color: '#333',
       marginBottom: '15px',
-      fontWeight: 600
+      fontWeight: 600,
     },
     message: {
       fontSize: '18px',
       color: '#666',
       marginBottom: '30px',
-      lineHeight: '1.6'
+      lineHeight: '1.6',
     },
     infoBox: {
       background: '#f8f9fa',
       borderRadius: '10px',
       padding: '20px',
-      marginBottom: '30px'
+      marginBottom: '30px',
     },
     infoItem: {
       display: 'flex',
@@ -102,10 +102,10 @@ const Maintenance = ({
       gap: '10px',
       marginBottom: '10px',
       color: '#666',
-      fontSize: '16px'
+      fontSize: '16px',
     },
     progressContainer: {
-      marginBottom: '30px'
+      marginBottom: '30px',
     },
     progressBar: {
       width: '100%',
@@ -113,44 +113,44 @@ const Maintenance = ({
       background: '#e9ecef',
       borderRadius: '5px',
       overflow: 'hidden',
-      marginBottom: '10px'
+      marginBottom: '10px',
     },
     progressFill: {
       height: '100%',
       background: 'linear-gradient(90deg, #667eea, #764ba2)',
       borderRadius: '5px',
       transition: 'width 0.5s ease',
-      width: `${progress}%`
+      width: `${progress}%`,
     },
     progressText: {
       fontSize: '14px',
       color: '#666',
       display: 'flex',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     countdownBox: {
       background: '#f0f4ff',
       borderRadius: '10px',
       padding: '20px',
-      marginBottom: '30px'
+      marginBottom: '30px',
     },
     countdownTitle: {
       fontSize: '16px',
       color: '#667eea',
       marginBottom: '10px',
-      fontWeight: 500
+      fontWeight: 500,
     },
     countdownTime: {
       fontSize: '32px',
       color: '#333',
       fontWeight: 'bold',
-      fontFamily: 'monospace'
+      fontFamily: 'monospace',
     },
     socialLinks: {
       display: 'flex',
       justifyContent: 'center',
       gap: '15px',
-      marginTop: '30px'
+      marginTop: '30px',
     },
     socialLink: {
       width: '40px',
@@ -164,18 +164,18 @@ const Maintenance = ({
       fontSize: '20px',
       cursor: 'pointer',
       transition: 'all 0.3s ease',
-      textDecoration: 'none'
+      textDecoration: 'none',
     },
     emailLink: {
       color: '#667eea',
       textDecoration: 'none',
-      fontWeight: 500
+      fontWeight: 500,
     },
     toolIcon: {
       fontSize: '60px',
       color: '#667eea',
-      marginBottom: '20px'
-    }
+      marginBottom: '20px',
+    },
   };
 
   return (
@@ -266,7 +266,7 @@ const Maintenance = ({
 };
 
 // Alternative minimal version
-export const MinimalMaintenance = ({ message = "We'll be back soon!" }) => {
+export const MinimalMaintenance = ({ message = 'We\'ll be back soon!' }) => {
   const styles = {
     container: {
       minHeight: '100vh',
@@ -275,26 +275,26 @@ export const MinimalMaintenance = ({ message = "We'll be back soon!" }) => {
       justifyContent: 'center',
       background: '#f8f9fa',
       fontFamily: 'Arial, sans-serif',
-      padding: '20px'
+      padding: '20px',
     },
     content: {
-      textAlign: 'center'
+      textAlign: 'center',
     },
     icon: {
       fontSize: '80px',
       color: '#667eea',
-      marginBottom: '20px'
+      marginBottom: '20px',
     },
     title: {
       fontSize: '48px',
       color: '#333',
       marginBottom: '15px',
-      fontWeight: 600
+      fontWeight: 600,
     },
     message: {
       fontSize: '20px',
       color: '#666',
-      marginBottom: '30px'
+      marginBottom: '30px',
     },
     loader: {
       width: '50px',
@@ -303,8 +303,8 @@ export const MinimalMaintenance = ({ message = "We'll be back soon!" }) => {
       borderTop: '3px solid #667eea',
       borderRadius: '50%',
       margin: '0 auto',
-      animation: 'spin 1s linear infinite'
-    }
+      animation: 'spin 1s linear infinite',
+    },
   };
 
   return (
@@ -329,9 +329,9 @@ export const MinimalMaintenance = ({ message = "We'll be back soon!" }) => {
 
 // Scheduled maintenance version
 export const ScheduledMaintenance = ({ 
-  scheduledDate = "2024-12-31T23:00:00",
-  duration = "2 hours",
-  message = "We'll be performing scheduled maintenance."
+  scheduledDate = '2024-12-31T23:00:00',
+  duration = '2 hours',
+  message = 'We\'ll be performing scheduled maintenance.',
 }) => {
   const [timeUntil, setTimeUntil] = useState('');
 
@@ -365,7 +365,7 @@ export const ScheduledMaintenance = ({
       justifyContent: 'center',
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       fontFamily: 'Arial, sans-serif',
-      padding: '20px'
+      padding: '20px',
     },
     card: {
       background: 'white',
@@ -374,42 +374,42 @@ export const ScheduledMaintenance = ({
       maxWidth: '500px',
       width: '100%',
       boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-      textAlign: 'center'
+      textAlign: 'center',
     },
     icon: {
       fontSize: '60px',
       color: '#ff6b6b',
-      marginBottom: '20px'
+      marginBottom: '20px',
     },
     title: {
       fontSize: '28px',
       color: '#333',
-      marginBottom: '10px'
+      marginBottom: '10px',
     },
     message: {
       fontSize: '16px',
       color: '#666',
-      marginBottom: '25px'
+      marginBottom: '25px',
     },
     infoBox: {
       background: '#f8f9fa',
       borderRadius: '10px',
       padding: '20px',
-      marginBottom: '20px'
+      marginBottom: '20px',
     },
     infoRow: {
       display: 'flex',
       justifyContent: 'space-between',
       marginBottom: '10px',
       fontSize: '14px',
-      color: '#666'
+      color: '#666',
     },
     countdown: {
       fontSize: '24px',
       color: '#667eea',
       fontWeight: 'bold',
-      marginTop: '10px'
-    }
+      marginTop: '10px',
+    },
   };
 
   return (

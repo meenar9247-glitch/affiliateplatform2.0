@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import {
   FiDownload,
   FiPhone,
@@ -54,8 +53,9 @@ import {
   FiGithub,
   FiCopy,
   FiPrinter,
-  FiExternalLink
+  FiExternalLink,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Privacy = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -89,7 +89,7 @@ const Privacy = () => {
   const toggleDetails = (section) => {
     setShowDetails(prev => ({
       ...prev,
-      [section]: !prev[section]
+      [section]: !prev[section],
     }));
   };
 
@@ -148,7 +148,7 @@ const Privacy = () => {
       print: 'Print',
       download: 'Download PDF',
       copy: 'Copy Link',
-      share: 'Share'
+      share: 'Share',
     },
     hi: {
       title: 'गोपनीयता नीति',
@@ -167,8 +167,8 @@ const Privacy = () => {
       print: 'प्रिंट करें',
       download: 'पीडीएफ डाउनलोड करें',
       copy: 'लिंक कॉपी करें',
-      share: 'शेयर करें'
-    }
+      share: 'शेयर करें',
+    },
   };
 
   const t = translations[language] || translations.en;
@@ -179,7 +179,7 @@ const Privacy = () => {
       margin: '0 auto',
       padding: '40px 20px',
       fontFamily: 'Arial, sans-serif',
-      position: 'relative'
+      position: 'relative',
     },
     consentBanner: {
       position: 'fixed',
@@ -198,17 +198,17 @@ const Privacy = () => {
       gap: '20px',
       maxWidth: '1200px',
       margin: '0 auto',
-      border: '1px solid #e9ecef'
+      border: '1px solid #e9ecef',
     },
     consentText: {
       flex: 1,
       fontSize: '14px',
       color: '#333',
-      lineHeight: '1.6'
+      lineHeight: '1.6',
     },
     consentButtons: {
       display: 'flex',
-      gap: '10px'
+      gap: '10px',
     },
     consentBtn: {
       padding: '8px 16px',
@@ -216,45 +216,45 @@ const Privacy = () => {
       fontSize: '14px',
       cursor: 'pointer',
       border: 'none',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
     },
     acceptBtn: {
       background: '#28a745',
-      color: 'white'
+      color: 'white',
     },
     declineBtn: {
       background: '#6c757d',
-      color: 'white'
+      color: 'white',
     },
     header: {
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       borderRadius: '15px',
       padding: '40px',
       marginBottom: '30px',
-      color: 'white'
+      color: 'white',
     },
     headerContent: {
       display: 'flex',
       alignItems: 'center',
       gap: '20px',
-      flexWrap: 'wrap'
+      flexWrap: 'wrap',
     },
     headerIcon: {
-      fontSize: '48px'
+      fontSize: '48px',
     },
     title: {
       fontSize: '36px',
-      margin: '0 0 10px'
+      margin: '0 0 10px',
     },
     lastUpdated: {
       fontSize: '14px',
       opacity: 0.9,
-      margin: 0
+      margin: 0,
     },
     headerActions: {
       marginLeft: 'auto',
       display: 'flex',
-      gap: '10px'
+      gap: '10px',
     },
     actionBtn: {
       padding: '8px 16px',
@@ -266,266 +266,266 @@ const Privacy = () => {
       display: 'flex',
       alignItems: 'center',
       gap: '5px',
-      fontSize: '13px'
-    }
+      fontSize: '13px',
+    },
   };
   const getContent = () => {
-  return (
-    <div style={styles.content}>
-      {/* Overview Section */}
-      <div style={styles.section}>
-        <div style={styles.sectionHeader} onClick={() => toggleDetails('overview')}>
-          <div style={styles.sectionTitle}>
-            <FiInfo style={styles.sectionIcon} />
-            <h2>{t.overview}</h2>
+    return (
+      <div style={styles.content}>
+        {/* Overview Section */}
+        <div style={styles.section}>
+          <div style={styles.sectionHeader} onClick={() => toggleDetails('overview')}>
+            <div style={styles.sectionTitle}>
+              <FiInfo style={styles.sectionIcon} />
+              <h2>{t.overview}</h2>
+            </div>
+            <span style={styles.sectionToggle}>
+              {showDetails.overview ? <FiChevronUp /> : <FiChevronDown />}
+            </span>
           </div>
-          <span style={styles.sectionToggle}>
-            {showDetails.overview ? <FiChevronUp /> : <FiChevronDown />}
-          </span>
-        </div>
-        {(showDetails.overview || true) && (
-          <div style={styles.sectionContent}>
-            <p>
+          {(showDetails.overview || true) && (
+            <div style={styles.sectionContent}>
+              <p>
               At Affiliate Platform, we take your privacy seriously. This Privacy Policy explains how we collect,
               use, disclose, and safeguard your information when you visit our website or use our services.
-            </p>
-            <p>
+              </p>
+              <p>
               Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy,
               please do not access the site.
-            </p>
-            <div style={styles.infoBox}>
-              <FiShield style={styles.infoIcon} />
-              <div>
-                <strong>Our Commitment:</strong> We are committed to protecting your personal information and your right to privacy.
+              </p>
+              <div style={styles.infoBox}>
+                <FiShield style={styles.infoIcon} />
+                <div>
+                  <strong>Our Commitment:</strong> We are committed to protecting your personal information and your right to privacy.
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-
-      {/* Information Collection Section */}
-      <div style={styles.section}>
-        <div style={styles.sectionHeader} onClick={() => toggleDetails('collection')}>
-          <div style={styles.sectionTitle}>
-            <FiDatabase style={styles.sectionIcon} />
-            <h2>{t.collection}</h2>
-          </div>
-          <span style={styles.sectionToggle}>
-            {showDetails.collection ? <FiChevronUp /> : <FiChevronDown />}
-          </span>
+          )}
         </div>
-        {showDetails.collection && (
-          <div style={styles.sectionContent}>
-            <h3>Information You Provide</h3>
-            <p>We collect information that you voluntarily provide to us when you:</p>
-            <ul style={styles.list}>
-              <li>Register for an account</li>
-              <li>Express interest in becoming an affiliate</li>
-              <li>Make a purchase or transaction</li>
-              <li>Contact us for support</li>
-              <li>Participate in promotions or surveys</li>
-            </ul>
 
-            <h3>Types of Information Collected</h3>
-            <div style={styles.tableContainer}>
-              <table style={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>Examples</th>
-                    <th>Purpose</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>Identity Data</strong></td>
-                    <td>Name, username, date of birth</td>
-                    <td>Account creation, verification</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Contact Data</strong></td>
-                    <td>Email address, phone number</td>
-                    <td>Communication, notifications</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Financial Data</strong></td>
-                    <td>Payment information, bank details</td>
-                    <td>Process transactions, payouts</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Technical Data</strong></td>
-                    <td>IP address, browser type, device info</td>
-                    <td>Site optimization, security</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Profile Data</strong></td>
-                    <td>Username, password, preferences</td>
-                    <td>Account management</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Usage Data</strong></td>
-                    <td>Clicks, referrals, conversions</td>
-                    <td>Performance tracking, analytics</td>
-                  </tr>
-                </tbody>
-              </table>
+        {/* Information Collection Section */}
+        <div style={styles.section}>
+          <div style={styles.sectionHeader} onClick={() => toggleDetails('collection')}>
+            <div style={styles.sectionTitle}>
+              <FiDatabase style={styles.sectionIcon} />
+              <h2>{t.collection}</h2>
             </div>
+            <span style={styles.sectionToggle}>
+              {showDetails.collection ? <FiChevronUp /> : <FiChevronDown />}
+            </span>
+          </div>
+          {showDetails.collection && (
+            <div style={styles.sectionContent}>
+              <h3>Information You Provide</h3>
+              <p>We collect information that you voluntarily provide to us when you:</p>
+              <ul style={styles.list}>
+                <li>Register for an account</li>
+                <li>Express interest in becoming an affiliate</li>
+                <li>Make a purchase or transaction</li>
+                <li>Contact us for support</li>
+                <li>Participate in promotions or surveys</li>
+              </ul>
 
-            <div style={styles.warningBox}>
-              <FiAlertCircle style={styles.warningIcon} />
-              <div>
-                <strong>Note:</strong> We do not knowingly collect information from children under 13.
+              <h3>Types of Information Collected</h3>
+              <div style={styles.tableContainer}>
+                <table style={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Examples</th>
+                      <th>Purpose</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Identity Data</strong></td>
+                      <td>Name, username, date of birth</td>
+                      <td>Account creation, verification</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Contact Data</strong></td>
+                      <td>Email address, phone number</td>
+                      <td>Communication, notifications</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Financial Data</strong></td>
+                      <td>Payment information, bank details</td>
+                      <td>Process transactions, payouts</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Technical Data</strong></td>
+                      <td>IP address, browser type, device info</td>
+                      <td>Site optimization, security</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Profile Data</strong></td>
+                      <td>Username, password, preferences</td>
+                      <td>Account management</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Usage Data</strong></td>
+                      <td>Clicks, referrals, conversions</td>
+                      <td>Performance tracking, analytics</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div style={styles.warningBox}>
+                <FiAlertCircle style={styles.warningIcon} />
+                <div>
+                  <strong>Note:</strong> We do not knowingly collect information from children under 13.
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-
-      {/* How We Use Information Section */}
-      <div style={styles.section}>
-        <div style={styles.sectionHeader} onClick={() => toggleDetails('usage')}>
-          <div style={styles.sectionTitle}>
-            <FiTrendingUp style={styles.sectionIcon} />
-            <h2>{t.usage}</h2>
-          </div>
-          <span style={styles.sectionToggle}>
-            {showDetails.usage ? <FiChevronUp /> : <FiChevronDown />}
-          </span>
+          )}
         </div>
-        {showDetails.usage && (
-          <div style={styles.sectionContent}>
-            <p>We use the information we collect for various purposes:</p>
+
+        {/* How We Use Information Section */}
+        <div style={styles.section}>
+          <div style={styles.sectionHeader} onClick={() => toggleDetails('usage')}>
+            <div style={styles.sectionTitle}>
+              <FiTrendingUp style={styles.sectionIcon} />
+              <h2>{t.usage}</h2>
+            </div>
+            <span style={styles.sectionToggle}>
+              {showDetails.usage ? <FiChevronUp /> : <FiChevronDown />}
+            </span>
+          </div>
+          {showDetails.usage && (
+            <div style={styles.sectionContent}>
+              <p>We use the information we collect for various purposes:</p>
             
-            <div style={styles.grid}>
-              <div style={styles.card}>
-                <FiCheckCircle style={styles.cardIcon} />
-                <h4>Account Management</h4>
-                <p>Create and manage your account, authenticate users</p>
-              </div>
+              <div style={styles.grid}>
+                <div style={styles.card}>
+                  <FiCheckCircle style={styles.cardIcon} />
+                  <h4>Account Management</h4>
+                  <p>Create and manage your account, authenticate users</p>
+                </div>
               
-              <div style={styles.card}>
-                <FiDollarSign style={styles.cardIcon} />
-                <h4>Payment Processing</h4>
-                <p>Process transactions, handle withdrawals and payouts</p>
-              </div>
+                <div style={styles.card}>
+                  <FiDollarSign style={styles.cardIcon} />
+                  <h4>Payment Processing</h4>
+                  <p>Process transactions, handle withdrawals and payouts</p>
+                </div>
               
-              <div style={styles.card}>
-                <FiUsers style={styles.cardIcon} />
-                <h4>Referral Tracking</h4>
-                <p>Track referrals, calculate commissions, manage earnings</p>
-              </div>
+                <div style={styles.card}>
+                  <FiUsers style={styles.cardIcon} />
+                  <h4>Referral Tracking</h4>
+                  <p>Track referrals, calculate commissions, manage earnings</p>
+                </div>
               
-              <div style={styles.card}>
-                <FiMail style={styles.cardIcon} />
-                <h4>Communications</h4>
-                <p>Send updates, newsletters, promotional materials</p>
-              </div>
+                <div style={styles.card}>
+                  <FiMail style={styles.cardIcon} />
+                  <h4>Communications</h4>
+                  <p>Send updates, newsletters, promotional materials</p>
+                </div>
               
-              <div style={styles.card}>
-                <FiShield style={styles.cardIcon} />
-                <h4>Security</h4>
-                <p>Detect and prevent fraud, protect against unauthorized access</p>
-              </div>
+                <div style={styles.card}>
+                  <FiShield style={styles.cardIcon} />
+                  <h4>Security</h4>
+                  <p>Detect and prevent fraud, protect against unauthorized access</p>
+                </div>
               
-              <div style={styles.card}>
-                <FiBarChart2 style={styles.cardIcon} />
-                <h4>Analytics</h4>
-                <p>Analyze usage patterns, improve our services</p>
+                <div style={styles.card}>
+                  <FiBarChart2 style={styles.cardIcon} />
+                  <h4>Analytics</h4>
+                  <p>Analyze usage patterns, improve our services</p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-
-      {/* Information Sharing Section */}
-      <div style={styles.section}>
-        <div style={styles.sectionHeader} onClick={() => toggleDetails('sharing')}>
-          <div style={styles.sectionTitle}>
-            <FiUsersIcon style={styles.sectionIcon} />
-            <h2>{t.sharing}</h2>
-          </div>
-          <span style={styles.sectionToggle}>
-            {showDetails.sharing ? <FiChevronUp /> : <FiChevronDown />}
-          </span>
+          )}
         </div>
-        {showDetails.sharing && (
-          <div style={styles.sectionContent}>
-            <p>We may share your information in the following situations:</p>
-            
-            <h3>When We Share</h3>
-            <ul style={styles.list}>
-              <li><strong>With your consent:</strong> We will share information when you have given us explicit permission.</li>
-              <li><strong>Service providers:</strong> We share with third-party vendors who perform services on our behalf (payment processing, data analysis, email delivery).</li>
-              <li><strong>Legal requirements:</strong> We may disclose information if required by law or to protect our rights.</li>
-              <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or sale of assets.</li>
-              <li><strong>Affiliates:</strong> Information may be shared within our corporate family.</li>
-            </ul>
 
-            <h3>When We Don't Share</h3>
-            <div style={styles.infoBox}>
-              <FiLock style={styles.infoIcon} />
-              <div>
-                <strong>We do not sell your personal information to third parties.</strong>
+        {/* Information Sharing Section */}
+        <div style={styles.section}>
+          <div style={styles.sectionHeader} onClick={() => toggleDetails('sharing')}>
+            <div style={styles.sectionTitle}>
+              <FiUsersIcon style={styles.sectionIcon} />
+              <h2>{t.sharing}</h2>
+            </div>
+            <span style={styles.sectionToggle}>
+              {showDetails.sharing ? <FiChevronUp /> : <FiChevronDown />}
+            </span>
+          </div>
+          {showDetails.sharing && (
+            <div style={styles.sectionContent}>
+              <p>We may share your information in the following situations:</p>
+            
+              <h3>When We Share</h3>
+              <ul style={styles.list}>
+                <li><strong>With your consent:</strong> We will share information when you have given us explicit permission.</li>
+                <li><strong>Service providers:</strong> We share with third-party vendors who perform services on our behalf (payment processing, data analysis, email delivery).</li>
+                <li><strong>Legal requirements:</strong> We may disclose information if required by law or to protect our rights.</li>
+                <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or sale of assets.</li>
+                <li><strong>Affiliates:</strong> Information may be shared within our corporate family.</li>
+              </ul>
+
+              <h3>When We Don't Share</h3>
+              <div style={styles.infoBox}>
+                <FiLock style={styles.infoIcon} />
+                <div>
+                  <strong>We do not sell your personal information to third parties.</strong>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-
-      {/* Data Security Section */}
-      <div style={styles.section}>
-        <div style={styles.sectionHeader} onClick={() => toggleDetails('security')}>
-          <div style={styles.sectionTitle}>
-            <FiLock style={styles.sectionIcon} />
-            <h2>{t.security}</h2>
-          </div>
-          <span style={styles.sectionToggle}>
-            {showDetails.security ? <FiChevronUp /> : <FiChevronDown />}
-          </span>
+          )}
         </div>
-        {showDetails.security && (
-          <div style={styles.sectionContent}>
-            <p>We implement various security measures to protect your information:</p>
-            
-            <div style={styles.securityGrid}>
-              <div style={styles.securityItem}>
-                <FiLock style={styles.securityIcon} />
-                <span>Encryption (SSL/TLS)</span>
-              </div>
-              <div style={styles.securityItem}>
-                <FiShield style={styles.securityIcon} />
-                <span>Firewall protection</span>
-              </div>
-              <div style={styles.securityItem}>
-                <FiEye style={styles.securityIcon} />
-                <span>24/7 monitoring</span>
-              </div>
-              <div style={styles.securityItem}>
-                <FiUsers style={styles.securityIcon} />
-                <span>Access controls</span>
-              </div>
-              <div style={styles.securityItem}>
-                <FiClock style={styles.securityIcon} />
-                <span>Regular security audits</span>
-              </div>
-              <div style={styles.securityItem}>
-                <FiSave style={styles.securityIcon} />
-                <span>Regular backups</span>
-              </div>
-            </div>
 
-            <div style={styles.warningBox}>
-              <FiAlertCircle style={styles.warningIcon} />
-              <div>
-                <strong>However, no method of transmission over the Internet is 100% secure.</strong>
+        {/* Data Security Section */}
+        <div style={styles.section}>
+          <div style={styles.sectionHeader} onClick={() => toggleDetails('security')}>
+            <div style={styles.sectionTitle}>
+              <FiLock style={styles.sectionIcon} />
+              <h2>{t.security}</h2>
+            </div>
+            <span style={styles.sectionToggle}>
+              {showDetails.security ? <FiChevronUp /> : <FiChevronDown />}
+            </span>
+          </div>
+          {showDetails.security && (
+            <div style={styles.sectionContent}>
+              <p>We implement various security measures to protect your information:</p>
+            
+              <div style={styles.securityGrid}>
+                <div style={styles.securityItem}>
+                  <FiLock style={styles.securityIcon} />
+                  <span>Encryption (SSL/TLS)</span>
+                </div>
+                <div style={styles.securityItem}>
+                  <FiShield style={styles.securityIcon} />
+                  <span>Firewall protection</span>
+                </div>
+                <div style={styles.securityItem}>
+                  <FiEye style={styles.securityIcon} />
+                  <span>24/7 monitoring</span>
+                </div>
+                <div style={styles.securityItem}>
+                  <FiUsers style={styles.securityIcon} />
+                  <span>Access controls</span>
+                </div>
+                <div style={styles.securityItem}>
+                  <FiClock style={styles.securityIcon} />
+                  <span>Regular security audits</span>
+                </div>
+                <div style={styles.securityItem}>
+                  <FiSave style={styles.securityIcon} />
+                  <span>Regular backups</span>
+                </div>
+              </div>
+
+              <div style={styles.warningBox}>
+                <FiAlertCircle style={styles.warningIcon} />
+                <div>
+                  <strong>However, no method of transmission over the Internet is 100% secure.</strong>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
   return (
     <div style={styles.container}>
       {/* Consent Banner */}

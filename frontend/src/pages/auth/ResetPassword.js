@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { FiLock, FiEye, FiEyeOff, FiCheckCircle, FiXCircle } from 'react-icons/fi';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -22,7 +22,7 @@ const ResetPassword = () => {
     uppercase: false,
     lowercase: false,
     number: false,
-    special: false
+    special: false,
   });
 
   // Check password strength
@@ -32,7 +32,7 @@ const ResetPassword = () => {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /[0-9]/.test(password),
-      special: /[^a-zA-Z0-9]/.test(password)
+      special: /[^a-zA-Z0-9]/.test(password),
     });
   }, [password]);
 
@@ -77,7 +77,7 @@ const ResetPassword = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/reset-password/${token}`,
-        { password }
+        { password },
       );
 
       if (response.data.success) {

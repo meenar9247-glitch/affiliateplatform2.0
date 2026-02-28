@@ -23,24 +23,24 @@ const LoadingSpinner = ({ size = 'medium', color = '#667eea', fullScreen = false
         right: 0,
         bottom: 0,
         background: 'rgba(255,255,255,0.9)',
-        zIndex: 9999
+        zIndex: 9999,
       } : {
-        padding: '20px'
-      })
+        padding: '20px',
+      }),
     },
     spinner: {
       width: spinnerSize,
       height: spinnerSize,
-      border: `3px solid #f3f3f3`,
+      border: '3px solid #f3f3f3',
       borderTop: `3px solid ${color}`,
       borderRadius: '50%',
-      animation: 'spin 1s linear infinite'
+      animation: 'spin 1s linear infinite',
     },
     text: {
       marginLeft: '10px',
       color: '#666',
-      fontSize: size === 'small' ? '12px' : size === 'large' ? '18px' : '14px'
-    }
+      fontSize: size === 'small' ? '12px' : size === 'large' ? '18px' : '14px',
+    },
   };
 
   return (

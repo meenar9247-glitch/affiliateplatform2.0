@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiTrendingUp,
@@ -22,8 +21,9 @@ import {
   FiEyeOff,
   FiMoreVertical,
   FiChevronRight,
-  FiChevronLeft
+  FiChevronLeft,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -39,7 +39,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts';
 
 const Overview = () => {
@@ -60,18 +60,18 @@ const Overview = () => {
       today: 0,
       week: 0,
       month: 0,
-      total: 0
+      total: 0,
     },
     conversions: {
       today: 0,
       week: 0,
       month: 0,
-      total: 0
+      total: 0,
     },
     conversionRate: 0,
     averageCommission: 0,
     topProducts: [],
-    recentActivity: []
+    recentActivity: [],
   });
   const [chartData, setChartData] = useState([]);
   const [distributionData, setDistributionData] = useState([]);
@@ -85,7 +85,7 @@ const Overview = () => {
       setLoading(true);
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/dashboard/overview`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -113,8 +113,8 @@ const Overview = () => {
         `${process.env.REACT_APP_API_URL}/dashboard/export`,
         {
           params: { timeRange },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -136,7 +136,7 @@ const Overview = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount);
   };
 
@@ -873,7 +873,7 @@ const Overview = () => {
           />
           <StatCard
             icon={FiClock}
-     title="Pending"
+            title="Pending"
             value={formatCurrency(stats.pendingEarnings)}
             color="warning"
           />

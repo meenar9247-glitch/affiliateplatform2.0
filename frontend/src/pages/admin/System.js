@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   FiServer,
   FiCpu,
@@ -42,10 +44,8 @@ import {
   FiGlobe,
   FiMapPin,
   FiCalendar,
-  FiClock as FiClockSolid
+  FiClock as FiClockSolid,
 } from 'react-icons/fi';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import {
   LineChart,
   Line,
@@ -59,7 +59,7 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
+  Cell,
 } from 'recharts';
 
 const AdminSystem = () => {
@@ -72,7 +72,7 @@ const AdminSystem = () => {
     status: 'healthy',
     uptime: 0,
     lastChecked: null,
-    services: []
+    services: [],
   });
 
   // Performance Metrics
@@ -84,7 +84,7 @@ const AdminSystem = () => {
     responseTime: [],
     concurrentUsers: [],
     requestsPerSecond: [],
-    errorRate: []
+    errorRate: [],
   });
 
   // Server Info
@@ -98,7 +98,7 @@ const AdminSystem = () => {
     loadAverage: [],
     totalMemory: 0,
     freeMemory: 0,
-    uptime: 0
+    uptime: 0,
   });
 
   // Database Stats
@@ -110,7 +110,7 @@ const AdminSystem = () => {
     collections: [],
     indexes: [],
     replication: {},
-    backups: []
+    backups: [],
   });
 
   // Cache Stats
@@ -120,7 +120,7 @@ const AdminSystem = () => {
     hitRate: 0,
     memory: 0,
     keys: 0,
-    evictions: 0
+    evictions: 0,
   });
 
   // Queue Stats
@@ -130,7 +130,7 @@ const AdminSystem = () => {
     completed: 0,
     failed: 0,
     delayed: 0,
-    workers: []
+    workers: [],
   });
 
   // API Stats
@@ -140,7 +140,7 @@ const AdminSystem = () => {
     avgResponseTime: 0,
     endpoints: [],
     statusCodes: {},
-    popularEndpoints: []
+    popularEndpoints: [],
   });
 
   // Security Stats
@@ -151,7 +151,7 @@ const AdminSystem = () => {
     suspiciousActivities: 0,
     sslExpiry: null,
     lastBackup: null,
-    vulnerabilities: []
+    vulnerabilities: [],
   });
 
   // Background Jobs
@@ -159,7 +159,7 @@ const AdminSystem = () => {
     scheduled: [],
     running: [],
     completed: [],
-    failed: []
+    failed: [],
   });
 
   // Logs
@@ -179,7 +179,7 @@ const AdminSystem = () => {
     backupFrequency: 'daily',
     logLevel: 'info',
     emailEnabled: true,
-    smsEnabled: false
+    smsEnabled: false,
   });
 
   // Chart colors
@@ -188,7 +188,7 @@ const AdminSystem = () => {
     healthy: '#28a745',
     warning: '#ffc107',
     critical: '#dc3545',
-    offline: '#6c757d'
+    offline: '#6c757d',
   };
 
   useEffect(() => {
@@ -224,7 +224,7 @@ const AdminSystem = () => {
         jobsRes,
         logsRes,
         alertsRes,
-        settingsRes
+        settingsRes,
       ] = await Promise.all([
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/system/health`, { headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/system/performance`, { headers: { Authorization: `Bearer ${token}` } }),
@@ -237,7 +237,7 @@ const AdminSystem = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/system/jobs`, { headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/system/logs/recent`, { headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`${process.env.REACT_APP_API_URL}/api/admin/system/alerts`, { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/system/settings`, { headers: { Authorization: `Bearer ${token}` } })
+        axios.get(`${process.env.REACT_APP_API_URL}/api/admin/system/settings`, { headers: { Authorization: `Bearer ${token}` } }),
       ]);
 
       if (healthRes.data.success) setHealth(healthRes.data.data);
@@ -272,7 +272,7 @@ const AdminSystem = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/admin/system/maintenance`,
         { enabled: !settings.maintenance },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       if (response.data.success) {
@@ -292,7 +292,7 @@ const AdminSystem = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/admin/system/cache/clear`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       if (response.data.success) {
@@ -312,7 +312,7 @@ const AdminSystem = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/admin/system/restart/${service}`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       if (response.data.success) {
@@ -330,7 +330,7 @@ const AdminSystem = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/admin/system/backup`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       
       if (response.data.success) {
@@ -388,7 +388,7 @@ const AdminSystem = () => {
     { id: 'security', label: 'Security', icon: <FiShield /> },
     { id: 'jobs', label: 'Jobs', icon: <FiTool /> },
     { id: 'logs', label: 'Logs', icon: <FiTerminal /> },
-    { id: 'settings', label: 'Settings', icon: <FiSettings /> }
+    { id: 'settings', label: 'Settings', icon: <FiSettings /> },
   ];
 
   if (loading) {
@@ -495,7 +495,7 @@ const AdminSystem = () => {
             key={tab.id}
             style={{
               ...styles.tab,
-              ...(activeTab === tab.id ? styles.activeTab : {})
+              ...(activeTab === tab.id ? styles.activeTab : {}),
             }}
             onClick={() => setActiveTab(tab.id)}
           >
@@ -589,7 +589,7 @@ const AdminSystem = () => {
                   <span>Environment:</span>
                   <span style={{
                     ...styles.environment,
-                    background: serverInfo.environment === 'production' ? '#dc3545' : '#ffc107'
+                    background: serverInfo.environment === 'production' ? '#dc3545' : '#ffc107',
                   }}>
                     {serverInfo.environment}
                   </span>
@@ -608,7 +608,7 @@ const AdminSystem = () => {
                 {alerts.map((alert, index) => (
                   <div key={index} style={{
                     ...styles.alertItem,
-                    borderLeftColor: getHealthColor(alert.severity)
+                    borderLeftColor: getHealthColor(alert.severity),
                   }}>
                     {getHealthIcon(alert.severity)}
                     <div style={styles.alertContent}>
@@ -621,330 +621,330 @@ const AdminSystem = () => {
             </div>
           </div>
         )}
-{/* Performance Tab */}
-{activeTab === 'performance' && (
-  <div style={styles.performanceTab}>
-    {/* Performance Metrics */}
-    <div style={styles.metricsGrid}>
-      <div style={styles.metricCard}>
-        <h4 style={styles.metricTitle}>Response Time</h4>
-        <div style={styles.metricValue}>
-          {performance.responseTime?.[performance.responseTime.length - 1]?.value || 0}ms
-        </div>
-        <div style={styles.metricTrend}>
-          {performance.responseTimeTrend > 0 ? <FiTrendingUp /> : <FiTrendingDown />}
-          {Math.abs(performance.responseTimeTrend)}%
-        </div>
-      </div>
+        {/* Performance Tab */}
+        {activeTab === 'performance' && (
+          <div style={styles.performanceTab}>
+            {/* Performance Metrics */}
+            <div style={styles.metricsGrid}>
+              <div style={styles.metricCard}>
+                <h4 style={styles.metricTitle}>Response Time</h4>
+                <div style={styles.metricValue}>
+                  {performance.responseTime?.[performance.responseTime.length - 1]?.value || 0}ms
+                </div>
+                <div style={styles.metricTrend}>
+                  {performance.responseTimeTrend > 0 ? <FiTrendingUp /> : <FiTrendingDown />}
+                  {Math.abs(performance.responseTimeTrend)}%
+                </div>
+              </div>
       
-      <div style={styles.metricCard}>
-        <h4 style={styles.metricTitle}>Requests/sec</h4>
-        <div style={styles.metricValue}>
-          {performance.requestsPerSecond?.[performance.requestsPerSecond.length - 1]?.value || 0}
-        </div>
-        <div style={styles.metricTrend}>
-          {performance.requestsTrend > 0 ? <FiTrendingUp /> : <FiTrendingDown />}
-          {Math.abs(performance.requestsTrend)}%
-        </div>
-      </div>
+              <div style={styles.metricCard}>
+                <h4 style={styles.metricTitle}>Requests/sec</h4>
+                <div style={styles.metricValue}>
+                  {performance.requestsPerSecond?.[performance.requestsPerSecond.length - 1]?.value || 0}
+                </div>
+                <div style={styles.metricTrend}>
+                  {performance.requestsTrend > 0 ? <FiTrendingUp /> : <FiTrendingDown />}
+                  {Math.abs(performance.requestsTrend)}%
+                </div>
+              </div>
       
-      <div style={styles.metricCard}>
-        <h4 style={styles.metricTitle}>Error Rate</h4>
-        <div style={styles.metricValue}>
-          {performance.errorRate?.[performance.errorRate.length - 1]?.value || 0}%
-        </div>
-        <div style={styles.metricTrend}>
-          {performance.errorRateTrend > 0 ? <FiTrendingUp /> : <FiTrendingDown />}
-          {Math.abs(performance.errorRateTrend)}%
-        </div>
-      </div>
+              <div style={styles.metricCard}>
+                <h4 style={styles.metricTitle}>Error Rate</h4>
+                <div style={styles.metricValue}>
+                  {performance.errorRate?.[performance.errorRate.length - 1]?.value || 0}%
+                </div>
+                <div style={styles.metricTrend}>
+                  {performance.errorRateTrend > 0 ? <FiTrendingUp /> : <FiTrendingDown />}
+                  {Math.abs(performance.errorRateTrend)}%
+                </div>
+              </div>
       
-      <div style={styles.metricCard}>
-        <h4 style={styles.metricTitle}>Concurrent Users</h4>
-        <div style={styles.metricValue}>
-          {performance.concurrentUsers?.[performance.concurrentUsers.length - 1]?.value || 0}
-        </div>
-        <div style={styles.metricTrend}>
-          {performance.concurrentUsersTrend > 0 ? <FiTrendingUp /> : <FiTrendingDown />}
-          {Math.abs(performance.concurrentUsersTrend)}%
-        </div>
-      </div>
-    </div>
-
-    {/* Detailed Charts */}
-    <div style={styles.detailedCharts}>
-      <div style={styles.chartCard}>
-        <h3 style={styles.chartTitle}>Response Time History</h3>
-        <div style={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={performance.responseTime}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="time" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="value" stroke="#667eea" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div style={styles.chartCard}>
-        <h3 style={styles.chartTitle}>Requests per Second</h3>
-        <div style={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={performance.requestsPerSecond}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="time" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="value" fill="#4ecdc4" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div style={styles.chartCard}>
-        <h3 style={styles.chartTitle}>Error Rate</h3>
-        <div style={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={performance.errorRate}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="time" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Area type="monotone" dataKey="value" stroke="#ff6b6b" fill="#ff6b6b" fillOpacity={0.3} />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div style={styles.chartCard}>
-        <h3 style={styles.chartTitle}>Concurrent Users</h3>
-        <div style={styles.chartContainer}>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={performance.concurrentUsers}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="time" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="value" stroke="#ffd93d" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
-{/* Database Tab */}
-{activeTab === 'database' && (
-  <div style={styles.databaseTab}>
-    {/* Database Stats */}
-    <div style={styles.dbStatsGrid}>
-      <div style={styles.dbStatCard}>
-        <FiDatabase style={styles.dbStatIcon} />
-        <div>
-          <span style={styles.dbStatLabel}>Connections</span>
-          <span style={styles.dbStatValue}>{database.connections}</span>
-        </div>
-      </div>
-      
-      <div style={styles.dbStatCard}>
-        <FiActivity style={styles.dbStatIcon} />
-        <div>
-          <span style={styles.dbStatLabel}>Queries/sec</span>
-          <span style={styles.dbStatValue}>{database.queriesPerSecond}</span>
-        </div>
-      </div>
-      
-      <div style={styles.dbStatCard}>
-        <FiClock style={styles.dbStatIcon} />
-        <div>
-          <span style={styles.dbStatLabel}>Slow Queries</span>
-          <span style={styles.dbStatValue}>{database.slowQueries}</span>
-        </div>
-      </div>
-      
-      <div style={styles.dbStatCard}>
-        <FiHardDrive style={styles.dbStatIcon} />
-        <div>
-          <span style={styles.dbStatLabel}>Size</span>
-          <span style={styles.dbStatValue}>{formatBytes(database.size)}</span>
-        </div>
-      </div>
-    </div>
-
-    {/* Collections */}
-    <div style={styles.collectionsCard}>
-      <h3 style={styles.collectionsTitle}>Collections</h3>
-      <div style={styles.collectionsList}>
-        {database.collections?.map((collection, index) => (
-          <div key={index} style={styles.collectionItem}>
-            <span style={styles.collectionName}>{collection.name}</span>
-            <span style={styles.collectionCount}>{collection.count.toLocaleString()} docs</span>
-            <span style={styles.collectionSize}>{formatBytes(collection.size)}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    {/* Indexes */}
-    <div style={styles.indexesCard}>
-      <h3 style={styles.indexesTitle}>Indexes</h3>
-      <div style={styles.indexesList}>
-        {database.indexes?.map((index, idx) => (
-          <div key={idx} style={styles.indexItem}>
-            <span style={styles.indexName}>{index.name}</span>
-            <span style={styles.indexFields}>{index.fields.join(', ')}</span>
-            <span style={styles.indexSize}>{formatBytes(index.size)}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    {/* Backups */}
-    <div style={styles.backupsCard}>
-      <div style={styles.backupsHeader}>
-        <h3 style={styles.backupsTitle}>Backups</h3>
-        <button style={styles.backupBtn} onClick={handleRunBackup}>
-          <FiDownload />
-          Run Backup
-        </button>
-      </div>
-      <div style={styles.backupsList}>
-        {database.backups?.map((backup, index) => (
-          <div key={index} style={styles.backupItem}>
-            <div style={styles.backupInfo}>
-              <FiArchive style={styles.backupIcon} />
-              <div>
-                <span style={styles.backupName}>{backup.name}</span>
-                <span style={styles.backupTime}>{new Date(backup.createdAt).toLocaleString()}</span>
+              <div style={styles.metricCard}>
+                <h4 style={styles.metricTitle}>Concurrent Users</h4>
+                <div style={styles.metricValue}>
+                  {performance.concurrentUsers?.[performance.concurrentUsers.length - 1]?.value || 0}
+                </div>
+                <div style={styles.metricTrend}>
+                  {performance.concurrentUsersTrend > 0 ? <FiTrendingUp /> : <FiTrendingDown />}
+                  {Math.abs(performance.concurrentUsersTrend)}%
+                </div>
               </div>
             </div>
-            <span style={styles.backupSize}>{formatBytes(backup.size)}</span>
-            <button style={styles.backupDownload} title="Download">
-              <FiDownload />
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
 
-{/* Cache Tab */}
-{activeTab === 'cache' && (
-  <div style={styles.cacheTab}>
-    {/* Cache Stats */}
-    <div style={styles.cacheStatsGrid}>
-      <div style={styles.cacheStatCard}>
-        <h4 style={styles.cacheStatTitle}>Hit Rate</h4>
-        <div style={styles.cacheStatValue}>{(cache.hitRate * 100).toFixed(1)}%</div>
-        <div style={styles.cacheStatDetail}>
+            {/* Detailed Charts */}
+            <div style={styles.detailedCharts}>
+              <div style={styles.chartCard}>
+                <h3 style={styles.chartTitle}>Response Time History</h3>
+                <div style={styles.chartContainer}>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={performance.responseTime}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="time" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="value" stroke="#667eea" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div style={styles.chartCard}>
+                <h3 style={styles.chartTitle}>Requests per Second</h3>
+                <div style={styles.chartContainer}>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={performance.requestsPerSecond}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="time" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="value" fill="#4ecdc4" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div style={styles.chartCard}>
+                <h3 style={styles.chartTitle}>Error Rate</h3>
+                <div style={styles.chartContainer}>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <AreaChart data={performance.errorRate}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="time" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Area type="monotone" dataKey="value" stroke="#ff6b6b" fill="#ff6b6b" fillOpacity={0.3} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div style={styles.chartCard}>
+                <h3 style={styles.chartTitle}>Concurrent Users</h3>
+                <div style={styles.chartContainer}>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={performance.concurrentUsers}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="time" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="value" stroke="#ffd93d" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Database Tab */}
+        {activeTab === 'database' && (
+          <div style={styles.databaseTab}>
+            {/* Database Stats */}
+            <div style={styles.dbStatsGrid}>
+              <div style={styles.dbStatCard}>
+                <FiDatabase style={styles.dbStatIcon} />
+                <div>
+                  <span style={styles.dbStatLabel}>Connections</span>
+                  <span style={styles.dbStatValue}>{database.connections}</span>
+                </div>
+              </div>
+      
+              <div style={styles.dbStatCard}>
+                <FiActivity style={styles.dbStatIcon} />
+                <div>
+                  <span style={styles.dbStatLabel}>Queries/sec</span>
+                  <span style={styles.dbStatValue}>{database.queriesPerSecond}</span>
+                </div>
+              </div>
+      
+              <div style={styles.dbStatCard}>
+                <FiClock style={styles.dbStatIcon} />
+                <div>
+                  <span style={styles.dbStatLabel}>Slow Queries</span>
+                  <span style={styles.dbStatValue}>{database.slowQueries}</span>
+                </div>
+              </div>
+      
+              <div style={styles.dbStatCard}>
+                <FiHardDrive style={styles.dbStatIcon} />
+                <div>
+                  <span style={styles.dbStatLabel}>Size</span>
+                  <span style={styles.dbStatValue}>{formatBytes(database.size)}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Collections */}
+            <div style={styles.collectionsCard}>
+              <h3 style={styles.collectionsTitle}>Collections</h3>
+              <div style={styles.collectionsList}>
+                {database.collections?.map((collection, index) => (
+                  <div key={index} style={styles.collectionItem}>
+                    <span style={styles.collectionName}>{collection.name}</span>
+                    <span style={styles.collectionCount}>{collection.count.toLocaleString()} docs</span>
+                    <span style={styles.collectionSize}>{formatBytes(collection.size)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Indexes */}
+            <div style={styles.indexesCard}>
+              <h3 style={styles.indexesTitle}>Indexes</h3>
+              <div style={styles.indexesList}>
+                {database.indexes?.map((index, idx) => (
+                  <div key={idx} style={styles.indexItem}>
+                    <span style={styles.indexName}>{index.name}</span>
+                    <span style={styles.indexFields}>{index.fields.join(', ')}</span>
+                    <span style={styles.indexSize}>{formatBytes(index.size)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Backups */}
+            <div style={styles.backupsCard}>
+              <div style={styles.backupsHeader}>
+                <h3 style={styles.backupsTitle}>Backups</h3>
+                <button style={styles.backupBtn} onClick={handleRunBackup}>
+                  <FiDownload />
+          Run Backup
+                </button>
+              </div>
+              <div style={styles.backupsList}>
+                {database.backups?.map((backup, index) => (
+                  <div key={index} style={styles.backupItem}>
+                    <div style={styles.backupInfo}>
+                      <FiArchive style={styles.backupIcon} />
+                      <div>
+                        <span style={styles.backupName}>{backup.name}</span>
+                        <span style={styles.backupTime}>{new Date(backup.createdAt).toLocaleString()}</span>
+                      </div>
+                    </div>
+                    <span style={styles.backupSize}>{formatBytes(backup.size)}</span>
+                    <button style={styles.backupDownload} title="Download">
+                      <FiDownload />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Cache Tab */}
+        {activeTab === 'cache' && (
+          <div style={styles.cacheTab}>
+            {/* Cache Stats */}
+            <div style={styles.cacheStatsGrid}>
+              <div style={styles.cacheStatCard}>
+                <h4 style={styles.cacheStatTitle}>Hit Rate</h4>
+                <div style={styles.cacheStatValue}>{(cache.hitRate * 100).toFixed(1)}%</div>
+                <div style={styles.cacheStatDetail}>
           Hits: {cache.hits.toLocaleString()} | Misses: {cache.misses.toLocaleString()}
-        </div>
-      </div>
+                </div>
+              </div>
       
-      <div style={styles.cacheStatCard}>
-        <h4 style={styles.cacheStatTitle}>Memory Usage</h4>
-        <div style={styles.cacheStatValue}>{formatBytes(cache.memory)}</div>
-        <div style={styles.cacheStatDetail}>
+              <div style={styles.cacheStatCard}>
+                <h4 style={styles.cacheStatTitle}>Memory Usage</h4>
+                <div style={styles.cacheStatValue}>{formatBytes(cache.memory)}</div>
+                <div style={styles.cacheStatDetail}>
           Keys: {cache.keys.toLocaleString()}
-        </div>
-      </div>
+                </div>
+              </div>
       
-      <div style={styles.cacheStatCard}>
-        <h4 style={styles.cacheStatTitle}>Evictions</h4>
-        <div style={styles.cacheStatValue}>{cache.evictions.toLocaleString()}</div>
-        <div style={styles.cacheStatDetail}>
+              <div style={styles.cacheStatCard}>
+                <h4 style={styles.cacheStatTitle}>Evictions</h4>
+                <div style={styles.cacheStatValue}>{cache.evictions.toLocaleString()}</div>
+                <div style={styles.cacheStatDetail}>
           Total evicted keys
-        </div>
-      </div>
-    </div>
+                </div>
+              </div>
+            </div>
 
-    {/* Cache Actions */}
-    <div style={styles.cacheActions}>
-      <button style={styles.clearCacheBtn} onClick={handleClearCache}>
-        <FiTrash2 />
+            {/* Cache Actions */}
+            <div style={styles.cacheActions}>
+              <button style={styles.clearCacheBtn} onClick={handleClearCache}>
+                <FiTrash2 />
         Clear Cache
-      </button>
-    </div>
+              </button>
+            </div>
 
-    {/* Cache Settings */}
-    <div style={styles.cacheSettings}>
-      <h3 style={styles.cacheSettingsTitle}>Cache Settings</h3>
-      <div style={styles.cacheSettingItem}>
-        <span>Enable Cache</span>
-        <label style={styles.switch}>
-          <input
-            type="checkbox"
-            checked={settings.cacheEnabled}
-            onChange={() => setSettings({...settings, cacheEnabled: !settings.cacheEnabled})}
-          />
-          <span style={styles.slider}></span>
-        </label>
-      </div>
-    </div>
-  </div>
-)}
-
-{/* Queue Tab */}
-{activeTab === 'queue' && (
-  <div style={styles.queueTab}>
-    {/* Queue Stats */}
-    <div style={styles.queueStatsGrid}>
-      <div style={styles.queueStatCard}>
-        <FiActivity style={styles.queueStatIcon} />
-        <div>
-          <span style={styles.queueStatLabel}>Active</span>
-          <span style={styles.queueStatValue}>{queue.active}</span>
-        </div>
-      </div>
-      
-      <div style={styles.queueStatCard}>
-        <FiClock style={styles.queueStatIcon} />
-        <div>
-          <span style={styles.queueStatLabel}>Waiting</span>
-          <span style={styles.queueStatValue}>{queue.waiting}</span>
-        </div>
-      </div>
-      
-      <div style={styles.queueStatCard}>
-        <FiCheckCircle style={styles.queueStatIcon} />
-        <div>
-          <span style={styles.queueStatLabel}>Completed</span>
-          <span style={styles.queueStatValue}>{queue.completed}</span>
-        </div>
-      </div>
-      
-      <div style={styles.queueStatCard}>
-        <FiXCircle style={styles.queueStatIcon} />
-        <div>
-          <span style={styles.queueStatLabel}>Failed</span>
-          <span style={styles.queueStatValue}>{queue.failed}</span>
-        </div>
-      </div>
-    </div>
-
-    {/* Workers */}
-    <div style={styles.workersCard}>
-      <h3 style={styles.workersTitle}>Active Workers</h3>
-      <div style={styles.workersList}>
-        {queue.workers?.map((worker, index) => (
-          <div key={index} style={styles.workerItem}>
-            <span style={styles.workerId}>Worker {worker.id}</span>
-            <span style={styles.workerStatus}>{worker.status}</span>
-            <span style={styles.workerJob}>Job: {worker.currentJob}</span>
+            {/* Cache Settings */}
+            <div style={styles.cacheSettings}>
+              <h3 style={styles.cacheSettingsTitle}>Cache Settings</h3>
+              <div style={styles.cacheSettingItem}>
+                <span>Enable Cache</span>
+                <label style={styles.switch}>
+                  <input
+                    type="checkbox"
+                    checked={settings.cacheEnabled}
+                    onChange={() => setSettings({...settings, cacheEnabled: !settings.cacheEnabled})}
+                  />
+                  <span style={styles.slider}></span>
+                </label>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
+        )}
+
+        {/* Queue Tab */}
+        {activeTab === 'queue' && (
+          <div style={styles.queueTab}>
+            {/* Queue Stats */}
+            <div style={styles.queueStatsGrid}>
+              <div style={styles.queueStatCard}>
+                <FiActivity style={styles.queueStatIcon} />
+                <div>
+                  <span style={styles.queueStatLabel}>Active</span>
+                  <span style={styles.queueStatValue}>{queue.active}</span>
+                </div>
+              </div>
+      
+              <div style={styles.queueStatCard}>
+                <FiClock style={styles.queueStatIcon} />
+                <div>
+                  <span style={styles.queueStatLabel}>Waiting</span>
+                  <span style={styles.queueStatValue}>{queue.waiting}</span>
+                </div>
+              </div>
+      
+              <div style={styles.queueStatCard}>
+                <FiCheckCircle style={styles.queueStatIcon} />
+                <div>
+                  <span style={styles.queueStatLabel}>Completed</span>
+                  <span style={styles.queueStatValue}>{queue.completed}</span>
+                </div>
+              </div>
+      
+              <div style={styles.queueStatCard}>
+                <FiXCircle style={styles.queueStatIcon} />
+                <div>
+                  <span style={styles.queueStatLabel}>Failed</span>
+                  <span style={styles.queueStatValue}>{queue.failed}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Workers */}
+            <div style={styles.workersCard}>
+              <h3 style={styles.workersTitle}>Active Workers</h3>
+              <div style={styles.workersList}>
+                {queue.workers?.map((worker, index) => (
+                  <div key={index} style={styles.workerItem}>
+                    <span style={styles.workerId}>Worker {worker.id}</span>
+                    <span style={styles.workerStatus}>{worker.status}</span>
+                    <span style={styles.workerJob}>Job: {worker.currentJob}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
         {/* API Tab */}
         {activeTab === 'api' && (
           <div style={styles.apiTab}>
@@ -1028,7 +1028,7 @@ const AdminSystem = () => {
                 <div style={styles.sslRow}>
                   <span>Expiry Date:</span>
                   <span style={{
-                    color: new Date(security.sslExpiry) < new Date() ? '#dc3545' : '#28a745'
+                    color: new Date(security.sslExpiry) < new Date() ? '#dc3545' : '#28a745',
                   }}>
                     {new Date(security.sslExpiry).toLocaleDateString()}
                   </span>
@@ -1113,7 +1113,7 @@ const AdminSystem = () => {
                 <div key={index} style={{
                   ...styles.logItem,
                   borderLeftColor: log.level === 'error' ? '#dc3545' : 
-                                 log.level === 'warn' ? '#ffc107' : '#17a2b8'
+                    log.level === 'warn' ? '#ffc107' : '#17a2b8',
                 }}>
                   <span style={styles.logTime}>{new Date(log.timestamp).toLocaleTimeString()}</span>
                   <span style={styles.logLevel}>{log.level}</span>
@@ -1229,7 +1229,7 @@ const styles = {
     maxWidth: '1600px',
     margin: '0 auto',
     padding: '30px 20px',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   header: {
     display: 'flex',
@@ -1237,22 +1237,22 @@ const styles = {
     alignItems: 'center',
     marginBottom: '30px',
     flexWrap: 'wrap',
-    gap: '20px'
+    gap: '20px',
   },
   title: {
     fontSize: '32px',
     color: '#333',
-    margin: '0 0 5px'
+    margin: '0 0 5px',
   },
   subtitle: {
     fontSize: '16px',
     color: '#666',
-    margin: 0
+    margin: 0,
   },
   headerActions: {
     display: 'flex',
     gap: '10px',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   systemStatus: {
     display: 'flex',
@@ -1261,7 +1261,7 @@ const styles = {
     padding: '8px 16px',
     background: '#f8f9fa',
     borderRadius: '20px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   refreshBtn: {
     padding: '8px 16px',
@@ -1271,7 +1271,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   maintenanceBtn: {
     padding: '8px 16px',
@@ -1282,13 +1282,13 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   quickStats: {
     display: 'grid',
     gridTemplateColumns: 'repeat(6, 1fr)',
     gap: '15px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   statItem: {
     background: 'white',
@@ -1297,23 +1297,23 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   statIcon: {
     fontSize: '24px',
-    color: '#667eea'
+    color: '#667eea',
   },
   statLabel: {
     display: 'block',
     fontSize: '11px',
     color: '#666',
-    marginBottom: '3px'
+    marginBottom: '3px',
   },
   statValue: {
     display: 'block',
     fontSize: '16px',
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   tabs: {
     display: 'flex',
@@ -1321,7 +1321,7 @@ const styles = {
     gap: '5px',
     marginBottom: '20px',
     borderBottom: '1px solid #e9ecef',
-    paddingBottom: '10px'
+    paddingBottom: '10px',
   },
   tab: {
     padding: '8px 16px',
@@ -1333,112 +1333,112 @@ const styles = {
     alignItems: 'center',
     gap: '5px',
     fontSize: '13px',
-    color: '#666'
+    color: '#666',
   },
   activeTab: {
     background: '#667eea',
-    color: 'white'
+    color: 'white',
   },
   tabContent: {
     background: 'white',
     borderRadius: '10px',
     padding: '20px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   healthGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
     gap: '15px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   healthCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
-    padding: '15px'
+    padding: '15px',
   },
   healthHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   healthName: {
     fontSize: '16px',
     fontWeight: 500,
-    color: '#333'
+    color: '#333',
   },
   healthDetails: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '5px'
+    gap: '5px',
   },
   healthDetail: {
     display: 'flex',
     justifyContent: 'space-between',
     fontSize: '13px',
-    color: '#666'
+    color: '#666',
   },
   chartsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
     gap: '20px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   chartCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
-    padding: '15px'
+    padding: '15px',
   },
   chartTitle: {
     margin: '0 0 10px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   chartContainer: {
-    height: '200px'
+    height: '200px',
   },
   infoCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
     padding: '15px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   infoTitle: {
     margin: '0 0 15px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   infoGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '15px'
+    gap: '15px',
   },
   infoRow: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '3px'
+    gap: '3px',
   },
   environment: {
     padding: '2px 8px',
     borderRadius: '12px',
     color: 'white',
     fontSize: '12px',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   alertsCard: {
     background: '#f8f9fa',
     borderRadius: '8px',
-    padding: '15px'
+    padding: '15px',
   },
   alertsTitle: {
     margin: '0 0 15px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   alertsList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '10px'
+    gap: '10px',
   },
   alertItem: {
     display: 'flex',
@@ -1447,25 +1447,25 @@ const styles = {
     padding: '10px',
     background: 'white',
     borderRadius: '5px',
-    borderLeft: '4px solid'
+    borderLeft: '4px solid',
   },
   alertContent: {
     flex: 1,
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   alertMessage: {
     fontSize: '14px',
-    color: '#333'
+    color: '#333',
   },
   alertTime: {
     fontSize: '12px',
-    color: '#999'
+    color: '#999',
   },
   loadingContainer: {
     textAlign: 'center',
-    padding: '60px 20px'
+    padding: '60px 20px',
   },
   spinner: {
     border: '3px solid #f3f3f3',
@@ -1474,8 +1474,8 @@ const styles = {
     width: '40px',
     height: '40px',
     animation: 'spin 1s linear infinite',
-    margin: '0 auto 15px'
-  }
+    margin: '0 auto 15px',
+  },
 };
 
 export default AdminSystem;

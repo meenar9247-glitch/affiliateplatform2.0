@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FiMail, FiArrowLeft, FiCheckCircle } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -35,7 +35,7 @@ const ForgotPassword = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/forgot-password`,
-        { email }
+        { email },
       );
 
       if (response.data.success) {

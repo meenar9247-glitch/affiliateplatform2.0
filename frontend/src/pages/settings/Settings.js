@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiUser,
@@ -26,8 +25,9 @@ import {
   FiCheck,
   FiX,
   FiInfo,
-  FiAlertCircle
+  FiAlertCircle,
 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -39,21 +39,21 @@ const Settings = () => {
     email: '',
     phone: '',
     avatar: null,
-    bio: ''
+    bio: '',
   });
   const [address, setAddress] = useState({
     street: '',
     city: '',
     state: '',
     country: '',
-    zipCode: ''
+    zipCode: '',
   });
   const [security, setSecurity] = useState({
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
     twoFactorEnabled: false,
-    loginNotifications: true
+    loginNotifications: true,
   });
   const [preferences, setPreferences] = useState({
     theme: 'light',
@@ -62,20 +62,20 @@ const Settings = () => {
     timezone: 'UTC',
     emailNotifications: true,
     pushNotifications: false,
-    marketingEmails: false
+    marketingEmails: false,
   });
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [showPassword, setShowPassword] = useState({
     current: false,
     new: false,
-    confirm: false
+    confirm: false,
   });
   const [passwordStrength, setPasswordStrength] = useState({
     length: false,
     uppercase: false,
     lowercase: false,
     number: false,
-    special: false
+    special: false,
   });
   const [errors, setErrors] = useState({});
 
@@ -88,7 +88,7 @@ const Settings = () => {
   const fetchProfile = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/user/profile`
+        `${process.env.REACT_APP_API_URL}/user/profile`,
       );
       
       if (response.data.success) {
@@ -105,7 +105,7 @@ const Settings = () => {
   const fetchPreferences = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/user/preferences`
+        `${process.env.REACT_APP_API_URL}/user/preferences`,
       );
       
       if (response.data.success) {
@@ -120,7 +120,7 @@ const Settings = () => {
   const fetchPaymentMethods = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/wallet/payment-methods`
+        `${process.env.REACT_APP_API_URL}/wallet/payment-methods`,
       );
       
       if (response.data.success) {
@@ -134,7 +134,7 @@ const Settings = () => {
   const handleProfileChange = (e) => {
     setProfile({
       ...profile,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     // Clear error for this field
     if (errors[e.target.name]) {
@@ -145,14 +145,14 @@ const Settings = () => {
   const handleAddressChange = (e) => {
     setAddress({
       ...address,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSecurityChange = (e) => {
     setSecurity({
       ...security,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
 
     // Check password strength when new password changes
@@ -164,21 +164,21 @@ const Settings = () => {
   const handleToggleChange = (field) => {
     setSecurity({
       ...security,
-      [field]: !security[field]
+      [field]: !security[field],
     });
   };
 
   const handlePreferenceChange = (field, value) => {
     setPreferences({
       ...preferences,
-      [field]: value
+      [field]: value,
     });
   };
 
   const handleCheckboxChange = (field) => {
     setPreferences({
       ...preferences,
-      [field]: !preferences[field]
+      [field]: !preferences[field],
     });
   };
 
@@ -188,7 +188,7 @@ const Settings = () => {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /[0-9]/.test(password),
-      special: /[^a-zA-Z0-9]/.test(password)
+      special: /[^a-zA-Z0-9]/.test(password),
     });
   };
 
@@ -252,7 +252,7 @@ const Settings = () => {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/user/profile`,
-        { ...profile, address }
+        { ...profile, address },
       );
       
       if (response.data.success) {
@@ -275,8 +275,8 @@ const Settings = () => {
         {
           currentPassword: security.currentPassword,
           newPassword: security.newPassword,
-          twoFactorEnabled: security.twoFactorEnabled
-        }
+          twoFactorEnabled: security.twoFactorEnabled,
+        },
       );
       
       if (response.data.success) {
@@ -285,7 +285,7 @@ const Settings = () => {
           ...security,
           currentPassword: '',
           newPassword: '',
-          confirmPassword: ''
+          confirmPassword: '',
         });
       }
     } catch (error) {
@@ -300,7 +300,7 @@ const Settings = () => {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/user/preferences`,
-        preferences
+        preferences,
       );
       
       if (response.data.success) {
@@ -321,7 +321,7 @@ const Settings = () => {
     if (window.confirm('Are you sure you want to remove this payment method?')) {
       try {
         const response = await axios.delete(
-          `${process.env.REACT_APP_API_URL}/wallet/payment-methods/${id}`
+          `${process.env.REACT_APP_API_URL}/wallet/payment-methods/${id}`,
         );
         
         if (response.data.success) {
@@ -337,13 +337,13 @@ const Settings = () => {
   const handleSetDefaultPaymentMethod = async (id) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/wallet/payment-methods/${id}/default`
+        `${process.env.REACT_APP_API_URL}/wallet/payment-methods/${id}/default`,
       );
       
       if (response.data.success) {
         setPaymentMethods(paymentMethods.map(m => ({
           ...m,
-          isDefault: m._id === id
+          isDefault: m._id === id,
         })));
         toast.success('Default payment method updated');
       }
@@ -362,7 +362,7 @@ const Settings = () => {
     if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       try {
         const response = await axios.delete(
-          `${process.env.REACT_APP_API_URL}/user/account`
+          `${process.env.REACT_APP_API_URL}/user/account`,
         );
         
         if (response.data.success) {
@@ -383,7 +383,7 @@ const Settings = () => {
     { id: 'security', label: 'Security', icon: FiLock },
     { id: 'preferences', label: 'Preferences', icon: FiMoon },
     { id: 'payment', label: 'Payment Methods', icon: FiCreditCard },
-    { id: 'notifications', label: 'Notifications', icon: FiBell }
+    { id: 'notifications', label: 'Notifications', icon: FiBell },
   ];
 
   // Styles
@@ -1333,7 +1333,7 @@ const Settings = () => {
                           ...security,
                           currentPassword: '',
                           newPassword: '',
-                          confirmPassword: ''
+                          confirmPassword: '',
                         });
                       }}
                     >
@@ -1451,15 +1451,15 @@ const Settings = () => {
                 </div>
 
                 <div className="payment-methods-list">
-              {paymentMethods.map(method => (
+                  {paymentMethods.map(method => (
                     <div
                       key={method._id}
                       className={`payment-method-item ${method.isDefault ? 'default' : ''}`}
                     >
                       <div className="payment-method-icon">
                         {method.type === 'paypal' ? '💰' :
-                         method.type === 'bank' ? '🏦' :
-                         method.type === 'upi' ? '📱' : '💳'}
+                          method.type === 'bank' ? '🏦' :
+                            method.type === 'upi' ? '📱' : '💳'}
                       </div>
                       <div className="payment-method-info">
                         <p className="payment-method-name">{method.name}</p>

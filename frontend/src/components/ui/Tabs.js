@@ -56,7 +56,7 @@ const Tabs = ({
       const tab = tabRefs.current[activeTab];
       setIndicatorStyle({
         left: tab.offsetLeft,
-        width: tab.offsetWidth
+        width: tab.offsetWidth,
       });
     }
   };
@@ -90,7 +90,7 @@ const Tabs = ({
   const sizeClasses = {
     small: 'tabs-small',
     medium: 'tabs-medium',
-    large: 'tabs-large'
+    large: 'tabs-large',
   };
 
   // Variant classes
@@ -98,7 +98,7 @@ const Tabs = ({
     underlined: 'tabs-underlined',
     contained: 'tabs-contained',
     pills: 'tabs-pills',
-    minimal: 'tabs-minimal'
+    minimal: 'tabs-minimal',
   };
 
   // Align classes
@@ -106,13 +106,13 @@ const Tabs = ({
     start: 'tabs-start',
     center: 'tabs-center',
     end: 'tabs-end',
-    justify: 'tabs-justify'
+    justify: 'tabs-justify',
   };
 
   // Orientation classes
   const orientationClasses = {
     horizontal: 'tabs-horizontal',
-    vertical: 'tabs-vertical'
+    vertical: 'tabs-vertical',
   };
 
   // Styles
@@ -567,7 +567,7 @@ const Tabs = ({
             return React.cloneElement(child, {
               className: `tab-pane ${isActive ? 'active' : ''}`,
               role: 'tabpanel',
-              hidden: !isActive
+              hidden: !isActive,
             });
           })}
         </div>

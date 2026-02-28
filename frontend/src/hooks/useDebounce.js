@@ -5,7 +5,7 @@ export const DEBOUNCE_STRATEGIES = {
   LEADING: 'leading', // Execute on leading edge
   TRAILING: 'trailing', // Execute on trailing edge
   BOTH: 'both', // Execute on both edges
-  IMMEDIATE: 'immediate' // Execute immediately, then debounce
+  IMMEDIATE: 'immediate', // Execute immediately, then debounce
 };
 
 // Default options
@@ -20,7 +20,7 @@ const DEFAULT_OPTIONS = {
   onStart: null,
   onEnd: null,
   onCancel: null,
-  onError: null
+  onError: null,
 };
 
 /**
@@ -41,7 +41,7 @@ export const useDebounce = (value, options = {}) => {
     onStart = null,
     onEnd = null,
     onCancel = null,
-    onError = null
+    onError = null,
   } = { ...DEFAULT_OPTIONS, ...options };
 
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -191,7 +191,7 @@ export const useDebounce = (value, options = {}) => {
       cleanup();
     };
   }, [cleanup]);
-    return [
+  return [
     debouncedValue,
     {
       // Core functions
@@ -219,9 +219,9 @@ export const useDebounce = (value, options = {}) => {
         maxWait,
         leading,
         trailing,
-        immediate
-      }
-    }
+        immediate,
+      },
+    },
   ];
 };
 
@@ -243,7 +243,7 @@ export const useDebouncedCallback = (fn, options = {}) => {
     onStart = null,
     onEnd = null,
     onCancel = null,
-    onError = null
+    onError = null,
   } = { ...DEFAULT_OPTIONS, ...options };
 
   const timeoutRef = useRef(null);
@@ -385,28 +385,28 @@ export const useDebouncedCallback = (fn, options = {}) => {
 export const useDebounceLeading = (value, delay = 300) => {
   return useDebounce(value, { 
     strategy: DEBOUNCE_STRATEGIES.LEADING, 
-    delay 
+    delay, 
   });
 };
 
 export const useDebounceTrailing = (value, delay = 300) => {
   return useDebounce(value, { 
     strategy: DEBOUNCE_STRATEGIES.TRAILING, 
-    delay 
+    delay, 
   });
 };
 
 export const useDebounceBoth = (value, delay = 300) => {
   return useDebounce(value, { 
     strategy: DEBOUNCE_STRATEGIES.BOTH, 
-    delay 
+    delay, 
   });
 };
 
 export const useDebounceImmediate = (value, delay = 300) => {
   return useDebounce(value, { 
     strategy: DEBOUNCE_STRATEGIES.IMMEDIATE, 
-    delay 
+    delay, 
   });
 };/**
  * Hook for debouncing search inputs
@@ -448,7 +448,7 @@ export const useDebouncedSearch = (searchFn, delay = 300, options = {}) => {
     error,
     setQuery: handleSearch,
     cancel: debouncedSearch.cancel,
-    flush: debouncedSearch.flush
+    flush: debouncedSearch.flush,
   };
 };
 
@@ -462,7 +462,7 @@ export const useDebouncedForm = (initialValues = {}, delay = 300) => {
   const handleChange = useCallback((name, value) => {
     setValues(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   }, []);
 
@@ -480,7 +480,7 @@ export const useDebouncedForm = (initialValues = {}, delay = 300) => {
     handleChange,
     handleSubmit,
     setValues,
-    reset: () => setValues(initialValues)
+    reset: () => setValues(initialValues),
   };
 };
 
@@ -513,7 +513,7 @@ export const useDebouncedApi = (apiFunction, delay = 300, options = {}) => {
     error,
     call: debouncedCall,
     cancel: debouncedCall.cancel,
-    flush: debouncedCall.flush
+    flush: debouncedCall.flush,
   };
 };
 
@@ -533,14 +533,14 @@ export const useDebouncedScroll = (callback, delay = 100, options = {}) => {
   const handleScroll = useCallback(() => {
     const newPosition = {
       x: window.scrollX,
-      y: window.scrollY
+      y: window.scrollY,
     };
 
     setDirection({
       x: newPosition.x > lastPosition.current.x ? 'right' : 
-         newPosition.x < lastPosition.current.x ? 'left' : null,
+        newPosition.x < lastPosition.current.x ? 'left' : null,
       y: newPosition.y > lastPosition.current.y ? 'down' : 
-         newPosition.y < lastPosition.current.y ? 'up' : null
+        newPosition.y < lastPosition.current.y ? 'up' : null,
     });
 
     setScrollPosition(newPosition);
@@ -557,7 +557,7 @@ export const useDebouncedScroll = (callback, delay = 100, options = {}) => {
     position: scrollPosition,
     direction,
     cancel: debouncedCallback.cancel,
-    flush: debouncedCallback.flush
+    flush: debouncedCallback.flush,
   };
 };
 
@@ -567,7 +567,7 @@ export const useDebouncedScroll = (callback, delay = 100, options = {}) => {
 export const useDebouncedResize = (callback, delay = 150, options = {}) => {
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
   });
 
   const debouncedCallback = useDebouncedCallback((size) => {
@@ -577,7 +577,7 @@ export const useDebouncedResize = (callback, delay = 150, options = {}) => {
   const handleResize = useCallback(() => {
     const newDimensions = {
       width: window.innerWidth,
-      height: window.innerHeight
+      height: window.innerHeight,
     };
     setDimensions(newDimensions);
     debouncedCallback(newDimensions);
@@ -591,7 +591,7 @@ export const useDebouncedResize = (callback, delay = 150, options = {}) => {
   return {
     dimensions,
     cancel: debouncedCallback.cancel,
-    flush: debouncedCallback.flush
+    flush: debouncedCallback.flush,
   };
 };
 
@@ -619,7 +619,7 @@ export const useDebouncedMouseMove = (callback, delay = 50, options = {}) => {
   return {
     position,
     cancel: debouncedCallback.cancel,
-    flush: debouncedCallback.flush
+    flush: debouncedCallback.flush,
   };
 };
 
@@ -722,7 +722,7 @@ export const debounceUtils = {
         maxWaitTimeoutId = null;
       }, delay);
     };
-  }
+  },
 };
 
 // Export constants

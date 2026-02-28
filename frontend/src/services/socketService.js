@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client';
+
 import { authApi } from '../hooks/useAuth';
 
 // Socket events
@@ -68,7 +69,7 @@ export const SOCKET_EVENTS = {
   
   // Analytics events
   TRACK: 'track',
-  PAGE_VIEW: 'page_view'
+  PAGE_VIEW: 'page_view',
 };
 
 // Connection states
@@ -79,7 +80,7 @@ export const CONNECTION_STATES = {
   RECONNECTING: 'reconnecting',
   ERROR: 'error',
   TIMEOUT: 'timeout',
-  UNAUTHORIZED: 'unauthorized'
+  UNAUTHORIZED: 'unauthorized',
 };
 
 // Socket namespaces
@@ -90,7 +91,7 @@ export const SOCKET_NAMESPACES = {
   PRESENCE: '/presence',
   ANALYTICS: '/analytics',
   ADMIN: '/admin',
-  AFFILIATE: '/affiliate'
+  AFFILIATE: '/affiliate',
 };
 
 // Socket transport protocols
@@ -121,7 +122,7 @@ export const DEFAULT_OPTIONS = {
   timestampParam: 't',
   auth: null,
   query: {},
-  extraHeaders: {}
+  extraHeaders: {},
 };
 
 // Reconnection strategies
@@ -129,7 +130,7 @@ export const RECONNECTION_STRATEGIES = {
   LINEAR: 'linear',
   EXPONENTIAL: 'exponential',
   FIBONACCI: 'fibonacci',
-  RANDOM: 'random'
+  RANDOM: 'random',
 };
 
 // Event priority levels
@@ -137,7 +138,7 @@ export const EVENT_PRIORITIES = {
   LOW: 0,
   NORMAL: 1,
   HIGH: 2,
-  CRITICAL: 3
+  CRITICAL: 3,
 };
 
 // Socket Service Class
@@ -176,8 +177,8 @@ class SocketService {
           token: this.authToken,
           userId: this.userId,
           role: this.userRole,
-          ...options.auth
-        }
+          ...options.auth,
+        },
       };
 
       const socket = io(socketOptions.url + namespace, socketOptions);
@@ -240,7 +241,7 @@ class SocketService {
       case RECONNECTION_STRATEGIES.EXPONENTIAL:
         return Math.min(
           this.reconnectDelay * Math.pow(2, this.reconnectAttempts),
-          DEFAULT_OPTIONS.reconnectionDelayMax
+          DEFAULT_OPTIONS.reconnectionDelayMax,
         );
       case RECONNECTION_STRATEGIES.FIBONACCI:
         const fib = (n) => n <= 1 ? 1 : fib(n - 1) + fib(n - 2);
@@ -283,7 +284,7 @@ class SocketService {
         socket.auth = {
           token: this.authToken,
           userId: this.userId,
-          role: this.userRole
+          role: this.userRole,
         };
         
         if (socket.connected) {
@@ -298,7 +299,7 @@ class SocketService {
     socket.emit(SOCKET_EVENTS.AUTHENTICATE, {
       token: this.authToken,
       userId: this.userId,
-      role: this.userRole
+      role: this.userRole,
     });
   }
 
@@ -399,291 +400,291 @@ class SocketService {
   }
   // ==================== Event Emission ====================
 
-// Emit event with acknowledgment
-emit(event, data = {}, options = {}) {
-  const {
-    namespace = SOCKET_NAMESPACES.MAIN,
-    timeout = 5000,
-    priority = EVENT_PRIORITIES.NORMAL,
-    retry = true,
-    retryCount = 0
-  } = options;
+  // Emit event with acknowledgment
+  emit(event, data = {}, options = {}) {
+    const {
+      namespace = SOCKET_NAMESPACES.MAIN,
+      timeout = 5000,
+      priority = EVENT_PRIORITIES.NORMAL,
+      retry = true,
+      retryCount = 0,
+    } = options;
 
-  const socket = this.sockets.get(namespace);
+    const socket = this.sockets.get(namespace);
   
-  if (!socket || !socket.connected) {
-    if (retry && retryCount < 3) {
+    if (!socket || !socket.connected) {
+      if (retry && retryCount < 3) {
       // Queue event for later
-      this.queueEvent({
-        event,
-        data,
-        namespace,
-        timeout,
-        priority,
-        retryCount: retryCount + 1
-      });
+        this.queueEvent({
+          event,
+          data,
+          namespace,
+          timeout,
+          priority,
+          retryCount: retryCount + 1,
+        });
       
-      // Attempt to connect
-      this.connect(namespace);
+        // Attempt to connect
+        this.connect(namespace);
       
-      return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
         // Will be resolved when queue is processed
-      });
-    }
+        });
+      }
     
-    return Promise.reject(new Error('Socket not connected'));
+      return Promise.reject(new Error('Socket not connected'));
+    }
+
+    return new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        reject(new Error('Event timeout'));
+      }, timeout);
+
+      socket.emit(event, data, (response) => {
+        clearTimeout(timeoutId);
+      
+        if (response.error) {
+          reject(response.error);
+        } else {
+          resolve(response);
+        }
+      });
+    });
   }
 
-  return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(() => {
-      reject(new Error('Event timeout'));
-    }, timeout);
+  // Emit event without acknowledgment
+  emitVolatile(event, data = {}, namespace = SOCKET_NAMESPACES.MAIN) {
+    const socket = this.sockets.get(namespace);
+  
+    if (socket && socket.connected) {
+      socket.volatile.emit(event, data);
+      return true;
+    }
+  
+    return false;
+  }
 
-    socket.emit(event, data, (response) => {
-      clearTimeout(timeoutId);
-      
-      if (response.error) {
-        reject(response.error);
+  // Broadcast event to all connected sockets
+  broadcast(event, data = {}, rooms = []) {
+    this.sockets.forEach((socket) => {
+      if (rooms.length > 0) {
+        rooms.forEach(room => {
+          socket.to(room).emit(event, data);
+        });
       } else {
-        resolve(response);
+        socket.broadcast.emit(event, data);
       }
     });
-  });
-}
-
-// Emit event without acknowledgment
-emitVolatile(event, data = {}, namespace = SOCKET_NAMESPACES.MAIN) {
-  const socket = this.sockets.get(namespace);
-  
-  if (socket && socket.connected) {
-    socket.volatile.emit(event, data);
-    return true;
   }
-  
-  return false;
-}
 
-// Broadcast event to all connected sockets
-broadcast(event, data = {}, rooms = []) {
-  this.sockets.forEach((socket) => {
-    if (rooms.length > 0) {
-      rooms.forEach(room => {
-        socket.to(room).emit(event, data);
-      });
-    } else {
-      socket.broadcast.emit(event, data);
+  // ==================== Event Listening ====================
+
+  // Add event listener
+  on(event, handler, namespace = SOCKET_NAMESPACES.MAIN) {
+    if (!this.listeners.has(namespace)) {
+      this.listeners.set(namespace, new Map());
     }
-  });
-}
-
-// ==================== Event Listening ====================
-
-// Add event listener
-on(event, handler, namespace = SOCKET_NAMESPACES.MAIN) {
-  if (!this.listeners.has(namespace)) {
-    this.listeners.set(namespace, new Map());
-  }
   
-  const namespaceListeners = this.listeners.get(namespace);
-  
-  if (!namespaceListeners.has(event)) {
-    namespaceListeners.set(event, []);
-  }
-  
-  namespaceListeners.get(event).push(handler);
-  
-  const socket = this.sockets.get(namespace);
-  if (socket) {
-    socket.on(event, handler);
-  }
-  
-  return this;
-}
-
-// Add one-time event listener
-once(event, handler, namespace = SOCKET_NAMESPACES.MAIN) {
-  const socket = this.sockets.get(namespace);
-  
-  if (socket) {
-    socket.once(event, handler);
-  }
-  
-  return this;
-}
-
-// Remove event listener
-off(event, handler = null, namespace = SOCKET_NAMESPACES.MAIN) {
-  const socket = this.sockets.get(namespace);
-  
-  if (!socket) return this;
-  
-  if (handler) {
-    socket.off(event, handler);
-    
-    // Remove from listeners map
     const namespaceListeners = this.listeners.get(namespace);
-    if (namespaceListeners && namespaceListeners.has(event)) {
-      const handlers = namespaceListeners.get(event).filter(h => h !== handler);
-      if (handlers.length > 0) {
-        namespaceListeners.set(event, handlers);
-      } else {
+  
+    if (!namespaceListeners.has(event)) {
+      namespaceListeners.set(event, []);
+    }
+  
+    namespaceListeners.get(event).push(handler);
+  
+    const socket = this.sockets.get(namespace);
+    if (socket) {
+      socket.on(event, handler);
+    }
+  
+    return this;
+  }
+
+  // Add one-time event listener
+  once(event, handler, namespace = SOCKET_NAMESPACES.MAIN) {
+    const socket = this.sockets.get(namespace);
+  
+    if (socket) {
+      socket.once(event, handler);
+    }
+  
+    return this;
+  }
+
+  // Remove event listener
+  off(event, handler = null, namespace = SOCKET_NAMESPACES.MAIN) {
+    const socket = this.sockets.get(namespace);
+  
+    if (!socket) return this;
+  
+    if (handler) {
+      socket.off(event, handler);
+    
+      // Remove from listeners map
+      const namespaceListeners = this.listeners.get(namespace);
+      if (namespaceListeners && namespaceListeners.has(event)) {
+        const handlers = namespaceListeners.get(event).filter(h => h !== handler);
+        if (handlers.length > 0) {
+          namespaceListeners.set(event, handlers);
+        } else {
+          namespaceListeners.delete(event);
+        }
+      }
+    } else {
+      socket.removeAllListeners(event);
+    
+      // Remove from listeners map
+      const namespaceListeners = this.listeners.get(namespace);
+      if (namespaceListeners) {
         namespaceListeners.delete(event);
       }
     }
-  } else {
-    socket.removeAllListeners(event);
-    
-    // Remove from listeners map
-    const namespaceListeners = this.listeners.get(namespace);
-    if (namespaceListeners) {
-      namespaceListeners.delete(event);
+  
+    return this;
+  }
+
+  // Remove all listeners
+  removeAllListeners(namespace = SOCKET_NAMESPACES.MAIN) {
+    const socket = this.sockets.get(namespace);
+  
+    if (socket) {
+      socket.removeAllListeners();
     }
+  
+    if (this.listeners.has(namespace)) {
+      this.listeners.delete(namespace);
+    }
+  
+    return this;
   }
-  
-  return this;
-}
 
-// Remove all listeners
-removeAllListeners(namespace = SOCKET_NAMESPACES.MAIN) {
-  const socket = this.sockets.get(namespace);
-  
-  if (socket) {
-    socket.removeAllListeners();
+  // ==================== Room Management ====================
+
+  // Join room
+  async joinRoom(room, namespace = SOCKET_NAMESPACES.MAIN) {
+    return this.emit(SOCKET_EVENTS.JOIN_ROOM, { room }, { namespace });
   }
-  
-  if (this.listeners.has(namespace)) {
-    this.listeners.delete(namespace);
+
+  // Leave room
+  async leaveRoom(room, namespace = SOCKET_NAMESPACES.MAIN) {
+    return this.emit(SOCKET_EVENTS.LEAVE_ROOM, { room }, { namespace });
   }
-  
-  return this;
-}
 
-// ==================== Room Management ====================
+  // Get room users
+  async getRoomUsers(room, namespace = SOCKET_NAMESPACES.MAIN) {
+    return this.emit(SOCKET_EVENTS.ROOM_USERS, { room }, { namespace });
+  }
 
-// Join room
-async joinRoom(room, namespace = SOCKET_NAMESPACES.MAIN) {
-  return this.emit(SOCKET_EVENTS.JOIN_ROOM, { room }, { namespace });
-}
+  // Send message to room
+  async sendToRoom(room, event, data, namespace = SOCKET_NAMESPACES.MAIN) {
+    return this.emit(SOCKET_EVENTS.ROOM_MESSAGE, {
+      room,
+      event,
+      data,
+    }, { namespace });
+  }
 
-// Leave room
-async leaveRoom(room, namespace = SOCKET_NAMESPACES.MAIN) {
-  return this.emit(SOCKET_EVENTS.LEAVE_ROOM, { room }, { namespace });
-}
+  // ==================== Presence Management ====================
 
-// Get room users
-async getRoomUsers(room, namespace = SOCKET_NAMESPACES.MAIN) {
-  return this.emit(SOCKET_EVENTS.ROOM_USERS, { room }, { namespace });
-}
+  // Update presence status
+  async updatePresence(status, metadata = {}) {
+    return this.emit(SOCKET_EVENTS.USER_STATUS, {
+      status,
+      ...metadata,
+    }, { namespace: SOCKET_NAMESPACES.PRESENCE });
+  }
 
-// Send message to room
-async sendToRoom(room, event, data, namespace = SOCKET_NAMESPACES.MAIN) {
-  return this.emit(SOCKET_EVENTS.ROOM_MESSAGE, {
-    room,
-    event,
-    data
-  }, { namespace });
-}
+  // Start typing
+  async startTyping(room, namespace = SOCKET_NAMESPACES.CHAT) {
+    return this.emitVolatile(SOCKET_EVENTS.TYPING, { room }, namespace);
+  }
 
-// ==================== Presence Management ====================
+  // Stop typing
+  async stopTyping(room, namespace = SOCKET_NAMESPACES.CHAT) {
+    return this.emitVolatile(SOCKET_EVENTS.TYPING_STOP, { room }, namespace);
+  }
 
-// Update presence status
-async updatePresence(status, metadata = {}) {
-  return this.emit(SOCKET_EVENTS.USER_STATUS, {
-    status,
-    ...metadata
-  }, { namespace: SOCKET_NAMESPACES.PRESENCE });
-}
+  // ==================== Message Management ====================
 
-// Start typing
-async startTyping(room, namespace = SOCKET_NAMESPACES.CHAT) {
-  return this.emitVolatile(SOCKET_EVENTS.TYPING, { room }, namespace);
-}
+  // Send message
+  async sendMessage(message, to = null, namespace = SOCKET_NAMESPACES.CHAT) {
+    return this.emit(SOCKET_EVENTS.MESSAGE, {
+      message,
+      to,
+      timestamp: Date.now(),
+    }, { namespace });
+  }
 
-// Stop typing
-async stopTyping(room, namespace = SOCKET_NAMESPACES.CHAT) {
-  return this.emitVolatile(SOCKET_EVENTS.TYPING_STOP, { room }, namespace);
-}
+  // Mark message as delivered
+  async markDelivered(messageId, to, namespace = SOCKET_NAMESPACES.CHAT) {
+    return this.emit(SOCKET_EVENTS.MESSAGE_DELIVERED, {
+      messageId,
+      to,
+    }, { namespace });
+  }
 
-// ==================== Message Management ====================
+  // Mark message as read
+  async markRead(messageId, to, namespace = SOCKET_NAMESPACES.CHAT) {
+    return this.emit(SOCKET_EVENTS.MESSAGE_READ, {
+      messageId,
+      to,
+    }, { namespace });
+  }
 
-// Send message
-async sendMessage(message, to = null, namespace = SOCKET_NAMESPACES.CHAT) {
-  return this.emit(SOCKET_EVENTS.MESSAGE, {
-    message,
-    to,
-    timestamp: Date.now()
-  }, { namespace });
-}
+  // ==================== Notification Management ====================
 
-// Mark message as delivered
-async markDelivered(messageId, to, namespace = SOCKET_NAMESPACES.CHAT) {
-  return this.emit(SOCKET_EVENTS.MESSAGE_DELIVERED, {
-    messageId,
-    to
-  }, { namespace });
-}
+  // Send notification
+  async sendNotification(notification, to = null) {
+    return this.emit(SOCKET_EVENTS.NOTIFICATION, {
+      notification,
+      to,
+    }, { namespace: SOCKET_NAMESPACES.NOTIFICATIONS });
+  }
 
-// Mark message as read
-async markRead(messageId, to, namespace = SOCKET_NAMESPACES.CHAT) {
-  return this.emit(SOCKET_EVENTS.MESSAGE_READ, {
-    messageId,
-    to
-  }, { namespace });
-}
+  // Mark notification as read
+  async markNotificationRead(notificationId) {
+    return this.emit(SOCKET_EVENTS.NOTIFICATION_READ, {
+      notificationId,
+    }, { namespace: SOCKET_NAMESPACES.NOTIFICATIONS });
+  }
 
-// ==================== Notification Management ====================
+  // ==================== Data Sync ====================
 
-// Send notification
-async sendNotification(notification, to = null) {
-  return this.emit(SOCKET_EVENTS.NOTIFICATION, {
-    notification,
-    to
-  }, { namespace: SOCKET_NAMESPACES.NOTIFICATIONS });
-}
+  // Request data sync
+  async requestSync(entity, lastSync = null) {
+    return this.emit(SOCKET_EVENTS.SYNC, {
+      entity,
+      lastSync,
+    }, { namespace: SOCKET_NAMESPACES.MAIN });
+  }
 
-// Mark notification as read
-async markNotificationRead(notificationId) {
-  return this.emit(SOCKET_EVENTS.NOTIFICATION_READ, {
-    notificationId
-  }, { namespace: SOCKET_NAMESPACES.NOTIFICATIONS });
-}
+  // ==================== Analytics ====================
 
-// ==================== Data Sync ====================
+  // Track event
+  trackEvent(event, data = {}) {
+    return this.emitVolatile(SOCKET_EVENTS.TRACK, {
+      event,
+      data,
+      timestamp: Date.now(),
+    }, SOCKET_NAMESPACES.ANALYTICS);
+  }
 
-// Request data sync
-async requestSync(entity, lastSync = null) {
-  return this.emit(SOCKET_EVENTS.SYNC, {
-    entity,
-    lastSync
-  }, { namespace: SOCKET_NAMESPACES.MAIN });
-}
-
-// ==================== Analytics ====================
-
-// Track event
-trackEvent(event, data = {}) {
-  return this.emitVolatile(SOCKET_EVENTS.TRACK, {
-    event,
-    data,
-    timestamp: Date.now()
-  }, SOCKET_NAMESPACES.ANALYTICS);
-}
-
-// Track page view
-trackPageView(page, referrer = null) {
-  return this.emitVolatile(SOCKET_EVENTS.PAGE_VIEW, {
-    page,
-    referrer,
-    timestamp: Date.now()
-  }, SOCKET_NAMESPACES.ANALYTICS);
-      }
+  // Track page view
+  trackPageView(page, referrer = null) {
+    return this.emitVolatile(SOCKET_EVENTS.PAGE_VIEW, {
+      page,
+      referrer,
+      timestamp: Date.now(),
+    }, SOCKET_NAMESPACES.ANALYTICS);
+  }
   // ==================== Queue Management ====================
 
   // Queue event for later processing
   queueEvent(eventData) {
     this.eventQueue.push({
       ...eventData,
-      queuedAt: Date.now()
+      queuedAt: Date.now(),
     });
     
     if (!this.processingQueue) {
@@ -708,7 +709,7 @@ trackPageView(page, referrer = null) {
           timeout: eventData.timeout,
           priority: eventData.priority,
           retry: eventData.retryCount < 3,
-          retryCount: eventData.retryCount
+          retryCount: eventData.retryCount,
         });
       } catch (error) {
         console.error('Failed to process queued event:', error);
@@ -717,7 +718,7 @@ trackPageView(page, referrer = null) {
           // Re-queue with increased retry count
           this.eventQueue.push({
             ...eventData,
-            retryCount: eventData.retryCount + 1
+            retryCount: eventData.retryCount + 1,
           });
         }
       }
@@ -767,7 +768,7 @@ trackPageView(page, referrer = null) {
       if (socket) {
         socket.emit(SOCKET_EVENTS.ERROR, {
           message: error.message,
-          stack: error.stack
+          stack: error.stack,
         });
       }
     });
@@ -787,7 +788,7 @@ trackPageView(page, referrer = null) {
       state: this.connectionState,
       authenticated: this.authenticated,
       reconnectAttempts: this.reconnectAttempts,
-      queueLength: this.eventQueue.length
+      queueLength: this.eventQueue.length,
     };
   }
 
@@ -799,7 +800,7 @@ trackPageView(page, referrer = null) {
       statuses[namespace] = {
         connected: socket.connected,
         disconnected: socket.disconnected,
-        id: socket.id
+        id: socket.id,
       };
     });
     
@@ -902,7 +903,7 @@ export const socketHelpers = {
   createOptions: (options = {}) => {
     return {
       ...DEFAULT_OPTIONS,
-      ...options
+      ...options,
     };
   },
 
@@ -919,7 +920,7 @@ export const socketHelpers = {
       [SOCKET_EVENTS.AUTHENTICATE]: EVENT_PRIORITIES.HIGH,
       [SOCKET_EVENTS.MESSAGE]: EVENT_PRIORITIES.NORMAL,
       [SOCKET_EVENTS.NOTIFICATION]: EVENT_PRIORITIES.NORMAL,
-      [SOCKET_EVENTS.TYPING]: EVENT_PRIORITIES.LOW
+      [SOCKET_EVENTS.TYPING]: EVENT_PRIORITIES.LOW,
     };
     
     return priorityMap[event] || EVENT_PRIORITIES.NORMAL;
@@ -930,7 +931,7 @@ export const socketHelpers = {
     return {
       message: error.message,
       code: error.code || 'SOCKET_ERROR',
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
   },
 
@@ -963,7 +964,7 @@ export const socketHelpers = {
     });
     
     return groups;
-  }
+  },
 };
 
 // Export constants
@@ -974,7 +975,7 @@ export const SOCKET_CONSTANTS = {
   TRANSPORTS,
   DEFAULT_OPTIONS,
   RECONNECTION_STRATEGIES,
-  EVENT_PRIORITIES
+  EVENT_PRIORITIES,
 };
 
 export default socketService;

@@ -17,7 +17,7 @@ import {
   FiDollarSign,
   FiPercent,
   FiHash,
-  FiAtSign
+  FiAtSign,
 } from 'react-icons/fi';
 
 const TextField = ({
@@ -83,8 +83,8 @@ const TextField = ({
       target: {
         name,
         value: '',
-        type: 'text'
-      }
+        type: 'text',
+      },
     };
     onChange?.(event);
     if (inputRef.current) {
@@ -132,19 +132,19 @@ const TextField = ({
   const sizeClasses = {
     small: 'input-small',
     medium: 'input-medium',
-    large: 'input-large'
+    large: 'input-large',
   };
 
   // Variant classes
   const variantClasses = {
     outlined: 'input-outlined',
     filled: 'input-filled',
-    underlined: 'input-underlined'
+    underlined: 'input-underlined',
   };
 
   // Status classes
   const statusClass = error && touched ? 'input-error' : 
-                     isFocused ? 'input-focused' : '';
+    isFocused ? 'input-focused' : '';
 
   // Styles
   const styles = `

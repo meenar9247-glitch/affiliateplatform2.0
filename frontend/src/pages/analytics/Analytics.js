@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiTrendingUp,
@@ -22,7 +22,7 @@ import {
   FiTablet,
   FiMapPin,
   FiLink,
-  FiRefreshCw
+  FiRefreshCw,
 } from 'react-icons/fi';
 import {
   LineChart,
@@ -41,7 +41,7 @@ import {
   Legend,
   ResponsiveContainer,
   ComposedChart,
-  Scatter
+  Scatter,
 } from 'recharts';
 
 const Analytics = () => {
@@ -56,7 +56,7 @@ const Analytics = () => {
     devices: [],
     locations: [],
     topProducts: [],
-    hourly: []
+    hourly: [],
   });
   const [stats, setStats] = useState({
     totalClicks: 0,
@@ -66,13 +66,13 @@ const Analytics = () => {
     totalEarnings: 0,
     averageCommission: 0,
     bounceRate: 0,
-    avgTimeOnSite: 0
+    avgTimeOnSite: 0,
   });
   const [comparison, setComparison] = useState({
     clicks: 0,
     conversions: 0,
     earnings: 0,
-    rate: 0
+    rate: 0,
   });
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const Analytics = () => {
       setLoading(true);
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/analytics`,
-        { params: { timeRange } }
+        { params: { timeRange } },
       );
       
       if (response.data.success) {
@@ -105,8 +105,8 @@ const Analytics = () => {
         `${process.env.REACT_APP_API_URL}/analytics/export`,
         {
           params: { format, timeRange },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -128,7 +128,7 @@ const Analytics = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount);
   };
 
@@ -143,7 +143,7 @@ const Analytics = () => {
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -154,8 +154,8 @@ const Analytics = () => {
   // Stats Card Component
   const StatsCard = ({ icon: Icon, title, value, change, format = 'number' }) => {
     const formattedValue = format === 'currency' ? formatCurrency(value) :
-                          format === 'percentage' ? formatPercentage(value) :
-                          formatNumber(value);
+      format === 'percentage' ? formatPercentage(value) :
+        formatNumber(value);
     
     return (
       <div className="stat-card">

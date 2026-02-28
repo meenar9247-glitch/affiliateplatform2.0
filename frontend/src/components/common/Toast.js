@@ -6,7 +6,7 @@ import {
   FiInfo,
   FiAlertTriangle,
   FiBell,
-  FiX
+  FiX,
 } from 'react-icons/fi';
 
 // Toast Context
@@ -36,7 +36,7 @@ export const ToastProvider = ({ children }) => {
       variant: options.variant || 'solid',
       showIcon: options.showIcon !== false,
       dismissible: options.dismissible !== false,
-      onClose: options.onClose
+      onClose: options.onClose,
     };
 
     setToasts((prevToasts) => [...prevToasts, newToast]);
@@ -87,7 +87,7 @@ export const ToastProvider = ({ children }) => {
     info,
     tip,
     remove,
-    clearAll
+    clearAll,
   };
 
   return (
@@ -135,7 +135,7 @@ const ToastPosition = ({ position, toasts, onRemove }) => {
       'bottom-left': { bottom: 20, left: 20 },
       'bottom-right': { bottom: 20, right: 20 },
       'top-center': { top: 20, left: '50%', transform: 'translateX(-50%)' },
-      'bottom-center': { bottom: 20, left: '50%', transform: 'translateX(-50%)' }
+      'bottom-center': { bottom: 20, left: '50%', transform: 'translateX(-50%)' },
     };
     return positions[position] || positions['top-right'];
   };
@@ -245,22 +245,22 @@ const ToastItem = ({ toast, onRemove }) => {
         error: 'toast-error-solid',
         warning: 'toast-warning-solid',
         info: 'toast-info-solid',
-        tip: 'toast-tip-solid'
+        tip: 'toast-tip-solid',
       },
       outlined: {
         success: 'toast-success-outlined',
         error: 'toast-error-outlined',
         warning: 'toast-warning-outlined',
         info: 'toast-info-outlined',
-        tip: 'toast-tip-outlined'
+        tip: 'toast-tip-outlined',
       },
       subtle: {
         success: 'toast-success-subtle',
         error: 'toast-error-subtle',
         warning: 'toast-warning-subtle',
         info: 'toast-info-subtle',
-        tip: 'toast-tip-subtle'
-      }
+        tip: 'toast-tip-subtle',
+      },
     };
 
     return variants[toast.variant]?.[toast.type] || variants.solid.info;
@@ -573,7 +573,7 @@ export const useToastHook = () => {
       id,
       type,
       message,
-      ...options
+      ...options,
     };
     setToasts(prev => [...prev, newToast]);
 
@@ -608,7 +608,7 @@ export const useToastHook = () => {
     info,
     tip,
     remove,
-    clear
+    clear,
   };
 };
 
@@ -629,7 +629,7 @@ const toast = {
   },
   tip: (message, options = {}) => {
     console.log('💡 Tip:', message);
-  }
+  },
 };
 
 export default toast;

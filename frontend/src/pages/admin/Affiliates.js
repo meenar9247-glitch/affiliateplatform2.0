@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   FiUsers,
   FiSearch,
@@ -30,10 +32,8 @@ import {
   FiLock,
   FiUnlock,
   FiAlertCircle,
-  FiMessageCircle
+  FiMessageCircle,
 } from 'react-icons/fi';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 
 const AdminAffiliates = () => {
   const [loading, setLoading] = useState(true);
@@ -63,7 +63,7 @@ const AdminAffiliates = () => {
     totalEarnings: 0,
     pendingPayouts: 0,
     avgCommission: 0,
-    topAffiliate: null
+    topAffiliate: null,
   });
 
   // Edit Form State
@@ -74,7 +74,7 @@ const AdminAffiliates = () => {
     status: '',
     commissionRate: '',
     paymentMethod: '',
-    paymentDetails: ''
+    paymentDetails: '',
   });
 
   // Commission Form State
@@ -82,7 +82,7 @@ const AdminAffiliates = () => {
     affiliateId: '',
     amount: '',
     type: 'bonus',
-    reason: ''
+    reason: '',
   });
 
   useEffect(() => {
@@ -96,8 +96,8 @@ const AdminAffiliates = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/admin/affiliates`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -116,8 +116,8 @@ const AdminAffiliates = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/admin/affiliates/stats`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -137,8 +137,8 @@ const AdminAffiliates = () => {
         `${process.env.REACT_APP_API_URL}/api/admin/affiliates/${affiliateId}/status`,
         { status: newStatus },
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -159,8 +159,8 @@ const AdminAffiliates = () => {
       const response = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/admin/affiliates/${affiliateId}`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -182,8 +182,8 @@ const AdminAffiliates = () => {
         `${process.env.REACT_APP_API_URL}/api/admin/affiliates/${selectedAffiliate.id}`,
         editForm,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -205,8 +205,8 @@ const AdminAffiliates = () => {
         `${process.env.REACT_APP_API_URL}/api/admin/affiliates/commission`,
         commissionForm,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -216,7 +216,7 @@ const AdminAffiliates = () => {
           affiliateId: '',
           amount: '',
           type: 'bonus',
-          reason: ''
+          reason: '',
         });
         fetchAffiliates();
         fetchStats();
@@ -235,11 +235,11 @@ const AdminAffiliates = () => {
         `${process.env.REACT_APP_API_URL}/api/admin/affiliates/bulk`,
         {
           action,
-          affiliateIds: selectedAffiliates
+          affiliateIds: selectedAffiliates,
         },
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -258,8 +258,8 @@ const AdminAffiliates = () => {
         `${process.env.REACT_APP_API_URL}/api/admin/affiliates/export`,
         {
           headers: { Authorization: `Bearer ${token}` },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -364,323 +364,323 @@ const AdminAffiliates = () => {
   const currentAffiliates = sortedAffiliates.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(sortedAffiliates.length / itemsPerPage);
   if (loading) {
+    return (
+      <div style={styles.loadingContainer}>
+        <div style={styles.spinner}></div>
+        <p>Loading affiliates...</p>
+      </div>
+    );
+  }
+
   return (
-    <div style={styles.loadingContainer}>
-      <div style={styles.spinner}></div>
-      <p>Loading affiliates...</p>
-    </div>
-  );
-}
-
-return (
-  <div style={styles.container}>
-    {/* Header */}
-    <div style={styles.header}>
-      <div>
-        <h1 style={styles.title}>Affiliate Management</h1>
-        <p style={styles.subtitle}>Manage and monitor all affiliates</p>
-      </div>
-      <div style={styles.headerActions}>
-        <button
-          style={styles.exportBtn}
-          onClick={handleExport}
-        >
-          <FiDownload />
+    <div style={styles.container}>
+      {/* Header */}
+      <div style={styles.header}>
+        <div>
+          <h1 style={styles.title}>Affiliate Management</h1>
+          <p style={styles.subtitle}>Manage and monitor all affiliates</p>
+        </div>
+        <div style={styles.headerActions}>
+          <button
+            style={styles.exportBtn}
+            onClick={handleExport}
+          >
+            <FiDownload />
           Export
-        </button>
-        <button
-          style={styles.addBtn}
-          onClick={() => setShowEditModal(true)}
-        >
-          <FiPlus />
+          </button>
+          <button
+            style={styles.addBtn}
+            onClick={() => setShowEditModal(true)}
+          >
+            <FiPlus />
           Add Affiliate
+          </button>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
+      <div style={styles.statsGrid}>
+        <div style={styles.statCard}>
+          <div style={styles.statIconWrapper}>
+            <FiUsers style={styles.statIcon} />
+          </div>
+          <div>
+            <div style={styles.statValue}>{stats.total}</div>
+            <div style={styles.statLabel}>Total Affiliates</div>
+          </div>
+        </div>
+      
+        <div style={styles.statCard}>
+          <div style={{...styles.statIconWrapper, background: '#e8f5e9'}}>
+            <FiUserCheck style={{...styles.statIcon, color: '#388e3c'}} />
+          </div>
+          <div>
+            <div style={styles.statValue}>{stats.active}</div>
+            <div style={styles.statLabel}>Active</div>
+          </div>
+        </div>
+      
+        <div style={styles.statCard}>
+          <div style={{...styles.statIconWrapper, background: '#fff3e0'}}>
+            <FiClock style={{...styles.statIcon, color: '#f57c00'}} />
+          </div>
+          <div>
+            <div style={styles.statValue}>{stats.pending}</div>
+            <div style={styles.statLabel}>Pending</div>
+          </div>
+        </div>
+      
+        <div style={styles.statCard}>
+          <div style={{...styles.statIconWrapper, background: '#ffebee'}}>
+            <FiUserX style={{...styles.statIcon, color: '#d32f2f'}} />
+          </div>
+          <div>
+            <div style={styles.statValue}>{stats.suspended}</div>
+            <div style={styles.statLabel}>Suspended</div>
+          </div>
+        </div>
+
+        <div style={styles.statCard}>
+          <div style={{...styles.statIconWrapper, background: '#e8f5e9'}}>
+            <FiDollarSign style={{...styles.statIcon, color: '#388e3c'}} />
+          </div>
+          <div>
+            <div style={styles.statValue}>${stats.totalEarnings?.toLocaleString()}</div>
+            <div style={styles.statLabel}>Total Earnings</div>
+          </div>
+        </div>
+      
+        <div style={styles.statCard}>
+          <div style={{...styles.statIconWrapper, background: '#fff3e0'}}>
+            <FiTrendingUp style={{...styles.statIcon, color: '#f57c00'}} />
+          </div>
+          <div>
+            <div style={styles.statValue}>{stats.avgCommission}%</div>
+            <div style={styles.statLabel}>Avg Commission</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div style={styles.filters}>
+        <div style={styles.searchBox}>
+          <FiSearch style={styles.searchIcon} />
+          <input
+            type="text"
+            placeholder="Search by name, email, or ID..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={styles.searchInput}
+          />
+        </div>
+
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          style={styles.filterSelect}
+        >
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="pending">Pending</option>
+          <option value="suspended">Suspended</option>
+          <option value="inactive">Inactive</option>
+        </select>
+
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          style={styles.filterSelect}
+        >
+          <option value="earnings">Sort by Earnings</option>
+          <option value="referrals">Sort by Referrals</option>
+          <option value="clicks">Sort by Clicks</option>
+          <option value="conversions">Sort by Conversions</option>
+          <option value="name">Sort by Name</option>
+          <option value="date">Sort by Join Date</option>
+        </select>
+
+        <button
+          style={styles.sortOrderBtn}
+          onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+        >
+          {sortOrder === 'asc' ? '↑' : '↓'}
         </button>
       </div>
-    </div>
 
-    {/* Stats Cards */}
-    <div style={styles.statsGrid}>
-      <div style={styles.statCard}>
-        <div style={styles.statIconWrapper}>
-          <FiUsers style={styles.statIcon} />
-        </div>
-        <div>
-          <div style={styles.statValue}>{stats.total}</div>
-          <div style={styles.statLabel}>Total Affiliates</div>
-        </div>
-      </div>
-      
-      <div style={styles.statCard}>
-        <div style={{...styles.statIconWrapper, background: '#e8f5e9'}}>
-          <FiUserCheck style={{...styles.statIcon, color: '#388e3c'}} />
-        </div>
-        <div>
-          <div style={styles.statValue}>{stats.active}</div>
-          <div style={styles.statLabel}>Active</div>
-        </div>
-      </div>
-      
-      <div style={styles.statCard}>
-        <div style={{...styles.statIconWrapper, background: '#fff3e0'}}>
-          <FiClock style={{...styles.statIcon, color: '#f57c00'}} />
-        </div>
-        <div>
-          <div style={styles.statValue}>{stats.pending}</div>
-          <div style={styles.statLabel}>Pending</div>
-        </div>
-      </div>
-      
-      <div style={styles.statCard}>
-        <div style={{...styles.statIconWrapper, background: '#ffebee'}}>
-          <FiUserX style={{...styles.statIcon, color: '#d32f2f'}} />
-        </div>
-        <div>
-          <div style={styles.statValue}>{stats.suspended}</div>
-          <div style={styles.statLabel}>Suspended</div>
-        </div>
-      </div>
+      {/* Affiliates Table */}
+      <div style={styles.tableContainer}>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Affiliate</th>
+              <th style={styles.th}>Status</th>
+              <th style={styles.th}>Level</th>
+              <th style={styles.th}>Earnings</th>
+              <th style={styles.th}>Referrals</th>
+              <th style={styles.th}>Clicks</th>
+              <th style={styles.th}>Conv. Rate</th>
+              <th style={styles.th}>Joined</th>
+              <th style={styles.th}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentAffiliates.map(affiliate => {
+              const status = getStatusBadge(affiliate.status);
+              const level = getLevelBadge(affiliate.level);
+              const conversionRate = affiliate.clicks > 0 
+                ? ((affiliate.conversions / affiliate.clicks) * 100).toFixed(1)
+                : 0;
 
-      <div style={styles.statCard}>
-        <div style={{...styles.statIconWrapper, background: '#e8f5e9'}}>
-          <FiDollarSign style={{...styles.statIcon, color: '#388e3c'}} />
-        </div>
-        <div>
-          <div style={styles.statValue}>${stats.totalEarnings?.toLocaleString()}</div>
-          <div style={styles.statLabel}>Total Earnings</div>
-        </div>
-      </div>
-      
-      <div style={styles.statCard}>
-        <div style={{...styles.statIconWrapper, background: '#fff3e0'}}>
-          <FiTrendingUp style={{...styles.statIcon, color: '#f57c00'}} />
-        </div>
-        <div>
-          <div style={styles.statValue}>{stats.avgCommission}%</div>
-          <div style={styles.statLabel}>Avg Commission</div>
-        </div>
-      </div>
-    </div>
-
-    {/* Filters */}
-    <div style={styles.filters}>
-      <div style={styles.searchBox}>
-        <FiSearch style={styles.searchIcon} />
-        <input
-          type="text"
-          placeholder="Search by name, email, or ID..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={styles.searchInput}
-        />
-      </div>
-
-      <select
-        value={statusFilter}
-        onChange={(e) => setStatusFilter(e.target.value)}
-        style={styles.filterSelect}
-      >
-        <option value="all">All Status</option>
-        <option value="active">Active</option>
-        <option value="pending">Pending</option>
-        <option value="suspended">Suspended</option>
-        <option value="inactive">Inactive</option>
-      </select>
-
-      <select
-        value={sortBy}
-        onChange={(e) => setSortBy(e.target.value)}
-        style={styles.filterSelect}
-      >
-        <option value="earnings">Sort by Earnings</option>
-        <option value="referrals">Sort by Referrals</option>
-        <option value="clicks">Sort by Clicks</option>
-        <option value="conversions">Sort by Conversions</option>
-        <option value="name">Sort by Name</option>
-        <option value="date">Sort by Join Date</option>
-      </select>
-
-      <button
-        style={styles.sortOrderBtn}
-        onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-      >
-        {sortOrder === 'asc' ? '↑' : '↓'}
-      </button>
-    </div>
-
-    {/* Affiliates Table */}
-    <div style={styles.tableContainer}>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.th}>Affiliate</th>
-            <th style={styles.th}>Status</th>
-            <th style={styles.th}>Level</th>
-            <th style={styles.th}>Earnings</th>
-            <th style={styles.th}>Referrals</th>
-            <th style={styles.th}>Clicks</th>
-            <th style={styles.th}>Conv. Rate</th>
-            <th style={styles.th}>Joined</th>
-            <th style={styles.th}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentAffiliates.map(affiliate => {
-            const status = getStatusBadge(affiliate.status);
-            const level = getLevelBadge(affiliate.level);
-            const conversionRate = affiliate.clicks > 0 
-              ? ((affiliate.conversions / affiliate.clicks) * 100).toFixed(1)
-              : 0;
-
-            return (
-              <tr key={affiliate.id} style={styles.tr}>
-                <td style={styles.td}>
-                  <div style={styles.affiliateInfo}>
-                    <div style={styles.affiliateAvatar}>
-                      {affiliate.name.charAt(0)}
+              return (
+                <tr key={affiliate.id} style={styles.tr}>
+                  <td style={styles.td}>
+                    <div style={styles.affiliateInfo}>
+                      <div style={styles.affiliateAvatar}>
+                        {affiliate.name.charAt(0)}
+                      </div>
+                      <div>
+                        <div style={styles.affiliateName}>{affiliate.name}</div>
+                        <div style={styles.affiliateEmail}>{affiliate.email}</div>
+                        <div style={styles.affiliateId}>ID: {affiliate.id}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div style={styles.affiliateName}>{affiliate.name}</div>
-                      <div style={styles.affiliateEmail}>{affiliate.email}</div>
-                      <div style={styles.affiliateId}>ID: {affiliate.id}</div>
-                    </div>
-                  </div>
-                </td>
+                  </td>
                 
-                <td style={styles.td}>
-                  <span style={{
-                    ...styles.statusBadge,
-                    background: status.bg,
-                    color: status.color
-                  }}>
-                    {status.text}
-                  </span>
-                </td>
+                  <td style={styles.td}>
+                    <span style={{
+                      ...styles.statusBadge,
+                      background: status.bg,
+                      color: status.color,
+                    }}>
+                      {status.text}
+                    </span>
+                  </td>
                 
-                <td style={styles.td}>
-                  <span style={{
-                    ...styles.levelBadge,
-                    background: level.bg,
-                    color: level.color
-                  }}>
-                    {level.text}
-                  </span>
-                </td>
+                  <td style={styles.td}>
+                    <span style={{
+                      ...styles.levelBadge,
+                      background: level.bg,
+                      color: level.color,
+                    }}>
+                      {level.text}
+                    </span>
+                  </td>
                 
-                <td style={styles.td}>
-                  <div style={styles.earningsInfo}>
-                    <span style={styles.earningsAmount}>
+                  <td style={styles.td}>
+                    <div style={styles.earningsInfo}>
+                      <span style={styles.earningsAmount}>
                       ${affiliate.totalEarnings?.toLocaleString()}
-                    </span>
-                    <span style={styles.pendingAmount}>
+                      </span>
+                      <span style={styles.pendingAmount}>
                       (${affiliate.pendingEarnings} pending)
+                      </span>
+                    </div>
+                  </td>
+                
+                  <td style={styles.td}>{affiliate.totalReferrals}</td>
+                
+                  <td style={styles.td}>{affiliate.totalClicks?.toLocaleString()}</td>
+                
+                  <td style={styles.td}>
+                    <span style={{
+                      ...styles.conversionRate,
+                      color: conversionRate > 5 ? '#388e3c' : '#f57c00',
+                    }}>
+                      {conversionRate}%
                     </span>
-                  </div>
-                </td>
+                  </td>
                 
-                <td style={styles.td}>{affiliate.totalReferrals}</td>
+                  <td style={styles.td}>
+                    <div style={styles.dateInfo}>
+                      <FiCalendar style={styles.dateIcon} />
+                      {new Date(affiliate.joinedDate).toLocaleDateString()}
+                    </div>
+                  </td>
                 
-                <td style={styles.td}>{affiliate.totalClicks?.toLocaleString()}</td>
-                
-                <td style={styles.td}>
-                  <span style={{
-                    ...styles.conversionRate,
-                    color: conversionRate > 5 ? '#388e3c' : '#f57c00'
-                  }}>
-                    {conversionRate}%
-                  </span>
-                </td>
-                
-                <td style={styles.td}>
-                  <div style={styles.dateInfo}>
-                    <FiCalendar style={styles.dateIcon} />
-                    {new Date(affiliate.joinedDate).toLocaleDateString()}
-                  </div>
-                </td>
-                
-                <td style={styles.td}>
-                  <div style={styles.actionButtons}>
-                    <button
-                      style={styles.actionBtn}
-                      onClick={() => {
-                        setSelectedAffiliate(affiliate);
-                        setShowDetails(true);
-                      }}
-                      title="View Details"
-                    >
-                      <FiEye />
-                    </button>
-                    <button
-                      style={styles.actionBtn}
-                      onClick={() => {
-                        setSelectedAffiliate(affiliate);
-                        setEditForm({
-                          name: affiliate.name,
-                          email: affiliate.email,
-                          phone: affiliate.phone || '',
-                          status: affiliate.status,
-                          commissionRate: affiliate.commissionRate,
-                          paymentMethod: affiliate.paymentMethod || '',
-                          paymentDetails: affiliate.paymentDetails || ''
-                        });
-                        setShowEditModal(true);
-                      }}
-                      title="Edit"
-                    >
-                      <FiEdit2 />
-                    </button>
-                    <button
-                      style={styles.actionBtn}
-                      onClick={() => {
-                        setSelectedAffiliate(affiliate);
-                        setCommissionForm({
-                          ...commissionForm,
-                          affiliateId: affiliate.id
-                        });
-                        setShowCommissionModal(true);
-                      }}
-                      title="Add Commission"
-                    >
-                      <FiDollarSign />
-                    </button>
-                    <select
-                      value={affiliate.status}
-                      onChange={(e) => handleStatusChange(affiliate.id, e.target.value)}
-                      style={styles.statusSelect}
-                    >
-                      <option value="active">Set Active</option>
-                      <option value="pending">Set Pending</option>
-                      <option value="suspended">Suspend</option>
-                      <option value="inactive">Deactivate</option>
-                    </select>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+                  <td style={styles.td}>
+                    <div style={styles.actionButtons}>
+                      <button
+                        style={styles.actionBtn}
+                        onClick={() => {
+                          setSelectedAffiliate(affiliate);
+                          setShowDetails(true);
+                        }}
+                        title="View Details"
+                      >
+                        <FiEye />
+                      </button>
+                      <button
+                        style={styles.actionBtn}
+                        onClick={() => {
+                          setSelectedAffiliate(affiliate);
+                          setEditForm({
+                            name: affiliate.name,
+                            email: affiliate.email,
+                            phone: affiliate.phone || '',
+                            status: affiliate.status,
+                            commissionRate: affiliate.commissionRate,
+                            paymentMethod: affiliate.paymentMethod || '',
+                            paymentDetails: affiliate.paymentDetails || '',
+                          });
+                          setShowEditModal(true);
+                        }}
+                        title="Edit"
+                      >
+                        <FiEdit2 />
+                      </button>
+                      <button
+                        style={styles.actionBtn}
+                        onClick={() => {
+                          setSelectedAffiliate(affiliate);
+                          setCommissionForm({
+                            ...commissionForm,
+                            affiliateId: affiliate.id,
+                          });
+                          setShowCommissionModal(true);
+                        }}
+                        title="Add Commission"
+                      >
+                        <FiDollarSign />
+                      </button>
+                      <select
+                        value={affiliate.status}
+                        onChange={(e) => handleStatusChange(affiliate.id, e.target.value)}
+                        style={styles.statusSelect}
+                      >
+                        <option value="active">Set Active</option>
+                        <option value="pending">Set Pending</option>
+                        <option value="suspended">Suspend</option>
+                        <option value="inactive">Deactivate</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
-    {/* Pagination */}
-    <div style={styles.pagination}>
-      <button
-        style={styles.pageBtn}
-        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-        disabled={currentPage === 1}
-      >
+      {/* Pagination */}
+      <div style={styles.pagination}>
+        <button
+          style={styles.pageBtn}
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
         Previous
-      </button>
-      <span style={styles.pageInfo}>
+        </button>
+        <span style={styles.pageInfo}>
         Page {currentPage} of {totalPages}
-      </span>
-      <button
-        style={styles.pageBtn}
-        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-        disabled={currentPage === totalPages}
-      >
+        </span>
+        <button
+          style={styles.pageBtn}
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
         Next
-      </button>
-    </div>
+        </button>
+      </div>
       {/* Affiliate Details Modal */}
       {showDetails && selectedAffiliate && (
         <div style={styles.modalOverlay}>
@@ -723,7 +723,7 @@ return (
                     <span style={styles.detailLabel}>Status:</span>
                     <span style={{
                       ...styles.statusBadge,
-                      ...getStatusBadge(selectedAffiliate.status)
+                      ...getStatusBadge(selectedAffiliate.status),
                     }}>
                       {selectedAffiliate.status}
                     </span>
@@ -732,7 +732,7 @@ return (
                     <span style={styles.detailLabel}>Level:</span>
                     <span style={{
                       ...styles.levelBadge,
-                      ...getLevelBadge(selectedAffiliate.level)
+                      ...getLevelBadge(selectedAffiliate.level),
                     }}>
                       {selectedAffiliate.level}
                     </span>
@@ -933,8 +933,8 @@ return (
                       style={styles.input}
                       placeholder={
                         editForm.paymentMethod === 'paypal' ? 'PayPal Email' :
-                        editForm.paymentMethod === 'upi' ? 'UPI ID' :
-                        'Account Number / IBAN'
+                          editForm.paymentMethod === 'upi' ? 'UPI ID' :
+                            'Account Number / IBAN'
                       }
                     />
                   </div>
@@ -1068,7 +1068,7 @@ const styles = {
     maxWidth: '1400px',
     margin: '0 auto',
     padding: '30px 20px',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   header: {
     display: 'flex',
@@ -1076,21 +1076,21 @@ const styles = {
     alignItems: 'center',
     marginBottom: '30px',
     flexWrap: 'wrap',
-    gap: '20px'
+    gap: '20px',
   },
   title: {
     fontSize: '28px',
     color: '#333',
-    margin: '0 0 5px'
+    margin: '0 0 5px',
   },
   subtitle: {
     fontSize: '16px',
     color: '#666',
-    margin: 0
+    margin: 0,
   },
   headerActions: {
     display: 'flex',
-    gap: '10px'
+    gap: '10px',
   },
   exportBtn: {
     padding: '10px 20px',
@@ -1100,7 +1100,7 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   addBtn: {
     padding: '10px 20px',
@@ -1111,13 +1111,13 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   statsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(6, 1fr)',
     gap: '15px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   statCard: {
     background: 'white',
@@ -1126,7 +1126,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   statIconWrapper: {
     width: '40px',
@@ -1135,70 +1135,70 @@ const styles = {
     background: '#f0f4ff',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   statIcon: {
     fontSize: '20px',
-    color: '#667eea'
+    color: '#667eea',
   },
   statValue: {
     fontSize: '18px',
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   statLabel: {
     fontSize: '11px',
-    color: '#666'
+    color: '#666',
   },
   filters: {
     display: 'flex',
     gap: '10px',
     marginBottom: '20px',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   searchBox: {
     position: 'relative',
     flex: 1,
-    minWidth: '250px'
+    minWidth: '250px',
   },
   searchIcon: {
     position: 'absolute',
     left: '12px',
     top: '50%',
     transform: 'translateY(-50%)',
-    color: '#999'
+    color: '#999',
   },
   searchInput: {
     width: '100%',
     padding: '10px 10px 10px 40px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   filterSelect: {
     padding: '10px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    minWidth: '150px'
+    minWidth: '150px',
   },
   sortOrderBtn: {
     width: '40px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   tableContainer: {
     background: 'white',
     borderRadius: '10px',
     overflow: 'auto',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   table: {
     width: '100%',
     borderCollapse: 'collapse',
-    minWidth: '1200px'
+    minWidth: '1200px',
   },
   th: {
     padding: '15px',
@@ -1207,19 +1207,19 @@ const styles = {
     borderBottom: '2px solid #e9ecef',
     fontSize: '13px',
     fontWeight: 600,
-    color: '#666'
+    color: '#666',
   },
   tr: {
-    borderBottom: '1px solid #e9ecef'
+    borderBottom: '1px solid #e9ecef',
   },
   td: {
     padding: '15px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   affiliateInfo: {
     display: 'flex',
     alignItems: 'center',
-    gap: '10px'
+    gap: '10px',
   },
   affiliateAvatar: {
     width: '40px',
@@ -1231,65 +1231,65 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '16px',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   affiliateName: {
     fontWeight: 500,
     color: '#333',
-    marginBottom: '2px'
+    marginBottom: '2px',
   },
   affiliateEmail: {
     fontSize: '12px',
     color: '#666',
-    marginBottom: '2px'
+    marginBottom: '2px',
   },
   affiliateId: {
     fontSize: '11px',
-    color: '#999'
+    color: '#999',
   },
   statusBadge: {
     padding: '3px 8px',
     borderRadius: '12px',
     fontSize: '11px',
     fontWeight: 500,
-    display: 'inline-block'
+    display: 'inline-block',
   },
   levelBadge: {
     padding: '3px 8px',
     borderRadius: '12px',
     fontSize: '11px',
     fontWeight: 500,
-    display: 'inline-block'
+    display: 'inline-block',
   },
   earningsInfo: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   earningsAmount: {
     fontWeight: 500,
-    color: '#333'
+    color: '#333',
   },
   pendingAmount: {
     fontSize: '11px',
-    color: '#f57c00'
+    color: '#f57c00',
   },
   conversionRate: {
-    fontWeight: 500
+    fontWeight: 500,
   },
   dateInfo: {
     display: 'flex',
     alignItems: 'center',
     gap: '3px',
     fontSize: '12px',
-    color: '#666'
+    color: '#666',
   },
   dateIcon: {
-    fontSize: '12px'
+    fontSize: '12px',
   },
   actionButtons: {
     display: 'flex',
     gap: '5px',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   actionBtn: {
     padding: '5px',
@@ -1297,30 +1297,30 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '3px',
     cursor: 'pointer',
-    color: '#666'
+    color: '#666',
   },
   statusSelect: {
     padding: '5px',
     border: '1px solid #ddd',
     borderRadius: '3px',
-    fontSize: '11px'
+    fontSize: '11px',
   },
   pagination: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '15px'
+    gap: '15px',
   },
   pageBtn: {
     padding: '8px 16px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   pageInfo: {
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   modalOverlay: {
     position: 'fixed',
@@ -1332,7 +1332,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1000
+    zIndex: 1000,
   },
   modal: {
     background: 'white',
@@ -1340,43 +1340,43 @@ const styles = {
     width: '90%',
     maxWidth: '600px',
     maxHeight: '90vh',
-    overflow: 'auto'
+    overflow: 'auto',
   },
   modalHeader: {
     padding: '20px',
     borderBottom: '1px solid #e9ecef',
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   modalTitle: {
     margin: 0,
     fontSize: '20px',
-    color: '#333'
+    color: '#333',
   },
   modalClose: {
     background: 'none',
     border: 'none',
     fontSize: '24px',
     cursor: 'pointer',
-    color: '#999'
+    color: '#999',
   },
   modalContent: {
-    padding: '20px'
+    padding: '20px',
   },
   modalFooter: {
     padding: '20px',
     borderTop: '1px solid #e9ecef',
     display: 'flex',
     justifyContent: 'flex-end',
-    gap: '10px'
+    gap: '10px',
   },
   modalCancelBtn: {
     padding: '8px 16px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   modalSubmitBtn: {
     padding: '8px 16px',
@@ -1384,35 +1384,35 @@ const styles = {
     color: 'white',
     border: 'none',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   formGroup: {
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   formRow: {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gap: '15px'
+    gap: '15px',
   },
   label: {
     display: 'block',
     marginBottom: '5px',
     fontWeight: 500,
-    color: '#333'
+    color: '#333',
   },
   input: {
     width: '100%',
     padding: '8px 12px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   select: {
     width: '100%',
     padding: '8px 12px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   textarea: {
     width: '100%',
@@ -1420,53 +1420,53 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '5px',
     fontSize: '14px',
-    resize: 'vertical'
+    resize: 'vertical',
   },
   detailsGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
     gap: '20px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   detailsSection: {
     background: '#f8f9fa',
     borderRadius: '5px',
-    padding: '15px'
+    padding: '15px',
   },
   detailsSectionTitle: {
     margin: '0 0 10px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   detailRow: {
     display: 'flex',
     marginBottom: '8px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   detailLabel: {
     width: '100px',
-    color: '#666'
+    color: '#666',
   },
   detailValue: {
     flex: 1,
     color: '#333',
-    fontWeight: 500
+    fontWeight: 500,
   },
   earningValue: {
     color: '#28a745',
-    fontWeight: 600
+    fontWeight: 600,
   },
   pendingValue: {
     color: '#f57c00',
-    fontWeight: 600
+    fontWeight: 600,
   },
   paymentSection: {
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   paymentSectionTitle: {
     margin: '0 0 10px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   paymentGrid: {
     display: 'grid',
@@ -1474,31 +1474,31 @@ const styles = {
     gap: '15px',
     background: '#f8f9fa',
     borderRadius: '5px',
-    padding: '15px'
+    padding: '15px',
   },
   paymentItem: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   paymentLabel: {
     fontSize: '11px',
     color: '#999',
-    marginBottom: '3px'
+    marginBottom: '3px',
   },
   activitySection: {
     background: '#f8f9fa',
     borderRadius: '5px',
-    padding: '15px'
+    padding: '15px',
   },
   activitySectionTitle: {
     margin: '0 0 10px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   activityList: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '10px'
+    gap: '10px',
   },
   activityItem: {
     display: 'flex',
@@ -1506,7 +1506,7 @@ const styles = {
     gap: '10px',
     padding: '8px',
     background: 'white',
-    borderRadius: '5px'
+    borderRadius: '5px',
   },
   activityIcon: {
     width: '30px',
@@ -1516,23 +1516,23 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#667eea'
+    color: '#667eea',
   },
   activityContent: {
-    flex: 1
+    flex: 1,
   },
   activityText: {
     fontSize: '13px',
     color: '#333',
-    marginBottom: '2px'
+    marginBottom: '2px',
   },
   activityTime: {
     fontSize: '11px',
-    color: '#999'
+    color: '#999',
   },
   loadingContainer: {
     textAlign: 'center',
-    padding: '60px 20px'
+    padding: '60px 20px',
   },
   spinner: {
     border: '3px solid #f3f3f3',
@@ -1541,8 +1541,8 @@ const styles = {
     width: '40px',
     height: '40px',
     animation: 'spin 1s linear infinite',
-    margin: '0 auto 15px'
-  }
+    margin: '0 auto 15px',
+  },
 };
 
 export default AdminAffiliates;

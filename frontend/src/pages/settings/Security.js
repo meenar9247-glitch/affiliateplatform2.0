@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiLock,
@@ -22,8 +21,9 @@ import {
   FiSave,
   FiBell,
   FiMonitor,
-  FiMapPin
+  FiMapPin,
 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const Security = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Security = () => {
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
 
   // Security Settings State
@@ -48,7 +48,7 @@ const Security = () => {
     deviceNotifications: true,
     sessionTimeout: 30, // minutes
     ipWhitelist: [],
-    trustedDevices: []
+    trustedDevices: [],
   });
 
   // Sessions State
@@ -61,7 +61,7 @@ const Security = () => {
   const [showPassword, setShowPassword] = useState({
     current: false,
     new: false,
-    confirm: false
+    confirm: false,
   });
 
   const [passwordStrength, setPasswordStrength] = useState({
@@ -69,7 +69,7 @@ const Security = () => {
     uppercase: false,
     lowercase: false,
     number: false,
-    special: false
+    special: false,
   });
 
   const [show2FASetup, setShow2FASetup] = useState(false);
@@ -92,8 +92,8 @@ const Security = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/security`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -112,8 +112,8 @@ const Security = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/sessions`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -130,8 +130,8 @@ const Security = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/login-history`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -146,7 +146,7 @@ const Security = () => {
     const { name, value } = e.target;
     setPasswordData({
       ...passwordData,
-      [name]: value
+      [name]: value,
     });
 
     // Check password strength for new password
@@ -163,7 +163,7 @@ const Security = () => {
   const handleToggleChange = (field) => {
     setSecurity({
       ...security,
-      [field]: !security[field]
+      [field]: !security[field],
     });
   };
 
@@ -171,7 +171,7 @@ const Security = () => {
     const { name, value } = e.target;
     setSecurity({
       ...security,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -181,7 +181,7 @@ const Security = () => {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /[0-9]/.test(password),
-      special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
     });
   };
 
@@ -233,8 +233,8 @@ const Security = () => {
         `${process.env.REACT_APP_API_URL}/api/user/change-password`,
         passwordData,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -242,14 +242,14 @@ const Security = () => {
         setPasswordData({
           currentPassword: '',
           newPassword: '',
-          confirmPassword: ''
+          confirmPassword: '',
         });
         setPasswordStrength({
           length: false,
           uppercase: false,
           lowercase: false,
           number: false,
-          special: false
+          special: false,
         });
       }
     } catch (error) {
@@ -266,8 +266,8 @@ const Security = () => {
         `${process.env.REACT_APP_API_URL}/api/user/2fa/setup`,
         { method: security.twoFactorMethod },
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -292,11 +292,11 @@ const Security = () => {
         `${process.env.REACT_APP_API_URL}/api/user/2fa/verify`,
         {
           code: twoFAVerification,
-          secret: twoFASecret
+          secret: twoFASecret,
         },
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -318,8 +318,8 @@ const Security = () => {
         `${process.env.REACT_APP_API_URL}/api/user/2fa/disable`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -339,8 +339,8 @@ const Security = () => {
       const response = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/user/sessions/${sessionId}`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -360,8 +360,8 @@ const Security = () => {
       const response = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/user/sessions`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -381,8 +381,8 @@ const Security = () => {
         `${process.env.REACT_APP_API_URL}/api/user/security-settings`,
         security,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -401,7 +401,7 @@ const Security = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -633,7 +633,7 @@ const Security = () => {
               onClick={handleChangePassword}
               disabled={saving}
             >
-     {saving ? <FiRefreshCw className="spin" /> : <FiSave />}
+              {saving ? <FiRefreshCw className="spin" /> : <FiSave />}
               {saving ? 'Changing Password...' : 'Change Password'}
             </button>
           </div>
@@ -887,7 +887,7 @@ const Security = () => {
                 </div>
               ))}
             </div>
-                          {/* Session Settings */}
+            {/* Session Settings */}
             <div className="session-settings">
               <h3>Session Settings</h3>
               

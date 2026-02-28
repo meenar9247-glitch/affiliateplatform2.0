@@ -46,7 +46,7 @@ const OfflineIndicator = () => {
       zIndex: 9998,
       display: 'flex',
       justifyContent: 'center',
-      pointerEvents: 'none'
+      pointerEvents: 'none',
     },
     offlineMessage: {
       background: '#ff6b6b',
@@ -60,7 +60,7 @@ const OfflineIndicator = () => {
       fontSize: '14px',
       fontWeight: 500,
       pointerEvents: 'all',
-      animation: 'slideDown 0.3s ease-in-out'
+      animation: 'slideDown 0.3s ease-in-out',
     },
     reconnectedMessage: {
       background: '#51cf66',
@@ -74,7 +74,7 @@ const OfflineIndicator = () => {
       fontSize: '14px',
       fontWeight: 500,
       pointerEvents: 'all',
-      animation: 'slideDown 0.3s ease-in-out'
+      animation: 'slideDown 0.3s ease-in-out',
     },
     refreshButton: {
       background: 'rgba(255,255,255,0.2)',
@@ -87,10 +87,10 @@ const OfflineIndicator = () => {
       display: 'flex',
       alignItems: 'center',
       gap: '6px',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
     },
     icon: {
-      fontSize: '18px'
+      fontSize: '18px',
     },
     offlineIndicator: {
       position: 'fixed',
@@ -107,11 +107,11 @@ const OfflineIndicator = () => {
       cursor: 'pointer',
       boxShadow: '0 4px 12px rgba(255,107,107,0.3)',
       zIndex: 9999,
-      animation: 'pulse 2s infinite'
+      animation: 'pulse 2s infinite',
     },
     onlineIndicator: {
       background: '#51cf66',
-      boxShadow: '0 4px 12px rgba(81,207,102,0.3)'
+      boxShadow: '0 4px 12px rgba(81,207,102,0.3)',
     },
     progressBar: {
       position: 'fixed',
@@ -120,13 +120,13 @@ const OfflineIndicator = () => {
       right: 0,
       height: '3px',
       background: '#f1f3f5',
-      zIndex: 10000
+      zIndex: 10000,
     },
     progressFill: {
       height: '100%',
       background: 'linear-gradient(90deg, #51cf66, #20c997)',
-      transition: 'width 0.3s ease'
-    }
+      transition: 'width 0.3s ease',
+    },
   };
 
   return (
@@ -290,7 +290,7 @@ export const AdvancedOfflineIndicator = () => {
       zIndex: 9999,
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'flex-end'
+      alignItems: 'flex-end',
     },
     indicator: {
       background: isOnline ? getQualityColor() : '#ff6b6b',
@@ -304,7 +304,7 @@ export const AdvancedOfflineIndicator = () => {
       cursor: 'pointer',
       boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
       transition: 'all 0.3s ease',
-      animation: isOnline ? 'none' : 'pulse 2s infinite'
+      animation: isOnline ? 'none' : 'pulse 2s infinite',
     },
     details: {
       background: 'white',
@@ -312,37 +312,37 @@ export const AdvancedOfflineIndicator = () => {
       padding: '15px',
       marginTop: '10px',
       boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-      minWidth: '200px'
+      minWidth: '200px',
     },
     detailItem: {
       display: 'flex',
       justifyContent: 'space-between',
       marginBottom: '8px',
-      fontSize: '13px'
+      fontSize: '13px',
     },
     label: {
-      color: '#666'
+      color: '#666',
     },
     value: {
       color: '#333',
-      fontWeight: 500
+      fontWeight: 500,
     },
     progressBar: {
       width: '100%',
       height: '4px',
       background: '#e9ecef',
       borderRadius: '2px',
-      marginTop: '10px'
+      marginTop: '10px',
     },
     progressFill: {
       height: '100%',
       background: getQualityColor(),
       borderRadius: '2px',
       width: connectionQuality === 'poor' ? '25%' :
-             connectionQuality === 'fair' ? '50%' :
-             connectionQuality === 'good' ? '75%' :
-             connectionQuality === 'excellent' ? '100%' : '0%'
-    }
+        connectionQuality === 'fair' ? '50%' :
+          connectionQuality === 'good' ? '75%' :
+            connectionQuality === 'excellent' ? '100%' : '0%',
+    },
   };
 
   return (

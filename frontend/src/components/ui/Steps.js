@@ -8,7 +8,7 @@ import {
   FiArrowRight,
   FiArrowLeft,
   FiChevronRight,
-  FiChevronLeft
+  FiChevronLeft,
 } from 'react-icons/fi';
 
 const Steps = ({
@@ -117,13 +117,13 @@ const Steps = ({
   const sizeClasses = {
     small: 'steps-small',
     medium: 'steps-medium',
-    large: 'steps-large'
+    large: 'steps-large',
   };
 
   // Direction classes
   const directionClasses = {
     horizontal: 'steps-horizontal',
-    vertical: 'steps-vertical'
+    vertical: 'steps-vertical',
   };
 
   // Variant classes
@@ -131,19 +131,19 @@ const Steps = ({
     default: 'steps-default',
     navigation: 'steps-navigation',
     progress: 'steps-progress',
-    wizard: 'steps-wizard'
+    wizard: 'steps-wizard',
   };
 
   // Label placement classes
   const labelPlacementClasses = {
     horizontal: 'steps-label-horizontal',
-    vertical: 'steps-label-vertical'
+    vertical: 'steps-label-vertical',
   };
 
   // Icon position classes
   const iconPositionClasses = {
     left: 'steps-icon-left',
-    top: 'steps-icon-top'
+    top: 'steps-icon-top',
   };
 
   // Styles
@@ -748,7 +748,7 @@ const Steps = ({
             {React.Children.map(children, (child, index) => {
               if (!child) return null;
               return React.cloneElement(child, {
-                className: `step-pane ${index === activeStep ? 'active' : ''}`
+                className: `step-pane ${index === activeStep ? 'active' : ''}`,
               });
             })}
           </div>
@@ -911,7 +911,7 @@ export const CheckoutSteps = ({ steps, current, ...props }) => {
                 <div className="checkout-step-subtitle">{step.subtitle}</div>
               </div>
             </div>
-          )
+          ),
         }))}
         current={current}
         variant="minimal"

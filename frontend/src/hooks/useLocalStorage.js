@@ -24,7 +24,7 @@ export const useLocalStorage = (key, initialValue = null, options = {}) => {
     encryptionKey = 'default-key',
     serialize = JSON.stringify,
     deserialize = JSON.parse,
-    quiet = false
+    quiet = false,
   } = options;
 
   const [storedValue, setStoredValue] = useState(initialValue);
@@ -164,248 +164,248 @@ export const useLocalStorage = (key, initialValue = null, options = {}) => {
       return data;
     }
   };
-// Set value in localStorage
-const setValue = useCallback((value) => {
-  try {
+  // Set value in localStorage
+  const setValue = useCallback((value) => {
+    try {
     // Allow value to be a function for previous state
-    const valueToStore = value instanceof Function ? value(storedValue) : value;
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
     
-    // Prepare data with expiry if needed
-    let dataToStore = valueToStore;
+      // Prepare data with expiry if needed
+      let dataToStore = valueToStore;
     
-    if (expiry) {
-      dataToStore = {
-        value: valueToStore,
-        _expiry: Date.now() + expiry
-      };
+      if (expiry) {
+        dataToStore = {
+          value: valueToStore,
+          _expiry: Date.now() + expiry,
+        };
+      }
+    
+      // Compress if enabled
+      let processedData = dataToStore;
+      if (compress) {
+        processedData = compressData(dataToStore);
+      }
+    
+      // Encrypt if enabled
+      if (encrypt) {
+        processedData = encryptData(processedData, encryptionKey);
+      } else {
+        processedData = serialize(processedData);
+      }
+    
+      // Save to localStorage
+      localStorage.setItem(key, processedData);
+    
+      // Update state
+      if (isMounted.current) {
+        setStoredValue(valueToStore);
+        setLastUpdated(Date.now());
+        setError(null);
+      }
+    
+      // Dispatch custom event for same-tab sync
+      if (sync) {
+        const event = new CustomEvent('localStorageChange', {
+          detail: { key, newValue: processedData },
+        });
+        window.dispatchEvent(event);
+      }
+    
+      // Set expiry timeout
+      if (expiry) {
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+        timeoutRef.current = setTimeout(() => {
+          removeValue();
+        }, expiry);
+      }
+    
+      return valueToStore;
+    } catch (err) {
+      setError(err);
+      if (!quiet) console.error('Error setting localStorage:', err);
+      return null;
     }
+  }, [key, storedValue, expiry, compress, encrypt, encryptionKey, serialize, sync, quiet]);
+
+  // Remove value from localStorage
+  const removeValue = useCallback(() => {
+    try {
+      localStorage.removeItem(key);
     
-    // Compress if enabled
-    let processedData = dataToStore;
-    if (compress) {
-      processedData = compressData(dataToStore);
-    }
+      if (isMounted.current) {
+        setStoredValue(initialValue);
+        setLastUpdated(Date.now());
+        setError(null);
+      }
     
-    // Encrypt if enabled
-    if (encrypt) {
-      processedData = encryptData(processedData, encryptionKey);
-    } else {
-      processedData = serialize(processedData);
-    }
+      if (sync) {
+        const event = new CustomEvent('localStorageChange', {
+          detail: { key, newValue: null },
+        });
+        window.dispatchEvent(event);
+      }
     
-    // Save to localStorage
-    localStorage.setItem(key, processedData);
-    
-    // Update state
-    if (isMounted.current) {
-      setStoredValue(valueToStore);
-      setLastUpdated(Date.now());
-      setError(null);
-    }
-    
-    // Dispatch custom event for same-tab sync
-    if (sync) {
-      const event = new CustomEvent('localStorageChange', {
-        detail: { key, newValue: processedData }
-      });
-      window.dispatchEvent(event);
-    }
-    
-    // Set expiry timeout
-    if (expiry) {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-      timeoutRef.current = setTimeout(() => {
-        removeValue();
-      }, expiry);
+    } catch (err) {
+      setError(err);
+      if (!quiet) console.error('Error removing localStorage:', err);
     }
-    
-    return valueToStore;
-  } catch (err) {
-    setError(err);
-    if (!quiet) console.error('Error setting localStorage:', err);
-    return null;
-  }
-}, [key, storedValue, expiry, compress, encrypt, encryptionKey, serialize, sync, quiet]);
+  }, [key, initialValue, sync, quiet]);
 
-// Remove value from localStorage
-const removeValue = useCallback(() => {
-  try {
-    localStorage.removeItem(key);
-    
-    if (isMounted.current) {
-      setStoredValue(initialValue);
-      setLastUpdated(Date.now());
-      setError(null);
-    }
-    
-    if (sync) {
-      const event = new CustomEvent('localStorageChange', {
-        detail: { key, newValue: null }
-      });
-      window.dispatchEvent(event);
-    }
-    
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  } catch (err) {
-    setError(err);
-    if (!quiet) console.error('Error removing localStorage:', err);
-  }
-}, [key, initialValue, sync, quiet]);
-
-// Clear all localStorage items with matching prefix
-const clearAll = useCallback((prefix = '') => {
-  try {
-    const keys = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const storageKey = localStorage.key(i);
-      if (storageKey.startsWith(prefix)) {
-        keys.push(storageKey);
-      }
-    }
-    
-    keys.forEach(k => localStorage.removeItem(k));
-    
-    if (isMounted.current) {
-      setStoredValue(initialValue);
-      setLastUpdated(Date.now());
-      setError(null);
-    }
-    
-    if (sync) {
-      keys.forEach(k => {
-        const event = new CustomEvent('localStorageChange', {
-          detail: { key: k, newValue: null }
-        });
-        window.dispatchEvent(event);
-      });
-    }
-    
-    return keys.length;
-  } catch (err) {
-    setError(err);
-    if (!quiet) console.error('Error clearing localStorage:', err);
-    return 0;
-  }
-}, [initialValue, sync, quiet]);
-
-// Batch set multiple values
-const setBatch = useCallback((items) => {
-  try {
-    const results = {};
-    
-    Object.entries(items).forEach(([k, v]) => {
-      const serialized = serialize(v);
-      localStorage.setItem(k, serialized);
-      results[k] = v;
-    });
-    
-    if (sync) {
-      const event = new CustomEvent('localStorageBatch', {
-        detail: { items }
-      });
-      window.dispatchEvent(event);
-    }
-    
-    return results;
-  } catch (err) {
-    setError(err);
-    if (!quiet) console.error('Error setting batch:', err);
-    return {};
-  }
-}, [serialize, sync, quiet]);
-
-// Get multiple values
-const getBatch = useCallback((keys) => {
-  try {
-    const results = {};
-    
-    keys.forEach(k => {
-      const item = localStorage.getItem(k);
-      if (item !== null) {
-        try {
-          results[k] = deserialize(item);
-        } catch {
-          results[k] = item;
+  // Clear all localStorage items with matching prefix
+  const clearAll = useCallback((prefix = '') => {
+    try {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const storageKey = localStorage.key(i);
+        if (storageKey.startsWith(prefix)) {
+          keys.push(storageKey);
         }
       }
-    });
     
-    return results;
-  } catch (err) {
-    setError(err);
-    if (!quiet) console.error('Error getting batch:', err);
-    return {};
-  }
-}, [deserialize, quiet]);
-
-// Check if key exists
-const hasKey = useCallback((checkKey) => {
-  return localStorage.getItem(checkKey) !== null;
-}, []);
-
-// Get all keys
-const getKeys = useCallback(() => {
-  const keys = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    keys.push(localStorage.key(i));
-  }
-  return keys;
-}, []);
-
-// Get storage size in bytes
-const getSize = useCallback(() => {
-  let total = 0;
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    const value = localStorage.getItem(key);
-    total += (key?.length || 0) + (value?.length || 0);
-  }
-  return total;
-}, []);
-
-// Check if storage is full
-const isFull = useCallback(() => {
-  try {
-    const testKey = '__test__';
-    localStorage.setItem(testKey, 'test');
-    localStorage.removeItem(testKey);
-    return false;
-  } catch {
-    return true;
-  }
-}, []);
-
-// Get remaining space estimate
-const getRemainingSpace = useCallback(() => {
-  // Most browsers allow ~5-10MB
-  const estimate = 5 * 1024 * 1024; // 5MB estimate
-  const used = getSize();
-  return Math.max(0, estimate - used);
-}, [getSize]);
-
-// Subscribe to changes
-const subscribe = useCallback((callback) => {
-  storageListeners.current.add(callback);
-  
-  return () => {
-    storageListeners.current.delete(callback);
-  };
-}, []);
-
-// Emit change to listeners
-const emitChange = useCallback((newValue) => {
-  storageListeners.current.forEach(callback => {
-    try {
-      callback(newValue);
+      keys.forEach(k => localStorage.removeItem(k));
+    
+      if (isMounted.current) {
+        setStoredValue(initialValue);
+        setLastUpdated(Date.now());
+        setError(null);
+      }
+    
+      if (sync) {
+        keys.forEach(k => {
+          const event = new CustomEvent('localStorageChange', {
+            detail: { key: k, newValue: null },
+          });
+          window.dispatchEvent(event);
+        });
+      }
+    
+      return keys.length;
     } catch (err) {
-      if (!quiet) console.error('Listener error:', err);
+      setError(err);
+      if (!quiet) console.error('Error clearing localStorage:', err);
+      return 0;
     }
-  });
-}, [quiet]);
+  }, [initialValue, sync, quiet]);
+
+  // Batch set multiple values
+  const setBatch = useCallback((items) => {
+    try {
+      const results = {};
+    
+      Object.entries(items).forEach(([k, v]) => {
+        const serialized = serialize(v);
+        localStorage.setItem(k, serialized);
+        results[k] = v;
+      });
+    
+      if (sync) {
+        const event = new CustomEvent('localStorageBatch', {
+          detail: { items },
+        });
+        window.dispatchEvent(event);
+      }
+    
+      return results;
+    } catch (err) {
+      setError(err);
+      if (!quiet) console.error('Error setting batch:', err);
+      return {};
+    }
+  }, [serialize, sync, quiet]);
+
+  // Get multiple values
+  const getBatch = useCallback((keys) => {
+    try {
+      const results = {};
+    
+      keys.forEach(k => {
+        const item = localStorage.getItem(k);
+        if (item !== null) {
+          try {
+            results[k] = deserialize(item);
+          } catch {
+            results[k] = item;
+          }
+        }
+      });
+    
+      return results;
+    } catch (err) {
+      setError(err);
+      if (!quiet) console.error('Error getting batch:', err);
+      return {};
+    }
+  }, [deserialize, quiet]);
+
+  // Check if key exists
+  const hasKey = useCallback((checkKey) => {
+    return localStorage.getItem(checkKey) !== null;
+  }, []);
+
+  // Get all keys
+  const getKeys = useCallback(() => {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      keys.push(localStorage.key(i));
+    }
+    return keys;
+  }, []);
+
+  // Get storage size in bytes
+  const getSize = useCallback(() => {
+    let total = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key);
+      total += (key?.length || 0) + (value?.length || 0);
+    }
+    return total;
+  }, []);
+
+  // Check if storage is full
+  const isFull = useCallback(() => {
+    try {
+      const testKey = '__test__';
+      localStorage.setItem(testKey, 'test');
+      localStorage.removeItem(testKey);
+      return false;
+    } catch {
+      return true;
+    }
+  }, []);
+
+  // Get remaining space estimate
+  const getRemainingSpace = useCallback(() => {
+  // Most browsers allow ~5-10MB
+    const estimate = 5 * 1024 * 1024; // 5MB estimate
+    const used = getSize();
+    return Math.max(0, estimate - used);
+  }, [getSize]);
+
+  // Subscribe to changes
+  const subscribe = useCallback((callback) => {
+    storageListeners.current.add(callback);
+  
+    return () => {
+      storageListeners.current.delete(callback);
+    };
+  }, []);
+
+  // Emit change to listeners
+  const emitChange = useCallback((newValue) => {
+    storageListeners.current.forEach(callback => {
+      try {
+        callback(newValue);
+      } catch (err) {
+        if (!quiet) console.error('Listener error:', err);
+      }
+    });
+  }, [quiet]);
   // Listener for custom events
   useEffect(() => {
     const handleCustomEvent = (e) => {
@@ -475,7 +475,7 @@ const emitChange = useCallback((newValue) => {
     // Legacy array return for backward compatibility
     get: () => storedValue,
     set: setValue,
-    delete: removeValue
+    delete: removeValue,
   };
 };
 
@@ -527,7 +527,7 @@ export const useSessionStorage = (key, initialValue = null, options = {}) => {
     setValue: setSessionValue,
     remove: removeSessionValue,
     isLoaded,
-    error
+    error,
   };
 };
 
@@ -540,7 +540,7 @@ export const useCookie = (name, initialValue = '', options = {}) => {
     path = '/',
     domain = '',
     secure = false,
-    sameSite = 'Lax'
+    sameSite = 'Lax',
   } = options;
 
   const [value, setValue] = useState(initialValue);
@@ -562,7 +562,7 @@ export const useCookie = (name, initialValue = '', options = {}) => {
       path: optPath = path,
       domain: optDomain = domain,
       secure: optSecure = secure,
-      sameSite: optSameSite = sameSite
+      sameSite: optSameSite = sameSite,
     } = cookieOptions;
 
     let cookieStr = `${cookieName}=${encodeURIComponent(cookieValue)}`;
@@ -596,7 +596,7 @@ export const useCookie = (name, initialValue = '', options = {}) => {
     value,
     setValue: setCookie,
     remove: removeCookie,
-    isLoaded
+    isLoaded,
   };
 };
 
@@ -696,7 +696,7 @@ export const useIndexedDB = (dbName, storeName, key = 'default') => {
     setValue: setIndexedValue,
     remove: removeIndexedValue,
     loading,
-    error
+    error,
   };
 };
 
@@ -753,7 +753,7 @@ export const storageUtils = {
     } catch {
       return false;
     }
-  }
+  },
 };
 
 export default useLocalStorage;

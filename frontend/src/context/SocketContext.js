@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
+
 import { useAuth } from './AuthContext';
 
 // Create context
@@ -30,12 +31,12 @@ export const SocketProvider = ({ children, url = process.env.REACT_APP_SOCKET_UR
     const socketInstance = io(url, {
       auth: {
         token: localStorage.getItem('token'),
-        userId: user.id
+        userId: user.id,
       },
       transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionAttempts: 5,
-      reconnectionDelay: 1000
+      reconnectionDelay: 1000,
     });
 
     setSocket(socketInstance);
@@ -143,7 +144,7 @@ export const SocketProvider = ({ children, url = process.env.REACT_APP_SOCKET_UR
     leaveRoom,
     sendMessage,
     startTyping,
-    stopTyping
+    stopTyping,
   };
 
   return (

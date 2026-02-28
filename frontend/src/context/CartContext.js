@@ -60,7 +60,7 @@ export const CartProvider = ({ children }) => {
         return prevCart.map(item =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
-            : item
+            : item,
         );
       } else {
         return [...prevCart, { ...product, quantity }];
@@ -82,8 +82,8 @@ export const CartProvider = ({ children }) => {
     
     setCart(prevCart =>
       prevCart.map(item =>
-        item.id === productId ? { ...item, quantity } : item
-      )
+        item.id === productId ? { ...item, quantity } : item,
+      ),
     );
   }, [removeFromCart]);
 
@@ -139,7 +139,7 @@ export const CartProvider = ({ children }) => {
     removeFromWishlist,
     moveToCart,
     isInCart,
-    isInWishlist
+    isInWishlist,
   };
 
   return (

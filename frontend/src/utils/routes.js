@@ -69,7 +69,7 @@ import {
   FiFileText,
   FiAlertCircle,
   FiTool,
-  FiLink
+  FiLink,
 } from 'react-icons/fi';
 
 // ==================== Route Constants ====================
@@ -214,7 +214,7 @@ export const ROUTES = {
   SERVER_ERROR: '/500',
   UNAUTHORIZED: '/unauthorized',
   FORBIDDEN: '/forbidden',
-  MAINTENANCE: '/maintenance'
+  MAINTENANCE: '/maintenance',
 };
 
 // ==================== Route Groups ====================
@@ -225,7 +225,7 @@ export const ROUTE_GROUPS = {
   PROTECTED: 'protected',
   AFFILIATE: 'affiliate',
   ADMIN: 'admin',
-  ERROR: 'error'
+  ERROR: 'error',
 };
 
 // ==================== Route Icons ====================
@@ -292,7 +292,7 @@ export const ROUTE_ICONS = {
   [ROUTES.SERVER_ERROR]: FiAlertCircle,
   [ROUTES.UNAUTHORIZED]: FiLock,
   [ROUTES.FORBIDDEN]: FiShield,
-  [ROUTES.MAINTENANCE]: FiTool
+  [ROUTES.MAINTENANCE]: FiTool,
 };
 
 // ==================== Route Titles ====================
@@ -422,7 +422,7 @@ export const ROUTE_TITLES = {
   [ROUTES.SERVER_ERROR]: '500 - Server Error',
   [ROUTES.UNAUTHORIZED]: '401 - Unauthorized',
   [ROUTES.FORBIDDEN]: '403 - Forbidden',
-  [ROUTES.MAINTENANCE]: 'Maintenance Mode'
+  [ROUTES.MAINTENANCE]: 'Maintenance Mode',
 };
 // ==================== Route Descriptions ====================
 
@@ -457,7 +457,7 @@ export const ROUTE_DESCRIPTIONS = {
   [ROUTES.TERMS]: 'Terms and conditions',
   
   [ROUTES.ABOUT]: 'Learn more about us',
-  [ROUTES.CONTACT]: 'Get in touch with us'
+  [ROUTES.CONTACT]: 'Get in touch with us',
 };
 
 // ==================== Route Permissions ====================
@@ -525,7 +525,7 @@ export const ROUTE_PERMISSIONS = {
   [ROUTES.SERVER_ERROR]: [],
   [ROUTES.UNAUTHORIZED]: [],
   [ROUTES.FORBIDDEN]: [],
-  [ROUTES.MAINTENANCE]: []
+  [ROUTES.MAINTENANCE]: [],
 };
 
 // ==================== Route Groups Mapping ====================
@@ -542,7 +542,7 @@ export const ROUTE_GROUP_MAP = {
     ROUTES.FAQ,
     ROUTES.BLOG,
     ROUTES.CAREERS,
-    ROUTES.PRESS
+    ROUTES.PRESS,
   ],
   
   [ROUTE_GROUPS.AUTH]: [
@@ -550,7 +550,7 @@ export const ROUTE_GROUP_MAP = {
     ROUTES.REGISTER,
     ROUTES.FORGOT_PASSWORD,
     ROUTES.RESET_PASSWORD,
-    ROUTES.VERIFY_EMAIL
+    ROUTES.VERIFY_EMAIL,
   ],
   
   [ROUTE_GROUPS.PROTECTED]: [
@@ -558,7 +558,7 @@ export const ROUTE_GROUP_MAP = {
     ROUTES.PROFILE,
     ROUTES.SETTINGS,
     ROUTES.NOTIFICATIONS,
-    ROUTES.MESSAGES
+    ROUTES.MESSAGES,
   ],
   
   [ROUTE_GROUPS.AFFILIATE]: [
@@ -576,7 +576,7 @@ export const ROUTE_GROUP_MAP = {
     ROUTES.WALLET,
     ROUTES.WITHDRAWALS,
     ROUTES.ANALYTICS,
-    ROUTES.LEADERBOARD
+    ROUTES.LEADERBOARD,
   ],
   
   [ROUTE_GROUPS.ADMIN]: [
@@ -589,7 +589,7 @@ export const ROUTE_GROUP_MAP = {
     ROUTES.ADMIN_ANALYTICS,
     ROUTES.ADMIN_SETTINGS,
     ROUTES.ADMIN_LOGS,
-    ROUTES.ADMIN_SYSTEM
+    ROUTES.ADMIN_SYSTEM,
   ],
   
   [ROUTE_GROUPS.ERROR]: [
@@ -597,8 +597,8 @@ export const ROUTE_GROUP_MAP = {
     ROUTES.SERVER_ERROR,
     ROUTES.UNAUTHORIZED,
     ROUTES.FORBIDDEN,
-    ROUTES.MAINTENANCE
-  ]
+    ROUTES.MAINTENANCE,
+  ],
 };
 
 // ==================== Route Breadcrumbs ====================
@@ -608,30 +608,30 @@ export const ROUTE_BREADCRUMBS = {
   [ROUTES.DASHBOARD]: [{ path: ROUTES.HOME, title: 'Home' }],
   [ROUTES.PROFILE]: [
     { path: ROUTES.HOME, title: 'Home' },
-    { path: ROUTES.DASHBOARD, title: 'Dashboard' }
+    { path: ROUTES.DASHBOARD, title: 'Dashboard' },
   ],
   [ROUTES.SETTINGS]: [
     { path: ROUTES.HOME, title: 'Home' },
-    { path: ROUTES.DASHBOARD, title: 'Dashboard' }
+    { path: ROUTES.DASHBOARD, title: 'Dashboard' },
   ],
   [ROUTES.AFFILIATE_DASHBOARD]: [
     { path: ROUTES.HOME, title: 'Home' },
-    { path: ROUTES.AFFILIATES, title: 'Affiliates' }
+    { path: ROUTES.AFFILIATES, title: 'Affiliates' },
   ],
   [ROUTES.AFFILIATE_LINKS]: [
     { path: ROUTES.HOME, title: 'Home' },
     { path: ROUTES.AFFILIATES, title: 'Affiliates' },
-    { path: ROUTES.AFFILIATE_DASHBOARD, title: 'Dashboard' }
+    { path: ROUTES.AFFILIATE_DASHBOARD, title: 'Dashboard' },
   ],
   [ROUTES.ADMIN_DASHBOARD]: [
     { path: ROUTES.HOME, title: 'Home' },
-    { path: ROUTES.ADMIN, title: 'Admin' }
+    { path: ROUTES.ADMIN, title: 'Admin' },
   ],
   [ROUTES.ADMIN_USERS]: [
     { path: ROUTES.HOME, title: 'Home' },
     { path: ROUTES.ADMIN, title: 'Admin' },
-    { path: ROUTES.ADMIN_DASHBOARD, title: 'Dashboard' }
-  ]
+    { path: ROUTES.ADMIN_DASHBOARD, title: 'Dashboard' },
+  ],
 };
 
 // ==================== Route Navigation Items ====================
@@ -641,7 +641,7 @@ export const MAIN_NAVIGATION = [
   { path: ROUTES.DASHBOARD, title: 'Dashboard', icon: FiGrid, requiresAuth: true },
   { path: ROUTES.AFFILIATES, title: 'Affiliates', icon: FiTrendingUp, requiresAuth: true },
   { path: ROUTES.LEADERBOARD, title: 'Leaderboard', icon: FiAward, requiresAuth: true },
-  { path: ROUTES.SUPPORT, title: 'Support', icon: FiHelpCircle }
+  { path: ROUTES.SUPPORT, title: 'Support', icon: FiHelpCircle },
 ];
 
 export const USER_NAVIGATION = [
@@ -649,7 +649,7 @@ export const USER_NAVIGATION = [
   { path: ROUTES.PROFILE, title: 'Profile', icon: FiUser },
   { path: ROUTES.SETTINGS, title: 'Settings', icon: FiSettings },
   { path: ROUTES.NOTIFICATIONS, title: 'Notifications', icon: FiBell },
-  { path: ROUTES.MESSAGES, title: 'Messages', icon: FiMessageCircle }
+  { path: ROUTES.MESSAGES, title: 'Messages', icon: FiMessageCircle },
 ];
 
 export const AFFILIATE_NAVIGATION = [
@@ -660,7 +660,7 @@ export const AFFILIATE_NAVIGATION = [
   { path: ROUTES.AFFILIATE_COMMISSIONS, title: 'Commissions', icon: FiGift },
   { path: ROUTES.AFFILIATE_PAYOUTS, title: 'Payouts', icon: FiCreditCard },
   { path: ROUTES.AFFILIATE_ANALYTICS, title: 'Analytics', icon: FiBarChart2 },
-  { path: ROUTES.AFFILIATE_PRODUCTS, title: 'Products', icon: FiShoppingCart }
+  { path: ROUTES.AFFILIATE_PRODUCTS, title: 'Products', icon: FiShoppingCart },
 ];
 
 export const ADMIN_NAVIGATION = [
@@ -672,7 +672,7 @@ export const ADMIN_NAVIGATION = [
   { path: ROUTES.ADMIN_ANALYTICS, title: 'Analytics', icon: FiTrendingUp },
   { path: ROUTES.ADMIN_SETTINGS, title: 'Settings', icon: FiSettings },
   { path: ROUTES.ADMIN_LOGS, title: 'Logs', icon: FiArchive },
-  { path: ROUTES.ADMIN_SYSTEM, title: 'System', icon: FiMonitor }
+  { path: ROUTES.ADMIN_SYSTEM, title: 'System', icon: FiMonitor },
 ];
 
 export const FOOTER_NAVIGATION = [
@@ -684,7 +684,7 @@ export const FOOTER_NAVIGATION = [
   { path: ROUTES.PRESS, title: 'Press' },
   { path: ROUTES.PRIVACY, title: 'Privacy' },
   { path: ROUTES.TERMS, title: 'Terms' },
-  { path: ROUTES.COOKIES, title: 'Cookies' }
+  { path: ROUTES.COOKIES, title: 'Cookies' },
 ];
 // ==================== Route Helper Functions ====================
 
@@ -865,7 +865,7 @@ export const routeHelpers = {
     }
     
     return params;
-  }
+  },
 };
 
 // ==================== Export all ====================
@@ -884,5 +884,5 @@ export default {
   AFFILIATE_NAVIGATION,
   ADMIN_NAVIGATION,
   FOOTER_NAVIGATION,
-  routeHelpers
+  routeHelpers,
 };

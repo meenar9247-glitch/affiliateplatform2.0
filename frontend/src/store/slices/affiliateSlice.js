@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import { affiliateService } from '../../services/affiliateService';
-import { AFFILIATE_LEVELS } from '../../services/affiliateService';
+
+import { affiliateService , AFFILIATE_LEVELS } from '../../services/affiliateService';
 
 // ==================== Initial State ====================
 
@@ -44,7 +44,7 @@ const initialState = {
     traffic: [],
     geo: [],
     devices: [],
-    timeline: []
+    timeline: [],
   },
   
   // Performance metrics
@@ -57,7 +57,7 @@ const initialState = {
     pendingEarnings: 0,
     paidEarnings: 0,
     refunds: 0,
-    chargebacks: 0
+    chargebacks: 0,
   },
   
   // Affiliate profile
@@ -92,7 +92,7 @@ const initialState = {
     createLink: false,
     updateLink: false,
     deleteLink: false,
-    requestPayout: false
+    requestPayout: false,
   },
   
   // Errors
@@ -111,7 +111,7 @@ const initialState = {
     createLink: null,
     updateLink: null,
     deleteLink: null,
-    requestPayout: null
+    requestPayout: null,
   },
   
   // Success messages
@@ -119,7 +119,7 @@ const initialState = {
     createLink: null,
     updateLink: null,
     deleteLink: null,
-    requestPayout: null
+    requestPayout: null,
   },
   
   // Metadata
@@ -134,7 +134,7 @@ const initialState = {
     analytics: null,
     profile: null,
     leaderboard: null,
-    achievements: null
+    achievements: null,
   },
   
   // Pagination
@@ -144,7 +144,7 @@ const initialState = {
     commissions: { page: 1, limit: 20, total: 0, hasMore: false },
     earnings: { page: 1, limit: 20, total: 0, hasMore: false },
     payouts: { page: 1, limit: 20, total: 0, hasMore: false },
-    products: { page: 1, limit: 20, total: 0, hasMore: false }
+    products: { page: 1, limit: 20, total: 0, hasMore: false },
   },
   
   // Filters
@@ -154,7 +154,7 @@ const initialState = {
     commissions: {},
     earnings: {},
     payouts: {},
-    products: {}
+    products: {},
   },
   
   // Sort
@@ -164,8 +164,8 @@ const initialState = {
     commissions: { field: 'createdAt', order: 'desc' },
     earnings: { field: 'createdAt', order: 'desc' },
     payouts: { field: 'createdAt', order: 'desc' },
-    products: { field: 'name', order: 'asc' }
-  }
+    products: { field: 'name', order: 'asc' },
+  },
 };
 
 // ==================== Async Thunks ====================
@@ -180,7 +180,7 @@ export const fetchDashboard = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch links
@@ -193,7 +193,7 @@ export const fetchLinks = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Create link
@@ -206,7 +206,7 @@ export const createLink = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Update link
@@ -219,7 +219,7 @@ export const updateLink = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Delete link
@@ -232,7 +232,7 @@ export const deleteLink = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch referrals
@@ -245,7 +245,7 @@ export const fetchReferrals = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch referral tree
@@ -258,7 +258,7 @@ export const fetchReferralTree = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch referral stats
@@ -271,7 +271,7 @@ export const fetchReferralStats = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch earnings
@@ -284,7 +284,7 @@ export const fetchEarnings = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch earnings summary
@@ -297,7 +297,7 @@ export const fetchEarningsSummary = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch commissions
@@ -310,7 +310,7 @@ export const fetchCommissions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 // Continue Async Thunks
 // Fetch commission summary
@@ -323,7 +323,7 @@ export const fetchCommissionSummary = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch payouts
@@ -336,7 +336,7 @@ export const fetchPayouts = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Request payout
@@ -349,7 +349,7 @@ export const requestPayout = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch payout methods
@@ -362,7 +362,7 @@ export const fetchPayoutMethods = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch products
@@ -375,7 +375,7 @@ export const fetchProducts = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch top products
@@ -388,7 +388,7 @@ export const fetchTopProducts = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch analytics
@@ -401,7 +401,7 @@ export const fetchAnalytics = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch traffic analytics
@@ -414,7 +414,7 @@ export const fetchTrafficAnalytics = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch conversion analytics
@@ -427,7 +427,7 @@ export const fetchConversionAnalytics = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch profile
@@ -440,7 +440,7 @@ export const fetchAffiliateProfile = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Update profile
@@ -453,7 +453,7 @@ export const updateAffiliateProfile = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch leaderboard
@@ -466,7 +466,7 @@ export const fetchLeaderboard = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Fetch achievements
@@ -479,7 +479,7 @@ export const fetchAchievements = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // ==================== Affiliate Slice ====================
@@ -505,7 +505,7 @@ const affiliateSlice = createSlice({
         createLink: null,
         updateLink: null,
         deleteLink: null,
-        requestPayout: null
+        requestPayout: null,
       };
     },
 
@@ -515,7 +515,7 @@ const affiliateSlice = createSlice({
         createLink: null,
         updateLink: null,
         deleteLink: null,
-        requestPayout: null
+        requestPayout: null,
       };
     },
 
@@ -619,7 +619,7 @@ const affiliateSlice = createSlice({
       if (state.lastUpdated.hasOwnProperty(key)) {
         state.lastUpdated[key] = Date.now();
       }
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -658,7 +658,7 @@ const affiliateSlice = createSlice({
           page: pagination.page,
           limit: pagination.limit,
           total: pagination.total,
-          hasMore: pagination.hasMore
+          hasMore: pagination.hasMore,
         };
         state.lastUpdated.links = Date.now();
       })
@@ -683,7 +683,7 @@ const affiliateSlice = createSlice({
         state.loading.createLink = false;
         state.errors.createLink = action.payload;
       });
-  }
+  },
 });
 // Continue extraReducers
 builder
@@ -745,7 +745,7 @@ builder
       page: pagination.page,
       limit: pagination.limit,
       total: pagination.total,
-      hasMore: pagination.hasMore
+      hasMore: pagination.hasMore,
     };
     state.lastUpdated.referrals = Date.now();
   })
@@ -801,7 +801,7 @@ builder
       page: pagination.page,
       limit: pagination.limit,
       total: pagination.total,
-      hasMore: pagination.hasMore
+      hasMore: pagination.hasMore,
     };
     state.lastUpdated.earnings = Date.now();
   })
@@ -834,7 +834,7 @@ builder
       page: pagination.page,
       limit: pagination.limit,
       total: pagination.total,
-      hasMore: pagination.hasMore
+      hasMore: pagination.hasMore,
     };
     state.lastUpdated.commissions = Date.now();
   })
@@ -867,7 +867,7 @@ builder
       page: pagination.page,
       limit: pagination.limit,
       total: pagination.total,
-      hasMore: pagination.hasMore
+      hasMore: pagination.hasMore,
     };
     state.lastUpdated.payouts = Date.now();
   })
@@ -918,7 +918,7 @@ builder
       page: pagination.page,
       limit: pagination.limit,
       total: pagination.total,
-      hasMore: pagination.hasMore
+      hasMore: pagination.hasMore,
     };
     state.lastUpdated.products = Date.now();
   })
@@ -1032,7 +1032,7 @@ export const {
   setError,
   setSuccess,
   updatePagination,
-  updateLastUpdated
+  updateLastUpdated,
 } = affiliateSlice.actions;
 
 // ==================== Selectors ====================
@@ -1130,27 +1130,27 @@ export const selectProductsSort = (state) => state.affiliate.sort.products;
 // Computed selectors
 export const selectTotalEarnings = createSelector(
   [selectMetrics],
-  (metrics) => metrics?.earnings || 0
+  (metrics) => metrics?.earnings || 0,
 );
 
 export const selectPendingEarnings = createSelector(
   [selectMetrics],
-  (metrics) => metrics?.pendingEarnings || 0
+  (metrics) => metrics?.pendingEarnings || 0,
 );
 
 export const selectTotalClicks = createSelector(
   [selectMetrics],
-  (metrics) => metrics?.clicks || 0
+  (metrics) => metrics?.clicks || 0,
 );
 
 export const selectUniqueClicks = createSelector(
   [selectMetrics],
-  (metrics) => metrics?.uniqueClicks || 0
+  (metrics) => metrics?.uniqueClicks || 0,
 );
 
 export const selectTotalConversions = createSelector(
   [selectMetrics],
-  (metrics) => metrics?.conversions || 0
+  (metrics) => metrics?.conversions || 0,
 );
 
 export const selectConversionRate = createSelector(
@@ -1158,78 +1158,78 @@ export const selectConversionRate = createSelector(
   (clicks, conversions) => {
     if (!clicks) return 0;
     return ((conversions / clicks) * 100).toFixed(2);
-  }
+  },
 );
 
 export const selectActiveLinks = createSelector(
   [selectLinks],
-  (links) => links?.filter(link => link.status === 'active') || []
+  (links) => links?.filter(link => link.status === 'active') || [],
 );
 
 export const selectPendingCommissions = createSelector(
   [selectCommissions],
-  (commissions) => commissions?.filter(c => c.status === 'pending') || []
+  (commissions) => commissions?.filter(c => c.status === 'pending') || [],
 );
 
 export const selectApprovedCommissions = createSelector(
   [selectCommissions],
-  (commissions) => commissions?.filter(c => c.status === 'approved') || []
+  (commissions) => commissions?.filter(c => c.status === 'approved') || [],
 );
 
 export const selectPaidCommissions = createSelector(
   [selectCommissions],
-  (commissions) => commissions?.filter(c => c.status === 'paid') || []
+  (commissions) => commissions?.filter(c => c.status === 'paid') || [],
 );
 
 export const selectLinkById = (linkId) => createSelector(
   [selectLinks],
-  (links) => links?.find(link => link.id === linkId)
+  (links) => links?.find(link => link.id === linkId),
 );
 
 export const selectProductById = (productId) => createSelector(
   [selectProducts],
-  (products) => products?.find(product => product.id === productId)
+  (products) => products?.find(product => product.id === productId),
 );
 
 export const selectCommissionById = (commissionId) => createSelector(
   [selectCommissions],
-  (commissions) => commissions?.find(c => c.id === commissionId)
+  (commissions) => commissions?.find(c => c.id === commissionId),
 );
 
 export const selectPayoutById = (payoutId) => createSelector(
   [selectPayouts],
-  (payouts) => payouts?.find(p => p.id === payoutId)
+  (payouts) => payouts?.find(p => p.id === payoutId),
 );
 
 export const selectAchievementById = (achievementId) => createSelector(
   [selectAchievements],
-  (achievements) => achievements?.find(a => a.id === achievementId)
+  (achievements) => achievements?.find(a => a.id === achievementId),
 );
 
 export const selectIsAchievementUnlocked = (achievementId) => createSelector(
   [selectUnlockedAchievements],
-  (unlocked) => unlocked?.includes(achievementId) || false
+  (unlocked) => unlocked?.includes(achievementId) || false,
 );
 
 export const selectTopPerformingLinks = (limit = 5) => createSelector(
   [selectLinks],
   (links) => [...links]
     .sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
-    .slice(0, limit)
+    .slice(0, limit),
 );
 
 export const selectHighestEarningLinks = (limit = 5) => createSelector(
   [selectLinks],
   (links) => [...links]
     .sort((a, b) => (b.earnings || 0) - (a.earnings || 0))
-    .slice(0, limit)
+    .slice(0, limit),
 );
 
 export const selectRecentLinks = (limit = 5) => createSelector(
   [selectLinks],
   (links) => [...links]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, limit)
+    .slice(0, limit),
 );
 
 export const selectNextLevelRequirements = createSelector(
@@ -1237,15 +1237,15 @@ export const selectNextLevelRequirements = createSelector(
   (level, earnings) => {
     const requirements = {
       bronze: { next: 'silver', required: 1000, current: earnings },
-    silver: { next: 'gold', required: 5000, current: earnings },
+      silver: { next: 'gold', required: 5000, current: earnings },
       gold: { next: 'platinum', required: 10000, current: earnings },
       platinum: { next: 'diamond', required: 50000, current: earnings },
       diamond: { next: 'elite', required: 100000, current: earnings },
-      elite: { next: null, required: null, current: earnings }
+      elite: { next: null, required: null, current: earnings },
     };
     
     return requirements[level] || null;
-  }
+  },
 );
 
 // ==================== Export ====================

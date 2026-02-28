@@ -19,113 +19,113 @@ const LANGUAGES = {
     name: 'English',
     nativeName: 'English',
     dir: 'ltr',
-    flag: '🇺🇸'
+    flag: '🇺🇸',
   },
   hi: {
     code: 'hi',
     name: 'Hindi',
     nativeName: 'हिन्दी',
     dir: 'ltr',
-    flag: '🇮🇳'
+    flag: '🇮🇳',
   },
   bn: {
     code: 'bn',
     name: 'Bengali',
     nativeName: 'বাংলা',
     dir: 'ltr',
-    flag: '🇧🇩'
+    flag: '🇧🇩',
   },
   te: {
     code: 'te',
     name: 'Telugu',
     nativeName: 'తెలుగు',
     dir: 'ltr',
-    flag: '🇮🇳'
+    flag: '🇮🇳',
   },
   mr: {
     code: 'mr',
     name: 'Marathi',
     nativeName: 'मराठी',
     dir: 'ltr',
-    flag: '🇮🇳'
+    flag: '🇮🇳',
   },
   ta: {
     code: 'ta',
     name: 'Tamil',
     nativeName: 'தமிழ்',
     dir: 'ltr',
-    flag: '🇮🇳'
+    flag: '🇮🇳',
   },
   ur: {
     code: 'ur',
     name: 'Urdu',
     nativeName: 'اردو',
     dir: 'rtl',
-    flag: '🇵🇰'
+    flag: '🇵🇰',
   },
   gu: {
     code: 'gu',
     name: 'Gujarati',
     nativeName: 'ગુજરાતી',
     dir: 'ltr',
-    flag: '🇮🇳'
+    flag: '🇮🇳',
   },
   kn: {
     code: 'kn',
     name: 'Kannada',
     nativeName: 'ಕನ್ನಡ',
     dir: 'ltr',
-    flag: '🇮🇳'
+    flag: '🇮🇳',
   },
   ml: {
     code: 'ml',
     name: 'Malayalam',
     nativeName: 'മലയാളം',
     dir: 'ltr',
-    flag: '🇮🇳'
+    flag: '🇮🇳',
   },
   es: {
     code: 'es',
     name: 'Spanish',
     nativeName: 'Español',
     dir: 'ltr',
-    flag: '🇪🇸'
+    flag: '🇪🇸',
   },
   fr: {
     code: 'fr',
     name: 'French',
     nativeName: 'Français',
     dir: 'ltr',
-    flag: '🇫🇷'
+    flag: '🇫🇷',
   },
   de: {
     code: 'de',
     name: 'German',
     nativeName: 'Deutsch',
     dir: 'ltr',
-    flag: '🇩🇪'
+    flag: '🇩🇪',
   },
   zh: {
     code: 'zh',
     name: 'Chinese',
     nativeName: '中文',
     dir: 'ltr',
-    flag: '🇨🇳'
+    flag: '🇨🇳',
   },
   ja: {
     code: 'ja',
     name: 'Japanese',
     nativeName: '日本語',
     dir: 'ltr',
-    flag: '🇯🇵'
+    flag: '🇯🇵',
   },
   ar: {
     code: 'ar',
     name: 'Arabic',
     nativeName: 'العربية',
     dir: 'rtl',
-    flag: '🇸🇦'
-  }
+    flag: '🇸🇦',
+  },
 };
 
 // Default translations (you would expand this)
@@ -236,8 +236,8 @@ const DEFAULT_TRANSLATIONS = {
     'success.emailSent': 'Email sent successfully',
     'success.passwordChanged': 'Password changed successfully',
     'success.profileUpdated': 'Profile updated successfully',
-    'success.settingsUpdated': 'Settings updated successfully'
-  }
+    'success.settingsUpdated': 'Settings updated successfully',
+  },
 };
 
 // Provider component
@@ -264,7 +264,7 @@ export const LanguageProvider = ({ children, translations = {} }) => {
   useEffect(() => {
     setMessages({
       ...DEFAULT_TRANSLATIONS.en,
-      ...translations[language]
+      ...translations[language],
     });
   }, [language, translations]);
 
@@ -316,7 +316,7 @@ export const LanguageProvider = ({ children, translations = {} }) => {
     return new Intl.NumberFormat(language, {
       style: 'currency',
       currency,
-      ...options
+      ...options,
     }).format(amount);
   }, [language]);
 
@@ -361,7 +361,7 @@ export const LanguageProvider = ({ children, translations = {} }) => {
     formatNumber,
     formatCurrency,
     formatRelativeTime,
-    availableLanguages: LANGUAGES
+    availableLanguages: LANGUAGES,
   };
 
   return (

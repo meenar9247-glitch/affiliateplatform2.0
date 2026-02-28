@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 // Constants
 const TOKEN_KEY = 'auth_token';
@@ -27,7 +27,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor for token refresh
@@ -44,7 +44,7 @@ api.interceptors.response.use(
         if (refreshToken) {
           const response = await axios.post(
             `${process.env.REACT_APP_API_URL}/api/auth/refresh`,
-            { refreshToken }
+            { refreshToken },
           );
           
           if (response.data.success) {
@@ -63,7 +63,7 @@ api.interceptors.response.use(
     }
     
     return Promise.reject(error);
-  }
+  },
 );
 
 export const useAuth = () => {
@@ -207,7 +207,7 @@ export const useAuth = () => {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /[0-9]/.test(password),
-      special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
     };
   };
 
@@ -247,329 +247,329 @@ export const useAuth = () => {
     throw error;
   };
   const login = async (email, password, rememberMe = false) => {
-  setLoading(true);
-  setError(null);
+    setLoading(true);
+    setError(null);
   
-  try {
+    try {
     // Input validation
-    if (!email || !password) {
-      throw new Error('Email and password are required');
-    }
-    
-    if (!validateEmail(email)) {
-      throw new Error('Please enter a valid email address');
-    }
-    
-    const response = await api.post('/api/auth/login', {
-      email,
-      password,
-      rememberMe
-    });
-    
-    if (response.data.success) {
-      const { user, token, refreshToken } = response.data;
-      
-      // Store auth data
-      localStorage.setItem(TOKEN_KEY, token);
-      localStorage.setItem(USER_KEY, JSON.stringify(user));
-      localStorage.setItem('session_start', Date.now().toString());
-      
-      if (refreshToken) {
-        localStorage.setItem('refresh_token', refreshToken);
+      if (!email || !password) {
+        throw new Error('Email and password are required');
       }
-      
-      if (rememberMe) {
-        localStorage.setItem('remember_me', 'true');
+    
+      if (!validateEmail(email)) {
+        throw new Error('Please enter a valid email address');
       }
-      
-      setUser(user);
-      setIsAuthenticated(true);
-      setSessionExpiry(Date.now() + SESSION_TIMEOUT);
-      setLoginAttempts(0);
-      
-      startTokenRefresh();
-      toast.success(`Welcome back, ${user.name || user.email}!`);
-      
-      return user;
-    }
-  } catch (error) {
-    const newAttempts = loginAttempts + 1;
-    setLoginAttempts(newAttempts);
     
-    if (newAttempts >= 5) {
-      toast.error('Too many failed attempts. Account temporarily locked.');
-      // Implement lockout logic here
-    }
-    
-    return handleApiError(error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-const register = async (userData) => {
-  setLoading(true);
-  setError(null);
-  
-  try {
-    // Input validation
-    const { name, email, password, confirmPassword } = userData;
-    
-    if (!name || !email || !password || !confirmPassword) {
-      throw new Error('All fields are required');
-    }
-    
-    if (!validateEmail(email)) {
-      throw new Error('Please enter a valid email address');
-    }
-    
-    const passwordStrength = validatePassword(password);
-    if (!passwordStrength.length || !passwordStrength.uppercase || 
-        !passwordStrength.lowercase || !passwordStrength.number) {
-      throw new Error('Password must be at least 8 characters and contain uppercase, lowercase, and number');
-    }
-    
-    if (password !== confirmPassword) {
-      throw new Error('Passwords do not match');
-    }
-    
-    const response = await api.post('/api/auth/register', userData);
-    
-    if (response.data.success) {
-      toast.success('Registration successful! Please check your email to verify your account.');
-      return response.data;
-    }
-  } catch (error) {
-    return handleApiError(error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-const logout = async (redirect = true) => {
-  try {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (token) {
-      await api.post('/api/auth/logout', {}, {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await api.post('/api/auth/login', {
+        email,
+        password,
+        rememberMe,
       });
-    }
-  } catch (error) {
-    console.error('Logout error:', error);
-  } finally {
-    stopAllTimers();
-    clearStorage();
     
-    setUser(null);
-    setIsAuthenticated(false);
-    setSessionExpiry(null);
-    
-    if (redirect) {
-      navigate('/login');
-    }
-    
-    toast.success('Logged out successfully');
-  }
-};
-
-const verifyEmail = async (token) => {
-  setLoading(true);
-  
-  try {
-    const response = await api.post('/api/auth/verify-email', { token });
-    
-    if (response.data.success) {
-      toast.success('Email verified successfully! You can now login.');
-      return true;
-    }
-  } catch (error) {
-    handleApiError(error);
-    return false;
-  } finally {
-    setLoading(false);
-  }
-};
-
-const forgotPassword = async (email) => {
-  setLoading(true);
-  
-  try {
-    if (!email || !validateEmail(email)) {
-      throw new Error('Please enter a valid email address');
-    }
-    
-    const response = await api.post('/api/auth/forgot-password', { email });
-    
-    if (response.data.success) {
-      toast.success('Password reset email sent. Please check your inbox.');
-      return true;
-    }
-  } catch (error) {
-    handleApiError(error);
-    return false;
-  } finally {
-    setLoading(false);
-  }
-};
-
-const resetPassword = async (token, newPassword, confirmPassword) => {
-  setLoading(true);
-  
-  try {
-    if (!newPassword || !confirmPassword) {
-      throw new Error('All fields are required');
-    }
-    
-    const passwordStrength = validatePassword(newPassword);
-    if (!passwordStrength.length || !passwordStrength.uppercase || 
-        !passwordStrength.lowercase || !passwordStrength.number) {
-      throw new Error('Password must be at least 8 characters and contain uppercase, lowercase, and number');
-    }
-    
-    if (newPassword !== confirmPassword) {
-      throw new Error('Passwords do not match');
-    }
-    
-    const response = await api.post('/api/auth/reset-password', {
-      token,
-      password: newPassword
-    });
-    
-    if (response.data.success) {
-      toast.success('Password reset successful! You can now login with your new password.');
-      return true;
-    }
-  } catch (error) {
-    handleApiError(error);
-    return false;
-  } finally {
-    setLoading(false);
-  }
-};
-
-const updateProfile = async (profileData) => {
-  setLoading(true);
-  
-  try {
-    const response = await api.put('/api/auth/profile', profileData);
-    
-    if (response.data.success) {
-      const updatedUser = { ...user, ...response.data.user };
-      setUser(updatedUser);
-      localStorage.setItem(USER_KEY, JSON.stringify(updatedUser));
-      toast.success('Profile updated successfully');
-      return updatedUser;
-    }
-  } catch (error) {
-    handleApiError(error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-const changePassword = async (currentPassword, newPassword, confirmPassword) => {
-  setLoading(true);
-  
-  try {
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      throw new Error('All fields are required');
-    }
-    
-    const passwordStrength = validatePassword(newPassword);
-    if (!passwordStrength.length || !passwordStrength.uppercase || 
-        !passwordStrength.lowercase || !passwordStrength.number) {
-      throw new Error('New password must be at least 8 characters and contain uppercase, lowercase, and number');
-    }
-    
-    if (newPassword !== confirmPassword) {
-      throw new Error('Passwords do not match');
-    }
-    
-    const response = await api.post('/api/auth/change-password', {
-      currentPassword,
-      newPassword
-    });
-    
-    if (response.data.success) {
-      toast.success('Password changed successfully');
-      return true;
-    }
-  } catch (error) {
-    handleApiError(error);
-    return false;
-  } finally {
-    setLoading(false);
-  }
-};
-
-const socialLogin = async (provider, code) => {
-  setLoading(true);
-  
-  try {
-    const response = await api.post(`/api/auth/${provider}`, { code });
-    
-    if (response.data.success) {
-      const { user, token, refreshToken } = response.data;
+      if (response.data.success) {
+        const { user, token, refreshToken } = response.data;
       
-      localStorage.setItem(TOKEN_KEY, token);
-      localStorage.setItem(USER_KEY, JSON.stringify(user));
+        // Store auth data
+        localStorage.setItem(TOKEN_KEY, token);
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
+        localStorage.setItem('session_start', Date.now().toString());
       
-      if (refreshToken) {
-        localStorage.setItem('refresh_token', refreshToken);
+        if (refreshToken) {
+          localStorage.setItem('refresh_token', refreshToken);
+        }
+      
+        if (rememberMe) {
+          localStorage.setItem('remember_me', 'true');
+        }
+      
+        setUser(user);
+        setIsAuthenticated(true);
+        setSessionExpiry(Date.now() + SESSION_TIMEOUT);
+        setLoginAttempts(0);
+      
+        startTokenRefresh();
+        toast.success(`Welcome back, ${user.name || user.email}!`);
+      
+        return user;
       }
-      
-      setUser(user);
-      setIsAuthenticated(true);
-      setSessionExpiry(Date.now() + SESSION_TIMEOUT);
-      
-      startTokenRefresh();
-      toast.success(`Welcome, ${user.name || user.email}!`);
-      
-      return user;
-    }
-  } catch (error) {
-    handleApiError(error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-const twoFactorLogin = async (email, password, twoFactorCode) => {
-  setLoading(true);
-  
-  try {
-    const response = await api.post('/api/auth/2fa/verify', {
-      email,
-      password,
-      code: twoFactorCode
-    });
+    } catch (error) {
+      const newAttempts = loginAttempts + 1;
+      setLoginAttempts(newAttempts);
     
-    if (response.data.success) {
-      const { user, token, refreshToken } = response.data;
-      
-      localStorage.setItem(TOKEN_KEY, token);
-      localStorage.setItem(USER_KEY, JSON.stringify(user));
-      
-      if (refreshToken) {
-        localStorage.setItem('refresh_token', refreshToken);
+      if (newAttempts >= 5) {
+        toast.error('Too many failed attempts. Account temporarily locked.');
+      // Implement lockout logic here
       }
-      
-      setUser(user);
-      setIsAuthenticated(true);
-      setSessionExpiry(Date.now() + SESSION_TIMEOUT);
-      
-      startTokenRefresh();
-      toast.success(`Welcome back, ${user.name || user.email}!`);
-      
-      return user;
+    
+      return handleApiError(error);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    handleApiError(error);
-  } finally {
-    setLoading(false);
-  }
-};
-    const refreshUserData = async () => {
+  };
+
+  const register = async (userData) => {
+    setLoading(true);
+    setError(null);
+  
+    try {
+    // Input validation
+      const { name, email, password, confirmPassword } = userData;
+    
+      if (!name || !email || !password || !confirmPassword) {
+        throw new Error('All fields are required');
+      }
+    
+      if (!validateEmail(email)) {
+        throw new Error('Please enter a valid email address');
+      }
+    
+      const passwordStrength = validatePassword(password);
+      if (!passwordStrength.length || !passwordStrength.uppercase || 
+        !passwordStrength.lowercase || !passwordStrength.number) {
+        throw new Error('Password must be at least 8 characters and contain uppercase, lowercase, and number');
+      }
+    
+      if (password !== confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+    
+      const response = await api.post('/api/auth/register', userData);
+    
+      if (response.data.success) {
+        toast.success('Registration successful! Please check your email to verify your account.');
+        return response.data;
+      }
+    } catch (error) {
+      return handleApiError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = async (redirect = true) => {
+    try {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (token) {
+        await api.post('/api/auth/logout', {}, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      stopAllTimers();
+      clearStorage();
+    
+      setUser(null);
+      setIsAuthenticated(false);
+      setSessionExpiry(null);
+    
+      if (redirect) {
+        navigate('/login');
+      }
+    
+      toast.success('Logged out successfully');
+    }
+  };
+
+  const verifyEmail = async (token) => {
+    setLoading(true);
+  
+    try {
+      const response = await api.post('/api/auth/verify-email', { token });
+    
+      if (response.data.success) {
+        toast.success('Email verified successfully! You can now login.');
+        return true;
+      }
+    } catch (error) {
+      handleApiError(error);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const forgotPassword = async (email) => {
+    setLoading(true);
+  
+    try {
+      if (!email || !validateEmail(email)) {
+        throw new Error('Please enter a valid email address');
+      }
+    
+      const response = await api.post('/api/auth/forgot-password', { email });
+    
+      if (response.data.success) {
+        toast.success('Password reset email sent. Please check your inbox.');
+        return true;
+      }
+    } catch (error) {
+      handleApiError(error);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetPassword = async (token, newPassword, confirmPassword) => {
+    setLoading(true);
+  
+    try {
+      if (!newPassword || !confirmPassword) {
+        throw new Error('All fields are required');
+      }
+    
+      const passwordStrength = validatePassword(newPassword);
+      if (!passwordStrength.length || !passwordStrength.uppercase || 
+        !passwordStrength.lowercase || !passwordStrength.number) {
+        throw new Error('Password must be at least 8 characters and contain uppercase, lowercase, and number');
+      }
+    
+      if (newPassword !== confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+    
+      const response = await api.post('/api/auth/reset-password', {
+        token,
+        password: newPassword,
+      });
+    
+      if (response.data.success) {
+        toast.success('Password reset successful! You can now login with your new password.');
+        return true;
+      }
+    } catch (error) {
+      handleApiError(error);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateProfile = async (profileData) => {
+    setLoading(true);
+  
+    try {
+      const response = await api.put('/api/auth/profile', profileData);
+    
+      if (response.data.success) {
+        const updatedUser = { ...user, ...response.data.user };
+        setUser(updatedUser);
+        localStorage.setItem(USER_KEY, JSON.stringify(updatedUser));
+        toast.success('Profile updated successfully');
+        return updatedUser;
+      }
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const changePassword = async (currentPassword, newPassword, confirmPassword) => {
+    setLoading(true);
+  
+    try {
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        throw new Error('All fields are required');
+      }
+    
+      const passwordStrength = validatePassword(newPassword);
+      if (!passwordStrength.length || !passwordStrength.uppercase || 
+        !passwordStrength.lowercase || !passwordStrength.number) {
+        throw new Error('New password must be at least 8 characters and contain uppercase, lowercase, and number');
+      }
+    
+      if (newPassword !== confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+    
+      const response = await api.post('/api/auth/change-password', {
+        currentPassword,
+        newPassword,
+      });
+    
+      if (response.data.success) {
+        toast.success('Password changed successfully');
+        return true;
+      }
+    } catch (error) {
+      handleApiError(error);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const socialLogin = async (provider, code) => {
+    setLoading(true);
+  
+    try {
+      const response = await api.post(`/api/auth/${provider}`, { code });
+    
+      if (response.data.success) {
+        const { user, token, refreshToken } = response.data;
+      
+        localStorage.setItem(TOKEN_KEY, token);
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
+      
+        if (refreshToken) {
+          localStorage.setItem('refresh_token', refreshToken);
+        }
+      
+        setUser(user);
+        setIsAuthenticated(true);
+        setSessionExpiry(Date.now() + SESSION_TIMEOUT);
+      
+        startTokenRefresh();
+        toast.success(`Welcome, ${user.name || user.email}!`);
+      
+        return user;
+      }
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const twoFactorLogin = async (email, password, twoFactorCode) => {
+    setLoading(true);
+  
+    try {
+      const response = await api.post('/api/auth/2fa/verify', {
+        email,
+        password,
+        code: twoFactorCode,
+      });
+    
+      if (response.data.success) {
+        const { user, token, refreshToken } = response.data;
+      
+        localStorage.setItem(TOKEN_KEY, token);
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
+      
+        if (refreshToken) {
+          localStorage.setItem('refresh_token', refreshToken);
+        }
+      
+        setUser(user);
+        setIsAuthenticated(true);
+        setSessionExpiry(Date.now() + SESSION_TIMEOUT);
+      
+        startTokenRefresh();
+        toast.success(`Welcome back, ${user.name || user.email}!`);
+      
+        return user;
+      }
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const refreshUserData = async () => {
     try {
       const response = await api.get('/api/auth/me');
       
@@ -640,7 +640,7 @@ const twoFactorLogin = async (email, password, twoFactorCode) => {
     
     try {
       const response = await api.delete('/api/auth/account', {
-        data: { password }
+        data: { password },
       });
       
       if (response.data.success) {

@@ -7,7 +7,7 @@ import {
   FiMinimize2,
   FiPlay,
   FiPause,
-  FiRotateCw
+  FiRotateCw,
 } from 'react-icons/fi';
 
 const Carousel = ({
@@ -246,7 +246,7 @@ const Carousel = ({
     const offset = (index - currentIndex) * 100 + (dragOffset / containerRef.current?.offsetWidth) * 100;
     const style = {
       transition: isDragging ? 'none' : `transform ${speed}ms ease`,
-      transform: `translateX(${offset}%)`
+      transform: `translateX(${offset}%)`,
     };
 
     if (effect === 'fade') {
@@ -256,7 +256,7 @@ const Carousel = ({
         position: 'absolute',
         top: 0,
         left: 0,
-        width: '100%'
+        width: '100%',
       };
     }
 
@@ -682,7 +682,7 @@ const Carousel = ({
             style={{
               transform: effect === 'fade' 
                 ? 'none' 
-                : `translate${direction === 'horizontal' ? 'X' : 'Y'}(-${currentIndex * 100}%)`
+                : `translate${direction === 'horizontal' ? 'X' : 'Y'}(-${currentIndex * 100}%)`,
             }}
           >
             {items.map((item, index) => (

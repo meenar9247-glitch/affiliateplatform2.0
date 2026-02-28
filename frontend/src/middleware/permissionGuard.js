@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import { PERMISSIONS, roleHelpers } from '../config/roles';
 import { useAuth } from '../hooks/useAuth';
 import { ROUTES } from '../utils/routes';
-import { PERMISSIONS, roleHelpers } from '../config/roles';
-import LoadingSpinner from '../components/common/LoadingSpinner';
+
 import { GuardResult, GuardContext, BaseGuard } from './authGuard';
 
 // ==================== Permission Guard Types ====================
@@ -13,27 +15,27 @@ export const PERMISSION_GUARD_TYPES = {
   ANY: 'any',
   ALL: 'all',
   NONE: 'none',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 export const PERMISSION_CHECK_MODES = {
   STRICT: 'strict',
   LAX: 'lax',
-  HIERARCHICAL: 'hierarchical'
+  HIERARCHICAL: 'hierarchical',
 };
 
 export const PERMISSION_CACHE_TYPES = {
   NONE: 'none',
   MEMORY: 'memory',
   LOCAL_STORAGE: 'localStorage',
-  SESSION: 'session'
+  SESSION: 'session',
 };
 
 export const PERMISSION_REDIRECTS = {
   DEFAULT: ROUTES.UNAUTHORIZED,
   LOGIN: ROUTES.LOGIN,
   FORBIDDEN: ROUTES.FORBIDDEN,
-  UPGRADE: ROUTES.UPGRADE_ACCOUNT
+  UPGRADE: ROUTES.UPGRADE_ACCOUNT,
 };
 
 // ==================== Permission Cache ====================
@@ -44,7 +46,7 @@ class PermissionCache {
     this.ttl = ttl;
     this.cache = new Map();
     this.storage = type === PERMISSION_CACHE_TYPES.LOCAL_STORAGE ? localStorage : 
-                   type === PERMISSION_CACHE_TYPES.SESSION ? sessionStorage : null;
+      type === PERMISSION_CACHE_TYPES.SESSION ? sessionStorage : null;
   }
 
   get(key) {
@@ -108,7 +110,7 @@ export class BasePermissionGuard extends BaseGuard {
     super({
       name: 'BasePermissionGuard',
       type: PERMISSION_GUARD_TYPES.SINGLE,
-      ...options
+      ...options,
     });
     this.permissions = options.permissions || [];
     this.checkMode = options.checkMode || PERMISSION_CHECK_MODES.STRICT;
@@ -128,7 +130,7 @@ export class BasePermissionGuard extends BaseGuard {
     if (!user) {
       return this.getResult(false, {
         redirectTo: PERMISSION_REDIRECTS.LOGIN,
-        message: 'Authentication required'
+        message: 'Authentication required',
       });
     }
 
@@ -139,7 +141,7 @@ export class BasePermissionGuard extends BaseGuard {
       return cached ? this.getResult(true) : this.getResult(false, {
         redirectTo: this.redirectTo,
         message: 'Permission denied (cached)',
-        meta: { permissions: this.permissions }
+        meta: { permissions: this.permissions },
       });
     }
 
@@ -156,8 +158,8 @@ export class BasePermissionGuard extends BaseGuard {
         meta: {
           permissions: this.permissions,
           userRole: user.role,
-          userPermissions: user.permissions
-        }
+          userPermissions: user.permissions,
+        },
       });
     }
 
@@ -225,7 +227,7 @@ export class BasePermissionGuard extends BaseGuard {
       [PERMISSIONS.MANAGE_USERS]: [PERMISSIONS.VIEW_USERS, PERMISSIONS.EDIT_USERS, PERMISSIONS.CREATE_USERS, PERMISSIONS.DELETE_USERS],
       [PERMISSIONS.MANAGE_AFFILIATES]: [PERMISSIONS.VIEW_AFFILIATES, PERMISSIONS.EDIT_AFFILIATES, PERMISSIONS.CREATE_AFFILIATES, PERMISSIONS.DELETE_AFFILIATES],
       [PERMISSIONS.MANAGE_PAYMENTS]: [PERMISSIONS.VIEW_PAYMENTS, PERMISSIONS.PROCESS_PAYMENTS, PERMISSIONS.REFUND_PAYMENTS],
-      [PERMISSIONS.MANAGE_WITHDRAWALS]: [PERMISSIONS.VIEW_WITHDRAWALS, PERMISSIONS.APPROVE_WITHDRAWALS, PERMISSIONS.PROCESS_WITHDRAWALS]
+      [PERMISSIONS.MANAGE_WITHDRAWALS]: [PERMISSIONS.VIEW_WITHDRAWALS, PERMISSIONS.APPROVE_WITHDRAWALS, PERMISSIONS.PROCESS_WITHDRAWALS],
     };
 
     for (const [parentPerm, childPerms] of Object.entries(hierarchy)) {
@@ -260,14 +262,14 @@ export class BasePermissionGuard extends BaseGuard {
   clearCache() {
     this.cache.clear();
   }
-        }
+}
 // ==================== Resource Permission Guard ====================
 
 export class ResourcePermissionGuard extends BasePermissionGuard {
   constructor(options = {}) {
     super({
       name: 'ResourcePermissionGuard',
-      ...options
+      ...options,
     });
     this.resourceType = options.resourceType;
     this.resourceActions = options.resourceActions || ['view', 'create', 'edit', 'delete'];
@@ -292,7 +294,7 @@ export class ResourcePermissionGuard extends BasePermissionGuard {
         return this.getResult(false, {
           redirectTo: this.redirectTo,
           message: `Missing permission: ${permission}`,
-          meta: { resourceType: this.resourceType, action }
+          meta: { resourceType: this.resourceType, action },
         });
       }
     }
@@ -304,7 +306,7 @@ export class ResourcePermissionGuard extends BasePermissionGuard {
         return this.getResult(false, {
           redirectTo: this.redirectTo,
           message: 'You do not own this resource',
-          meta: { resourceId, resourceType: this.resourceType }
+          meta: { resourceId, resourceType: this.resourceType },
         });
       }
     }
@@ -338,7 +340,7 @@ export class RoleHierarchyGuard extends BasePermissionGuard {
     super({
       name: 'RoleHierarchyGuard',
       checkMode: PERMISSION_CHECK_MODES.HIERARCHICAL,
-      ...options
+      ...options,
     });
     this.minRoleLevel = options.minRoleLevel;
     this.maxRoleLevel = options.maxRoleLevel;
@@ -359,7 +361,7 @@ export class RoleHierarchyGuard extends BasePermissionGuard {
         return this.getResult(false, {
           redirectTo: this.redirectTo,
           message: 'Insufficient role level',
-          meta: { requiredLevel: this.minRoleLevel, userLevel }
+          meta: { requiredLevel: this.minRoleLevel, userLevel },
         });
       }
     }
@@ -370,7 +372,7 @@ export class RoleHierarchyGuard extends BasePermissionGuard {
         return this.getResult(false, {
           redirectTo: this.redirectTo,
           message: 'Role level too high',
-          meta: { maxLevel: this.maxRoleLevel, userLevel }
+          meta: { maxLevel: this.maxRoleLevel, userLevel },
         });
       }
     }
@@ -382,7 +384,7 @@ export class RoleHierarchyGuard extends BasePermissionGuard {
         return this.getResult(false, {
           redirectTo: this.redirectTo,
           message: 'Role not allowed',
-          meta: { allowedRoles: this.allowedRoles, userRole: user.role }
+          meta: { allowedRoles: this.allowedRoles, userRole: user.role },
         });
       }
     }
@@ -397,7 +399,7 @@ export class FeatureFlagGuard extends BasePermissionGuard {
   constructor(options = {}) {
     super({
       name: 'FeatureFlagGuard',
-      ...options
+      ...options,
     });
     this.featureFlag = options.featureFlag;
     this.requiredValue = options.requiredValue !== false;
@@ -415,7 +417,7 @@ export class FeatureFlagGuard extends BasePermissionGuard {
         return this.getResult(false, {
           redirectTo: this.redirectTo,
           message: 'Feature not available',
-          meta: { featureFlag: this.featureFlag, requiredValue: this.requiredValue, actualValue: featureValue }
+          meta: { featureFlag: this.featureFlag, requiredValue: this.requiredValue, actualValue: featureValue },
         });
       } else {
         // Fallback to permission-based check
@@ -433,7 +435,7 @@ export class ConditionalPermissionGuard extends BasePermissionGuard {
   constructor(options = {}) {
     super({
       name: 'ConditionalPermissionGuard',
-      ...options
+      ...options,
     });
     this.condition = options.condition;
     this.truePermissions = options.truePermissions || [];
@@ -458,7 +460,7 @@ export class ConditionalPermissionGuard extends BasePermissionGuard {
       return this.getResult(false, {
         redirectTo: this.redirectTo,
         message: 'Conditional permissions not met',
-        meta: { condition: conditionResult, requiredPermissions: permissions }
+        meta: { condition: conditionResult, requiredPermissions: permissions },
       });
     }
     
@@ -479,7 +481,7 @@ export class TimeBasedPermissionGuard extends BasePermissionGuard {
   constructor(options = {}) {
     super({
       name: 'TimeBasedPermissionGuard',
-      ...options
+      ...options,
     });
     this.timeRanges = options.timeRanges || [];
     this.defaultPermission = options.defaultPermission || false;
@@ -525,13 +527,13 @@ export class TimeBasedPermissionGuard extends BasePermissionGuard {
       return this.getResult(false, {
         redirectTo: this.redirectTo,
         message: 'Access not allowed at this time',
-        meta: { currentHour, currentDay, timeRanges: this.timeRanges }
+        meta: { currentHour, currentDay, timeRanges: this.timeRanges },
       });
     }
     
     return this.getResult(true);
   }
-  }
+}
 // ==================== Permission Guard Factory ====================
 
 export class PermissionGuardFactory {
@@ -592,7 +594,7 @@ export class PermissionGuardFactory {
           : results.some(r => r.allowed);
         
         return { allowed, results };
-      }
+      },
     };
   }
 }
@@ -615,7 +617,7 @@ export const PermissionGuard = ({ children, permissions, requireAll = true, requ
       
       const guard = PermissionGuardFactory.createGuard(guardType, {
         permissions,
-        ...options
+        ...options,
       });
       
       const context = GuardContext.fromAuth(auth);
@@ -630,7 +632,7 @@ export const PermissionGuard = ({ children, permissions, requireAll = true, requ
       if (!result.allowed && result.redirectTo) {
         setRedirect({
           to: result.redirectTo,
-          state: { from: location, message: result.message }
+          state: { from: location, message: result.message },
         });
       }
       
@@ -704,7 +706,7 @@ export const ResourcePermissionGuardComponent = ({ children, resourceType, actio
       if (!result.allowed && result.redirectTo) {
         setRedirect({
           to: result.redirectTo,
-          state: { from: location, message: result.message }
+          state: { from: location, message: result.message },
         });
       }
       
@@ -821,7 +823,7 @@ export const permissionGuardUtils = {
       [PERMISSIONS.VIEW_WITHDRAWALS]: 'View withdrawal requests',
       [PERMISSIONS.APPROVE_WITHDRAWALS]: 'Approve withdrawals',
       [PERMISSIONS.PROCESS_WITHDRAWALS]: 'Process withdrawals',
-      [PERMISSIONS.MANAGE_WITHDRAWALS]: 'Full withdrawal management'
+      [PERMISSIONS.MANAGE_WITHDRAWALS]: 'Full withdrawal management',
     };
     
     return descriptions[permission] || permission;
@@ -869,7 +871,7 @@ export const permissionGuardUtils = {
     return Object.values(PERMISSIONS).map(permission => ({
       value: permission,
       label: permissionGuardUtils.getPermissionDescription(permission),
-      category: permissionGuardUtils.getPermissionCategory(permission)
+      category: permissionGuardUtils.getPermissionCategory(permission),
     }));
   },
 
@@ -881,7 +883,7 @@ export const permissionGuardUtils = {
       RoleHierarchyGuard,
       FeatureFlagGuard,
       ConditionalPermissionGuard,
-      TimeBasedPermissionGuard
+      TimeBasedPermissionGuard,
     ];
     
     guards.forEach(Guard => {
@@ -902,13 +904,13 @@ export const permissionGuardUtils = {
         return res.status(403).json({
           error: 'Forbidden',
           message: result.message,
-          required: permission
+          required: permission,
         });
       }
       
       next();
     };
-  }
+  },
 };
 
 // ==================== Export all ====================
@@ -947,7 +949,7 @@ export const permissionGuard = {
   withAllPermissions,
   
   // Utilities
-  permissionGuardUtils
+  permissionGuardUtils,
 };
 
 export default permissionGuard;

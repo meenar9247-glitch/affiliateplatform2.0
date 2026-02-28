@@ -36,8 +36,8 @@ const Radio = ({
           name,
           value,
           checked: newChecked,
-          type: 'radio'
-        }
+          type: 'radio',
+        },
       });
     }
   };
@@ -46,7 +46,7 @@ const Radio = ({
   const sizeClasses = {
     small: 'radio-small',
     medium: 'radio-medium',
-    large: 'radio-large'
+    large: 'radio-large',
   };
 
   // Color classes
@@ -56,7 +56,7 @@ const Radio = ({
     success: 'radio-success',
     danger: 'radio-danger',
     warning: 'radio-warning',
-    info: 'radio-info'
+    info: 'radio-info',
   };
 
   // Styles
@@ -406,7 +406,7 @@ export const RadioGroup = ({
   direction = 'column',
   size = 'medium',
   color = 'primary',
-  className = ''
+  className = '',
 }) => {
   const handleChange = (optionValue) => {
     onChange?.(optionValue);

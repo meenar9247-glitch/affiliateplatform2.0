@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { QRCodeSVG } from 'qrcode.react';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { 
   FiUsers, 
@@ -24,9 +24,9 @@ import {
   FiFacebook,
   FiLinkedin,
   FiRefreshCw,
-  FiBarChart2
+  FiBarChart2,
 } from 'react-icons/fi';
-import { QRCodeSVG } from 'qrcode.react';
+import { Link } from 'react-router-dom';
 
 const MyReferrals = () => {
   const [referrals, setReferrals] = useState([]);
@@ -37,7 +37,7 @@ const MyReferrals = () => {
     pendingReferrals: 0,
     totalEarned: 0,
     averageCommission: 0,
-    conversionRate: 0
+    conversionRate: 0,
   });
   const [referralCode, setReferralCode] = useState('');
   const [referralLink, setReferralLink] = useState('');
@@ -60,7 +60,7 @@ const MyReferrals = () => {
   const fetchReferrals = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/referrals/my-referrals`
+        `${process.env.REACT_APP_API_URL}/referrals/my-referrals`,
       );
       
       if (response.data.success) {
@@ -76,7 +76,7 @@ const MyReferrals = () => {
   const fetchStats = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/referrals/stats`
+        `${process.env.REACT_APP_API_URL}/referrals/stats`,
       );
       
       if (response.data.success) {
@@ -90,7 +90,7 @@ const MyReferrals = () => {
   const fetchReferralCode = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/referrals/my-code`
+        `${process.env.REACT_APP_API_URL}/referrals/my-code`,
       );
       
       if (response.data.success) {
@@ -105,7 +105,7 @@ const MyReferrals = () => {
   const fetchLeaderboard = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/referrals/leaderboard`
+        `${process.env.REACT_APP_API_URL}/referrals/leaderboard`,
       );
       
       if (response.data.success) {
@@ -131,7 +131,7 @@ const MyReferrals = () => {
       navigator.share({
         title: 'Join me on Affiliate Platform',
         text: 'Use my referral code to sign up and start earning!',
-        url: referralLink
+        url: referralLink,
       }).catch(console.error);
     } else {
       handleCopyLink();
@@ -152,7 +152,7 @@ const MyReferrals = () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/referrals/export`,
-        { responseType: 'blob' }
+        { responseType: 'blob' },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));

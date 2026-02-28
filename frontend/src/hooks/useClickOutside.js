@@ -10,7 +10,7 @@ export const EVENT_TYPES = {
   FOCUS_OUT: 'focusout',
   BLUR: 'blur',
   SCROLL: 'scroll',
-  RESIZE: 'resize'
+  RESIZE: 'resize',
 };
 
 // Default options
@@ -33,7 +33,7 @@ const DEFAULT_OPTIONS = {
   throttleDelay: 0, // Throttle delay in ms
   onOutsideClick: null, // Callback for outside click
   onInsideClick: null, // Callback for inside click
-  onEdgeClick: null // Callback for edge clicks
+  onEdgeClick: null, // Callback for edge clicks
 };
 
 export const useClickOutside = (ref, handler, options = {}) => {
@@ -57,7 +57,7 @@ export const useClickOutside = (ref, handler, options = {}) => {
     throttleDelay = DEFAULT_OPTIONS.throttleDelay,
     onOutsideClick = DEFAULT_OPTIONS.onOutsideClick,
     onInsideClick = DEFAULT_OPTIONS.onInsideClick,
-    onEdgeClick = DEFAULT_OPTIONS.onEdgeClick
+    onEdgeClick = DEFAULT_OPTIONS.onEdgeClick,
   } = options;
 
   // State for tracking clicks
@@ -157,7 +157,7 @@ export const useClickOutside = (ref, handler, options = {}) => {
       percentageX: (x / rect.width) * 100,
       percentageY: (y / rect.height) * 100,
       clampedX: Math.max(0, Math.min(x, rect.width)),
-      clampedY: Math.max(0, Math.min(y, rect.height))
+      clampedY: Math.max(0, Math.min(y, rect.height)),
     };
   }, []);
 
@@ -176,218 +176,218 @@ export const useClickOutside = (ref, handler, options = {}) => {
     );
   }, []);
   // Main click outside handler
-const handleEvent = useCallback((event) => {
-  if (!enabled) return;
+  const handleEvent = useCallback((event) => {
+    if (!enabled) return;
 
-  // Get the target element
-  const target = event.target;
-  setClickTarget(target);
-  setClickPosition({ x: event.clientX, y: event.clientY });
-  setClickCount(prev => prev + 1);
+    // Get the target element
+    const target = event.target;
+    setClickTarget(target);
+    setClickPosition({ x: event.clientX, y: event.clientY });
+    setClickCount(prev => prev + 1);
 
-  // Handle scroll events
-  if (event.type === EVENT_TYPES.SCROLL && excludeScroll) return;
+    // Handle scroll events
+    if (event.type === EVENT_TYPES.SCROLL && excludeScroll) return;
   
-  // Handle resize events
-  if (event.type === EVENT_TYPES.RESIZE && excludeResize) return;
+    // Handle resize events
+    if (event.type === EVENT_TYPES.RESIZE && excludeResize) return;
 
-  // Check if target exists
-  if (!target) return;
+    // Check if target exists
+    if (!target) return;
 
-  // Check if any of the main refs exist
-  if (allExcludeRefs.length === 0) return;
+    // Check if any of the main refs exist
+    if (allExcludeRefs.length === 0) return;
 
-  // Check if click is inside included refs (inverse logic)
-  if (allIncludeRefs.length > 0) {
-    const isIncluded = isInsideIncluded(target);
-    if (!isIncluded) {
+    // Check if click is inside included refs (inverse logic)
+    if (allIncludeRefs.length > 0) {
+      const isIncluded = isInsideIncluded(target);
+      if (!isIncluded) {
       // Click is outside included refs, trigger outside handler
+        handlerRef.current?.(event, {
+          type: 'outside',
+          target,
+          position: { x: event.clientX, y: event.clientY },
+          relativePosition: null,
+        });
+        onOutsideClick?.(event, target);
+        return;
+      }
+    }
+
+    // Check if click is inside any excluded element
+    const isInside = allExcludeRefs.some(excludeRef => {
+      if (!excludeRef.current) return false;
+      return excludeRef.current.contains(target);
+    }) || isExcludedBySelector(target);
+
+    // Update inside state
+    setIsInside(isInside);
+
+    // Get relative position for inside clicks
+    let relativePosition = null;
+    let edgeDetected = false;
+
+    if (isInside) {
+      const mainRef = allExcludeRefs[0]; // Use first ref for relative positioning
+      if (mainRef?.current) {
+        relativePosition = getRelativePosition(event, mainRef.current);
+      
+        // Check for edge clicks
+        if (isEdgeClick(event, mainRef.current)) {
+          edgeDetected = true;
+          onEdgeClick?.(event, mainRef.current, relativePosition);
+        }
+      }
+
+      // Trigger inside click callback
+      onInsideClick?.(event, target, relativePosition);
+    } else {
+    // Click is outside, trigger handler
       handlerRef.current?.(event, {
         type: 'outside',
         target,
         position: { x: event.clientX, y: event.clientY },
-        relativePosition: null
+        relativePosition: null,
       });
       onOutsideClick?.(event, target);
-      return;
-    }
-  }
-
-  // Check if click is inside any excluded element
-  const isInside = allExcludeRefs.some(excludeRef => {
-    if (!excludeRef.current) return false;
-    return excludeRef.current.contains(target);
-  }) || isExcludedBySelector(target);
-
-  // Update inside state
-  setIsInside(isInside);
-
-  // Get relative position for inside clicks
-  let relativePosition = null;
-  let edgeDetected = false;
-
-  if (isInside) {
-    const mainRef = allExcludeRefs[0]; // Use first ref for relative positioning
-    if (mainRef?.current) {
-      relativePosition = getRelativePosition(event, mainRef.current);
-      
-      // Check for edge clicks
-      if (isEdgeClick(event, mainRef.current)) {
-        edgeDetected = true;
-        onEdgeClick?.(event, mainRef.current, relativePosition);
-      }
     }
 
-    // Trigger inside click callback
-    onInsideClick?.(event, target, relativePosition);
-  } else {
-    // Click is outside, trigger handler
-    handlerRef.current?.(event, {
-      type: 'outside',
-      target,
-      position: { x: event.clientX, y: event.clientY },
-      relativePosition: null
-    });
-    onOutsideClick?.(event, target);
-  }
-
-  // Stop propagation if needed
-  if (stopPropagation) {
-    event.stopPropagation();
-  }
-
-  // Prevent default if needed
-  if (preventDefault) {
-    event.preventDefault();
-  }
-}, [
-  enabled,
-  excludeScroll,
-  excludeResize,
-  allExcludeRefs,
-  allIncludeRefs,
-  isInsideIncluded,
-  isExcludedBySelector,
-  getRelativePosition,
-  isEdgeClick,
-  stopPropagation,
-  preventDefault,
-  onOutsideClick,
-  onInsideClick,
-  onEdgeClick
-]);
-
-// Debounced event handler
-const debouncedHandler = useCallback((event) => {
-  if (timeoutRef.current) {
-    clearTimeout(timeoutRef.current);
-  }
-
-  timeoutRef.current = setTimeout(() => {
-    handleEvent(event);
-  }, debounceDelay);
-}, [handleEvent, debounceDelay]);
-
-// Throttled event handler
-const throttledHandler = useCallback((event) => {
-  const now = Date.now();
-
-  if (now - lastCallRef.current >= throttleDelay) {
-    handleEvent(event);
-    lastCallRef.current = now;
-  } else {
-    if (throttleRef.current) {
-      clearTimeout(throttleRef.current);
+    // Stop propagation if needed
+    if (stopPropagation) {
+      event.stopPropagation();
     }
 
-    throttleRef.current = setTimeout(() => {
-      handleEvent(event);
-      lastCallRef.current = Date.now();
-    }, throttleDelay - (now - lastCallRef.current));
-  }
-}, [handleEvent, throttleDelay]);
+    // Prevent default if needed
+    if (preventDefault) {
+      event.preventDefault();
+    }
+  }, [
+    enabled,
+    excludeScroll,
+    excludeResize,
+    allExcludeRefs,
+    allIncludeRefs,
+    isInsideIncluded,
+    isExcludedBySelector,
+    getRelativePosition,
+    isEdgeClick,
+    stopPropagation,
+    preventDefault,
+    onOutsideClick,
+    onInsideClick,
+    onEdgeClick,
+  ]);
 
-// Choose the appropriate handler
-const eventHandler = useMemo(() => {
-  if (debounceDelay > 0) return debouncedHandler;
-  if (throttleDelay > 0) return throttledHandler;
-  return handleEvent;
-}, [debounceDelay, throttleDelay, debouncedHandler, throttledHandler, handleEvent]);
-
-// Setup MutationObserver to watch for DOM changes
-useEffect(() => {
-  if (typeof MutationObserver === 'undefined') return;
-
-  observerRef.current = new MutationObserver((mutations) => {
-    // Clear and rebuild excluded elements cache if needed
-    excludedElementsRef.current.clear();
-    includedElementsRef.current.clear();
-  });
-
-  observerRef.current.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-
-  return () => {
-    observerRef.current?.disconnect();
-  };
-}, []);
-
-// Setup event listeners
-useEffect(() => {
-  if (!enabled || allExcludeRefs.length === 0) return;
-
-  // Handle multiple event types
-  const events = Array.isArray(eventType) ? eventType : [eventType];
-
-  // Add event listeners
-  events.forEach(type => {
-    document.addEventListener(type, eventHandler, {
-      capture,
-      passive,
-      once
-    });
-  });
-
-  // Cleanup
-  return () => {
-    events.forEach(type => {
-      document.removeEventListener(type, eventHandler, { capture });
-    });
-
+  // Debounced event handler
+  const debouncedHandler = useCallback((event) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    if (throttleRef.current) {
-      clearTimeout(throttleRef.current);
-    }
-  };
-}, [enabled, eventType, eventHandler, capture, passive, once, allExcludeRefs]);
 
-// Handle iframe clicks (cross-origin iframes need special handling)
-useEffect(() => {
-  if (!enabled || typeof window === 'undefined') return;
+    timeoutRef.current = setTimeout(() => {
+      handleEvent(event);
+    }, debounceDelay);
+  }, [handleEvent, debounceDelay]);
 
-  const handleBlur = () => {
-    // Check if we lost focus to an iframe
-    setTimeout(() => {
-      const activeElement = document.activeElement;
-      if (activeElement?.tagName === 'IFRAME') {
-        // Treat as outside click
-        const fakeEvent = { type: 'iframe-blur', target: activeElement };
-        handleEvent(fakeEvent);
+  // Throttled event handler
+  const throttledHandler = useCallback((event) => {
+    const now = Date.now();
+
+    if (now - lastCallRef.current >= throttleDelay) {
+      handleEvent(event);
+      lastCallRef.current = now;
+    } else {
+      if (throttleRef.current) {
+        clearTimeout(throttleRef.current);
       }
-    }, 0);
-  };
 
-  window.addEventListener('blur', handleBlur);
+      throttleRef.current = setTimeout(() => {
+        handleEvent(event);
+        lastCallRef.current = Date.now();
+      }, throttleDelay - (now - lastCallRef.current));
+    }
+  }, [handleEvent, throttleDelay]);
 
-  return () => {
-    window.removeEventListener('blur', handleBlur);
-  };
-}, [enabled, handleEvent]);
-    // Return value with additional utilities
+  // Choose the appropriate handler
+  const eventHandler = useMemo(() => {
+    if (debounceDelay > 0) return debouncedHandler;
+    if (throttleDelay > 0) return throttledHandler;
+    return handleEvent;
+  }, [debounceDelay, throttleDelay, debouncedHandler, throttledHandler, handleEvent]);
+
+  // Setup MutationObserver to watch for DOM changes
+  useEffect(() => {
+    if (typeof MutationObserver === 'undefined') return;
+
+    observerRef.current = new MutationObserver((mutations) => {
+    // Clear and rebuild excluded elements cache if needed
+      excludedElementsRef.current.clear();
+      includedElementsRef.current.clear();
+    });
+
+    observerRef.current.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, []);
+
+  // Setup event listeners
+  useEffect(() => {
+    if (!enabled || allExcludeRefs.length === 0) return;
+
+    // Handle multiple event types
+    const events = Array.isArray(eventType) ? eventType : [eventType];
+
+    // Add event listeners
+    events.forEach(type => {
+      document.addEventListener(type, eventHandler, {
+        capture,
+        passive,
+        once,
+      });
+    });
+
+    // Cleanup
+    return () => {
+      events.forEach(type => {
+        document.removeEventListener(type, eventHandler, { capture });
+      });
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      if (throttleRef.current) {
+        clearTimeout(throttleRef.current);
+      }
+    };
+  }, [enabled, eventType, eventHandler, capture, passive, once, allExcludeRefs]);
+
+  // Handle iframe clicks (cross-origin iframes need special handling)
+  useEffect(() => {
+    if (!enabled || typeof window === 'undefined') return;
+
+    const handleBlur = () => {
+    // Check if we lost focus to an iframe
+      setTimeout(() => {
+        const activeElement = document.activeElement;
+        if (activeElement?.tagName === 'IFRAME') {
+        // Treat as outside click
+          const fakeEvent = { type: 'iframe-blur', target: activeElement };
+          handleEvent(fakeEvent);
+        }
+      }, 0);
+    };
+
+    window.addEventListener('blur', handleBlur);
+
+    return () => {
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, [enabled, handleEvent]);
+  // Return value with additional utilities
   return {
     // Core state
     isInside,
@@ -413,7 +413,7 @@ useEffect(() => {
       if (!allExcludeRefs[0]?.current) return null;
       return getRelativePosition(
         { clientX: clickPosition.x, clientY: clickPosition.y },
-        allExcludeRefs[0].current
+        allExcludeRefs[0].current,
       );
     }, [clickPosition, allExcludeRefs, getRelativePosition]),
     
@@ -428,13 +428,13 @@ useEffect(() => {
 
       const element = allExcludeRefs[0].current;
       const focusableElements = element.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
       );
 
       if (enable && focusableElements.length > 0) {
         focusableElements[0].focus();
       }
-    }, [allExcludeRefs])
+    }, [allExcludeRefs]),
   };
 };
 
@@ -442,7 +442,7 @@ useEffect(() => {
 export const useClickOutsideMultiple = (refs, handler, options = {}) => {
   return useClickOutside(refs[0], handler, {
     ...options,
-    excludeRefs: refs.slice(1)
+    excludeRefs: refs.slice(1),
   });
 };
 
@@ -457,13 +457,13 @@ export const useModalOutside = (isOpen, onClose, options = {}) => {
     }
   }, {
     enabled: isOpen,
-    ...options
+    ...options,
   });
 
   return {
     modalRef,
     shouldClose,
-    setShouldClose
+    setShouldClose,
   };
 };
 
@@ -477,7 +477,7 @@ export const useDropdownOutside = (options = {}) => {
     setIsOpen(false);
   }, {
     enabled: isOpen,
-    ...options
+    ...options,
   });
 
   return {
@@ -487,7 +487,7 @@ export const useDropdownOutside = (options = {}) => {
     buttonRef,
     toggle: () => setIsOpen(prev => !prev),
     open: () => setIsOpen(true),
-    close: () => setIsOpen(false)
+    close: () => setIsOpen(false),
   };
 };
 
@@ -501,7 +501,7 @@ export const usePopoverOutside = (options = {}) => {
     setIsVisible(false);
   }, {
     enabled: isVisible,
-    ...options
+    ...options,
   });
 
   return {
@@ -511,7 +511,7 @@ export const usePopoverOutside = (options = {}) => {
     triggerRef,
     show: () => setIsVisible(true),
     hide: () => setIsVisible(false),
-    toggle: () => setIsVisible(prev => !prev)
+    toggle: () => setIsVisible(prev => !prev),
   };
 };
 
@@ -531,7 +531,7 @@ export const useTooltipOutside = (options = {}) => {
     setIsVisible(false);
   }, {
     enabled: isVisible,
-    ...outsideOptions
+    ...outsideOptions,
   });
 
   const show = useCallback(() => {
@@ -550,7 +550,7 @@ export const useTooltipOutside = (options = {}) => {
     targetRef,
     show,
     hide,
-    toggle: () => setIsVisible(prev => !prev)
+    toggle: () => setIsVisible(prev => !prev),
   };
 };
 
@@ -564,7 +564,7 @@ export const useContextMenuOutside = (options = {}) => {
     setIsOpen(false);
   }, {
     enabled: isOpen,
-    ...options
+    ...options,
   });
 
   const open = useCallback((event) => {
@@ -578,7 +578,7 @@ export const useContextMenuOutside = (options = {}) => {
     position,
     menuRef,
     open,
-    close: () => setIsOpen(false)
+    close: () => setIsOpen(false),
   };
 };
 
@@ -592,7 +592,7 @@ export const useDatePickerOutside = (options = {}) => {
     setIsOpen(false);
   }, {
     enabled: isOpen,
-    ...options
+    ...options,
   });
 
   return {
@@ -601,7 +601,7 @@ export const useDatePickerOutside = (options = {}) => {
     pickerRef,
     inputRef,
     open: () => setIsOpen(true),
-    close: () => setIsOpen(false)
+    close: () => setIsOpen(false),
   };
 };
 
@@ -620,7 +620,7 @@ export const clickOutsideUtils = {
     pageX: event.pageX,
     pageY: event.pageY,
     screenX: event.screenX,
-    screenY: event.screenY
+    screenY: event.screenY,
   }),
 
   // Get element bounds
@@ -649,9 +649,9 @@ export const clickOutsideUtils = {
       top: Math.abs(event.clientY - rect.top),
       right: Math.abs(rect.right - event.clientX),
       bottom: Math.abs(rect.bottom - event.clientY),
-      left: Math.abs(event.clientX - rect.left)
+      left: Math.abs(event.clientX - rect.left),
     };
-  }
+  },
 };
 
 // Export constants

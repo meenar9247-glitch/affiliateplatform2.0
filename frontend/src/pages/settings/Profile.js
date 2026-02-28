@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiUser,
@@ -17,8 +16,9 @@ import {
   FiCheck,
   FiX,
   FiUpload,
-  FiTrash2
+  FiTrash2,
 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -45,8 +45,8 @@ const Profile = () => {
       twitter: '',
       linkedin: '',
       instagram: '',
-      youtube: ''
-    }
+      youtube: '',
+    },
   });
 
   // Address State
@@ -56,7 +56,7 @@ const Profile = () => {
     state: '',
     country: '',
     zipCode: '',
-    landmark: ''
+    landmark: '',
   });
 
   // Stats State
@@ -69,7 +69,7 @@ const Profile = () => {
     rank: 0,
     badges: [],
     joinDate: '',
-    lastActive: ''
+    lastActive: '',
   });
 
   // Countries list
@@ -83,7 +83,7 @@ const Profile = () => {
     { code: 'FR', name: 'France' },
     { code: 'JP', name: 'Japan' },
     { code: 'SG', name: 'Singapore' },
-    { code: 'AE', name: 'UAE' }
+    { code: 'AE', name: 'UAE' },
   ];
 
   // Genders
@@ -91,7 +91,7 @@ const Profile = () => {
     { value: 'male', label: 'Male' },
     { value: 'female', label: 'Female' },
     { value: 'other', label: 'Other' },
-    { value: 'prefer-not', label: 'Prefer not to say' }
+    { value: 'prefer-not', label: 'Prefer not to say' },
   ];
 
   useEffect(() => {
@@ -105,8 +105,8 @@ const Profile = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/profile`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -127,8 +127,8 @@ const Profile = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/stats`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -149,13 +149,13 @@ const Profile = () => {
         ...profile,
         socialLinks: {
           ...profile.socialLinks,
-          [socialField]: value
-        }
+          [socialField]: value,
+        },
       });
     } else {
       setProfile({
         ...profile,
-        [name]: value
+        [name]: value,
       });
     }
   };
@@ -163,7 +163,7 @@ const Profile = () => {
   const handleAddressChange = (e) => {
     setAddress({
       ...address,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -195,9 +195,9 @@ const Profile = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        }
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       );
       
       if (response.data.success) {
@@ -239,9 +239,9 @@ const Profile = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        }
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       );
       
       if (response.data.success) {
@@ -263,8 +263,8 @@ const Profile = () => {
       const response = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/user/avatar`,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -284,8 +284,8 @@ const Profile = () => {
         `${process.env.REACT_APP_API_URL}/api/user/profile`,
         { ...profile, address },
         {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+          headers: { Authorization: `Bearer ${token}` },
+        },
       );
       
       if (response.data.success) {
@@ -309,7 +309,7 @@ const Profile = () => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 

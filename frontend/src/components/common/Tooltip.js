@@ -32,20 +32,20 @@ const Tooltip = ({
     top: 'tooltip-top',
     bottom: 'tooltip-bottom',
     left: 'tooltip-left',
-    right: 'tooltip-right'
+    right: 'tooltip-right',
   };
 
   // Theme classes
   const themeClasses = {
     dark: 'tooltip-dark',
-    light: 'tooltip-light'
+    light: 'tooltip-light',
   };
 
   // Size classes
   const sizeClasses = {
     small: 'tooltip-small',
     medium: 'tooltip-medium',
-    large: 'tooltip-large'
+    large: 'tooltip-large',
   };
 
   // Calculate position
@@ -179,15 +179,15 @@ const Tooltip = ({
     hover: {
       onMouseEnter: handleShow,
       onMouseLeave: interactive ? null : handleHide,
-      onMouseMove: calculatePosition
+      onMouseMove: calculatePosition,
     },
     click: {
-      onClick: handleClick
+      onClick: handleClick,
     },
     focus: {
       onFocus: handleShow,
-      onBlur: handleHide
-    }
+      onBlur: handleHide,
+    },
   };
 
   // Styles
@@ -329,7 +329,7 @@ const Tooltip = ({
         className="tooltip-portal"
         style={{
           top: tooltipPosition.top,
-          left: tooltipPosition.left
+          left: tooltipPosition.left,
         }}
         onMouseEnter={interactive ? handleShow : undefined}
         onMouseLeave={interactive ? handleHide : undefined}
@@ -347,7 +347,7 @@ const Tooltip = ({
           {arrow && <div className="tooltip-arrow" />}
         </div>
       </div>,
-      document.body
+      document.body,
     )
   );
 
@@ -526,7 +526,7 @@ export const useTooltip = () => {
       const rect = targetRef.current.getBoundingClientRect();
       setPosition({
         top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX + rect.width / 2
+        left: rect.left + window.scrollX + rect.width / 2,
       });
     };
 
@@ -546,7 +546,7 @@ export const useTooltip = () => {
     targetRef,
     show,
     hide,
-    toggle
+    toggle,
   };
 };
 

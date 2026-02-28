@@ -22,14 +22,14 @@ const Button = ({
     info: 'btn-info',
     outline: 'btn-outline',
     ghost: 'btn-ghost',
-    link: 'btn-link'
+    link: 'btn-link',
   };
 
   // Button sizes
   const sizes = {
     small: 'btn-sm',
     medium: 'btn-md',
-    large: 'btn-lg'
+    large: 'btn-lg',
   };
 
   const buttonClasses = [
@@ -39,7 +39,7 @@ const Button = ({
     fullWidth ? 'btn-full' : '',
     loading ? 'btn-loading' : '',
     disabled ? 'btn-disabled' : '',
-    className
+    className,
   ].filter(Boolean).join(' ');
 
   return (

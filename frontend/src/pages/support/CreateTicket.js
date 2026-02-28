@@ -1,5 +1,6 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import {
   FiSend,
   FiPaperclip,
@@ -14,10 +15,9 @@ import {
   FiInfo,
   FiTag,
   FiFlag,
-  FiMessageSquare
+  FiMessageSquare,
 } from 'react-icons/fi';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const CreateTicket = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const CreateTicket = () => {
     productId: '',
     browser: '',
     os: '',
-    device: ''
+    device: '',
   });
 
   // Validation Errors
@@ -51,21 +51,21 @@ const CreateTicket = () => {
     { value: 'referral', label: 'Referral Problems', icon: '🤝', description: 'Issues with referral links or commissions' },
     { value: 'feature', label: 'Feature Request', icon: '✨', description: 'Suggest new features or improvements' },
     { value: 'security', label: 'Security Concern', icon: '🔒', description: 'Report security issues or suspicious activity' },
-    { value: 'other', label: 'Other', icon: '📌', description: 'Anything else not covered above' }
+    { value: 'other', label: 'Other', icon: '📌', description: 'Anything else not covered above' },
   ];
 
   const priorities = [
     { value: 'low', label: 'Low', color: '#28a745', bg: '#e8f5e9', icon: '🟢', description: 'General questions, non-urgent' },
     { value: 'medium', label: 'Medium', color: '#ff9800', bg: '#fff3e0', icon: '🟡', description: 'Need assistance, but not urgent' },
     { value: 'high', label: 'High', color: '#f44336', bg: '#ffebee', icon: '🔴', description: 'Important issue, needs attention' },
-    { value: 'urgent', label: 'Urgent', color: '#dc3545', bg: '#fde9e9', icon: '⛔', description: 'Critical issue, immediate help needed' }
+    { value: 'urgent', label: 'Urgent', color: '#dc3545', bg: '#fde9e9', icon: '⛔', description: 'Critical issue, immediate help needed' },
   ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
     // Clear error for this field
     if (errors[name]) {
@@ -106,13 +106,13 @@ const CreateTicket = () => {
       preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : null,
       name: file.name,
       size: file.size,
-      type: file.type
+      type: file.type,
     }));
 
     setAttachments([...attachments, ...newAttachments]);
     setFormData({
       ...formData,
-      attachments: [...formData.attachments, ...validFiles]
+      attachments: [...formData.attachments, ...validFiles],
     });
   };
 
@@ -128,7 +128,7 @@ const CreateTicket = () => {
     setAttachments(newAttachments);
     setFormData({
       ...formData,
-      attachments: newFiles
+      attachments: newFiles,
     });
   };
 
@@ -191,7 +191,7 @@ const CreateTicket = () => {
       ...formData,
       browser,
       os,
-      device
+      device,
     });
   };
 
@@ -229,9 +229,9 @@ const CreateTicket = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        }
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       );
       
       if (response.data.success) {
@@ -297,14 +297,14 @@ const CreateTicket = () => {
         <div style={styles.progressBar}>
           <div style={{
             ...styles.progressFill,
-            width: currentStep === 1 ? '50%' : '100%'
+            width: currentStep === 1 ? '50%' : '100%',
           }} />
         </div>
         <div style={styles.steps}>
           <div style={styles.step}>
             <div style={{
               ...styles.stepCircle,
-              ...(currentStep >= 1 ? styles.stepCircleActive : {})
+              ...(currentStep >= 1 ? styles.stepCircleActive : {}),
             }}>
               {currentStep > 1 ? <FiCheckCircle /> : '1'}
             </div>
@@ -313,7 +313,7 @@ const CreateTicket = () => {
           <div style={styles.step}>
             <div style={{
               ...styles.stepCircle,
-              ...(currentStep >= 2 ? styles.stepCircleActive : {})
+              ...(currentStep >= 2 ? styles.stepCircleActive : {}),
             }}>
               {currentStep > 2 ? <FiCheckCircle /> : '2'}
             </div>
@@ -340,7 +340,7 @@ const CreateTicket = () => {
                 placeholder="Brief summary of your issue"
                 style={{
                   ...styles.input,
-                  ...(errors.subject ? styles.inputError : {})
+                  ...(errors.subject ? styles.inputError : {}),
                 }}
               />
               {errors.subject && (
@@ -364,7 +364,7 @@ const CreateTicket = () => {
                     key={cat.value}
                     style={{
                       ...styles.categoryOption,
-                      ...(formData.category === cat.value ? styles.categoryOptionSelected : {})
+                      ...(formData.category === cat.value ? styles.categoryOptionSelected : {}),
                     }}
                   >
                     <input
@@ -402,7 +402,7 @@ const CreateTicket = () => {
                     style={{
                       ...styles.priorityOption,
                       background: p.bg,
-                      border: formData.priority === p.value ? `2px solid ${p.color}` : '1px solid #ddd'
+                      border: formData.priority === p.value ? `2px solid ${p.color}` : '1px solid #ddd',
                     }}
                   >
                     <input
@@ -443,7 +443,7 @@ const CreateTicket = () => {
                 rows="6"
                 style={{
                   ...styles.textarea,
-                  ...(errors.message ? styles.inputError : {})
+                  ...(errors.message ? styles.inputError : {}),
                 }}
               />
               {errors.message && (
@@ -581,7 +581,7 @@ const CreateTicket = () => {
                     ...styles.priorityPreview,
                     color: priorities.find(p => p.value === formData.priority)?.color,
        
-                   background: priorities.find(p => p.value === formData.priority)?.bg
+                    background: priorities.find(p => p.value === formData.priority)?.bg,
                   }}>
                     {priorities.find(p => p.value === formData.priority)?.icon}{' '}
                     {priorities.find(p => p.value === formData.priority)?.label}
@@ -680,10 +680,10 @@ const styles = {
     maxWidth: '800px',
     margin: '0 auto',
     padding: '30px 20px',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   header: {
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   backBtn: {
     display: 'flex',
@@ -694,42 +694,42 @@ const styles = {
     border: 'none',
     color: '#667eea',
     cursor: 'pointer',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   title: {
     fontSize: '28px',
     color: '#333',
-    margin: '0 0 10px'
+    margin: '0 0 10px',
   },
   subtitle: {
     fontSize: '16px',
     color: '#666',
-    margin: 0
+    margin: 0,
   },
   progressContainer: {
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   progressBar: {
     height: '4px',
     background: '#e9ecef',
     borderRadius: '2px',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   progressFill: {
     height: '100%',
     background: '#667eea',
     borderRadius: '2px',
-    transition: 'width 0.3s ease'
+    transition: 'width 0.3s ease',
   },
   steps: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   step: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: '8px'
+    gap: '8px',
   },
   stepCircle: {
     width: '40px',
@@ -741,52 +741,52 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '16px',
-    color: '#666'
+    color: '#666',
   },
   stepCircleActive: {
     background: '#667eea',
     borderColor: '#667eea',
-    color: 'white'
+    color: 'white',
   },
   stepLabel: {
     fontSize: '12px',
-    color: '#666'
+    color: '#666',
   },
   form: {
     background: 'white',
     borderRadius: '10px',
     padding: '30px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   step1: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px'
+    gap: '20px',
   },
   step2: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '25px'
+    gap: '25px',
   },
   formGroup: {
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   label: {
     display: 'block',
     marginBottom: '8px',
     fontWeight: 500,
-    color: '#333'
+    color: '#333',
   },
   required: {
-    color: '#dc3545'
+    color: '#dc3545',
   },
   input: {
     width: '100%',
     padding: '10px 12px',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '14px'
+    fontSize: '14px',
   },
   textarea: {
     width: '100%',
@@ -795,10 +795,10 @@ const styles = {
     borderRadius: '5px',
     fontSize: '14px',
     resize: 'vertical',
-    minHeight: '120px'
+    minHeight: '120px',
   },
   inputError: {
-    borderColor: '#dc3545'
+    borderColor: '#dc3545',
   },
   errorText: {
     display: 'flex',
@@ -806,19 +806,19 @@ const styles = {
     gap: '5px',
     color: '#dc3545',
     fontSize: '12px',
-    marginTop: '5px'
+    marginTop: '5px',
   },
   hint: {
     display: 'block',
     fontSize: '11px',
     color: '#999',
     marginTop: '5px',
-    textAlign: 'right'
+    textAlign: 'right',
   },
   categoryGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '10px'
+    gap: '10px',
   },
   categoryOption: {
     padding: '12px',
@@ -827,34 +827,34 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '10px'
+    gap: '10px',
   },
   categoryOptionSelected: {
     borderColor: '#667eea',
-    background: '#f0f4ff'
+    background: '#f0f4ff',
   },
   categoryIcon: {
-    fontSize: '24px'
+    fontSize: '24px',
   },
   categoryInfo: {
-    flex: 1
+    flex: 1,
   },
   categoryLabel: {
     display: 'block',
     fontSize: '14px',
     fontWeight: 500,
     color: '#333',
-    marginBottom: '2px'
+    marginBottom: '2px',
   },
   categoryDesc: {
     display: 'block',
     fontSize: '11px',
-    color: '#999'
+    color: '#999',
   },
   priorityGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '10px'
+    gap: '10px',
   },
   priorityOption: {
     padding: '12px',
@@ -863,30 +863,30 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '10px'
+    gap: '10px',
   },
   priorityIcon: {
-    fontSize: '20px'
+    fontSize: '20px',
   },
   priorityInfo: {
-    flex: 1
+    flex: 1,
   },
   priorityLabel: {
     display: 'block',
     fontSize: '14px',
     fontWeight: 500,
-    marginBottom: '2px'
+    marginBottom: '2px',
   },
   priorityDesc: {
     display: 'block',
     fontSize: '11px',
-    color: '#999'
+    color: '#999',
   },
   optionalSection: {
     background: '#f8f9fa',
     borderRadius: '5px',
     padding: '20px',
-    marginTop: '10px'
+    marginTop: '10px',
   },
   optionalTitle: {
     margin: '0 0 15px',
@@ -894,18 +894,18 @@ const styles = {
     color: '#666',
     display: 'flex',
     alignItems: 'center',
-    gap: '5px'
+    gap: '5px',
   },
   optionalGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '15px'
+    gap: '15px',
   },
   fileUploadArea: {
     display: 'flex',
     alignItems: 'center',
     gap: '15px',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   fileUploadLabel: {
     padding: '10px 20px',
@@ -915,14 +915,14 @@ const styles = {
     cursor: 'pointer',
     display: 'inline-flex',
     alignItems: 'center',
-    gap: '8px'
+    gap: '8px',
   },
   fileUploadHint: {
     fontSize: '12px',
-    color: '#999'
+    color: '#999',
   },
   attachmentsList: {
-    marginTop: '15px'
+    marginTop: '15px',
   },
   attachmentItem: {
     display: 'flex',
@@ -932,41 +932,41 @@ const styles = {
     background: '#f8f9fa',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    marginBottom: '8px'
+    marginBottom: '8px',
   },
   attachmentPreview: {
     width: '40px',
     height: '40px',
     borderRadius: '5px',
-    objectFit: 'cover'
+    objectFit: 'cover',
   },
   attachmentIcon: {
-    fontSize: '24px'
+    fontSize: '24px',
   },
   attachmentInfo: {
-    flex: 1
+    flex: 1,
   },
   attachmentName: {
     display: 'block',
     fontSize: '13px',
     color: '#333',
-    marginBottom: '2px'
+    marginBottom: '2px',
   },
   attachmentSize: {
     fontSize: '11px',
-    color: '#999'
+    color: '#999',
   },
   removeAttachment: {
     background: 'none',
     border: 'none',
     color: '#dc3545',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   formActions: {
     display: 'flex',
     justifyContent: 'flex-end',
     gap: '15px',
-    marginTop: '20px'
+    marginTop: '20px',
   },
   nextBtn: {
     padding: '12px 30px',
@@ -975,7 +975,7 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     fontSize: '16px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   backStepBtn: {
     padding: '12px 30px',
@@ -984,7 +984,7 @@ const styles = {
     border: '1px solid #ddd',
     borderRadius: '5px',
     fontSize: '16px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   submitBtn: {
     padding: '12px 30px',
@@ -996,49 +996,49 @@ const styles = {
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    gap: '8px'
+    gap: '8px',
   },
   previewCard: {
     background: '#f8f9fa',
     borderRadius: '10px',
-    padding: '25px'
+    padding: '25px',
   },
   previewTitle: {
     margin: '0 0 20px',
     fontSize: '18px',
-    color: '#333'
+    color: '#333',
   },
   previewSection: {
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   previewRow: {
     display: 'flex',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   previewLabel: {
     width: '100px',
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   previewValue: {
     flex: 1,
     fontSize: '14px',
     color: '#333',
-    fontWeight: 500
+    fontWeight: 500,
   },
   priorityPreview: {
     padding: '3px 10px',
     borderRadius: '15px',
     fontSize: '12px',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   previewMessage: {
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   previewMessageTitle: {
     margin: '0 0 10px',
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   previewMessageText: {
     margin: 0,
@@ -1046,45 +1046,45 @@ const styles = {
     background: 'white',
     borderRadius: '5px',
     color: '#333',
-    lineHeight: '1.6'
+    lineHeight: '1.6',
   },
   previewAttachments: {
-    marginTop: '20px'
+    marginTop: '20px',
   },
   previewAttachmentsTitle: {
     margin: '0 0 10px',
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   previewAttachmentList: {
     display: 'flex',
     flexWrap: 'wrap',
-    gap: '10px'
+    gap: '10px',
   },
   previewAttachmentItem: {
     padding: '5px 10px',
     background: 'white',
     border: '1px solid #ddd',
     borderRadius: '5px',
-    fontSize: '12px'
+    fontSize: '12px',
   },
   systemInfo: {
     marginTop: '20px',
     padding: '15px',
     background: '#e9ecef',
-    borderRadius: '5px'
+    borderRadius: '5px',
   },
   systemInfoTitle: {
     margin: '0 0 10px',
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   systemInfoGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '10px',
     fontSize: '12px',
-    color: '#333'
+    color: '#333',
   },
   helpSection: {
     display: 'flex',
@@ -1092,31 +1092,31 @@ const styles = {
     gap: '15px',
     padding: '20px',
     background: '#f8f9fa',
-    borderRadius: '10px'
+    borderRadius: '10px',
   },
   helpIcon: {
     fontSize: '32px',
-    color: '#667eea'
+    color: '#667eea',
   },
   helpContent: {
-    flex: 1
+    flex: 1,
   },
   helpTitle: {
     margin: '0 0 5px',
     fontSize: '16px',
-    color: '#333'
+    color: '#333',
   },
   helpText: {
     margin: 0,
-    color: '#666'
+    color: '#666',
   },
   helpLink: {
     color: '#667eea',
-    textDecoration: 'none'
+    textDecoration: 'none',
   },
   spin: {
-    animation: 'spin 1s linear infinite'
-  }
+    animation: 'spin 1s linear infinite',
+  },
 };
 
 export default CreateTicket;

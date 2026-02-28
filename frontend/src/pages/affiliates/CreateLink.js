@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiLink,
@@ -18,8 +17,9 @@ import {
   FiHelpCircle,
   FiEye,
   FiCopy,
-  FiShare2
+  FiShare2,
 } from 'react-icons/fi';
+import { useNavigate, Link } from 'react-router-dom';
 
 const CreateLink = () => {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const CreateLink = () => {
     terms: '',
     featured: false,
     isActive: true,
-    expiresAt: ''
+    expiresAt: '',
   });
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const CreateLink = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/affiliates/categories`
+        `${process.env.REACT_APP_API_URL}/affiliates/categories`,
       );
       
       if (response.data.success) {
@@ -66,7 +66,7 @@ const CreateLink = () => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }));
 
     // Clear error for this field
@@ -147,12 +147,12 @@ const CreateLink = () => {
         ...formData,
         tags: tagsArray,
         commissionRate: parseFloat(formData.commissionRate),
-        fixedCommission: formData.fixedCommission ? parseFloat(formData.fixedCommission) : undefined
+        fixedCommission: formData.fixedCommission ? parseFloat(formData.fixedCommission) : undefined,
       };
 
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/affiliates/links`,
-        linkData
+        linkData,
       );
 
       if (response.data.success) {
@@ -838,7 +838,7 @@ const CreateLink = () => {
                   <label>Tags</label>
                   <input
                     type="text"
-             name="tags"
+                    name="tags"
                     value={formData.tags}
                     onChange={handleChange}
                     className="form-control"

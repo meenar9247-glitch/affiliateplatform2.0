@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
 import { 
   TrophyIcon, 
   UserIcon, 
   CurrencyDollarIcon,
   ArrowTrendingUpIcon,
   GlobeAltIcon,
-  FireIcon
+  FireIcon,
 } from '@heroicons/react/24/outline';
-import { motion } from 'framer-motion';
 import axios from 'axios';
+import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
 
 const TopAffiliates = () => {
   const [timeFrame, setTimeFrame] = useState('month'); // week, month, all
@@ -43,7 +43,7 @@ const TopAffiliates = () => {
             conversionRate: 8.5,
             country: 'India',
             badge: 'diamond',
-            trend: '+12%'
+            trend: '+12%',
           },
           {
             id: 2,
@@ -55,7 +55,7 @@ const TopAffiliates = () => {
             conversionRate: 7.8,
             country: 'India',
             badge: 'gold',
-            trend: '+8%'
+            trend: '+8%',
           },
           {
             id: 3,
@@ -67,7 +67,7 @@ const TopAffiliates = () => {
             conversionRate: 9.2,
             country: 'USA',
             badge: 'gold',
-            trend: '+15%'
+            trend: '+15%',
           },
           {
             id: 4,
@@ -79,7 +79,7 @@ const TopAffiliates = () => {
             conversionRate: 7.1,
             country: 'India',
             badge: 'silver',
-            trend: '+5%'
+            trend: '+5%',
           },
           {
             id: 5,
@@ -91,7 +91,7 @@ const TopAffiliates = () => {
             conversionRate: 6.8,
             country: 'UK',
             badge: 'silver',
-            trend: '+10%'
+            trend: '+10%',
           },
           {
             id: 6,
@@ -103,7 +103,7 @@ const TopAffiliates = () => {
             conversionRate: 8.1,
             country: 'India',
             badge: 'bronze',
-            trend: '+7%'
+            trend: '+7%',
           },
           {
             id: 7,
@@ -115,7 +115,7 @@ const TopAffiliates = () => {
             conversionRate: 6.4,
             country: 'India',
             badge: 'bronze',
-            trend: '+4%'
+            trend: '+4%',
           },
           {
             id: 8,
@@ -127,7 +127,7 @@ const TopAffiliates = () => {
             conversionRate: 7.3,
             country: 'India',
             badge: 'bronze',
-            trend: '+6%'
+            trend: '+6%',
           },
           {
             id: 9,
@@ -139,7 +139,7 @@ const TopAffiliates = () => {
             conversionRate: 5.9,
             country: 'India',
             badge: 'new',
-            trend: '+20%'
+            trend: '+20%',
           },
           {
             id: 10,
@@ -151,14 +151,14 @@ const TopAffiliates = () => {
             conversionRate: 6.2,
             country: 'India',
             badge: 'new',
-            trend: '+18%'
-          }
+            trend: '+18%',
+          },
         ];
         setAffiliates(sampleData);
         setUserRank({
           rank: 42,
           earnings: 1250,
-          referrals: 28
+          referrals: 28,
         });
         setLoading(false);
       }, 1000);
@@ -321,9 +321,9 @@ const TopAffiliates = () => {
                         <div className="flex items-center">
                           <span className={`text-lg font-bold ${
                             index === 0 ? 'text-yellow-500' :
-                            index === 1 ? 'text-gray-400' :
-                            index === 2 ? 'text-orange-600' :
-                            'text-gray-500'
+                              index === 1 ? 'text-gray-400' :
+                                index === 2 ? 'text-orange-600' :
+                                  'text-gray-500'
                           }`}>
                             {getRankIcon(index)}
                           </span>

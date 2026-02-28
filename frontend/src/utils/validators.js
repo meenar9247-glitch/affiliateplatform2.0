@@ -8,7 +8,7 @@ export const VALIDATION_ERROR_TYPES = {
   MAX_VALUE: 'max_value',
   PATTERN_MISMATCH: 'pattern_mismatch',
   TYPE_MISMATCH: 'type_mismatch',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 // Validation rules
@@ -30,7 +30,7 @@ export const VALIDATION_RULES = {
   BASE64: /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/,
   UUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
   HTML_TAG: /^<([a-z1-6]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/,
-  MARKDOWN: /^[*_~`#\[\]()>+-]/
+  MARKDOWN: /^[*_~`#\[\]()>+-]/,
 };
 
 // Validation messages
@@ -43,7 +43,7 @@ export const VALIDATION_MESSAGES = {
   [VALIDATION_ERROR_TYPES.MAX_VALUE]: 'Must be at most {max}',
   [VALIDATION_ERROR_TYPES.PATTERN_MISMATCH]: 'Does not match required pattern',
   [VALIDATION_ERROR_TYPES.TYPE_MISMATCH]: 'Invalid type',
-  [VALIDATION_ERROR_TYPES.CUSTOM]: 'Invalid value'
+  [VALIDATION_ERROR_TYPES.CUSTOM]: 'Invalid value',
 };
 
 // Validation result class
@@ -86,7 +86,7 @@ export class ValidationResult {
       isValid: this.isValid,
       errors: this.errors,
       warnings: this.warnings,
-      info: this.info
+      info: this.info,
     };
   }
 
@@ -100,7 +100,7 @@ export class ValidationResult {
       errors: this.errors,
       warnings: this.warnings,
       info: this.info,
-      timestamp: this.timestamp
+      timestamp: this.timestamp,
     };
   }
 }
@@ -113,7 +113,7 @@ export class Validator {
       trim: options.trim || true,
       normalize: options.normalize || false,
       locale: options.locale || 'en-US',
-      ...options
+      ...options,
     };
   }
 
@@ -144,7 +144,7 @@ export class Validator {
     if (value === undefined || value === null || value === '') {
       return {
         isValid: false,
-        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.REQUIRED]
+        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.REQUIRED],
       };
     }
     return { isValid: true };
@@ -157,7 +157,7 @@ export class Validator {
     if (actualType !== type) {
       return {
         isValid: false,
-        error: `Expected ${type}, got ${actualType}`
+        error: `Expected ${type}, got ${actualType}`,
       };
     }
     return { isValid: true };
@@ -170,14 +170,14 @@ export class Validator {
     if (min !== undefined && length < min) {
       return {
         isValid: false,
-        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.MIN_LENGTH].replace('{min}', min)
+        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.MIN_LENGTH].replace('{min}', min),
       };
     }
     
     if (max !== undefined && length > max) {
       return {
         isValid: false,
-        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.MAX_LENGTH].replace('{max}', max)
+        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.MAX_LENGTH].replace('{max}', max),
       };
     }
     
@@ -189,14 +189,14 @@ export class Validator {
     if (min !== undefined && value < min) {
       return {
         isValid: false,
-        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.MIN_VALUE].replace('{min}', min)
+        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.MIN_VALUE].replace('{min}', min),
       };
     }
     
     if (max !== undefined && value > max) {
       return {
         isValid: false,
-        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.MAX_VALUE].replace('{max}', max)
+        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.MAX_VALUE].replace('{max}', max),
       };
     }
     
@@ -210,13 +210,13 @@ export class Validator {
     if (!regex.test(value)) {
       return {
         isValid: false,
-        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.PATTERN_MISMATCH]
+        error: VALIDATION_MESSAGES[VALIDATION_ERROR_TYPES.PATTERN_MISMATCH],
       };
     }
     
     return { isValid: true };
   }
-  }
+}
 // Email validator
 export class EmailValidator extends Validator {
   validate(email, options = {}) {
@@ -366,7 +366,7 @@ export class PasswordValidator extends Validator {
       lowercase: /[a-z]/.test(password),
       numbers: /\d/.test(password),
       special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
-      lengthBonus: password.length >= 12 ? 1 : 0
+      lengthBonus: password.length >= 12 ? 1 : 0,
     };
     
     score += checks.length ? 1 : 0;
@@ -597,7 +597,7 @@ export class CreditCardValidator extends Validator {
       diners: /^3(?:0[0-5]|[68])/,
       jcb: /^(?:2131|1800|35)/,
       unionpay: /^62/,
-      maestro: /^(?:5[0678]|6[37])/
+      maestro: /^(?:5[0678]|6[37])/,
     };
     
     for (const [type, pattern] of Object.entries(patterns)) {
@@ -618,7 +618,7 @@ export class CreditCardValidator extends Validator {
     // Add spaces every 4 digits
     return masked.match(/.{1,4}/g)?.join(' ') || masked;
   }
-  }
+}
 // Date validator
 export class DateValidator extends Validator {
   validate(date, options = {}) {
@@ -647,7 +647,7 @@ export class DateValidator extends Validator {
       const formatRegex = {
         'YYYY-MM-DD': /^\d{4}-\d{2}-\d{2}$/,
         'DD/MM/YYYY': /^\d{2}\/\d{2}\/\d{4}$/,
-        'MM/DD/YYYY': /^\d{2}\/\d{2}\/\d{4}$/
+        'MM/DD/YYYY': /^\d{2}\/\d{2}\/\d{4}$/,
       };
       
       if (formatRegex[options.format] && !formatRegex[options.format].test(date)) {
@@ -697,7 +697,7 @@ export class DateValidator extends Validator {
       'DD/MM/YYYY': `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`,
       'MM/DD/YYYY': `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`,
       'DD MMM YYYY': d.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }),
-      'DD MMMM YYYY': d.toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
+      'DD MMMM YYYY': d.toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }),
     };
     
     return formats[format] || formats['YYYY-MM-DD'];
@@ -1081,14 +1081,14 @@ export const validators = {
     }
     
     return sanitized;
-  }
+  },
 };
 
 // Export constants
 export const VALIDATOR_CONSTANTS = {
   ERROR_TYPES: VALIDATION_ERROR_TYPES,
   RULES: VALIDATION_RULES,
-  MESSAGES: VALIDATION_MESSAGES
+  MESSAGES: VALIDATION_MESSAGES,
 };
 
 export default validators;

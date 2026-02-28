@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
 import { FiLogOut, FiCheckCircle, FiXCircle, FiLoader, FiHome, FiLogIn } from 'react-icons/fi';
+import { useNavigate, Link } from 'react-router-dom';
+
+import { useAuth } from '../../hooks/useAuth';
 
 const Logout = () => {
   const navigate = useNavigate();

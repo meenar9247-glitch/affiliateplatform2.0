@@ -19,13 +19,13 @@ export const register = async (userData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Registration failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -59,13 +59,13 @@ export const login = async (credentials, rememberMe = false) => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Login failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -91,7 +91,7 @@ export const logout = async (allDevices = false) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Logged out successfully'
+      message: response.message || 'Logged out successfully',
     };
   } catch (error) {
     // Even if API fails, clear local storage
@@ -105,7 +105,7 @@ export const logout = async (allDevices = false) => {
     return {
       success: false,
       error: error.message || 'Logout failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -121,13 +121,13 @@ export const verifyEmail = async (token) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Email verified successfully'
+      message: response.message || 'Email verified successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Email verification failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -143,13 +143,13 @@ export const resendVerification = async (email) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Verification email resent'
+      message: response.message || 'Verification email resent',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to resend verification email',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -165,13 +165,13 @@ export const forgotPassword = async (email) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Password reset email sent'
+      message: response.message || 'Password reset email sent',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to send reset email',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -188,13 +188,13 @@ export const resetPassword = async (token, newPassword) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Password reset successful'
+      message: response.message || 'Password reset successful',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Password reset failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -212,13 +212,13 @@ export const changePassword = async (passwordData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Password changed successfully'
+      message: response.message || 'Password changed successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Password change failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -250,7 +250,7 @@ export const refreshToken = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Token refreshed'
+      message: response.message || 'Token refreshed',
     };
   } catch (error) {
     // Clear tokens on refresh failure
@@ -262,7 +262,7 @@ export const refreshToken = async () => {
     return {
       success: false,
       error: error.message || 'Token refresh failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -277,13 +277,13 @@ export const getCurrentUser = async () => {
     return {
       success: true,
       data: response.data,
-      message: response.message
+      message: response.message,
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Failed to get user',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -310,13 +310,13 @@ export const updateProfile = async (profileData) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Profile updated successfully'
+      message: response.message || 'Profile updated successfully',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Profile update failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -345,13 +345,13 @@ export const googleLogin = async (token) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Google login successful'
+      message: response.message || 'Google login successful',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Google login failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -380,13 +380,13 @@ export const facebookLogin = async (token) => {
     return {
       success: true,
       data: response.data,
-      message: response.message || 'Facebook login successful'
+      message: response.message || 'Facebook login successful',
     };
   } catch (error) {
     return {
       success: false,
       error: error.message || 'Facebook login failed',
-      status: error.status
+      status: error.status,
     };
   }
 };
@@ -458,7 +458,7 @@ const authAPI = {
   getStoredUser,
   isAdmin,
   getUserRole,
-  isEmailVerified
+  isEmailVerified,
 };
 
 export default authAPI;

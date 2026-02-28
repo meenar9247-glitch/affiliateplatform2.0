@@ -36,7 +36,7 @@ const Input = ({
   const sizeClasses = {
     small: 'input-small',
     medium: 'input-medium',
-    large: 'input-large'
+    large: 'input-large',
   };
 
   // Status classes

@@ -13,7 +13,7 @@ import {
   FiDownload,
   FiEye,
   FiTrash2,
-  FiRefreshCw
+  FiRefreshCw,
 } from 'react-icons/fi';
 
 const FileUpload = ({
@@ -179,8 +179,8 @@ const FileUpload = ({
         target: {
           name,
           value: updatedFiles,
-          type: 'file'
-        }
+          type: 'file',
+        },
       });
 
       onFileSelect?.(newFiles);
@@ -197,7 +197,7 @@ const FileUpload = ({
       }
       setUploadProgress(prev => ({
         ...prev,
-        [id]: Math.min(progress, 100)
+        [id]: Math.min(progress, 100),
       }));
     }, 200);
   };
@@ -210,8 +210,8 @@ const FileUpload = ({
       target: {
         name,
         value: updatedFiles,
-        type: 'file'
-      }
+        type: 'file',
+      },
     });
 
     onFileRemove?.(index);
@@ -249,14 +249,14 @@ const FileUpload = ({
   const sizeClasses = {
     small: 'upload-small',
     medium: 'upload-medium',
-    large: 'upload-large'
+    large: 'upload-large',
   };
 
   // Variant classes
   const variantClasses = {
     outlined: 'upload-outlined',
     filled: 'upload-filled',
-    underlined: 'upload-underlined'
+    underlined: 'upload-underlined',
   };
 
   // Status classes

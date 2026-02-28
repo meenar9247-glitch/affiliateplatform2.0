@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+
 import { useDebounce } from './useDebounce';
 import { useThrottle } from './useThrottle';
 
@@ -11,7 +12,7 @@ export const BREAKPOINTS = {
   xl: 1280,
   '2xl': 1536,
   '3xl': 1920,
-  '4xl': 2560
+  '4xl': 2560,
 };
 
 // Device types
@@ -20,13 +21,13 @@ export const DEVICE_TYPES = {
   TABLET: 'tablet',
   LAPTOP: 'laptop',
   DESKTOP: 'desktop',
-  TV: 'tv'
+  TV: 'tv',
 };
 
 // Orientation types
 export const ORIENTATIONS = {
   PORTRAIT: 'portrait',
-  LANDSCAPE: 'landscape'
+  LANDSCAPE: 'landscape',
 };
 
 // Aspect ratios
@@ -35,7 +36,7 @@ export const ASPECT_RATIOS = {
   STANDARD: '4:3',
   WIDESCREEN: '16:9',
   ULTRAWIDE: '21:9',
-  CINEMATIC: '2.35:1'
+  CINEMATIC: '2.35:1',
 };
 
 // Viewport categories
@@ -47,7 +48,7 @@ export const VIEWPORT_CATEGORIES = {
   XL: 'xl',
   '2XL': '2xl',
   '3XL': '3xl',
-  '4XL': '4xl'
+  '4XL': '4xl',
 };
 
 // Default options
@@ -65,7 +66,7 @@ const DEFAULT_OPTIONS = {
   includePerformance: false,
   onResize: null,
   onOrientationChange: null,
-  onBreakpointChange: null
+  onBreakpointChange: null,
 };
 
 export const useWindowSize = (options = {}) => {
@@ -83,7 +84,7 @@ export const useWindowSize = (options = {}) => {
     includePerformance = false,
     onResize = null,
     onOrientationChange = null,
-    onBreakpointChange = null
+    onBreakpointChange = null,
   } = { ...DEFAULT_OPTIONS, ...options };
 
   // Core dimensions
@@ -97,13 +98,13 @@ export const useWindowSize = (options = {}) => {
     availWidth: typeof window !== 'undefined' ? window.screen.availWidth : 0,
     availHeight: typeof window !== 'undefined' ? window.screen.availHeight : 0,
     colorDepth: typeof window !== 'undefined' ? window.screen.colorDepth : 0,
-    pixelDepth: typeof window !== 'undefined' ? window.screen.pixelDepth : 0
+    pixelDepth: typeof window !== 'undefined' ? window.screen.pixelDepth : 0,
   });
 
   // Scrollbar dimensions
   const [scrollbarSize, setScrollbarSize] = useState({
     width: 0,
-    height: 0
+    height: 0,
   });
 
   // Position and motion
@@ -113,13 +114,13 @@ export const useWindowSize = (options = {}) => {
     pageXOffset: typeof window !== 'undefined' ? window.pageXOffset : 0,
     pageYOffset: typeof window !== 'undefined' ? window.pageYOffset : 0,
     screenX: typeof window !== 'undefined' ? window.screenX : 0,
-    screenY: typeof window !== 'undefined' ? window.screenY : 0
+    screenY: typeof window !== 'undefined' ? window.screenY : 0,
   });
 
   const [motion, setMotion] = useState({
     devicePixelRatio: typeof window !== 'undefined' ? window.devicePixelRatio : 1,
     mozOrientation: typeof window !== 'undefined' ? window.screen?.mozOrientation : null,
-    orientation: typeof window !== 'undefined' ? window.screen?.orientation : null
+    orientation: typeof window !== 'undefined' ? window.screen?.orientation : null,
   });
 
   // Performance metrics
@@ -127,7 +128,7 @@ export const useWindowSize = (options = {}) => {
     frameRate: 0,
     frameCount: 0,
     lastFrameTime: 0,
-    averageFPS: 0
+    averageFPS: 0,
   });
 
   // Refs for performance tracking
@@ -199,7 +200,7 @@ export const useWindowSize = (options = {}) => {
       lessThan: (breakpoint) => windowSize.width < BREAKPOINTS[breakpoint],
       lessThanOrEqual: (breakpoint) => windowSize.width <= BREAKPOINTS[breakpoint],
       between: (min, max) => 
-        windowSize.width >= BREAKPOINTS[min] && windowSize.width < BREAKPOINTS[max]
+        windowSize.width >= BREAKPOINTS[min] && windowSize.width < BREAKPOINTS[max],
     };
   }, [windowSize.width, includeBreakpoints]);
 
@@ -232,7 +233,7 @@ export const useWindowSize = (options = {}) => {
 
       setScrollbarSize({
         width: widthNoScroll - widthWithScroll,
-        height: widthNoScroll - widthWithScroll
+        height: widthNoScroll - widthWithScroll,
       });
     };
 
@@ -242,247 +243,247 @@ export const useWindowSize = (options = {}) => {
     return () => window.removeEventListener('resize', calculateScrollbarSize);
   }, [includeScrollbar]);
   // Handle resize with debounce/throttle
-const handleResize = useCallback(() => {
-  const newSize = {
-    width: window.innerWidth,
-    height: window.innerHeight,
-    outerWidth: window.outerWidth,
-    outerHeight: window.outerHeight,
-    screenWidth: window.screen.width,
-    screenHeight: window.screen.height,
-    availWidth: window.screen.availWidth,
-    availHeight: window.screen.availHeight,
-    colorDepth: window.screen.colorDepth,
-    pixelDepth: window.screen.pixelDepth
-  };
-
-  setWindowSize(newSize);
-  onResize?.(newSize);
-}, [onResize]);
-
-const debouncedResize = useDebounce(handleResize, debounceDelay);
-const throttledResize = useThrottle(handleResize, throttleDelay);
-
-// Handle scroll
-const handleScroll = useCallback(() => {
-  if (!includePosition) return;
-  
-  setPosition({
-    scrollX: window.scrollX,
-    scrollY: window.scrollY,
-    pageXOffset: window.pageXOffset,
-    pageYOffset: window.pageYOffset,
-    screenX: window.screenX,
-    screenY: window.screenY
-  });
-}, [includePosition]);
-
-const debouncedScroll = useDebounce(handleScroll, debounceDelay);
-const throttledScroll = useThrottle(handleScroll, throttleDelay);
-
-// Handle orientation change
-const handleOrientationChange = useCallback(() => {
-  if (!includeOrientation) return;
-  
-  setMotion(prev => ({
-    ...prev,
-    orientation: window.screen?.orientation,
-    mozOrientation: window.screen?.mozOrientation
-  }));
-  
-  onOrientationChange?.({
-    orientation,
-    aspectRatio,
-    deviceType
-  });
-}, [includeOrientation, orientation, aspectRatio, deviceType, onOrientationChange]);
-
-// Setup event listeners
-useEffect(() => {
-  if (typeof window === 'undefined') return;
-
-  // Choose resize handler based on options
-  const resizeHandler = debounceDelay > 0 ? debouncedResize : 
-                       throttleDelay > 0 ? throttledResize : 
-                       handleResize;
-
-  window.addEventListener('resize', resizeHandler);
-  
-  // Initial call
-  handleResize();
-
-  // Scroll listener
-  if (includePosition) {
-    const scrollHandler = debounceDelay > 0 ? debouncedScroll : 
-                         throttleDelay > 0 ? throttledScroll : 
-                         handleScroll;
-    
-    window.addEventListener('scroll', scrollHandler);
-    handleScroll();
-    
-    return () => {
-      window.removeEventListener('scroll', scrollHandler);
+  const handleResize = useCallback(() => {
+    const newSize = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      outerWidth: window.outerWidth,
+      outerHeight: window.outerHeight,
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      availWidth: window.screen.availWidth,
+      availHeight: window.screen.availHeight,
+      colorDepth: window.screen.colorDepth,
+      pixelDepth: window.screen.pixelDepth,
     };
-  }
 
-  return () => {
-    window.removeEventListener('resize', resizeHandler);
-  };
-}, [debouncedResize, throttledResize, handleResize, debouncedScroll, throttledScroll, handleScroll, includePosition, debounceDelay, throttleDelay]);
+    setWindowSize(newSize);
+    onResize?.(newSize);
+  }, [onResize]);
 
-// Setup ResizeObserver for more accurate measurements
-useEffect(() => {
-  if (typeof window === 'undefined' || !window.ResizeObserver) return;
+  const debouncedResize = useDebounce(handleResize, debounceDelay);
+  const throttledResize = useThrottle(handleResize, throttleDelay);
 
-  resizeObserverRef.current = new ResizeObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.target === document.documentElement) {
-        handleResize();
-      }
-    }
-  });
-
-  resizeObserverRef.current.observe(document.documentElement);
-
-  return () => {
-    resizeObserverRef.current?.disconnect();
-  };
-}, [handleResize]);
-
-// Setup media query listeners for breakpoints
-useEffect(() => {
-  if (!includeBreakpoints || typeof window === 'undefined') return;
-
-  const mediaQueries = Object.entries(BREAKPOINTS).map(([key, value]) => ({
-    key,
-    query: window.matchMedia(`(min-width: ${value}px)`)
-  }));
-
-  const handleMediaChange = () => {
-    const newBreakpoint = currentBreakpoint;
-    onBreakpointChange?.(newBreakpoint);
-  };
-
-  mediaQueries.forEach(({ key, query }) => {
-    mediaQueryListsRef.current[key] = query;
-    query.addEventListener('change', handleMediaChange);
-  });
-
-  return () => {
-    mediaQueries.forEach(({ key, query }) => {
-      query.removeEventListener('change', handleMediaChange);
+  // Handle scroll
+  const handleScroll = useCallback(() => {
+    if (!includePosition) return;
+  
+    setPosition({
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+      pageXOffset: window.pageXOffset,
+      pageYOffset: window.pageYOffset,
+      screenX: window.screenX,
+      screenY: window.screenY,
     });
-  };
-}, [includeBreakpoints, currentBreakpoint, onBreakpointChange]);
+  }, [includePosition]);
 
-// Setup orientation change listener
-useEffect(() => {
-  if (!includeOrientation || typeof window === 'undefined') return;
+  const debouncedScroll = useDebounce(handleScroll, debounceDelay);
+  const throttledScroll = useThrottle(handleScroll, throttleDelay);
 
-  window.addEventListener('orientationchange', handleOrientationChange);
+  // Handle orientation change
+  const handleOrientationChange = useCallback(() => {
+    if (!includeOrientation) return;
   
-  // Also listen for screen orientation changes
-  if (window.screen?.orientation) {
-    window.screen.orientation.addEventListener('change', handleOrientationChange);
-  }
+    setMotion(prev => ({
+      ...prev,
+      orientation: window.screen?.orientation,
+      mozOrientation: window.screen?.mozOrientation,
+    }));
+  
+    onOrientationChange?.({
+      orientation,
+      aspectRatio,
+      deviceType,
+    });
+  }, [includeOrientation, orientation, aspectRatio, deviceType, onOrientationChange]);
 
-  return () => {
-    window.removeEventListener('orientationchange', handleOrientationChange);
+  // Setup event listeners
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Choose resize handler based on options
+    const resizeHandler = debounceDelay > 0 ? debouncedResize : 
+      throttleDelay > 0 ? throttledResize : 
+        handleResize;
+
+    window.addEventListener('resize', resizeHandler);
+  
+    // Initial call
+    handleResize();
+
+    // Scroll listener
+    if (includePosition) {
+      const scrollHandler = debounceDelay > 0 ? debouncedScroll : 
+        throttleDelay > 0 ? throttledScroll : 
+          handleScroll;
+    
+      window.addEventListener('scroll', scrollHandler);
+      handleScroll();
+    
+      return () => {
+        window.removeEventListener('scroll', scrollHandler);
+      };
+    }
+
+    return () => {
+      window.removeEventListener('resize', resizeHandler);
+    };
+  }, [debouncedResize, throttledResize, handleResize, debouncedScroll, throttledScroll, handleScroll, includePosition, debounceDelay, throttleDelay]);
+
+  // Setup ResizeObserver for more accurate measurements
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.ResizeObserver) return;
+
+    resizeObserverRef.current = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.target === document.documentElement) {
+          handleResize();
+        }
+      }
+    });
+
+    resizeObserverRef.current.observe(document.documentElement);
+
+    return () => {
+      resizeObserverRef.current?.disconnect();
+    };
+  }, [handleResize]);
+
+  // Setup media query listeners for breakpoints
+  useEffect(() => {
+    if (!includeBreakpoints || typeof window === 'undefined') return;
+
+    const mediaQueries = Object.entries(BREAKPOINTS).map(([key, value]) => ({
+      key,
+      query: window.matchMedia(`(min-width: ${value}px)`),
+    }));
+
+    const handleMediaChange = () => {
+      const newBreakpoint = currentBreakpoint;
+      onBreakpointChange?.(newBreakpoint);
+    };
+
+    mediaQueries.forEach(({ key, query }) => {
+      mediaQueryListsRef.current[key] = query;
+      query.addEventListener('change', handleMediaChange);
+    });
+
+    return () => {
+      mediaQueries.forEach(({ key, query }) => {
+        query.removeEventListener('change', handleMediaChange);
+      });
+    };
+  }, [includeBreakpoints, currentBreakpoint, onBreakpointChange]);
+
+  // Setup orientation change listener
+  useEffect(() => {
+    if (!includeOrientation || typeof window === 'undefined') return;
+
+    window.addEventListener('orientationchange', handleOrientationChange);
+  
+    // Also listen for screen orientation changes
     if (window.screen?.orientation) {
-      window.screen.orientation.removeEventListener('change', handleOrientationChange);
+      window.screen.orientation.addEventListener('change', handleOrientationChange);
     }
-  };
-}, [includeOrientation, handleOrientationChange]);
 
-// Performance monitoring
-useEffect(() => {
-  if (!includePerformance) return;
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      if (window.screen?.orientation) {
+        window.screen.orientation.removeEventListener('change', handleOrientationChange);
+      }
+    };
+  }, [includeOrientation, handleOrientationChange]);
 
-  const measureFPS = () => {
-    const now = performance.now();
-    const delta = now - lastTimeRef.current;
+  // Performance monitoring
+  useEffect(() => {
+    if (!includePerformance) return;
+
+    const measureFPS = () => {
+      const now = performance.now();
+      const delta = now - lastTimeRef.current;
     
-    if (delta >= 1000) {
-      const fps = Math.round((frameCountRef.current * 1000) / delta);
-      setPerformance(prev => ({
-        ...prev,
-        frameRate: fps,
-        averageFPS: prev.averageFPS === 0 ? fps : (prev.averageFPS + fps) / 2,
-        lastFrameTime: now
-      }));
+      if (delta >= 1000) {
+        const fps = Math.round((frameCountRef.current * 1000) / delta);
+        setPerformance(prev => ({
+          ...prev,
+          frameRate: fps,
+          averageFPS: prev.averageFPS === 0 ? fps : (prev.averageFPS + fps) / 2,
+          lastFrameTime: now,
+        }));
       
-      frameCountRef.current = 0;
-      lastTimeRef.current = now;
-    }
+        frameCountRef.current = 0;
+        lastTimeRef.current = now;
+      }
     
-    frameCountRef.current++;
+      frameCountRef.current++;
+      animationFrameRef.current = requestAnimationFrame(measureFPS);
+    };
+
     animationFrameRef.current = requestAnimationFrame(measureFPS);
-  };
 
-  animationFrameRef.current = requestAnimationFrame(measureFPS);
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [includePerformance]);
 
-  return () => {
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
-  };
-}, [includePerformance]);
+  // Memory management
+  useEffect(() => {
+    return () => {
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
 
-// Memory management
-useEffect(() => {
-  return () => {
-    if (resizeObserverRef.current) {
-      resizeObserverRef.current.disconnect();
-    }
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
-  };
-}, []);
-
-// Helper functions
-const isInViewport = useCallback((element, offset = 0) => {
-  if (!element) return false;
+  // Helper functions
+  const isInViewport = useCallback((element, offset = 0) => {
+    if (!element) return false;
   
-  const rect = element.getBoundingClientRect();
-  return (
-    rect.top + offset >= 0 &&
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top + offset >= 0 &&
     rect.left + offset >= 0 &&
     rect.bottom - offset <= (window.innerHeight || document.documentElement.clientHeight) &&
     rect.right - offset <= (window.innerWidth || document.documentElement.clientWidth)
-  );
-}, []);
+    );
+  }, []);
 
-const getElementPosition = useCallback((element) => {
-  if (!element) return null;
+  const getElementPosition = useCallback((element) => {
+    if (!element) return null;
   
-  const rect = element.getBoundingClientRect();
-  return {
-    top: rect.top + window.scrollY,
-    left: rect.left + window.scrollX,
-    bottom: rect.bottom + window.scrollY,
-    right: rect.right + window.scrollX,
-    width: rect.width,
-    height: rect.height,
-    x: rect.x,
-    y: rect.y
-  };
-}, []);
+    const rect = element.getBoundingClientRect();
+    return {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+      bottom: rect.bottom + window.scrollY,
+      right: rect.right + window.scrollX,
+      width: rect.width,
+      height: rect.height,
+      x: rect.x,
+      y: rect.y,
+    };
+  }, []);
 
-const isElementVisible = useCallback((element, threshold = 0) => {
-  if (!element) return false;
+  const isElementVisible = useCallback((element, threshold = 0) => {
+    if (!element) return false;
   
-  const rect = element.getBoundingClientRect();
-  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-  const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth;
   
-  const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-  const visibleWidth = Math.min(rect.right, windowWidth) - Math.max(rect.left, 0);
-  const visibleArea = visibleHeight * visibleWidth;
-  const totalArea = rect.height * rect.width;
+    const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+    const visibleWidth = Math.min(rect.right, windowWidth) - Math.max(rect.left, 0);
+    const visibleArea = visibleHeight * visibleWidth;
+    const totalArea = rect.height * rect.width;
   
-  return visibleArea >= totalArea * threshold;
-}, []);
+    return visibleArea >= totalArea * threshold;
+  }, []);
     // Compose return object
   const returnValue = useMemo(() => {
     const result = {
@@ -525,7 +526,7 @@ const isElementVisible = useCallback((element, threshold = 0) => {
       isTv: deviceType === DEVICE_TYPES.TV,
       
       // Breakpoint booleans
-      ...(breakpoints || {})
+      ...(breakpoints || {}),
     };
 
     // Add dimension categories
@@ -534,7 +535,7 @@ const isElementVisible = useCallback((element, threshold = 0) => {
         inner: { width: windowSize.width, height: windowSize.height },
         outer: { width: windowSize.outerWidth, height: windowSize.outerHeight },
         screen: { width: windowSize.screenWidth, height: windowSize.screenHeight },
-        available: { width: windowSize.availWidth, height: windowSize.availHeight }
+        available: { width: windowSize.availWidth, height: windowSize.availHeight },
       };
     }
 
@@ -556,7 +557,7 @@ const isElementVisible = useCallback((element, threshold = 0) => {
     includeDimensions,
     isInViewport,
     getElementPosition,
-    isElementVisible
+    isElementVisible,
   ]);
 
   return returnValue;
@@ -639,7 +640,7 @@ export const useViewportUnits = () => {
     vh: (value) => (height * value) / 100,
     vw: (value) => (width * value) / 100,
     vmin: (value) => (Math.min(width, height) * value) / 100,
-    vmax: (value) => (Math.max(width, height) * value) / 100
+    vmax: (value) => (Math.max(width, height) * value) / 100,
   }), [width, height]);
 };
 
@@ -654,7 +655,7 @@ export const useElementSize = (ref) => {
       for (const entry of entries) {
         setSize({
           width: entry.contentRect.width,
-          height: entry.contentRect.height
+          height: entry.contentRect.height,
         });
       }
     });
@@ -726,7 +727,7 @@ export const windowSizeUtils = {
   // Get scroll position
   getScrollPosition: () => ({
     x: window.scrollX,
-    y: window.scrollY
+    y: window.scrollY,
   }),
   
   // Smooth scroll to element
@@ -735,9 +736,9 @@ export const windowSizeUtils = {
     element.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
-      ...options
+      ...options,
     });
-  }
+  },
 };
 
 // Export constants
@@ -746,7 +747,7 @@ export {
   DEVICE_TYPES as SCREEN_DEVICE_TYPES,
   ORIENTATIONS as SCREEN_ORIENTATIONS,
   ASPECT_RATIOS as SCREEN_ASPECT_RATIOS,
-  VIEWPORT_CATEGORIES as SCREEN_CATEGORIES
+  VIEWPORT_CATEGORIES as SCREEN_CATEGORIES,
 };
 
 export default useWindowSize;

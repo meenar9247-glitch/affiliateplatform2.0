@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { authApi } from '../hooks/useAuth';
 
 // API base URL
@@ -17,7 +18,7 @@ export const EVENT_CATEGORIES = {
   SESSION: 'session',
   ENGAGEMENT: 'engagement',
   ERROR: 'error',
-  PERFORMANCE: 'performance'
+  PERFORMANCE: 'performance',
 };
 
 // Analytics event actions
@@ -59,7 +60,7 @@ export const EVENT_ACTIONS = {
   SUBMIT_FORM: 'submit_form',
   SEARCH: 'search',
   FILTER: 'filter',
-  SORT: 'sort'
+  SORT: 'sort',
 };
 
 // Time periods for analytics
@@ -70,7 +71,7 @@ export const TIME_PERIODS = {
   MONTHLY: 'monthly',
   QUARTERLY: 'quarterly',
   YEARLY: 'yearly',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 // Metric types
@@ -80,7 +81,7 @@ export const METRIC_TYPES = {
   AVERAGE: 'average',
   PERCENTAGE: 'percentage',
   RATE: 'rate',
-  RATIO: 'ratio'
+  RATIO: 'ratio',
 };
 
 // Chart types
@@ -94,7 +95,7 @@ export const CHART_TYPES = {
   SCATTER: 'scatter',
   BUBBLE: 'bubble',
   HEATMAP: 'heatmap',
-  FUNNEL: 'funnel'
+  FUNNEL: 'funnel',
 };
 
 // Data aggregation levels
@@ -105,7 +106,7 @@ export const AGGREGATION_LEVELS = {
   WEEKLY: 'weekly',
   MONTHLY: 'monthly',
   QUARTERLY: 'quarterly',
-  YEARLY: 'yearly'
+  YEARLY: 'yearly',
 };
 
 // Comparison types
@@ -113,7 +114,7 @@ export const COMPARISON_TYPES = {
   PREVIOUS_PERIOD: 'previous_period',
   YEAR_OVER_YEAR: 'year_over_year',
   PERIOD_TO_DATE: 'period_to_date',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 // Default metrics
@@ -154,7 +155,7 @@ export const DEFAULT_METRICS = {
   // Performance metrics
   RESPONSE_TIME: 'response_time',
   ERROR_RATE: 'error_rate',
-  AVAILABILITY: 'availability'
+  AVAILABILITY: 'availability',
 };
 
 // Create axios instance for analytics service
@@ -175,7 +176,7 @@ analyticsApi.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor for error handling
@@ -190,7 +191,7 @@ analyticsApi.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem('refresh_token');
         const response = await axios.post(`${API_URL}/auth/refresh`, {
-          refreshToken
+          refreshToken,
         });
 
         if (response.data.success) {
@@ -205,7 +206,7 @@ analyticsApi.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // Helper function to handle API errors
@@ -280,7 +281,7 @@ const formatAnalyticsData = (data) => {
     metadata: data.metadata || {},
     tags: data.tags || [],
     
-    createdAt: data.createdAt || new Date().toISOString()
+    createdAt: data.createdAt || new Date().toISOString(),
   };
 };
 // Analytics Service Class
@@ -300,7 +301,7 @@ class AnalyticsService {
         url: window.location.href,
         referrer: document.referrer,
         screenSize: `${window.innerWidth}x${window.innerHeight}`,
-        userAgent: navigator.userAgent
+        userAgent: navigator.userAgent,
       };
 
       // Send to server (fire and forget)
@@ -320,7 +321,7 @@ class AnalyticsService {
   async trackPageView(page, metadata = {}) {
     return this.trackEvent(EVENT_CATEGORIES.PAGE_VIEW, 'view', {
       page,
-      ...metadata
+      ...metadata,
     });
   }
 
@@ -354,7 +355,7 @@ class AnalyticsService {
     return this.trackEvent(EVENT_CATEGORIES.ERROR, 'error', {
       error: error.message,
       stack: error.stack,
-      ...metadata
+      ...metadata,
     });
   }
 
@@ -362,7 +363,7 @@ class AnalyticsService {
   async trackPerformance(metric, value, metadata = {}) {
     return this.trackEvent(EVENT_CATEGORIES.PERFORMANCE, metric, {
       value,
-      ...metadata
+      ...metadata,
     });
   }
 
@@ -375,7 +376,7 @@ class AnalyticsService {
       offlineEvents.push({
         ...eventData,
         offlineId: `offline_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        storedAt: new Date().toISOString()
+        storedAt: new Date().toISOString(),
       });
       
       // Keep only last 1000 events
@@ -405,13 +406,13 @@ class AnalyticsService {
         return {
           success: true,
           synced: offlineEvents.length,
-          failed: response.data.failed || 0
+          failed: response.data.failed || 0,
         };
       }
       
       return {
         success: false,
-        error: response.data.message
+        error: response.data.message,
       };
     } catch (error) {
       throw handleError(error);
@@ -424,7 +425,7 @@ class AnalyticsService {
   async getDashboardAnalytics(period = TIME_PERIODS.DAILY, filters = {}) {
     try {
       const response = await analyticsApi.get('/dashboard', {
-        params: { period, ...filters }
+        params: { period, ...filters },
       });
       
       if (response.data.success) {
@@ -432,13 +433,13 @@ class AnalyticsService {
           success: true,
           data: response.data.analytics,
           summary: response.data.summary,
-          charts: response.data.charts
+          charts: response.data.charts,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get dashboard analytics'
+        error: response.data.message || 'Failed to get dashboard analytics',
       };
     } catch (error) {
       throw handleError(error);
@@ -455,13 +456,13 @@ class AnalyticsService {
           success: true,
           data: response.data.analytics,
           activeUsers: response.data.activeUsers,
-          events: response.data.events
+          events: response.data.events,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get realtime analytics'
+        error: response.data.message || 'Failed to get realtime analytics',
       };
     } catch (error) {
       throw handleError(error);
@@ -472,7 +473,7 @@ class AnalyticsService {
   async getTrafficAnalytics(period = TIME_PERIODS.DAILY, filters = {}) {
     try {
       const response = await analyticsApi.get('/traffic', {
-        params: { period, ...filters }
+        params: { period, ...filters },
       });
       
       if (response.data.success) {
@@ -481,13 +482,13 @@ class AnalyticsService {
           data: response.data.analytics,
           sources: response.data.sources,
           devices: response.data.devices,
-          locations: response.data.locations
+          locations: response.data.locations,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get traffic analytics'
+        error: response.data.message || 'Failed to get traffic analytics',
       };
     } catch (error) {
       throw handleError(error);
@@ -498,7 +499,7 @@ class AnalyticsService {
   async getUserAnalytics(period = TIME_PERIODS.DAILY, filters = {}) {
     try {
       const response = await analyticsApi.get('/users', {
-        params: { period, ...filters }
+        params: { period, ...filters },
       });
       
       if (response.data.success) {
@@ -506,13 +507,13 @@ class AnalyticsService {
           success: true,
           data: response.data.analytics,
           metrics: response.data.metrics,
-          segments: response.data.segments
+          segments: response.data.segments,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get user analytics'
+        error: response.data.message || 'Failed to get user analytics',
       };
     } catch (error) {
       throw handleError(error);
@@ -523,7 +524,7 @@ class AnalyticsService {
   async getAffiliateAnalytics(period = TIME_PERIODS.DAILY, filters = {}) {
     try {
       const response = await analyticsApi.get('/affiliates', {
-        params: { period, ...filters }
+        params: { period, ...filters },
       });
       
       if (response.data.success) {
@@ -531,13 +532,13 @@ class AnalyticsService {
           success: true,
           data: response.data.analytics,
           performance: response.data.performance,
-          topAffiliates: response.data.topAffiliates
+          topAffiliates: response.data.topAffiliates,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get affiliate analytics'
+        error: response.data.message || 'Failed to get affiliate analytics',
       };
     } catch (error) {
       throw handleError(error);
@@ -548,7 +549,7 @@ class AnalyticsService {
   async getEarningsAnalytics(period = TIME_PERIODS.DAILY, filters = {}) {
     try {
       const response = await analyticsApi.get('/earnings', {
-        params: { period, ...filters }
+        params: { period, ...filters },
       });
       
       if (response.data.success) {
@@ -556,13 +557,13 @@ class AnalyticsService {
           success: true,
           data: response.data.analytics,
           breakdown: response.data.breakdown,
-          projections: response.data.projections
+          projections: response.data.projections,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get earnings analytics'
+        error: response.data.message || 'Failed to get earnings analytics',
       };
     } catch (error) {
       throw handleError(error);
@@ -573,7 +574,7 @@ class AnalyticsService {
   async getConversionAnalytics(period = TIME_PERIODS.DAILY, filters = {}) {
     try {
       const response = await analyticsApi.get('/conversions', {
-        params: { period, ...filters }
+        params: { period, ...filters },
       });
       
       if (response.data.success) {
@@ -581,13 +582,13 @@ class AnalyticsService {
           success: true,
           data: response.data.analytics,
           funnel: response.data.funnel,
-          rates: response.data.rates
+          rates: response.data.rates,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get conversion analytics'
+        error: response.data.message || 'Failed to get conversion analytics',
       };
     } catch (error) {
       throw handleError(error);
@@ -598,7 +599,7 @@ class AnalyticsService {
   async getProductAnalytics(period = TIME_PERIODS.DAILY, filters = {}) {
     try {
       const response = await analyticsApi.get('/products', {
-        params: { period, ...filters }
+        params: { period, ...filters },
       });
       
       if (response.data.success) {
@@ -606,19 +607,19 @@ class AnalyticsService {
           success: true,
           data: response.data.analytics,
           topProducts: response.data.topProducts,
-          categories: response.data.categories
+          categories: response.data.categories,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get product analytics'
+        error: response.data.message || 'Failed to get product analytics',
       };
     } catch (error) {
       throw handleError(error);
     }
-      }
-    // ==================== Custom Reports ====================
+  }
+  // ==================== Custom Reports ====================
 
   // Generate custom report
   async generateReport(reportConfig) {
@@ -629,13 +630,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.report,
-          url: response.data.url
+          url: response.data.url,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to generate report'
+        error: response.data.message || 'Failed to generate report',
       };
     } catch (error) {
       throw handleError(error);
@@ -650,13 +651,13 @@ class AnalyticsService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.reports
+          data: response.data.reports,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get saved reports'
+        error: response.data.message || 'Failed to get saved reports',
       };
     } catch (error) {
       throw handleError(error);
@@ -672,13 +673,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.report,
-          message: response.data.message || 'Report saved successfully'
+          message: response.data.message || 'Report saved successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to save report'
+        error: response.data.message || 'Failed to save report',
       };
     } catch (error) {
       throw handleError(error);
@@ -694,13 +695,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.report,
-          message: response.data.message || 'Report updated successfully'
+          message: response.data.message || 'Report updated successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to update report'
+        error: response.data.message || 'Failed to update report',
       };
     } catch (error) {
       throw handleError(error);
@@ -715,13 +716,13 @@ class AnalyticsService {
       if (response.data.success) {
         return {
           success: true,
-          message: response.data.message || 'Report deleted successfully'
+          message: response.data.message || 'Report deleted successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to delete report'
+        error: response.data.message || 'Failed to delete report',
       };
     } catch (error) {
       throw handleError(error);
@@ -733,13 +734,13 @@ class AnalyticsService {
     try {
       const response = await analyticsApi.get(`/reports/${reportId}/export`, {
         params: { format, ...options },
-        responseType: 'blob'
+        responseType: 'blob',
       });
       
       return {
         success: true,
         data: response.data,
-        filename: response.headers['content-disposition']?.split('filename=')[1] || `report-${reportId}.${format}`
+        filename: response.headers['content-disposition']?.split('filename=')[1] || `report-${reportId}.${format}`,
       };
     } catch (error) {
       throw handleError(error);
@@ -755,13 +756,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.schedule,
-          message: response.data.message || 'Report scheduled successfully'
+          message: response.data.message || 'Report scheduled successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to schedule report'
+        error: response.data.message || 'Failed to schedule report',
       };
     } catch (error) {
       throw handleError(error);
@@ -779,13 +780,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.funnel,
-          message: response.data.message || 'Funnel created successfully'
+          message: response.data.message || 'Funnel created successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to create funnel'
+        error: response.data.message || 'Failed to create funnel',
       };
     } catch (error) {
       throw handleError(error);
@@ -796,7 +797,7 @@ class AnalyticsService {
   async getFunnelAnalysis(funnelId, period = TIME_PERIODS.DAILY) {
     try {
       const response = await analyticsApi.get(`/funnels/${funnelId}/analysis`, {
-        params: { period }
+        params: { period },
       });
       
       if (response.data.success) {
@@ -804,13 +805,13 @@ class AnalyticsService {
           success: true,
           data: response.data.analysis,
           steps: response.data.steps,
-          conversionRates: response.data.conversionRates
+          conversionRates: response.data.conversionRates,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get funnel analysis'
+        error: response.data.message || 'Failed to get funnel analysis',
       };
     } catch (error) {
       throw handleError(error);
@@ -825,13 +826,13 @@ class AnalyticsService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.funnels
+          data: response.data.funnels,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get funnels'
+        error: response.data.message || 'Failed to get funnels',
       };
     } catch (error) {
       throw handleError(error);
@@ -844,7 +845,7 @@ class AnalyticsService {
   async getCohortAnalysis(cohortType = 'weekly', period = 12) {
     try {
       const response = await analyticsApi.get('/cohorts', {
-        params: { type: cohortType, period }
+        params: { type: cohortType, period },
       });
       
       if (response.data.success) {
@@ -852,13 +853,13 @@ class AnalyticsService {
           success: true,
           data: response.data.cohorts,
           matrix: response.data.matrix,
-          retention: response.data.retention
+          retention: response.data.retention,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get cohort analysis'
+        error: response.data.message || 'Failed to get cohort analysis',
       };
     } catch (error) {
       throw handleError(error);
@@ -874,13 +875,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.cohort,
-          message: response.data.message || 'Cohort created successfully'
+          message: response.data.message || 'Cohort created successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to create cohort'
+        error: response.data.message || 'Failed to create cohort',
       };
     } catch (error) {
       throw handleError(error);
@@ -893,7 +894,7 @@ class AnalyticsService {
   async getRetentionAnalysis(period = '30days') {
     try {
       const response = await analyticsApi.get('/retention', {
-        params: { period }
+        params: { period },
       });
       
       if (response.data.success) {
@@ -901,13 +902,13 @@ class AnalyticsService {
           success: true,
           data: response.data.retention,
           rates: response.data.rates,
-          chart: response.data.chart
+          chart: response.data.chart,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get retention analysis'
+        error: response.data.message || 'Failed to get retention analysis',
       };
     } catch (error) {
       throw handleError(error);
@@ -918,7 +919,7 @@ class AnalyticsService {
   async getChurnAnalysis(period = '30days') {
     try {
       const response = await analyticsApi.get('/churn', {
-        params: { period }
+        params: { period },
       });
       
       if (response.data.success) {
@@ -926,13 +927,13 @@ class AnalyticsService {
           success: true,
           data: response.data.churn,
           rates: response.data.rates,
-          reasons: response.data.reasons
+          reasons: response.data.reasons,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get churn analysis'
+        error: response.data.message || 'Failed to get churn analysis',
       };
     } catch (error) {
       throw handleError(error);
@@ -945,7 +946,7 @@ class AnalyticsService {
   async getForecast(metric, period = '30days', model = 'arima') {
     try {
       const response = await analyticsApi.get('/forecast', {
-        params: { metric, period, model }
+        params: { metric, period, model },
       });
       
       if (response.data.success) {
@@ -953,13 +954,13 @@ class AnalyticsService {
           success: true,
           data: response.data.forecast,
           predictions: response.data.predictions,
-          confidence: response.data.confidence
+          confidence: response.data.confidence,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get forecast'
+        error: response.data.message || 'Failed to get forecast',
       };
     } catch (error) {
       throw handleError(error);
@@ -970,20 +971,20 @@ class AnalyticsService {
   async getPredictions(metric, horizon = 30) {
     try {
       const response = await analyticsApi.get('/predictions', {
-        params: { metric, horizon }
+        params: { metric, horizon },
       });
       
       if (response.data.success) {
         return {
           success: true,
           data: response.data.predictions,
-          intervals: response.data.intervals
+          intervals: response.data.intervals,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get predictions'
+        error: response.data.message || 'Failed to get predictions',
       };
     } catch (error) {
       throw handleError(error);
@@ -1000,13 +1001,13 @@ class AnalyticsService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.segments
+          data: response.data.segments,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get segments'
+        error: response.data.message || 'Failed to get segments',
       };
     } catch (error) {
       throw handleError(error);
@@ -1022,13 +1023,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.segment,
-          message: response.data.message || 'Segment created successfully'
+          message: response.data.message || 'Segment created successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to create segment'
+        error: response.data.message || 'Failed to create segment',
       };
     } catch (error) {
       throw handleError(error);
@@ -1039,7 +1040,7 @@ class AnalyticsService {
   async getSegmentAnalysis(segmentId, period = '30days') {
     try {
       const response = await analyticsApi.get(`/segments/${segmentId}/analysis`, {
-        params: { period }
+        params: { period },
       });
       
       if (response.data.success) {
@@ -1047,13 +1048,13 @@ class AnalyticsService {
           success: true,
           data: response.data.analysis,
           metrics: response.data.metrics,
-          comparison: response.data.comparison
+          comparison: response.data.comparison,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get segment analysis'
+        error: response.data.message || 'Failed to get segment analysis',
       };
     } catch (error) {
       throw handleError(error);
@@ -1071,13 +1072,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.test,
-          message: response.data.message || 'A/B test created successfully'
+          message: response.data.message || 'A/B test created successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to create A/B test'
+        error: response.data.message || 'Failed to create A/B test',
       };
     } catch (error) {
       throw handleError(error);
@@ -1092,13 +1093,13 @@ class AnalyticsService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.tests
+          data: response.data.tests,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get A/B tests'
+        error: response.data.message || 'Failed to get A/B tests',
       };
     } catch (error) {
       throw handleError(error);
@@ -1115,13 +1116,13 @@ class AnalyticsService {
           success: true,
           data: response.data.results,
           winner: response.data.winner,
-          confidence: response.data.confidence
+          confidence: response.data.confidence,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get test results'
+        error: response.data.message || 'Failed to get test results',
       };
     } catch (error) {
       throw handleError(error);
@@ -1139,13 +1140,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.results,
-          executionTime: response.data.executionTime
+          executionTime: response.data.executionTime,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to run query'
+        error: response.data.message || 'Failed to run query',
       };
     } catch (error) {
       throw handleError(error);
@@ -1160,13 +1161,13 @@ class AnalyticsService {
       if (response.data.success) {
         return {
           success: true,
-          data: response.data.queries
+          data: response.data.queries,
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to get query history'
+        error: response.data.message || 'Failed to get query history',
       };
     } catch (error) {
       throw handleError(error);
@@ -1182,13 +1183,13 @@ class AnalyticsService {
         return {
           success: true,
           data: response.data.saved,
-          message: response.data.message || 'Query saved successfully'
+          message: response.data.message || 'Query saved successfully',
         };
       }
       
       return {
         success: false,
-        error: response.data.message || 'Failed to save query'
+        error: response.data.message || 'Failed to save query',
       };
     } catch (error) {
       throw handleError(error);
@@ -1219,7 +1220,7 @@ export const analyticsHelpers = {
   formatCurrency: (value, currency = 'USD') => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency
+      currency,
     }).format(value);
   },
 
@@ -1267,7 +1268,7 @@ export const analyticsHelpers = {
     const colors = [
       '#667eea', '#764ba2', '#ff6b6b', '#4ecdc4', '#45b7d1',
       '#96ceb4', '#ffcc5c', '#ff6f69', '#a8e6cf', '#d4a5a5',
-      '#9b59b6', '#3498db', '#e74c3c', '#2ecc71', '#f1c40f'
+      '#9b59b6', '#3498db', '#e74c3c', '#2ecc71', '#f1c40f',
     ];
     
     if (count <= colors.length) return colors.slice(0, count);
@@ -1335,14 +1336,14 @@ export const analyticsHelpers = {
   detectOutliers: (data, threshold = 2) => {
     const mean = data.reduce((sum, val) => sum + val, 0) / data.length;
     const stdDev = Math.sqrt(
-      data.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / data.length
+      data.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / data.length,
     );
     
     return data.map((val, index) => ({
       value: val,
       index,
       isOutlier: Math.abs(val - mean) > threshold * stdDev,
-      zScore: (val - mean) / stdDev
+      zScore: (val - mean) / stdDev,
     }));
   },
 
@@ -1363,7 +1364,7 @@ export const analyticsHelpers = {
   confidenceInterval: (data, confidence = 0.95) => {
     const mean = data.reduce((sum, val) => sum + val, 0) / data.length;
     const stdDev = Math.sqrt(
-      data.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / data.length
+      data.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / data.length,
     );
     
     const z = confidence === 0.99 ? 2.576 : confidence === 0.95 ? 1.96 : 1.645;
@@ -1373,9 +1374,9 @@ export const analyticsHelpers = {
       mean,
       lower: mean - margin,
       upper: mean + margin,
-      margin
+      margin,
     };
-  }
+  },
 };
 
 // Export constants
@@ -1387,7 +1388,7 @@ export const ANALYTICS_CONSTANTS = {
   CHART_TYPES,
   AGGREGATION_LEVELS,
   COMPARISON_TYPES,
-  DEFAULT_METRICS
+  DEFAULT_METRICS,
 };
 
 export default analyticsService;

@@ -5,7 +5,7 @@ export const STORAGE_TYPES = {
   MEMORY: 'memory',
   INDEXED_DB: 'indexed_db',
   COOKIE: 'cookie',
-  CACHE: 'cache'
+  CACHE: 'cache',
 };
 
 // Storage priorities
@@ -13,7 +13,7 @@ export const STORAGE_PRIORITIES = {
   LOW: 0,
   MEDIUM: 1,
   HIGH: 2,
-  CRITICAL: 3
+  CRITICAL: 3,
 };
 
 // Data types
@@ -25,7 +25,7 @@ export const DATA_TYPES = {
   ARRAY: 'array',
   DATE: 'date',
   BLOB: 'blob',
-  FILE: 'file'
+  FILE: 'file',
 };
 
 // Serialization formats
@@ -33,7 +33,7 @@ export const SERIALIZATION_FORMATS = {
   JSON: 'json',
   BASE64: 'base64',
   BINARY: 'binary',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
 };
 
 // Compression algorithms
@@ -41,7 +41,7 @@ export const COMPRESSION_ALGORITHMS = {
   NONE: 'none',
   GZIP: 'gzip',
   DEFLATE: 'deflate',
-  LZ77: 'lz77'
+  LZ77: 'lz77',
 };
 
 // Encryption algorithms
@@ -49,7 +49,7 @@ export const ENCRYPTION_ALGORITHMS = {
   NONE: 'none',
   AES: 'aes',
   DES: 'des',
-  RSA: 'rsa'
+  RSA: 'rsa',
 };
 
 // Storage quotas (in bytes)
@@ -59,7 +59,7 @@ export const STORAGE_QUOTAS = {
   [STORAGE_TYPES.MEMORY]: 50 * 1024 * 1024, // 50MB
   [STORAGE_TYPES.INDEXED_DB]: 500 * 1024 * 1024, // 500MB
   [STORAGE_TYPES.COOKIE]: 4 * 1024, // 4KB
-  [STORAGE_TYPES.CACHE]: 100 * 1024 * 1024 // 100MB
+  [STORAGE_TYPES.CACHE]: 100 * 1024 * 1024, // 100MB
 };
 
 // Default expiry times (in milliseconds)
@@ -68,7 +68,7 @@ export const DEFAULT_EXPIRY = {
   MEDIUM: 60 * 60 * 1000, // 1 hour
   LONG: 24 * 60 * 60 * 1000, // 1 day
   VERY_LONG: 7 * 24 * 60 * 60 * 1000, // 1 week
-  PERMANENT: null // No expiry
+  PERMANENT: null, // No expiry
 };
 
 // Storage events
@@ -79,7 +79,7 @@ export const STORAGE_EVENTS = {
   CLEAR: 'storage:clear',
   EXPIRED: 'storage:expired',
   QUOTA_EXCEEDED: 'storage:quota_exceeded',
-  ERROR: 'storage:error'
+  ERROR: 'storage:error',
 };
 
 // Base Storage Class
@@ -109,7 +109,7 @@ class BaseStorage {
       removes: 0,
       clears: 0,
       size: 0,
-      items: 0
+      items: 0,
     };
   }
 
@@ -193,7 +193,7 @@ class BaseStorage {
       expiry: expiry || this.defaultExpiry ? Date.now() + this.defaultExpiry : null,
       compressed: this.enableCompression,
       encrypted: this.enableEncryption,
-      size: new Blob([JSON.stringify(value)]).size
+      size: new Blob([JSON.stringify(value)]).size,
     };
     
     let processed = JSON.stringify(data);
@@ -262,7 +262,7 @@ class BaseStorage {
       removes: 0,
       clears: 0,
       size: 0,
-      items: 0
+      items: 0,
     };
   }
 
@@ -305,7 +305,7 @@ class BaseStorage {
       this.emit(STORAGE_EVENTS.QUOTA_EXCEEDED, { 
         current: this.stats.size,
         required: size,
-        max: this.maxSize 
+        max: this.maxSize, 
       });
       return false;
     }
@@ -338,7 +338,7 @@ class BaseStorage {
         break;
     }
   }
-  }
+}
 // Memory Storage
 class MemoryStorage extends BaseStorage {
   constructor(options = {}) {
@@ -778,7 +778,7 @@ class CookieStorage extends BaseStorage {
   async length() {
     return (await this.keys()).length;
   }
-  }
+}
 // IndexedDB Storage
 class IndexedDBStorage extends BaseStorage {
   constructor(options = {}) {
@@ -1186,7 +1186,7 @@ storageService.initialize({
   defaultExpiry: DEFAULT_EXPIRY.MEDIUM,
   enableCompression: true,
   enableEncryption: false,
-  enableExpiry: true
+  enableExpiry: true,
 });
 
 // Export helper functions
@@ -1334,7 +1334,7 @@ export const storageHelpers = {
     }
     
     return cleaned;
-  }
+  },
 };
 
 // Export constants
@@ -1347,7 +1347,7 @@ export const STORAGE_CONSTANTS = {
   ENCRYPTION_ALGORITHMS,
   QUOTAS: STORAGE_QUOTAS,
   DEFAULT_EXPIRY,
-  EVENTS: STORAGE_EVENTS
+  EVENTS: STORAGE_EVENTS,
 };
 
 export default storageService;

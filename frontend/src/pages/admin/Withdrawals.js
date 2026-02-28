@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiDollarSign,
@@ -28,8 +27,9 @@ import {
   FiSmartphone,
   FiGlobe,
   FiSend,
-  FiPrinter
+  FiPrinter,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const AdminWithdrawals = () => {
   const [loading, setLoading] = useState(true);
@@ -40,11 +40,11 @@ const AdminWithdrawals = () => {
     status: 'all',
     method: 'all',
     dateRange: 'all',
-    amountRange: 'all'
+    amountRange: 'all',
   });
   const [sortConfig, setSortConfig] = useState({
     key: 'createdAt',
-    direction: 'desc'
+    direction: 'desc',
   });
   const [selectedWithdrawals, setSelectedWithdrawals] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -57,7 +57,7 @@ const AdminWithdrawals = () => {
     totalAmount: 0,
     pendingAmount: 0,
     completedAmount: 0,
-    averageProcessingTime: 0
+    averageProcessingTime: 0,
   });
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -68,11 +68,11 @@ const AdminWithdrawals = () => {
   const [processForm, setProcessForm] = useState({
     transactionId: '',
     notes: '',
-    fee: 0
+    fee: 0,
   });
   const [rejectForm, setRejectForm] = useState({
     reason: '',
-    notes: ''
+    notes: '',
   });
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const AdminWithdrawals = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/withdrawals`
+        `${process.env.REACT_APP_API_URL}/admin/withdrawals`,
       );
       
       if (response.data.success) {
@@ -106,7 +106,7 @@ const AdminWithdrawals = () => {
   const fetchStats = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/withdrawals/stats`
+        `${process.env.REACT_APP_API_URL}/admin/withdrawals/stats`,
       );
       
       if (response.data.success) {
@@ -120,7 +120,7 @@ const AdminWithdrawals = () => {
   const fetchPaymentMethods = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/withdrawals/payment-methods`
+        `${process.env.REACT_APP_API_URL}/admin/withdrawals/payment-methods`,
       );
       
       if (response.data.success) {
@@ -140,7 +140,7 @@ const AdminWithdrawals = () => {
         w.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         w.user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         w._id?.includes(searchTerm) ||
-        w.transactionId?.includes(searchTerm)
+        w.transactionId?.includes(searchTerm),
       );
     }
 
@@ -218,7 +218,7 @@ const AdminWithdrawals = () => {
   const handleSort = (key) => {
     setSortConfig({
       key,
-      direction: sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc'
+      direction: sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc',
     });
   };
 
@@ -251,7 +251,7 @@ const AdminWithdrawals = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/admin/withdrawals/bulk`,
-        { action, withdrawalIds: selectedWithdrawals }
+        { action, withdrawalIds: selectedWithdrawals },
       );
       
       if (response.data.success) {
@@ -275,7 +275,7 @@ const AdminWithdrawals = () => {
     setProcessForm({
       transactionId: '',
       notes: '',
-      fee: 0
+      fee: 0,
     });
     setShowProcessModal(true);
   };
@@ -284,7 +284,7 @@ const AdminWithdrawals = () => {
     setSelectedWithdrawal(withdrawal);
     setRejectForm({
       reason: '',
-      notes: ''
+      notes: '',
     });
     setShowRejectModal(true);
   };
@@ -293,7 +293,7 @@ const AdminWithdrawals = () => {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/admin/withdrawals/${selectedWithdrawal._id}/process`,
-        processForm
+        processForm,
       );
       
       if (response.data.success) {
@@ -311,7 +311,7 @@ const AdminWithdrawals = () => {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/admin/withdrawals/${selectedWithdrawal._id}/reject`,
-        rejectForm
+        rejectForm,
       );
       
       if (response.data.success) {
@@ -328,7 +328,7 @@ const AdminWithdrawals = () => {
   const handleCompleteWithdrawal = async (withdrawalId) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/admin/withdrawals/${withdrawalId}/complete`
+        `${process.env.REACT_APP_API_URL}/admin/withdrawals/${withdrawalId}/complete`,
       );
       
       if (response.data.success) {
@@ -346,8 +346,8 @@ const AdminWithdrawals = () => {
         `${process.env.REACT_APP_API_URL}/admin/withdrawals/export`,
         {
           params: { format },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -370,7 +370,7 @@ const AdminWithdrawals = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -379,7 +379,7 @@ const AdminWithdrawals = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(amount);
   };
 

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import {
   FiUsers,
@@ -30,8 +29,9 @@ import {
   FiChevronUp,
   FiChevronLeft,
   FiGrid,
-  FiList
+  FiList,
 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const ReferralTree = () => {
   const [loading, setLoading] = useState(true);
@@ -52,7 +52,7 @@ const ReferralTree = () => {
     totalEarnings: 0,
     deepestLevel: 0,
     averagePerLevel: 0,
-    topReferrer: null
+    topReferrer: null,
   });
 
   const canvasRef = useRef(null);
@@ -72,7 +72,7 @@ const ReferralTree = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/referrals/tree`
+        `${process.env.REACT_APP_API_URL}/referrals/tree`,
       );
       
       if (response.data.success) {
@@ -108,8 +108,8 @@ const ReferralTree = () => {
         `${process.env.REACT_APP_API_URL}/referrals/tree/export`,
         {
           params: { format },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       );
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -167,7 +167,7 @@ const ReferralTree = () => {
     if (dragging) {
       setPosition({
         x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y
+        y: e.clientY - dragStart.y,
       });
     }
   };
