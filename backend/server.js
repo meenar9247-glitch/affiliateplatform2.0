@@ -38,29 +38,41 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-// CORS
+// CORS with frontend URL
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    process.env.FRONTEND_URL || 'http://localhost:3000',
+    'https://referandearn-69cb.onrender.com'  // Tumhara frontend URL
+  ],
   credentials: true
 }));
+
+// ✅ ROOT ROUTE
+app.get("/", (req, res) => {
+  res.send("Backend Running Successfully");
+});
+
+// ✅ API TEST ROUTE (Frontend ke liye)
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Backend API is working!',
+    timestamp: new Date()
+  });
+});
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/affiliate-platform', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
-  console.log('MongoDB connected successfully');
+  console.log('✅ MongoDB connected successfully');
 }).catch(err => {
-  console.error('MongoDB connection error:', err);
+  console.error('❌ MongoDB connection error:', err);
   process.exit(1);
 });
 
-// ✅ YEH SIRF ADD KIYA HAI (ROOT ROUTE)
-app.get("/", (req, res) => {
-  res.send("Backend Running Successfully");
-});
-
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/affiliates', affiliateRoutes);
@@ -84,5 +96,5 @@ app.use('*', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
