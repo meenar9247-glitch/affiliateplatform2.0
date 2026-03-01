@@ -17,8 +17,7 @@ import { CurrencyProvider } from './context/CurrencyContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { SocketProvider } from './context/SocketContext';
-import { ThemeProvider } from './context/ThemeContext';
-import { useTheme } from './context/ThemeContext';
+import { ThemeProvider , useTheme } from './context/ThemeContext';
 import { WishlistProvider } from './context/WishlistContext';
 
 
