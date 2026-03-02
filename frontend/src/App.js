@@ -286,7 +286,7 @@ function App() {
                                 
                                 <Route path="/analytics" element={
                                   <ProtectedRoute requiredRole="affiliate">
-                                    <Analytics />
+                                    <VercelAnalytics />
                                   </ProtectedRoute>
                                 } />
                                 
@@ -659,6 +659,7 @@ styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
 export default App;
+
 
 
 
