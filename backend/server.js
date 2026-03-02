@@ -40,10 +40,7 @@ app.use(cookieParser());
 
 // CORS with frontend URL
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || 'http://localhost:3000',
-    'https://referandearn-69cb.onrender.com'  // Tumhara frontend URL
-  ],
+  origin: true,    
   credentials: true
 }));
 
