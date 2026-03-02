@@ -3,7 +3,7 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter as Router, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import BackToTop from './components/common/BackToTop';
 import CookieConsent from './components/common/CookieConsent';
@@ -659,6 +659,7 @@ styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
 export default App;
+
 
 
 
