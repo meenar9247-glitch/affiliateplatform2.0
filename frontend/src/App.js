@@ -19,7 +19,7 @@ import { NotificationProvider } from './context/NotificationContext';
 import { SocketProvider } from './context/SocketContext';
 import { ThemeProvider , useTheme } from './context/ThemeContext';
 import { WishlistProvider } from './context/WishlistContext';
-
+import { SpeedInsights } from '@vercel/speed-insights/react'; 
 
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/Home'));
@@ -666,3 +666,4 @@ export default App;
 
 
 import { Analytics } from '@vercel/analytics/react';
+
