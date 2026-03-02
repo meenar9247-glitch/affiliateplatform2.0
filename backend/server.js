@@ -59,14 +59,16 @@ app.get('/api/test', (req, res) => {
 });
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/affiliate-platform', {
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/affiliate-platform';
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
   console.log('✅ MongoDB connected successfully');
 }).catch(err => {
-  console.error('❌ MongoDB connection error:', err);
-  process.exit(1);
+  console.error('❌ MongoDB connection error:', err.message);
+  console.warn('⚠️ Server running without database. Set MONGODB_URI env var to connect to MongoDB.');
+  // process.exit(1) ← HATAYA! Server crash nahi hoga
 });
 
 // API Routes
