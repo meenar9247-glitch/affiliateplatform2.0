@@ -4,7 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router, Route, Navigate } from 'react-router-dom';
-
+import { Analytics } from '@vercel/analytics/react';
 import BackToTop from './components/common/BackToTop';
 import CookieConsent from './components/common/CookieConsent';
 import Maintenance from './components/common/Maintenance';
@@ -19,7 +19,7 @@ import { NotificationProvider } from './context/NotificationContext';
 import { SocketProvider } from './context/SocketContext';
 import { ThemeProvider , useTheme } from './context/ThemeContext';
 import { WishlistProvider } from './context/WishlistContext';
-
+import { SpeedInsights } from '@vercel/speed-insights/react'; 
 
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/Home'));
@@ -664,4 +664,6 @@ export default App;
 
 
 
+
 import { Analytics } from '@vercel/analytics/react';
+
