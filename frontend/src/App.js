@@ -435,7 +435,7 @@ function App() {
       />
       
       {/* Analytics */}
-      <Analytics />
+      <vercelAnalytics />
       <SpeedInsights />
       
       {/* App Version Indicator */}
@@ -659,6 +659,7 @@ styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
 export default App;
+
 
 
 
