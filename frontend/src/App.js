@@ -664,3 +664,4 @@ export default App;
 
 
 
+import { Analytics } from '@vercel/analytics/react';
