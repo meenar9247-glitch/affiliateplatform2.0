@@ -34,11 +34,21 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
+    // सबसे पहले default behavior रोको
     e.preventDefault();
+    e.stopPropagation();  // extra safety
     
-    if (!validateForm()) return;
+    console.log('🔵 Step 1: Form submit intercepted');
     
+    // Validation check
+    if (!validateForm()) {
+      console.log('🔴 Validation failed');
+      return;
+    }
+    
+    console.log('🟢 Validation passed');
     setLoading(true);
+    console.log('📤 Sending request to:', `${process.env.REACT_APP_API_URL}/auth/register`);
 
     try {
       const response = await axios.post(
@@ -51,11 +61,16 @@ const Register = () => {
         },
       );
 
+      console.log('✅ API Response:', response.data);
+
       if (response.data.success) {
         toast.success('Registration successful! Please login.');
         navigate('/login');
+      } else {
+        toast.error(response.data.message || 'Registration failed');
       }
     } catch (error) {
+      console.error('❌ API Error:', error);
       toast.error(error.response?.data?.message || 'Registration failed');
     } finally {
       setLoading(false);
