@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const Affiliate = require('../models/affiliate');
+const Affiliate = require('../models/affiliatelink');
 const Referral = require('../models/Referral');
 const Commission = require('../models/Commission');
 const Payout = require('../models/Payout');
