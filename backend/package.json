@@ -19,9 +19,11 @@
     "helmet": "^7.0.0",
     "express-mongo-sanitize": "^2.2.0",
     "xss-clean": "^0.1.1",
-    "cookie-parser": "^1.4.6"
+    "cookie-parser": "^1.4.6",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   }
 }
+
