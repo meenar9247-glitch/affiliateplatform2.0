@@ -22,6 +22,7 @@
     "cookie-parser": "^1.4.6",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^4.7.1",
+    "winston-elasticsearch": "^0.17.4",    ← ← ← YEH LINE ADD KARO
     "axios": "^1.6.2",
     "moment": "^2.29.4",
     "lodash": "^4.17.21",
