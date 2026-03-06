@@ -1134,15 +1134,17 @@ exports.rejectPayout = async (req, res, next) => {
 // @route   GET /api/admin/settings
 // @access  Private (Admin only)
 // ============================================
+// @desc Get all settings
+// @route GET /api/admin/settings
+// @access Private (Admin only)
 exports.getSettings = async (req, res, next) => {
   try {
     const { category } = req.query;
-    
     const query = { isDeleted: false };
     if (category) query.category = category;
-    
+
     const settings = await Setting.find(query).sort('category group order');
-    
+
     // Group by category
     const grouped = settings.reduce((acc, setting) => {
       if (!acc[setting.category]) {
@@ -1151,19 +1153,15 @@ exports.getSettings = async (req, res, next) => {
       acc[setting.category].push(setting);
       return acc;
     }, {});
-    
+
     res.status(200).json({
       success: true,
       settings: grouped
     });
-    
-    // Log activity
-    await logActivity(req.user.id, 'view_settings', { category }, req);
   } catch (error) {
     next(error);
   }
 };
-
 // ============================================
 // @desc    Update setting
 // @route   PUT /api/admin/settings/:key
