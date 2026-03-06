@@ -20,7 +20,8 @@
     "express-mongo-sanitize": "^2.2.0",
     "xss-clean": "^0.1.1",
     "cookie-parser": "^1.4.6",
-    "winston": "^3.11.0"
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
