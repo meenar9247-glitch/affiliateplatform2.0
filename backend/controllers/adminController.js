@@ -1128,12 +1128,6 @@ exports.rejectPayout = async (req, res, next) => {
 // ============================================
 // SETTINGS MANAGEMENT
 // ============================================
-
-// ============================================
-// @desc    Get all settings
-// @route   GET /api/admin/settings
-// @access  Private (Admin only)
-// ============================================
 // @desc Get all settings
 // @route GET /api/admin/settings
 // @access Private (Admin only)
@@ -1147,9 +1141,7 @@ exports.getSettings = async (req, res, next) => {
 
     // Group by category
     const grouped = settings.reduce((acc, setting) => {
-      if (!acc[setting.category]) {
-        acc[setting.category] = [];
-      }
+      if (!acc[setting.category]) acc[setting.category] = [];
       acc[setting.category].push(setting);
       return acc;
     }, {});
@@ -1162,6 +1154,7 @@ exports.getSettings = async (req, res, next) => {
     next(error);
   }
 };
+
 // ============================================
 // @desc    Update setting
 // @route   PUT /api/admin/settings/:key
