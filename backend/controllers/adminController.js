@@ -1124,44 +1124,6 @@ exports.rejectPayout = async (req, res, next) => {
   }
 };
 
-// ============================================
-// @desc    Update setting
-// @route   PUT /api/admin/settings/:key
-// @access  Private (Admin only)
-// ============================================
-exports.updateSetting = async (req, res, next) => {
-  try {
-    const { key } = req.params;
-    const { value } = req.body;
-    
-    let setting = await Setting.findOne({ key, isDeleted: false });
-    
-    if (!setting) {
-      return res.status(404).json({
-        success: false,
-        message: 'Setting not found'
-      });
-    }
-    
-    const oldValue = setting.value;
-    await setting.setValue(value, req.user.id, { ipAddress: req.ip, userAgent: req.get('user-agent') });
-    
-    // Log activity
-    await logActivity(req.user.id, 'update_setting', { 
-      settingKey: key, 
-      oldValue, 
-      newValue: value 
-    }, req);
-    
-    res.status(200).json({
-      success: true,
-      message: 'Setting updated successfully',
-      setting
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
 // ============================================
 // @desc    Create setting
