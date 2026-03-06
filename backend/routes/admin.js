@@ -10,7 +10,7 @@ router.use(authorize('admin'));
 // =========================================
 // Dashboard
 // =========================================
-router.get('/dashboard', adminController.getDashboardStats);
+router.get('/dashboard', adminController.getDashboard);
 
 // =========================================
 // User Management
