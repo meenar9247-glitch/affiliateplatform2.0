@@ -13,6 +13,7 @@ const { sendEmail } = require('../services/emailService');
 const logger = require('../utils/logger');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const Withdrawal = require('../models/Withdrawal');
 
 // ============================================
 // Helper Functions
@@ -2263,6 +2264,33 @@ exports.getChartData = async (req, res, next) => {
       period,
       chartData
     });
+  } catch (error) {
+    next(error);
+  }
+};
+// @desc    Get withdrawals
+// @route   GET /api/admin/withdrawals
+// @access  Private/Admin
+exports.getWithdrawals = async (req, res, next) => {
+  try {
+    // Agar Withdrawal model nahi hai to yeh use karo
+    res.status(200).json({
+      success: true,
+      message: 'Withdrawals endpoint working',
+      data: []
+    });
+    
+    // Jab model ban jaye to yeh use karo:
+    /*
+    const withdrawals = await Withdrawal.find({})
+      .populate('user', 'name email')
+      .sort('-createdAt');
+      
+    res.status(200).json({
+      success: true,
+      data: withdrawals
+    });
+    */
   } catch (error) {
     next(error);
   }
