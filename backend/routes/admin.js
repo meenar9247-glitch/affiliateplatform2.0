@@ -29,12 +29,6 @@ router.put('/withdrawals/:id/process', adminController.processWithdrawal);
 // ✅ COMMISSIONS - SOLID & WORKING
 // =========================================
 router.get('/commissions', adminController.getCommissions);
-
-// =========================================
-// ✅ SETTINGS - ROCK SOLID
-// =========================================
-router.put('/settings', adminController.updateSettings);
-
 // =========================================
 // ✅ ADMIN MANAGEMENT - BULLETPROOF
 // =========================================
