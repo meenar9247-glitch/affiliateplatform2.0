@@ -33,7 +33,6 @@ router.get('/commissions', adminController.getCommissions);
 // =========================================
 // ✅ SETTINGS - ROCK SOLID
 // =========================================
-router.get('/settings', adminController.getSettings);
 router.put('/settings', adminController.updateSettings);
 
 // =========================================
