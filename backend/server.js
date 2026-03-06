@@ -1,4 +1,18 @@
 const express = require('express');
+process.on('uncaughtException', (err) => {
+  console.error('💥 UNCAUGHT EXCEPTION:', err);
+  // Server ko turant मत मारो, थोड़ा wait करो log देखने के लिए
+  setTimeout(() => {
+    process.exit(1);
+  }, 1000);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('💥 UNHANDLED REJECTION:', err);
+  setTimeout(() => {
+    process.exit(1);
+  }, 1000);
+});
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
