@@ -1019,7 +1019,7 @@ ticketSchema.statics.getMonthlyReport = async function(year, month) {
   });
   
   const resolved = await this.countDocuments({
-    ''timeTracking.resolvedAt'': { $gte: startDate, $lte: endDate },
+    "timeTracking.resolvedAt": { $gte: startDate, $lte: endDate },
     isDeleted: false
   });
   
