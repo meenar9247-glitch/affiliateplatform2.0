@@ -2314,21 +2314,7 @@ exports.processWithdrawal = async (req, res, next) => {
 // @desc    Get settings
 // @route   GET /api/admin/settings
 // @access  Private/Admin
-exports.getSettings = async (req, res, next) => {
-  try {
-    res.status(200).json({
-      success: true,
-      message: 'Settings endpoint working',
-      data: {}
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
-// @desc    Update settings
-// @route   PUT /api/admin/settings
-// @access  Private/Admin
 exports.updateSettings = async (req, res, next) => {
   try {
     res.status(200).json({
