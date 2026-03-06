@@ -2295,3 +2295,18 @@ exports.getWithdrawals = async (req, res, next) => {
     next(error);
   }
 };
+// @desc    Process withdrawal
+// @route   PUT /api/admin/withdrawals/:id/process
+// @access  Private/Admin
+exports.processWithdrawal = async (req, res, next) => {
+  try {
+    // Temporary response - actual logic baad mein implement karo
+    res.status(200).json({
+      success: true,
+      message: 'Withdrawal processing endpoint working',
+      data: { withdrawalId: req.params.id }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
