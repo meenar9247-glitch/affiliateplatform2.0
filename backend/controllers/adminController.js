@@ -2317,11 +2317,3 @@ exports.updateSettings = async (req, res, next) => {
     next(error);
   }
 };
-
-// ============================================
-// SETTINGS FUNCTIONS - FIX
-// ============================================
-
-// @desc    Get settings
-// @route   GET /api/admin/settings
-// @access  Private/Admin
