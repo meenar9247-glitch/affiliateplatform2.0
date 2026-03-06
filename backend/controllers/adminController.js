@@ -6,7 +6,6 @@ const Payout = require('../models/Payout');
 const Wallet = require('../models/Wallet');
 const Transaction = require('../models/Transaction');
 const Ticket = require('../models/Ticket');
-const Setting = require('../models/Setting');
 const Log = require('../models/Log');
 const { validationResult } = require('express-validator');
 const { sendEmail } = require('../services/emailService');
@@ -1119,40 +1118,6 @@ exports.rejectPayout = async (req, res, next) => {
       success: true,
       message: 'Payout rejected successfully',
       payout
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// SETTINGS MANAGEMENT - MINIMAL & WORKING
-// ============================================
-
-// @desc Get settings
-// @route GET /api/admin/settings
-// @access Private/Admin
-exports.getSettings = async (req, res, next) => {
-  try {
-    res.status(200).json({
-      success: true,
-      message: 'Settings endpoint working',
-      data: {}
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// @desc Update settings
-// @route PUT /api/admin/settings
-// @access Private/Admin
-exports.updateSettings = async (req, res, next) => {
-  try {
-    res.status(200).json({
-      success: true,
-      message: 'Settings updated successfully',
-      data: req.body
     });
   } catch (error) {
     next(error);
