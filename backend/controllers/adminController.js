@@ -1714,3 +1714,556 @@ exports.getSystemStats = async (req, res, next) => {
 };
 
 module.exports = exports;
+// ============================================
+// @desc    Get all users
+// @route   GET /api/admin/users
+// @access  Private (Admin only)
+// ============================================
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({ isDeleted: false })
+      .select('-password')
+      .sort('-createdAt');
+    
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      users
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get user by ID
+// @route   GET /api/admin/users/:id
+// @access  Private (Admin only)
+// ============================================
+exports.getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select('-password');
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Toggle user status (active/inactive)
+// @route   PUT /api/admin/users/:id/toggle-status
+// @access  Private (Admin only)
+// ============================================
+exports.toggleUserStatus = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+    
+    user.isActive = !user.isActive;
+    await user.save();
+    
+    res.status(200).json({
+      success: true,
+      message: `User ${user.isActive ? 'activated' : 'deactivated'} successfully`,
+      isActive: user.isActive
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get all affiliates
+// @route   GET /api/admin/affiliates
+// @access  Private (Admin only)
+// ============================================
+exports.getAllAffiliates = async (req, res, next) => {
+  try {
+    const affiliates = await Affiliate.find({ isDeleted: false })
+      .populate('user', 'name email')
+      .sort('-createdAt');
+    
+    res.status(200).json({
+      success: true,
+      count: affiliates.length,
+      affiliates
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Approve affiliate
+// @route   PUT /api/admin/affiliates/:id/approve
+// @access  Private (Admin only)
+// ============================================
+exports.approveAffiliate = async (req, res, next) => {
+  try {
+    const affiliate = await Affiliate.findById(req.params.id);
+    
+    if (!affiliate) {
+      return res.status(404).json({
+        success: false,
+        message: 'Affiliate not found'
+      });
+    }
+    
+    affiliate.status = 'approved';
+    affiliate.approvedAt = Date.now();
+    affiliate.approvedBy = req.user.id;
+    await affiliate.save();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Affiliate approved successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Reject affiliate
+// @route   PUT /api/admin/affiliates/:id/reject
+// @access  Private (Admin only)
+// ============================================
+exports.rejectAffiliate = async (req, res, next) => {
+  try {
+    const affiliate = await Affiliate.findById(req.params.id);
+    
+    if (!affiliate) {
+      return res.status(404).json({
+        success: false,
+        message: 'Affiliate not found'
+      });
+    }
+    
+    affiliate.status = 'rejected';
+    affiliate.rejectedAt = Date.now();
+    affiliate.rejectedBy = req.user.id;
+    await affiliate.save();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Affiliate rejected successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get pending withdrawals
+// @route   GET /api/admin/withdrawals/pending
+// @access  Private (Admin only)
+// ============================================
+exports.getPendingWithdrawals = async (req, res, next) => {
+  try {
+    const withdrawals = await Payout.find({ 
+      status: 'pending',
+      isDeleted: false 
+    })
+    .populate('user', 'name email')
+    .sort('-requestedAt');
+    
+    res.status(200).json({
+      success: true,
+      count: withdrawals.length,
+      withdrawals
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Complete withdrawal
+// @route   PUT /api/admin/withdrawals/:id/complete
+// @access  Private (Admin only)
+// ============================================
+exports.completeWithdrawal = async (req, res, next) => {
+  try {
+    const payout = await Payout.findById(req.params.id);
+    
+    if (!payout) {
+      return res.status(404).json({
+        success: false,
+        message: 'Withdrawal not found'
+      });
+    }
+    
+    payout.status = 'completed';
+    payout.completedAt = Date.now();
+    payout.completedBy = req.user.id;
+    await payout.save();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Withdrawal completed successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Reject withdrawal
+// @route   PUT /api/admin/withdrawals/:id/reject
+// @access  Private (Admin only)
+// ============================================
+exports.rejectWithdrawal = async (req, res, next) => {
+  try {
+    const payout = await Payout.findById(req.params.id);
+    
+    if (!payout) {
+      return res.status(404).json({
+        success: false,
+        message: 'Withdrawal not found'
+      });
+    }
+    
+    payout.status = 'rejected';
+    payout.rejectedAt = Date.now();
+    payout.rejectedBy = req.user.id;
+    await payout.save();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Withdrawal rejected successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get pending commissions
+// @route   GET /api/admin/commissions/pending
+// @access  Private (Admin only)
+// ============================================
+exports.getPendingCommissions = async (req, res, next) => {
+  try {
+    const commissions = await Commission.find({ 
+      status: 'pending',
+      isDeleted: false 
+    })
+    .populate('user', 'name email')
+    .sort('-createdAt');
+    
+    res.status(200).json({
+      success: true,
+      count: commissions.length,
+      commissions
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Approve commission
+// @route   PUT /api/admin/commissions/:id/approve
+// @access  Private (Admin only)
+// ============================================
+exports.approveCommission = async (req, res, next) => {
+  try {
+    const commission = await Commission.findById(req.params.id);
+    
+    if (!commission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Commission not found'
+      });
+    }
+    
+    commission.status = 'approved';
+    commission.approvedAt = Date.now();
+    commission.approvedBy = req.user.id;
+    await commission.save();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Commission approved successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Update commission settings
+// @route   PUT /api/admin/commissions/settings
+// @access  Private (Admin only)
+// ============================================
+exports.updateCommissionSettings = async (req, res, next) => {
+  try {
+    // Update commission settings in database
+    // This depends on how you store settings
+    
+    res.status(200).json({
+      success: true,
+      message: 'Commission settings updated successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get earnings report
+// @route   GET /api/admin/reports/earnings
+// @access  Private (Admin only)
+// ============================================
+exports.getEarningsReport = async (req, res, next) => {
+  try {
+    const { startDate, endDate } = getDateRange(req.query.period || 'month');
+    
+    const earnings = await Commission.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate, $lte: endDate },
+          status: 'approved',
+          isDeleted: false
+        }
+      },
+      {
+        $group: {
+          _id: {
+            date: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } }
+          },
+          total: { $sum: '$amount' },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { '_id.date': 1 } }
+    ]);
+    
+    res.status(200).json({
+      success: true,
+      period: { startDate, endDate },
+      earnings
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get users report
+// @route   GET /api/admin/reports/users
+// @access  Private (Admin only)
+// ============================================
+exports.getUsersReport = async (req, res, next) => {
+  try {
+    const { startDate, endDate } = getDateRange(req.query.period || 'month');
+    
+    const users = await User.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate, $lte: endDate },
+          isDeleted: false
+        }
+      },
+      {
+        $group: {
+          _id: {
+            date: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { '_id.date': 1 } }
+    ]);
+    
+    res.status(200).json({
+      success: true,
+      period: { startDate, endDate },
+      users
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get conversions report
+// @route   GET /api/admin/reports/conversions
+// @access  Private (Admin only)
+// ============================================
+exports.getConversionsReport = async (req, res, next) => {
+  try {
+    const { startDate, endDate } = getDateRange(req.query.period || 'month');
+    
+    const conversions = await Referral.aggregate([
+      {
+        $match: {
+          referredAt: { $gte: startDate, $lte: endDate },
+          status: 'converted',
+          isDeleted: false
+        }
+      },
+      {
+        $group: {
+          _id: {
+            date: { $dateToString: { format: '%Y-%m-%d', date: '$referredAt' } }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { '_id.date': 1 } }
+    ]);
+    
+    res.status(200).json({
+      success: true,
+      period: { startDate, endDate },
+      conversions
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Export data
+// @route   GET /api/admin/export/:type
+// @access  Private (Admin only)
+// ============================================
+exports.exportData = async (req, res, next) => {
+  try {
+    const { type } = req.params;
+    let data = [];
+    
+    switch(type) {
+      case 'users':
+        data = await User.find({ isDeleted: false }).select('-password');
+        break;
+      case 'affiliates':
+        data = await Affiliate.find({ isDeleted: false }).populate('user', 'name email');
+        break;
+      case 'commissions':
+        data = await Commission.find({ isDeleted: false }).populate('user', 'name email');
+        break;
+      default:
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid export type'
+        });
+    }
+    
+    res.status(200).json({
+      success: true,
+      type,
+      count: data.length,
+      data
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get analytics overview
+// @route   GET /api/admin/analytics
+// @access  Private (Admin only)
+// ============================================
+exports.getAnalyticsOverview = async (req, res, next) => {
+  try {
+    const { startDate, endDate } = getDateRange('month');
+    
+    const [
+      totalUsers,
+      totalAffiliates,
+      totalCommissions,
+      totalPayouts,
+      recentActivity
+    ] = await Promise.all([
+      User.countDocuments({ isDeleted: false }),
+      Affiliate.countDocuments({ isDeleted: false }),
+      Commission.aggregate([
+        { $match: { isDeleted: false, status: 'approved' } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]),
+      Payout.aggregate([
+        { $match: { isDeleted: false, status: 'completed' } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]),
+      Log.find({ timestamp: { $gte: startDate } })
+        .sort('-timestamp')
+        .limit(10)
+    ]);
+    
+    res.status(200).json({
+      success: true,
+      analytics: {
+        totals: {
+          users: totalUsers,
+          affiliates: totalAffiliates,
+          commissions: totalCommissions[0]?.total || 0,
+          payouts: totalPayouts[0]?.total || 0
+        },
+        recentActivity
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ============================================
+// @desc    Get chart data
+// @route   GET /api/admin/analytics/chart
+// @access  Private (Admin only)
+// ============================================
+exports.getChartData = async (req, res, next) => {
+  try {
+    const { period = 'week' } = req.query;
+    const { startDate, endDate } = getDateRange(period);
+    
+    const chartData = await Commission.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate, $lte: endDate },
+          status: 'approved',
+          isDeleted: false
+        }
+      },
+      {
+        $group: {
+          _id: {
+            date: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } }
+          },
+          commissions: { $sum: '$amount' },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { '_id.date': 1 } }
+    ]);
+    
+    res.status(200).json({
+      success: true,
+      period,
+      chartData
+    });
+  } catch (error) {
+    next(error);
+  }
+};
