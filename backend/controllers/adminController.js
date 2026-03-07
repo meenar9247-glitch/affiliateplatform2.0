@@ -2712,3 +2712,23 @@ exports.getAllPayouts = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Get all transactions
+// @route   GET /api/admin/transactions
+// @access  Private/Admin
+exports.getAllTransactions = async (req, res, next) => {
+  try {
+    const transactions = await Transaction.find({})
+      .populate('user', 'name email')
+      .sort('-createdAt')
+      .limit(100);
+    
+    res.status(200).json({
+      success: true,
+      count: transactions.length,
+      data: transactions
+    });
+  } catch (error) {
+    next(error);
+  }
+};
