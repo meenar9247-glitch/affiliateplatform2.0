@@ -2678,3 +2678,37 @@ exports.getAllCommissions = async (req, res, next) => {
     next(error);
   }
 };
+// @desc    Get all payouts
+// @route   GET /api/admin/payouts
+// @access  Private/Admin
+exports.getAllPayouts = async (req, res, next) => {
+  try {
+    // Get all payouts from database
+    const payouts = await Payout.find({})
+      .populate('user', 'name email')
+      .populate('commissions')
+      .sort('-requestedAt');
+    
+    // Get statistics
+    const totalAmount = payouts.reduce((sum, p) => sum + p.amount, 0);
+    const pendingAmount = payouts
+      .filter(p => p.status === 'pending')
+      .reduce((sum, p) => sum + p.amount, 0);
+    const completedAmount = payouts
+      .filter(p => p.status === 'completed')
+      .reduce((sum, p) => sum + p.amount, 0);
+    
+    res.status(200).json({
+      success: true,
+      count: payouts.length,
+      stats: {
+        total: totalAmount,
+        pending: pendingAmount,
+        completed: completedAmount
+      },
+      data: payouts
+    });
+  } catch (error) {
+    next(error);
+  }
+};
