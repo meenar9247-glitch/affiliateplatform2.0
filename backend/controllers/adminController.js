@@ -2732,3 +2732,32 @@ exports.getAllTransactions = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Get transaction by ID
+// @route   GET /api/admin/transactions/:id
+// @access  Private/Admin
+exports.getTransactionById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    
+    const transaction = await Transaction.findById(id)
+      .populate('user', 'name email')
+      .populate('related.commission')
+      .populate('related.payout')
+      .populate('related.referral');
+    
+    if (!transaction) {
+      return res.status(404).json({
+        success: false,
+        message: 'Transaction not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: transaction
+    });
+  } catch (error) {
+    next(error);
+  }
+};
