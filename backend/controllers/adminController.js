@@ -2644,3 +2644,37 @@ exports.getReferralTree = async (req, res, next) => {
 };
 
 // ... rest of the code ...
+// @desc    Get all commissions
+// @route   GET /api/admin/commissions
+// @access  Private/Admin
+exports.getAllCommissions = async (req, res, next) => {
+  try {
+    // Get all commissions from database
+    const commissions = await Commission.find({})
+      .populate('user', 'name email')
+      .populate('referral', 'referredUser')
+      .sort('-createdAt');
+    
+    // Get statistics
+    const totalAmount = commissions.reduce((sum, c) => sum + c.amount, 0);
+    const pendingAmount = commissions
+      .filter(c => c.status === 'pending')
+      .reduce((sum, c) => sum + c.amount, 0);
+    const paidAmount = commissions
+      .filter(c => c.status === 'paid')
+      .reduce((sum, c) => sum + c.amount, 0);
+    
+    res.status(200).json({
+      success: true,
+      count: commissions.length,
+      stats: {
+        total: totalAmount,
+        pending: pendingAmount,
+        paid: paidAmount
+      },
+      data: commissions
+    });
+  } catch (error) {
+    next(error);
+  }
+};
