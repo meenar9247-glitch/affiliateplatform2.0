@@ -3048,3 +3048,43 @@ exports.updateSetting = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Create new admin
+// @route   POST /api/admin/admins
+// @access  Private/Admin
+exports.createAdmin = async (req, res, next) => {
+  try {
+    const { name, email, password, role, permissions } = req.body;
+    
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'User with this email already exists'
+      });
+    }
+    
+    // Create new admin user
+    const admin = await User.create({
+      name,
+      email,
+      password,
+      role: role || 'admin',
+      permissions: permissions || [],
+      isVerified: true,
+      createdBy: req.user.id
+    });
+    
+    // Remove password from response
+    admin.password = undefined;
+    
+    res.status(201).json({
+      success: true,
+      message: 'Admin created successfully',
+      data: admin
+    });
+  } catch (error) {
+    next(error);
+  }
+};
