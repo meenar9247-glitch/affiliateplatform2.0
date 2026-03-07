@@ -3011,3 +3011,40 @@ exports.getSettingByKey = async (req, res, next) => {
 };
 
 // ... rest of the code ...
+
+// @desc    Update setting by key
+// @route   PUT /api/admin/settings/:key
+// @access  Private/Admin
+exports.updateSetting = async (req, res, next) => {
+  try {
+    const { key } = req.params;
+    const updates = req.body;
+    
+    const setting = await Setting.findOne({ key, isDeleted: false });
+    
+    if (!setting) {
+      return res.status(404).json({
+        success: false,
+        message: 'Setting not found'
+      });
+    }
+    
+    // Update fields
+    Object.keys(updates).forEach(field => {
+      if (field !== 'key' && field !== '_id') {
+        setting[field] = updates[field];
+      }
+    });
+    
+    setting.updatedAt = Date.now();
+    await setting.save();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Setting updated successfully',
+      data: setting
+    });
+  } catch (error) {
+    next(error);
+  }
+};
