@@ -2609,3 +2609,38 @@ exports.verifyUserEmail = async (req, res, next) => {
     next(error);
   }
 };
+
+// ... existing code ...
+
+// @desc    Get referral stats
+exports.getReferralStats = async (req, res, next) => {
+  // ... existing code ...
+};
+
+// ⬇️⬇️⬇️ YEH NAYA FUNCTION YAHAN ADD KARO ⬇️⬇️⬇️
+// @desc    Get all referrals
+// @route   GET /api/admin/referrals
+// @access  Private/Admin
+exports.getAllReferrals = async (req, res, next) => {
+  try {
+    const referrals = await Referral.find({})
+      .populate('referrer', 'name email')
+      .populate('referredUser', 'name email')
+      .sort('-createdAt');
+    
+    res.json({
+      success: true,
+      count: referrals.length,
+      data: referrals
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get referral tree
+exports.getReferralTree = async (req, res, next) => {
+  // ... existing code ...
+};
+
+// ... rest of the code ...
