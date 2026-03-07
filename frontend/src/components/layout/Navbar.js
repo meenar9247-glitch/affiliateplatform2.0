@@ -58,42 +58,22 @@ const Navbar = () => {
         {/* Navigation Links */}
         <div className={`nav-menu ${isOpen ? 'active' : ''}`}>
           <ul className="nav-list">
+            {/* Home Link - Always visible */}
             <li className="nav-item">
               <Link to="/" className="nav-link" onClick={() => setIsOpen(false)}>
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/affiliates" className="nav-link" onClick={() => setIsOpen(false)}>
-                Affiliate Links
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/leaderboard" className="nav-link" onClick={() => setIsOpen(false)}>
-                Leaderboard
-              </Link>
-            </li>
-            
+
+            {/* Conditional Links based on login status */}
             {user ? (
-              // User is logged in
+              // ✅ USER IS LOGGED IN - Show Dashboard & Logout
               <>
                 <li className="nav-item">
                   <Link to="/dashboard" className="nav-link" onClick={() => setIsOpen(false)}>
                     Dashboard
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link to="/earnings" className="nav-link" onClick={() => setIsOpen(false)}>
-                    Earnings
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/wallet" className="nav-link" onClick={() => setIsOpen(false)}>
-                    Wallet
-                  </Link>
-                </li>
-                
-                {/* User Menu */}
                 <li className="nav-item user-menu">
                   <div className="user-info">
                     <span className="user-name">{user.name}</span>
@@ -104,7 +84,7 @@ const Navbar = () => {
                 </li>
               </>
             ) : (
-              // User is not logged in
+              // ✅ USER IS NOT LOGGED IN - Show Login & Register
               <li className="nav-item auth-buttons">
                 <Link to="/login" className="btn-login" onClick={() => setIsOpen(false)}>
                   Login
@@ -121,7 +101,7 @@ const Navbar = () => {
   );
 };
 
-// Styles for the navbar
+// Styles for the navbar (CSS-in-JS)
 const styles = `
   .navbar {
     position: fixed;
@@ -349,13 +329,3 @@ const styles = `
 `;
 
 export default Navbar;
-{/* <li className="nav-item">
-  <Link to="/affiliates" className="nav-link" onClick={() => setIsOpen(false)}>
-    Affiliate Links
-  </Link>
-</li> */}
-{/* <li className="nav-item">
-  <Link to="/leaderboard" className="nav-link" onClick={() => setIsOpen(false)}>
-    Leaderboard
-  </Link>
-</li> */}
