@@ -2989,3 +2989,25 @@ exports.replyToTicket = async (req, res, next) => {
     next(error);
   }
 };
+
+// ... existing code ...
+
+// ⬇️⬇️⬇️ YEH NAYA FUNCTION YAHAN ADD KARो ⬇️⬇️⬇️
+// @desc    Get settings
+// @route   GET /api/admin/settings
+// @access  Private/Admin
+exports.getSettings = async (req, res, next) => {
+  try {
+    const settings = await Setting.find({ isDeleted: false });
+    res.json({ success: true, data: settings });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get setting by key
+exports.getSettingByKey = async (req, res, next) => {
+  // ... will add later ...
+};
+
+// ... rest of the code ...
