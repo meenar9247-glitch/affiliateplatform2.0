@@ -221,7 +221,7 @@ function App() {
                                   </PublicRoute>
                                 } />
                                 <Route path="/register" element={
-                                  <PublicRoute>
+                                  
                                     <Register />
                                   </PublicRoute>
                                 } />
@@ -659,6 +659,7 @@ styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
 export default App;
+
 
 
 
