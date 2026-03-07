@@ -223,7 +223,7 @@ function App() {
                                 <Route path="/register" element={
                                   
                                     <Register />
-                                  </PublicRoute>
+                                  
                                 } />
                                 <Route path="/forgot-password" element={
                                   <PublicRoute>
@@ -659,6 +659,7 @@ styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
 export default App;
+
 
 
 
