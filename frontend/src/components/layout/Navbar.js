@@ -349,3 +349,13 @@ const styles = `
 `;
 
 export default Navbar;
+{/* <li className="nav-item">
+  <Link to="/affiliates" className="nav-link" onClick={() => setIsOpen(false)}>
+    Affiliate Links
+  </Link>
+</li> */}
+{/* <li className="nav-item">
+  <Link to="/leaderboard" className="nav-link" onClick={() => setIsOpen(false)}>
+    Leaderboard
+  </Link>
+</li> */}
