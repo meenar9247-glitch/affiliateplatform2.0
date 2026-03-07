@@ -3121,3 +3121,42 @@ exports.getAdmins = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Remove admin
+// @route   DELETE /api/admin/admins/:id
+// @access  Private/Admin
+exports.removeAdmin = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    
+    // Cannot remove yourself
+    if (id === req.user.id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot remove your own admin account'
+      });
+    }
+    
+    const admin = await User.findById(id);
+    
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Admin not found'
+      });
+    }
+    
+    // Soft delete
+    admin.isDeleted = true;
+    admin.deletedAt = Date.now();
+    admin.deletedBy = req.user.id;
+    await admin.save();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Admin removed successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
