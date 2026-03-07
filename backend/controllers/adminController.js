@@ -2585,3 +2585,27 @@ exports.getUserAuditLogs = async (req, res, next) => {
 exports.exportAuditLogs = async (req, res, next) => {
   try { res.json({ success: true, data: [] }); } catch (error) { next(error); }
 };
+// @desc    Verify user email
+// @route   POST /api/admin/users/:id/verify-email
+// @access  Private/Admin
+exports.verifyUserEmail = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    
+    user.isVerified = true;
+    user.emailVerificationToken = undefined;
+    await user.save();
+    
+    res.status(200).json({
+      success: true,
+      message: 'User email verified successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
