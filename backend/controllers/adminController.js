@@ -2761,3 +2761,47 @@ exports.getTransactionById = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Get user transactions
+// @route   GET /api/admin/transactions/user/:userId
+// @access  Private/Admin
+exports.getUserTransactions = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { page = 1, limit = 20 } = req.query;
+    
+    // Check if user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+    
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort: '-createdAt',
+      populate: [
+        { path: 'related.commission' },
+        { path: 'related.payout' }
+      ]
+    };
+    
+    const transactions = await Transaction.paginate({ user: userId }, options);
+    
+    res.status(200).json({
+      success: true,
+      data: transactions.docs,
+      pagination: {
+        page: transactions.page,
+        limit: transactions.limit,
+        total: transactions.totalDocs,
+        pages: transactions.totalPages
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
