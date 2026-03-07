@@ -2854,3 +2854,138 @@ exports.getAllTickets = async (req, res, next) => {
     next(error);
   }
 };             
+
+// @desc    Get ticket by ID
+// @route   GET /api/admin/tickets/:id
+// @access  Private/Admin
+exports.getTicketById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    
+    const ticket = await Ticket.findById(id)
+      .populate('user', 'name email')
+      .populate('assignedTo', 'name email')
+      .populate('messages.user', 'name email');
+    
+    if (!ticket) {
+      return res.status(404).json({
+        success: false,
+        message: 'Ticket not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: ticket
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+// ============================================
+// TICKET MANAGEMENT - MISSING FUNCTIONS
+// ============================================
+
+// @desc    Update ticket status
+// @route   PUT /api/admin/tickets/:id/status
+// @access  Private/Admin
+exports.updateTicketStatus = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { status, reason } = req.body;
+    
+    const ticket = await Ticket.findById(id);
+    if (!ticket) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Ticket not found' 
+      });
+    }
+    
+    ticket.status = status;
+    ticket.updatedAt = Date.now();
+    await ticket.save();
+    
+    res.json({ 
+      success: true, 
+      message: 'Ticket status updated successfully',
+      data: ticket 
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Assign ticket to agent
+// @route   PUT /api/admin/tickets/:id/assign
+// @access  Private/Admin
+exports.assignTicket = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { agentId } = req.body;
+    
+    const ticket = await Ticket.findById(id);
+    if (!ticket) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Ticket not found' 
+      });
+    }
+    
+    ticket.assignedTo = agentId || req.user.id;
+    ticket.status = 'assigned';
+    ticket.updatedAt = Date.now();
+    await ticket.save();
+    
+    res.json({ 
+      success: true, 
+      message: 'Ticket assigned successfully',
+      data: ticket 
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Reply to ticket
+// @route   POST /api/admin/tickets/:id/reply
+// @access  Private/Admin
+exports.replyToTicket = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { message, isInternal } = req.body;
+    
+    const ticket = await Ticket.findById(id);
+    if (!ticket) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Ticket not found' 
+      });
+    }
+    
+    // Initialize messages array if it doesn't exist
+    if (!ticket.messages) ticket.messages = [];
+    
+    // Add new message
+    ticket.messages.push({
+      user: req.user.id,
+      content: message,
+      isInternal: isInternal || false,
+      createdAt: new Date()
+    });
+    
+    ticket.updatedAt = Date.now();
+    await ticket.save();
+    
+    // Populate user details for response
+    await ticket.populate('messages.user', 'name email');
+    
+    res.json({ 
+      success: true, 
+      message: 'Reply added successfully',
+      data: ticket 
+    });
+  } catch (error) {
+    next(error);
+  }
+};
