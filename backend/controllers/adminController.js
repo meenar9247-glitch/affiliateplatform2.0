@@ -3088,3 +3088,36 @@ exports.createAdmin = async (req, res, next) => {
     next(error);
   }
 };
+// @desc    Get all admins
+// @route   GET /api/admin/admins
+// @access  Private/Admin
+exports.getAdmins = async (req, res, next) => {
+  try {
+    const { page = 1, limit = 20 } = req.query;
+    
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort: '-createdAt',
+      select: '-password -emailVerificationToken -passwordResetToken'
+    };
+    
+    const admins = await User.paginate({ 
+      role: 'admin', 
+      isDeleted: false 
+    }, options);
+    
+    res.status(200).json({
+      success: true,
+      data: admins.docs,
+      pagination: {
+        page: admins.page,
+        limit: admins.limit,
+        total: admins.totalDocs,
+        pages: admins.totalPages
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
