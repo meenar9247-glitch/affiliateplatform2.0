@@ -2805,3 +2805,52 @@ exports.getUserTransactions = async (req, res, next) => {
     next(error);
   }
 };
+
+   // @desc    Get all tickets
+// @route   GET /api/admin/tickets
+// @access  Private/Admin
+exports.getAllTickets = async (req, res, next) => {
+  try {
+    const { page = 1, limit = 20, status, priority } = req.query;
+    
+    const query = {};
+    if (status) query.status = status;
+    if (priority) query.priority = priority;
+    
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort: '-createdAt',
+      populate: [
+        { path: 'user', select: 'name email' },
+        { path: 'assignedTo', select: 'name email' }
+      ]
+    };
+    
+    const tickets = await Ticket.paginate(query, options);
+    
+    // Get statistics
+    const stats = await Ticket.aggregate([
+      {
+        $group: {
+          _id: '$status',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    
+    res.status(200).json({
+      success: true,
+      data: tickets.docs,
+      stats,
+      pagination: {
+        page: tickets.page,
+        limit: tickets.limit,
+        total: tickets.totalDocs,
+        pages: tickets.totalPages
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};             
